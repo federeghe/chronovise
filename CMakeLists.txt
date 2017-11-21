@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 project(eMBPTA)
 
-set(SOURCES ${SOURCES} src/input/generator_uniform.cpp)
+set(SOURCES ${SOURCES} src/input/generator_uniform.cpp src/aec.cpp)
 
 add_library(eMBPTA ${SOURCES})
 
