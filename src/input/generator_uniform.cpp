@@ -7,12 +7,25 @@ int UniformInputGenerator<int>::get() noexcept {
 	return dist(mt);
 }
 
+template<>
+unsigned int UniformInputGenerator<unsigned int>::get() noexcept {
+	std::uniform_int_distribution<unsigned int> dist(min, max);
+	return dist(mt);
+}
+
 
 template<>
 long UniformInputGenerator<long>::get() noexcept {
 	std::uniform_int_distribution<long> dist(min, max);
 	return dist(mt);
 }
+
+template<>
+unsigned long UniformInputGenerator<unsigned long>::get() noexcept {
+	std::uniform_int_distribution<unsigned long> dist(min, max);
+	return dist(mt);
+}
+
 template<>
 float UniformInputGenerator<float>::get() noexcept {
 	std::uniform_real_distribution<float> dist(min, max);
