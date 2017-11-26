@@ -13,24 +13,15 @@ void AbstractExecutionContext::print_error(const std::string &s) {
 	std::abort();
 }
 
-void AbstractExecutionContext::run() noexcept {
+void AbstractExecutionContext::internal_cycle() noexcept {
 
 	exit_code_t ret;
 
-	ret = this->onSetup();
-	if (ret != AEC_OK) {
-		print_error("onSetup() returns error code " + ret);
-	}
-
-	std::cerr << "Running";
+	input_iteration++;
+	iteration = 0;
 
 	bool keep_going;
 	do {
-		ret = this->onConfigure();
-		if (ret != AEC_OK) {
-			print_error("onConfigure() returns error code " + ret);
-		}
-
 		std::cerr << '.';
 
 		ret = this->onRun();
@@ -51,6 +42,34 @@ void AbstractExecutionContext::run() noexcept {
 	} while (keep_going);
 
 	std::cerr << std::endl;
+}
+
+void AbstractExecutionContext::run() noexcept {
+
+	exit_code_t ret;
+
+	ret = this->onSetup();
+	if (ret != AEC_OK) {
+		print_error("onSetup() returns error code " + ret);
+	}
+
+	std::cerr << "Running";
+
+	ret = this->onConfigure();
+	if (ret != AEC_CONTINUE) {
+		print_error("onConfigure() returns error code " + ret);
+	}
+
+	do {	
+		internal_cycle();
+
+		ret = this->onConfigure();
+
+		if (ret != AEC_OK && ret != AEC_CONTINUE) {
+			print_error("onConfigure() returns error code " + ret);
+		}
+
+	} while(ret == AEC_CONTINUE);
 
 	ret = this->onRelease();
 	if (ret != AEC_OK) {

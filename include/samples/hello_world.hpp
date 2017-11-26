@@ -10,58 +10,19 @@
 class HelloWorld : public AbstractExecutionContext {
 
 public:
-	int my_testing_function(int x) {
-		volatile int i, a;
-		for (i=0; i < x * x * 1000000; i++) {
-			a = i;
-		}
-		return a;
-	}
-
 	HelloWorld() : input_gen(0,10) {
 
 	}
 
-	virtual exit_code_t onSetup() noexcept {
-		return AEC_OK;
-	}
-
-	virtual exit_code_t onConfigure() noexcept
-	{
-		current_input = input_gen.get();
-		return AEC_OK;
-	}
-
-	virtual exit_code_t onRun() noexcept {
-
-		timing.start_timing();
-		my_testing_function(current_input);
-		timing.stop_timing();
-
-		measures.push(timing.get_ns());
-		return AEC_OK;
-	}
-
-	virtual exit_code_t onMonitor() noexcept {
-
-		if (this->get_iteration() < 10) {
-			return AEC_CONTINUE;
-		} else {
-			return AEC_OK;
-		}
-	}
-
-	virtual exit_code_t onRelease() noexcept {
-
-		std::cout << "Max value: " << measures.max() << std::endl;
-
-		return AEC_OK;
-	}
-
+	virtual exit_code_t onSetup() noexcept;
+	virtual exit_code_t onConfigure() noexcept;
+	virtual exit_code_t onRun() noexcept;
+	virtual exit_code_t onMonitor() noexcept ;
+	virtual exit_code_t onRelease() noexcept;
 
 private:
 	UniformInputGenerator<int> input_gen;
-	MeasuresPool<> measures;
+	MeasuresPool<int> measures;
 	Timing timing;
 
 	int current_input=0;

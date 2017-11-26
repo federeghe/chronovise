@@ -29,14 +29,21 @@ public:
 	void run() noexcept;
 
 protected:
+	inline unsigned long get_input_iteration() {
+		return input_iteration;
+	}
+
 	inline unsigned long get_iteration() {
 		return iteration;
 	}
 
 private:
+	unsigned long input_iteration = 0;
 	unsigned long iteration = 0;
 
 	void print_error(const std::string &s);
+
+	void internal_cycle() noexcept;
 
 };
 
