@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-void AbstractExecutionContext::print_error(const std::string &s) {
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_error(const std::string &s) {
 
 	std::cerr << std::endl << "*** ERROR" << std::endl;
 	std::cerr << "An error occurred, error description follows:" << std::endl;
@@ -13,7 +14,8 @@ void AbstractExecutionContext::print_error(const std::string &s) {
 	std::abort();
 }
 
-void AbstractExecutionContext::internal_cycle() noexcept {
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 	exit_code_t ret;
 
@@ -44,7 +46,8 @@ void AbstractExecutionContext::internal_cycle() noexcept {
 	std::cerr << std::endl;
 }
 
-void AbstractExecutionContext::run() noexcept {
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 
 	exit_code_t ret;
 
@@ -60,7 +63,8 @@ void AbstractExecutionContext::run() noexcept {
 		print_error("onConfigure() returns error code " + ret);
 	}
 
-	do {	
+	do {
+		current_input = input_gen->get();
 		internal_cycle();
 
 		ret = this->onConfigure();
@@ -77,3 +81,13 @@ void AbstractExecutionContext::run() noexcept {
 	}
 	
 }
+
+template class AbstractExecutionContext<char, unsigned long>;
+template class AbstractExecutionContext<int, unsigned long>;
+template class AbstractExecutionContext<long, unsigned long>;
+template class AbstractExecutionContext<float, unsigned long>;
+template class AbstractExecutionContext<double, unsigned long>;
+template class AbstractExecutionContext<unsigned char, unsigned long>;
+template class AbstractExecutionContext<unsigned int, unsigned long>;
+template class AbstractExecutionContext<unsigned long, unsigned long>;
+

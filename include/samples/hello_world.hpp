@@ -7,25 +7,25 @@
 
 #include <iostream>
 
-class HelloWorld : public AbstractExecutionContext {
+class HelloWorld : public AbstractExecutionContext<unsigned int> {
 
 public:
-	HelloWorld() : input_gen(0,10) {
+	HelloWorld() : uniform_input_dist(
+		new UniformInputGenerator<unsigned int>(0,100000)
+	) {
 
 	}
 
 	virtual exit_code_t onSetup() noexcept;
 	virtual exit_code_t onConfigure() noexcept;
 	virtual exit_code_t onRun() noexcept;
-	virtual exit_code_t onMonitor() noexcept ;
+	virtual exit_code_t onMonitor() noexcept;
 	virtual exit_code_t onRelease() noexcept;
 
 private:
-	UniformInputGenerator<int> input_gen;
-	MeasuresPool<int> measures;
+	std::unique_ptr<UniformInputGenerator<unsigned int>> uniform_input_dist;
 	Timing timing;
 
-	int current_input=0;
 
 };
 
