@@ -16,6 +16,8 @@ class AbstractExecutionContext {
 
 public:
 
+	virtual ~AbstractExecutionContext() = default;
+
 	typedef enum {
 
 		// Normal statuses
