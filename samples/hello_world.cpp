@@ -1,4 +1,4 @@
-#include "samples/hello_world.hpp"
+#include "hello_world.hpp"
 
 using exit_code_t = AbstractExecutionContext<unsigned int>::exit_code_t;
 
