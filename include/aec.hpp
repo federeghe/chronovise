@@ -59,7 +59,8 @@ protected:
 
 	inline void add_input_transformer() noexcept;
 
-	typedef std::unique_ptr<StatisticalTest<T_TIME>> test_ptr_t;
+	typedef std::shared_ptr<StatisticalTest<T_TIME>> test_ptr_t;
+	typedef std::shared_ptr<StatisticalTest_AfterEVT<T_TIME>> test_aft_ptr_t;
 
 	inline void add_input_representativity_test(test_ptr_t st) noexcept {
 		this->representativity_tests.push_back(std::move(st));
@@ -69,7 +70,7 @@ protected:
 		this->post_run_tests.push_back(std::move(st));
 	}
 
-	inline void add_post_evt_test(test_ptr_t st) noexcept {
+	inline void add_post_evt_test(test_aft_ptr_t st) noexcept {
 		this->post_evt_tests.push_back(std::move(st));
 	}
 
@@ -98,10 +99,11 @@ private:
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
 
-	typedef std::list<std::unique_ptr<StatisticalTest<T_TIME>>> list_of_test_t;
+	typedef std::list<std::shared_ptr<StatisticalTest<T_TIME>>> list_of_test_t;
+	typedef std::list<std::shared_ptr<StatisticalTest_AfterEVT<T_TIME>>> list_of_aft_test_t;
 	list_of_test_t representativity_tests;
 	list_of_test_t post_run_tests;
-	list_of_test_t post_evt_tests;
+	list_of_aft_test_t post_evt_tests;
 
 	void print_error(const std::string &s);
 

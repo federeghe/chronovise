@@ -1,4 +1,5 @@
 #include "hello_world.hpp"
+#include "statistical/test_ks.hpp"
 
 using exit_code_t = AbstractExecutionContext<unsigned int>::exit_code_t;
 
@@ -19,14 +20,18 @@ exit_code_t HelloWorld::onSetup() noexcept {
 //	this->add_representativity_test();	// TODO
 
 	/* ***** POST-RUN SECTION ***** */
-	
+
+	std::shared_ptr<StatisticalTest_AfterEVT<unsigned long>> aft_test(
+		new TestKS<unsigned long>(0.05)
+	);
+	this->add_post_evt_test(aft_test);
 
 	return AEC_OK;
 }
 
 exit_code_t HelloWorld::onConfigure() noexcept
 {
-	return AEC_OK;
+	return AEC_CONTINUE;
 }
 
 exit_code_t HelloWorld::onRun() noexcept {
