@@ -5,26 +5,23 @@
 
 #define TEST_KS_MIN_SAMPLES 10
 
-typedef enum ks_distribution {
-	
-} ks_distribution_t;
-
 
 template <typename T>
-class KSTest : public StatisticalTest<T> {
+class TestKS : public StatisticalTest_AfterEVT<T> {
 
 public:
 
-	KSTest(double significance_level, const EV_Distribution &ref_distribution)
-		: StatisticalTest<T>(significance_level, ref_distribution) {
+	TestKS(double significance_level)
+	: StatisticalTest_AfterEVT<T>(significance_level) 
+	{
 		static_assert(std::is_arithmetic<T>::value,
-						"Type must be an integer or floating point type");
+		"Type must be an integer or floating point type");
 	};
 
 	/**
 	 * @brief Run the test over the specified values
 	 */
-	virtual void run(const std::list<T>& values) noexcept;
+	virtual void run(const MeasuresPool<T> &measures) noexcept;
 
 	/**
 	 * @brief Returns the test power (if calculated, @see has_power())
@@ -41,7 +38,8 @@ public:
 	}
 
  	virtual bool has_safe_power() const noexcept override {
-		return  this->ref_distribution.get_shape() != 0.0
+		return  has_power()
+			&& this->ref_distribution.get_shape() != 0.0
 			&& std::abs(this->ref_distribution.get_shape()) < 0.5;
 	}
 

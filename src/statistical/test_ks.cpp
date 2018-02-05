@@ -3,14 +3,14 @@
 #include <cassert>
 
 template <typename T>
-void KSTest<T>::run(const std::list<T>& values) noexcept {
+void TestKS<T>::run(const MeasuresPool<T> &measures) noexcept {
 
-	assert(values.size() > get_minimal_sample_size() );
+	assert(measures.size() > get_minimal_sample_size() );
 
 }
 
 template <typename T>
-unsigned int KSTest<T>::get_minimal_sample_size(unsigned short req_power) const {
+unsigned int TestKS<T>::get_minimal_sample_size(unsigned short req_power) const {
 
 // TODO Add citation
 
@@ -50,10 +50,10 @@ unsigned int KSTest<T>::get_minimal_sample_size(unsigned short req_power) const 
 	return 0;
 }
 
-template class KSTest<int>;
-template class KSTest<long>;
-template class KSTest<float>;
-template class KSTest<double>;
-template class KSTest<unsigned int>;
-template class KSTest<unsigned long>;
+template class TestKS<int>;
+template class TestKS<long>;
+template class TestKS<float>;
+template class TestKS<double>;
+template class TestKS<unsigned int>;
+template class TestKS<unsigned long>;
 

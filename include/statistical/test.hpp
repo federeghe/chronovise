@@ -8,8 +8,8 @@ template <typename T_TIME>
 class StatisticalTest {
 
 public:
-	StatisticalTest(double significance_level, const EV_Distribution &ref_distribution)
-			: significance_level(significance_level), ref_distribution(ref_distribution) {
+	StatisticalTest(double significance_level)
+			: significance_level(significance_level) {
 
 	}
 
@@ -65,9 +65,22 @@ protected:
 	bool reject = false;
 
 	const double significance_level;
-	const EV_Distribution ref_distribution;
-
 };
 
+template <typename T_TIME>
+class StatisticalTest_AfterEVT : public StatisticalTest<T_TIME> {
+
+public:
+	StatisticalTest_AfterEVT(double significance_level)
+	: StatisticalTest<T_TIME>(significance_level) { }
+
+	void set_ref_distribution(const EV_Distribution& ev_distribution) noexcept
+	{
+		this->ref_distribution = ev_distribution;
+	}
+
+protected:
+	EV_Distribution ref_distribution;
+};
 
 #endif
