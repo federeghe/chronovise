@@ -6,9 +6,14 @@
 class EV_Distribution {
 
 public:
+	explicit EV_Distribution() noexcept
+	: param_location(0), param_scale(1), param_shape(0)
+	{
+	}
+
 	explicit EV_Distribution(double location, double scale, double shape) noexcept
-		:  param_location(location), param_scale(scale), param_shape(shape) {
-		
+	:  param_location(location), param_scale(scale), param_shape(shape)
+	{		
 	}
 
 	double get_location() const noexcept {
