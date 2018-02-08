@@ -14,12 +14,12 @@ static int my_testing_function(int x) {
 
 exit_code_t HelloWorld::onSetup() noexcept {
 
-	/* ***** PRE-RUN SECTION ***** */
+	/* ********** PRE-RUN SECTION  ********** */
 	this->set_input_source(std::move(uniform_input_dist));
 //	this->add_input_transformer();		// TODO
 //	this->add_representativity_test();	// TODO
 
-	/* ***** POST-RUN SECTION ***** */
+	/* ********** POST-RUN SECTION ********** */
 
 	std::shared_ptr<StatisticalTest_AfterEVT<unsigned long>> aft_test(
 		new TestKS<unsigned long>(0.05)
@@ -31,6 +31,8 @@ exit_code_t HelloWorld::onSetup() noexcept {
 
 exit_code_t HelloWorld::onConfigure() noexcept
 {
+	if (get_input_iteration() > 10)
+		return AEC_OK;
 	return AEC_CONTINUE;
 }
 
@@ -50,7 +52,10 @@ exit_code_t HelloWorld::onRun() noexcept {
 
 exit_code_t HelloWorld::onMonitor() noexcept {
 
-	return AEC_OK;
+	if (get_iteration() > 10) {
+		return AEC_OK;
+	}
+	return AEC_CONTINUE;
 }
 
 exit_code_t HelloWorld::onRelease() noexcept {
