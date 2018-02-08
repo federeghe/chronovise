@@ -9,6 +9,8 @@ template <typename Y, typename T=unsigned long>
 class MeasuresPool {
 
 public:
+	MeasuresPool() {}
+
 	inline void push(Y input_rep, T value) noexcept {
 		this->meas_list.insert(std::pair<Y,T>(input_rep,value));
 	}
@@ -23,17 +25,37 @@ public:
 		return it->second;					
 	}
 
-	inline typename std::map<Y,T>::iterator cbegin() const noexcept {
+	inline typename std::map<Y,T>::const_iterator cbegin() const noexcept {
 		return meas_list.cbegin();
 	}
 
-	inline typename std::map<Y,T>::iterator cend() const noexcept {
+	inline typename std::map<Y,T>::const_iterator cend() const noexcept {
 		return meas_list.cend();
 	}
+
+	inline typename std::map<Y,T>::const_iterator begin() const noexcept {
+		return meas_list.cbegin();
+	}
+
+	inline typename std::map<Y,T>::const_iterator end() const noexcept {
+		return meas_list.cend();
+	}
+
+	inline typename std::map<Y,T>::iterator begin() noexcept {
+		return meas_list.begin();
+	}
+
+	inline typename std::map<Y,T>::iterator end() noexcept {
+		return meas_list.end();
+	}
+
 
 	inline size_t size() const noexcept {
 		return meas_list.size();
 	}
+
+	MeasuresPool(const MeasuresPool& m) = delete;
+	MeasuresPool& operator=(MeasuresPool const&) = delete;
 
 private:
 	
