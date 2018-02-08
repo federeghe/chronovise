@@ -1,4 +1,6 @@
 #include "aec.hpp"
+#include "global.hpp"
+#include "utility/utility.hpp"
 
 #include <iostream>
 
@@ -24,7 +26,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 	bool keep_going;
 	do {
-		std::cerr << '.';
+		VERB(std::cerr << '.');
 
 		ret = this->onRun();
 		if (ret != AEC_OK) {
@@ -43,7 +45,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 		iteration++;
 	} while (keep_going);
 
-	std::cerr << std::endl;
+	VERB(std::cerr << '+');
 }
 
 template <typename T_INPUT, typename T_TIME>
@@ -56,7 +58,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 		print_error("onSetup() returns error code " + ret);
 	}
 
-	std::cerr << "Running";
+	VERB(utility::print_welcome_message());
 
 	ret = this->onConfigure();
 	if (ret != AEC_CONTINUE) {
@@ -79,6 +81,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 	if (ret != AEC_OK) {
 		print_error("onRelease() returns error code " + ret);
 	}
+
+	VERB(std::cerr << std::endl);
 	
 }
 
