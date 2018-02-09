@@ -22,8 +22,13 @@ public:
 		return *result;
 	}
 
+	virtual estimator_status_t get_status() const noexcept {
+		return status;
+	}	
+
 private:
 	std::shared_ptr<EV_Distribution> result;
+	estimator_status_t status=UNKNOWN;
 
 };
 

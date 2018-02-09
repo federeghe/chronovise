@@ -4,7 +4,7 @@
 #include <ceres/ceres.h>
 #include <cmath>
 
-#define LOCAL_DEBUG 1
+#define LOCAL_DEBUG 0
 
 template <typename T_INPUT, typename T_TIME>
 class GEV_Function : public ceres::FirstOrderFunction {
@@ -80,29 +80,32 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
 				? std::pow( (1. + xi*z), -1./xi)
 				: std::exp(-z);
 
-		// An high number for z (e.g. z=300) will transform u in 0. We need to ensure a very
-		// small value to continue the computation
+		// An high number for z (e.g. z=300) will transform u in 0.
+		if (u == 0.0) return false;
 
-		u += std::numeric_limits<double>::min();
 		assert(u > 0.);
 
 
 		// Ceres will minimize this function, so we have to invert the sign
 		cost_function += - ( -std::log(sg) - u + (xi+1.) * std::log(u) );
 
-		accumulate_gradient_term(parameters, gradient, z, u);
+		if (gradient != NULL) {
+			accumulate_gradient_term(parameters, gradient, z, u);
+		}
 	}
 
 	cost[0] = cost_function;
-
-	gradient[mu_idx] *= -1;
-	gradient[sg_idx] *= -1;
-	gradient[xi_idx] *= -1;
-	
 	assert(std::isfinite(cost[0]));
-	assert(std::isfinite(gradient[mu_idx]));
-	assert(std::isfinite(gradient[sg_idx]));
-	assert(std::isfinite(gradient[xi_idx]));
+
+	if (gradient != NULL) {
+		gradient[mu_idx] *= -1;
+		gradient[sg_idx] *= -1;
+		gradient[xi_idx] *= -1;
+		assert(std::isfinite(gradient[mu_idx]));
+		assert(std::isfinite(gradient[sg_idx]));
+		assert(std::isfinite(gradient[xi_idx]));
+	}
+	
 	
 	return true;
 }
@@ -130,8 +133,9 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 
 	double parameters[3] = {0., 1., 0.};
 	ceres::GradientProblemSolver::Options options;
-	options.function_tolerance=1e-9;
 
+	// TODO reliability considerations
+	options.function_tolerance=1e-9;
 	options.max_num_iterations = 500;
 	options.minimizer_progress_to_stdout = false;
 	options.logging_type = ceres::SILENT;
@@ -147,10 +151,25 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 	std::cout << summary.FullReport() << std::endl;
 #endif
 
-	// TODO generate warning if NO_CONVERGENCE
+	switch(summary.termination_type) {
+		case ceres::NO_CONVERGENCE:
+			this->status = NON_PRECISE;
+		break;
+		case ceres::FAILURE:
+		case ceres::USER_FAILURE:
+			this->status = FAILED;
+		break;
+		case ceres::CONVERGENCE:
+		case ceres::USER_SUCCESS:
+			this->status = SUCCESS;
+		break;
+
+		default:
+			this->status = UNKNOWN;
+		break;
+	}
 
 	return summary.IsSolutionUsable();
-
 }
 
 template class Estimator_MLE<int, double>;
