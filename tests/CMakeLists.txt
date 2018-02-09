@@ -1,6 +1,6 @@
 enable_testing()
 
-add_executable(runUnitTests tester.cpp test_generators.cpp)
+add_executable(runUnitTests tester.cpp test_generators.cpp test_estimator_mle.cpp)
 target_include_directories(runUnitTests PUBLIC ../include)
 
 target_link_libraries(runUnitTests gtest gtest_main)
