@@ -18,7 +18,6 @@ class Estimator {
 
 public:
 
-
 	virtual ~Estimator() {}
 
 	virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept = 0;
