@@ -6,7 +6,7 @@
 #define TEST_KS_MIN_SAMPLES 10
 
 
-template <typename T>
+template <typename T=unsigned long>
 class TestKS : public StatisticalTest_AfterEVT<T> {
 
 public:

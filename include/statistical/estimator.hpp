@@ -13,7 +13,7 @@ typedef enum  {
 } estimator_status_t;
 
 
-template <typename T_INPUT, typename T_TIME>
+template <typename T_INPUT, typename T_TIME=unsigned long>
 class Estimator {
 
 public:

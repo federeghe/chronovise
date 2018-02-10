@@ -4,7 +4,7 @@
 #include "statistical/ev_distribution.hpp"
 #include "measures_pool.hpp"
 
-template <typename T_TIME>
+template <typename T_TIME=unsigned long>
 class StatisticalTest {
 
 public:
@@ -67,7 +67,7 @@ protected:
 	const double significance_level;
 };
 
-template <typename T_TIME>
+template <typename T_TIME=unsigned long>
 class StatisticalTest_AfterEVT : public StatisticalTest<T_TIME> {
 
 public:

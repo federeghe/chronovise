@@ -6,7 +6,7 @@
 #include <memory>
 
 
-template <typename T_INPUT, typename T_TIME>
+template <typename T_INPUT, typename T_TIME=unsigned long>
 class Estimator_MLE : public Estimator<T_INPUT, T_TIME> {
 
 public:
