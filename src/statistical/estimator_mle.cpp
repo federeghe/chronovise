@@ -142,7 +142,7 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 	options.line_search_direction_type = ceres::BFGS;
 
 	ceres::GradientProblemSolver::Summary summary;
-	ceres::GradientProblem problem(new GEV_Function(measures));
+	ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
 	ceres::Solve(options, problem, parameters, &summary);
 
 	result = std::make_shared<EV_Distribution>(parameters[0], parameters[1], parameters[2]);

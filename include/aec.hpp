@@ -4,12 +4,17 @@
 
 #include "evt/evtapproach.hpp"
 #include "input/generator.hpp"
-#include "mergers/merger.hpp"
 #include "statistical/test.hpp"
 
 #include <list>
 #include <memory>
 #include <string>
+
+typedef enum class merger_type_e {
+	TRACE_MERGE,
+	ENVELOPE
+} merger_type_t;
+
 
 template <typename T_INPUT=unsigned long, typename T_TIME=unsigned long>
 class AbstractExecutionContext {
@@ -30,6 +35,7 @@ public:
 
 	} exit_code_t;
 
+
 	virtual exit_code_t onSetup() noexcept = 0;
 	virtual exit_code_t onConfigure() noexcept = 0;
 	virtual exit_code_t onRun() noexcept = 0;
@@ -44,8 +50,8 @@ protected:
 		this->input_gen = std::move(ig);
 	}
 
-	inline void set_merging_technique(std::unique_ptr<Merger<T_INPUT, T_TIME>> merger) noexcept {
-		this->merger = std::move(merger);
+	inline void set_merging_technique(merger_type_t type) noexcept {
+		this->merger_tech = type;
 	}
 
 	inline void set_evt_approach(std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach) noexcept {
@@ -92,9 +98,9 @@ private:
 	unsigned long iteration = 0;
 	T_INPUT current_input;
 
+	merger_type_t merger_tech;
 
 	std::unique_ptr<InputGenerator<T_INPUT>> input_gen;
-	std::unique_ptr<Merger<T_INPUT, T_TIME>> merger;
 	std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach;
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
@@ -108,6 +114,8 @@ private:
 	void print_error(const std::string &s);
 
 	void internal_cycle() noexcept;
+
+	void execute_analysis() noexcept;
 
 };
 

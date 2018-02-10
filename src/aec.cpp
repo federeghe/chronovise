@@ -69,6 +69,11 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 		current_input = input_gen->get();
 		internal_cycle();
 
+		if (merger_tech == merger_type_t::ENVELOPE) {
+			execute_analysis();
+			measures.clear();
+		}
+
 		ret = this->onConfigure();
 
 		if (ret != AEC_OK && ret != AEC_CONTINUE) {
@@ -77,12 +82,23 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 
 	} while(ret == AEC_CONTINUE);
 
+	if (merger_tech == merger_type_t::TRACE_MERGE) {
+		execute_analysis();
+		measures.clear();
+	}
+
 	ret = this->onRelease();
 	if (ret != AEC_OK) {
 		print_error("onRelease() returns error code " + ret);
 	}
 
 	VERB(std::cerr << std::endl);
+	
+}
+
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
+
 	
 }
 

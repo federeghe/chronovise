@@ -50,6 +50,10 @@ public:
 	}
 
 
+	inline void clear() noexcept {
+		this->meas_list.clear();
+	}
+
 	inline size_t size() const noexcept {
 		return meas_list.size();
 	}

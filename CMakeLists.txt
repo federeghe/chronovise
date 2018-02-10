@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.0)
 project(eMBPTA)
 
 set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
-			src/mergers/trace_merger.cpp
 			src/aec.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
@@ -24,7 +23,7 @@ include_directories(${CERES_INCLUDE_DIRS})
 target_link_libraries (eMBPTA ${CERES_LIBRARIES})
 
 
-target_compile_options(eMBPTA PUBLIC -std=c++17 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+target_compile_options(eMBPTA PUBLIC -std=c++11 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
 target_include_directories(eMBPTA PUBLIC include)
 
