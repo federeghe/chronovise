@@ -32,9 +32,9 @@ unsigned int TestKS<T>::get_minimal_sample_size(unsigned short req_power) const 
 			return alpha == 0.05 ? 400 : 750;
 		case 3:
 			return alpha == 0.05 ? 500 : 750;
-		case 4: [[fallthrough]];
-		case 5: [[fallthrough]];
-		case 6: [[fallthrough]];
+		case 4: /*[[fallthrough]];*/
+		case 5: /*[[fallthrough]];*/
+		case 6: /*[[fallthrough]];*/
 		case 7:
 			return 750;
 		case 8:

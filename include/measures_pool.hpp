@@ -5,47 +5,47 @@
 #include <map>
 #include <utility>
 
-template <typename Y, typename T=unsigned long>
+template <typename T_INPUT, typename T_TIME=unsigned long>
 class MeasuresPool {
 
 public:
 	MeasuresPool() {}
 
-	inline void push(Y input_rep, T value) noexcept {
-		this->meas_list.insert(std::pair<Y,T>(input_rep,value));
+	inline void push(T_INPUT input_rep, T_TIME value) noexcept {
+		this->meas_list.insert(std::pair<T_INPUT,T_TIME>(input_rep,value));
 	}
 
-	inline T max() const noexcept {
-		auto it = std::max_element(meas_list.begin(), meas_list.end(), meas_map_compare<Y,T>);
+	inline T_TIME max() const noexcept {
+		auto it = std::max_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
 
-	inline T min() const noexcept {
-		auto it = std::min_element(meas_list.begin(), meas_list.end(), meas_map_compare<Y,T>);
+	inline T_TIME min() const noexcept {
+		auto it = std::min_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
 
-	inline typename std::map<Y,T>::const_iterator cbegin() const noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::const_iterator cbegin() const noexcept {
 		return meas_list.cbegin();
 	}
 
-	inline typename std::map<Y,T>::const_iterator cend() const noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::const_iterator cend() const noexcept {
 		return meas_list.cend();
 	}
 
-	inline typename std::map<Y,T>::const_iterator begin() const noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::const_iterator begin() const noexcept {
 		return meas_list.cbegin();
 	}
 
-	inline typename std::map<Y,T>::const_iterator end() const noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::const_iterator end() const noexcept {
 		return meas_list.cend();
 	}
 
-	inline typename std::map<Y,T>::iterator begin() noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::iterator begin() noexcept {
 		return meas_list.begin();
 	}
 
-	inline typename std::map<Y,T>::iterator end() noexcept {
+	inline typename std::map<T_INPUT,T_TIME>::iterator end() noexcept {
 		return meas_list.end();
 	}
 
@@ -69,7 +69,7 @@ private:
 	}
 
 
-	std::multimap<Y, T> meas_list;
+	std::multimap<T_INPUT, T_TIME> meas_list;
 
 	
 
