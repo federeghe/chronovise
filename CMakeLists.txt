@@ -32,5 +32,6 @@ set(APP_SOURCES ${APP_SOURCES} samples/hello_world.cpp)
 add_executable(eMBPTA_exec samples/main.cpp ${APP_SOURCES})
 target_link_libraries(eMBPTA_exec eMBPTA) 
 
+add_subdirectory(docs)
 add_subdirectory(tests)
 
