@@ -131,7 +131,7 @@ void GEV_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
-	double parameters[3] = {0., 1., 0.};
+	double parameters[3] = {0., measures.max()/100 > 1 ? measures.max()/100 : 1., 0.};
 	ceres::GradientProblemSolver::Options options;
 
 	// TODO reliability considerations
@@ -173,4 +173,5 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 }
 
 template class Estimator_MLE<int, double>;
+template class Estimator_MLE<unsigned int, unsigned long>;
 
