@@ -17,6 +17,7 @@ addons:
             - libatlas-base-dev
             - libeigen3-dev
             - libsuitesparse-dev
+            - libgtest-dev
 
 #branches:
 #  only:

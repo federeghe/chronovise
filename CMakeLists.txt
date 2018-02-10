@@ -3,6 +3,7 @@ project(eMBPTA)
 
 set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
+			src/evt/evtapproach_bm.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
 			src/utility/utility.cpp
