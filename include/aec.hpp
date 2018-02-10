@@ -117,6 +117,8 @@ private:
 	list_of_test_t post_run_tests;
 	list_of_aft_test_t post_evt_tests;
 
+	std::list<EV_Distribution> ev_dist_estimated;
+
 	void print_error(const std::string &s);
 
 	void internal_cycle() noexcept;

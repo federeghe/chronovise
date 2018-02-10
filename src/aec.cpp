@@ -112,7 +112,16 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
-	
+	this->evt_approach->perform(measures);
+	auto &measures_to_estimate = this->evt_approach->get_pool();
+	this->evt_estimator->run(measures_to_estimate);
+	EV_Distribution evd = this->evt_estimator->get_result();
+
+	// TODO: Add statistical tests here
+
+	ev_dist_estimated.push_back(evd);
+}
+
 }
 
 template class AbstractExecutionContext<char, unsigned long>;
