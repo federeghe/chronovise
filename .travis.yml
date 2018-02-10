@@ -12,11 +12,25 @@ addons:
             - ubuntu-toolchain-r-test
         packages:
             - g++-6
-            - libceres-dev
+            - cmake
+            - libgoogle-glog-dev
+            - libatlas-base-dev
+            - libeigen3-dev
+            - libsuitesparse-dev
 
 #branches:
 #  only:
 #  - master
+
+before_script:
+    - wget http://ceres-solver.org/ceres-solver-1.13.0.tar.gz
+    - tar zxf ceres-solver-1.13.0.tar.gz
+    - cd ceres-solver-1.13.0
+    - mkdir build
+    - cd build
+    - cmake ..
+    - make -j8
+    - make install
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
