@@ -1,0 +1,30 @@
+language: cpp
+sudo: false
+dist: trusty
+compiler:
+- g++
+os:
+- linux
+
+addons:
+    apt:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
+            - g++-6
+            - libceres-dev
+
+#branches:
+#  only:
+#  - master
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}
+  - mkdir build
+  - cd build
+  - cmake ..
+  - make -j8
+
+env:
+  global:
+  - LANG="en_US.UTF-8"
