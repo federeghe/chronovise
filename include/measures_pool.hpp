@@ -5,61 +5,112 @@
 #include <map>
 #include <utility>
 
+/**
+ * The MeasuresPool class handles the measured data. It is based on two template arguments, the first
+ * for the input type, the second for the time type. This class basically encapsulates a
+ * std::multimap and provides methods to access it.
+ * @warning This class is NOT thread safe.
+ */
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class MeasuresPool {
 
 public:
+
+	/**
+	 * The constructor. Nothing special is done here.
+	 */
 	MeasuresPool() {}
 
+	/**
+	 * Add a new value in the pool.
+	 * @param input_rep The input representing the measurement
+	 * @param value The actual measured time value
+	 */
 	inline void push(T_INPUT input_rep, T_TIME value) noexcept {
 		this->meas_list.insert(std::pair<T_INPUT,T_TIME>(input_rep,value));
 	}
 
+	/**
+	 * Returns the maximum value in the pool. Complexity O(n).
+	 * @return The maximum time value in the container 
+	 */
 	inline T_TIME max() const noexcept {
 		auto it = std::max_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
 
+	/**
+	 * Returns the minimum value in the pool. Complexity O(n).
+	 * @return The minimum time value in the container 
+	 */
 	inline T_TIME min() const noexcept {
 		auto it = std::min_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::const_iterator cbegin() const noexcept {
+	/**
+	 * Returns the const_iterator to the begin of the underlying container
+	 * @return The constant begin iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cbegin() const noexcept {
 		return meas_list.cbegin();
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::const_iterator cend() const noexcept {
+	/**
+	 * Returns the const_iterator to the end of the underlying container
+	 * @return The constant end iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cend() const noexcept {
 		return meas_list.cend();
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::const_iterator begin() const noexcept {
+	/**
+	 * Returns the const_iterator to the begin of the underlying container
+	 * @return The constant begin iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator begin() const noexcept {
 		return meas_list.cbegin();
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::const_iterator end() const noexcept {
+	/**
+	 * Returns the const_iterator to the end of the underlying container
+	 * @return The constant end iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator end() const noexcept {
 		return meas_list.cend();
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::iterator begin() noexcept {
+	/**
+	 * Returns the iterator to the begin of the underlying container
+	 * @return The begin iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::iterator begin() noexcept {
 		return meas_list.begin();
 	}
 
-	inline typename std::map<T_INPUT,T_TIME>::iterator end() noexcept {
+	/**
+	 * Returns the iterator to the end of the underlying container
+	 * @return The end iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::iterator end() noexcept {
 		return meas_list.end();
 	}
 
-
+	/**
+	 * Delete all the values from the container
+	 */
 	inline void clear() noexcept {
 		this->meas_list.clear();
 	}
 
+	/**
+	 * Returns the size of the container
+	 * @return The number of pairs <T_INPUT,T_TIME> of the container
+	 */
 	inline size_t size() const noexcept {
 		return meas_list.size();
 	}
 
-	MeasuresPool(const MeasuresPool& m) = delete;
-	MeasuresPool& operator=(MeasuresPool const&) = delete;
 
 private:
 	
@@ -68,10 +119,10 @@ private:
 		return i.second < j.second;
 	}
 
+	MeasuresPool(const MeasuresPool& m) = delete;
+	MeasuresPool& operator=(MeasuresPool const&) = delete;
 
-	std::multimap<T_INPUT, T_TIME> meas_list;
-
-	
+	std::multimap<T_INPUT, T_TIME> meas_list;	
 
 };
 
