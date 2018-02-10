@@ -4,6 +4,8 @@
 
 #include <cassert>
 #include <iostream>
+#include <iomanip>
+
 
 template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::print_error(const std::string &s) {
@@ -122,7 +124,19 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	ev_dist_estimated.push_back(evd);
 }
 
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_bm_distributions_summary() const {
+
+	size_t i=0;
+	for (auto it=ev_dist_estimated.cbegin(); it != ev_dist_estimated.cend(); it++, i++) {
+		std::cerr << '#' << i << ": "
+			  << "location=" << std::setw(10) << it->get_location() 
+			  << "\tscale=" << std::setw(10) << it->get_scale() 
+			  << "\tshape=" << std::setw(10) << it->get_shape() << std::endl; 
+	}
+
 }
+
 
 template class AbstractExecutionContext<char, unsigned long>;
 template class AbstractExecutionContext<int, unsigned long>;

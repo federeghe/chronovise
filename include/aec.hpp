@@ -46,6 +46,8 @@ public:
 
 	void run() noexcept;
 
+	void print_bm_distributions_summary() const;
+
 protected:
 
 	inline void set_input_source(std::unique_ptr<InputGenerator<T_INPUT>> ig) noexcept {
