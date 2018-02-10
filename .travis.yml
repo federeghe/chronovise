@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+sudo: required
 dist: trusty
 compiler:
 - g++
@@ -30,7 +30,7 @@ before_script:
     - cd build
     - cmake ..
     - make -j8
-    - make install
+    - sudo make install
 
 script:
   - cd ${TRAVIS_BUILD_DIR}
