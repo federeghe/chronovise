@@ -33,6 +33,11 @@ before_script:
     - make -j8
     - sudo make install
 
+    - cd /usr/src/gtest
+    - sudo cmake CMakeLists.txt
+    - sudo make
+    - sudo cp *.a /usr/lib
+
 script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir build
