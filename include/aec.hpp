@@ -5,12 +5,14 @@
 #include "evt/evtapproach.hpp"
 #include "input/generator.hpp"
 #include "statistical/test.hpp"
+#include "statistical/estimator.hpp"
 
 #include <list>
 #include <memory>
 #include <string>
 
 typedef enum class merger_type_e {
+	UNKNOWN,
 	TRACE_MERGE,
 	ENVELOPE
 } merger_type_t;
@@ -58,6 +60,9 @@ protected:
 		this->evt_approach = std::move(evt_approach);
 	}
 
+	inline void set_evt_estimator(std::unique_ptr<Estimator<T_INPUT, T_TIME>> est) noexcept {
+		this->evt_estimator = std::move(est);
+	}
 
 	inline void add_sample(T_TIME value) noexcept {
 		this->measures.push(current_input, value);
@@ -98,10 +103,11 @@ private:
 	unsigned long iteration = 0;
 	T_INPUT current_input;
 
-	merger_type_t merger_tech;
+	merger_type_t merger_tech = merger_type_t::UNKNOWN;
 
 	std::unique_ptr<InputGenerator<T_INPUT>> input_gen;
 	std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach;
+	std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_estimator;
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
 
@@ -116,6 +122,8 @@ private:
 	void internal_cycle() noexcept;
 
 	void execute_analysis() noexcept;
+
+	void check_preconditions() const noexcept;
 
 };
 

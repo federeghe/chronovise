@@ -2,6 +2,7 @@
 #include "global.hpp"
 #include "utility/utility.hpp"
 
+#include <cassert>
 #include <iostream>
 
 template <typename T_INPUT, typename T_TIME>
@@ -49,6 +50,16 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 }
 
 template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::check_preconditions() const noexcept {
+
+	assert( input_gen     != nullptr && "You must call set_input_source() before run.");
+	assert( evt_approach  != nullptr && "You must call set_evt_approach() before run.");
+	assert( evt_estimator != nullptr && "You must call set_evt_estimator() before run.");
+	assert( merger_tech   != merger_type_t::UNKNOWN && "You must call set_merging_technique() before run.");
+
+}
+
+template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 
 	exit_code_t ret;
@@ -57,6 +68,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
 	if (ret != AEC_OK) {
 		print_error("onSetup() returns error code " + ret);
 	}
+
+	this->check_preconditions();
 
 	VERB(utility::print_welcome_message());
 
