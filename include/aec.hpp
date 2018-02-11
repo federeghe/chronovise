@@ -158,9 +158,13 @@ protected:
 		this->reliability_req = req;
 	}
 
+	inline bool is_estimation_safe() const noexcept {
+		return this->estimation_safe;
+	}
+
 private:
 
-	bool estimation_unsafe = false;
+	bool estimation_safe = true;
 
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;

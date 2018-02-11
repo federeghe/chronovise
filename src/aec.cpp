@@ -118,27 +118,26 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
+	// Perform BM or POT based on what the user provided
 	this->evt_approach->perform(measures);
+
+	// Now measures represents the old pool of values. We now want to
+	// get the new BM or POT pool.
 	auto &measures_to_estimate = this->evt_approach->get_pool();
+
+	// We can now estimated the EVT distribution...
 	this->evt_estimator->run(measures_to_estimate);
 	EV_Distribution evd = this->evt_estimator->get_result();
 
-	// TODO: Add statistical tests here
+	// And then test it...
+	for (auto &test : post_evt_tests) {
+		test->set_ref_distribution(evd);
 
-	ev_dist_estimated.push_back(evd);
-}
+		// TODO
 
-template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() const noexcept {
-
-	size_t i=0;
-	for (auto it=ev_dist_estimated.cbegin(); it != ev_dist_estimated.cend(); it++, i++) {
-		std::cerr << '#' << i << ": "
-			  << "location=" << std::setw(10) << it->get_location() 
-			  << "\tscale=" << std::setw(10) << it->get_scale() 
-			  << "\tshape=" << std::setw(10) << it->get_shape() << std::endl; 
 	}
 
+	ev_dist_estimated.push_back(evd);
 }
 
 template <typename T_INPUT, typename T_TIME>
@@ -148,7 +147,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations(test_ptr_t tes
 			this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size(this->reliability_req));
 			return;
 		} else {
-			this->estimation_unsafe = true;
+			this->estimation_safe = false;
 		}
 	}
 
