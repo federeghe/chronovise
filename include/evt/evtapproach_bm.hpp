@@ -3,6 +3,8 @@
 
 #include "evtapproach.hpp"
 
+namespace chronovise {
+
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class EVTApproach_BM : public EVTApproach<T_INPUT, T_TIME> {
 
@@ -16,5 +18,7 @@ private:
 	size_t block_size;
 
 };
+
+} // namespace chronovise
 
 #endif

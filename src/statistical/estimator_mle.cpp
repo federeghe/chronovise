@@ -6,6 +6,8 @@
 
 #define LOCAL_DEBUG 0
 
+namespace chronovise {
+
 template <typename T_INPUT, typename T_TIME>
 class GEV_Function : public ceres::FirstOrderFunction {
 
@@ -175,3 +177,4 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 template class Estimator_MLE<int, double>;
 template class Estimator_MLE<unsigned int, unsigned long>;
 
+} // namespace chronovise

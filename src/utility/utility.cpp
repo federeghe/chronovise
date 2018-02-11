@@ -3,6 +3,8 @@
 #include "utility/utility.hpp"
 #include "global.hpp"
 
+namespace chronovise {
+
 namespace utility {
 
 void print_welcome_message() noexcept {
@@ -17,5 +19,6 @@ void print_welcome_message() noexcept {
 
 }
 
-}	// namespace utility
+} // namespace utility
 
+} //namespace chronovise

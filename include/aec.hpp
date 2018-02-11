@@ -1,3 +1,25 @@
+/*
+ *  chronovise - Copyright 2018 Politecnico di Milano
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @file aec.hpp
+ * @author Check commit authors
+ * @brief File containing the AbstractExecutionContext class
+ */
+
 #ifndef AEC_HPP_
 #define AEC_HPP_
 #include "measures_pool.hpp"
@@ -11,13 +33,25 @@
 #include <memory>
 #include <string>
 
+namespace chronovise {
+
+/**
+ * Represents the list of available merger type of the EVT process. It is basically
+ * composed of two possible strategies: trace-merging or envelope-merging. The
+ * former merge all the measurements from different input dataset into one single
+ * dataset to be analyzed. The latter computes pWCET for each input and provides
+ * a merge of pWCET at the end. 
+ */
 typedef enum class merger_type_e {
-	UNKNOWN,
-	TRACE_MERGE,
-	ENVELOPE
+	UNKNOWN,	/** Internal representation, should not be used */
+	TRACE_MERGE,	/** Trace-merging technique */
+	ENVELOPE	/** Envelope-merging technique */
 } merger_type_t;
 
-
+/**
+ * The abstract class to be extended by the application. It is often shorten in the
+ * documentation with AEC acronym.
+ */
 template <typename T_INPUT=unsigned long, typename T_TIME=unsigned long>
 class AbstractExecutionContext {
 
@@ -25,6 +59,10 @@ public:
 
 	virtual ~AbstractExecutionContext() = default;
 
+	/**
+	 * The list of possible exit status codes. It is used by AEC-implemented methods
+	 * and must be used by children classes.
+	 */
 	typedef enum {
 
 		// Normal statuses
@@ -44,9 +82,22 @@ public:
 	virtual exit_code_t onMonitor() noexcept = 0;
 	virtual exit_code_t onRelease() noexcept = 0;
 
-	void run() noexcept;
+	/**
+	 * The list of possible exit status codes. It is used by AEC-implemented methods
+	 * and must be used by children classes. If something fails it may throw exception
+	 * or abort the program.
+	 * @throws std::runtime_error in case of some failures or abort the program
+	 * immediately
+	 */
+	void run();
 
-	void print_bm_distributions_summary() const;
+	/**
+	 * Print the distribution summary. It must be called at the end of execution,
+	 * otherwise no output is provided.
+	 * @note For some merging technique like trace-merge, it provides only a single
+	 * value. 
+	 */
+	void print_distributions_summary() const noexcept;
 
 protected:
 
@@ -131,4 +182,5 @@ private:
 
 };
 
+} // namespace chronovise
 #endif

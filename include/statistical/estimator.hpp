@@ -4,6 +4,7 @@
 #include "statistical/ev_distribution.hpp"
 #include "measures_pool.hpp"
 
+namespace chronovise {
 
 typedef enum  {
 	SUCCESS,
@@ -27,5 +28,7 @@ public:
 	virtual estimator_status_t get_status() const noexcept = 0;	
 
 };
+
+} // namespace chronovise
 
 #endif

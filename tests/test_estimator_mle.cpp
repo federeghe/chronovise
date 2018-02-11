@@ -1,9 +1,10 @@
 #include "gtest/gtest.h"
 #include "statistical/estimator_mle.hpp"
 
-
 #define MAX_VALUE 100000
 #define MAX_VALUE_F 2.0
+
+using namespace chronovise;
 
 // The fixture for testing class Project1. From google test primer.
 class EstimatorMLE_Test : public ::testing::Test {

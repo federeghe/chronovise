@@ -2,6 +2,8 @@
 
 #include <limits>
 
+namespace chronovise {
+
 template <typename T_INPUT, typename T_TIME>
 void EVTApproach_BM<T_INPUT, T_TIME>::perform(const MeasuresPool<T_INPUT, T_TIME>& original_pool) {
 
@@ -47,4 +49,6 @@ template class EVTApproach_BM<double, unsigned long>;
 template class EVTApproach_BM<unsigned char, unsigned long>;
 template class EVTApproach_BM<unsigned int, unsigned long>;
 template class EVTApproach_BM<unsigned long, unsigned long>;
+
+} // namespace chronovise
 

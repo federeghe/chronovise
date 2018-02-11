@@ -2,10 +2,10 @@
 #include "hello_world.hpp"
 
 int main() {
-	AbstractExecutionContext<unsigned int> *aec = new HelloWorld();
+	chronovise::AbstractExecutionContext<unsigned int> *aec = new HelloWorld();
 	aec->run();
 
-	aec->print_bm_distributions_summary();
+	aec->print_distributions_summary();
 
 	return 0;
 }

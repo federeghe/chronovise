@@ -1,7 +1,7 @@
 #ifndef STATISTICAL_EV_DISTRIBUTION_HPP_
 #define STATISTICAL_EV_DISTRIBUTION_HPP_
 
-
+namespace chronovise {
 
 class EV_Distribution {
 
@@ -48,5 +48,6 @@ private:
 
 };
 
+} // namespace chronovise
 
 #endif	// STATISTICAL_EV_DISTRIBUTION_HPP_

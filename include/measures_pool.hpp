@@ -1,5 +1,5 @@
 /*
- *   Copyright 2018 Politecnico di Milano
+ *  chronovise - Copyright 2018 Politecnico di Milano
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
 #include <algorithm>
 #include <map>
 #include <utility>
+
+namespace chronovise {
 
 /**
  * The MeasuresPool class handles the measured data. It is based on two template arguments, the first
@@ -147,5 +149,7 @@ private:
 	std::multimap<T_INPUT, T_TIME> meas_list;	
 
 };
+
+} // namespace chronovise
 
 #endif

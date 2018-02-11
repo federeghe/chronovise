@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 
+namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::print_error(const std::string &s) {
@@ -62,7 +63,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::check_preconditions() const noexc
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::run() noexcept {
+void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 
 	exit_code_t ret;
 
@@ -125,7 +126,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::print_bm_distributions_summary() const {
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() const noexcept {
 
 	size_t i=0;
 	for (auto it=ev_dist_estimated.cbegin(); it != ev_dist_estimated.cend(); it++, i++) {
@@ -146,4 +147,7 @@ template class AbstractExecutionContext<double, unsigned long>;
 template class AbstractExecutionContext<unsigned char, unsigned long>;
 template class AbstractExecutionContext<unsigned int, unsigned long>;
 template class AbstractExecutionContext<unsigned long, unsigned long>;
+
+
+} // chronovise
 

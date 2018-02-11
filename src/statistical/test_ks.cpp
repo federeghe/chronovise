@@ -2,6 +2,8 @@
 
 #include <cassert>
 
+namespace chronovise {
+
 template <typename T>
 void TestKS<T>::run(const MeasuresPool<T> &measures) noexcept {
 
@@ -57,3 +59,4 @@ template class TestKS<double>;
 template class TestKS<unsigned int>;
 template class TestKS<unsigned long>;
 
+} // namespace chronovise

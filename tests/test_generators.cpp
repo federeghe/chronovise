@@ -6,6 +6,8 @@
 #define MAX_VALUE 100000
 #define MAX_VALUE_F 2.0
 
+using namespace chronovise;
+
 // The fixture for testing class Project1. From google test primer.
 class UniformGenerator_Test : public ::testing::Test {
 protected:

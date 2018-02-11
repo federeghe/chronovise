@@ -4,6 +4,8 @@
 #include "statistical/ev_distribution.hpp"
 #include "measures_pool.hpp"
 
+namespace chronovise {
+
 template <typename T_TIME=unsigned long>
 class StatisticalTest {
 
@@ -82,5 +84,7 @@ public:
 protected:
 	EV_Distribution ref_distribution;
 };
+
+} // chronovise
 
 #endif

@@ -1,6 +1,8 @@
 #include "gtest/gtest.h"
 #include "evt/evtapproach_bm.hpp"
 
+using namespace chronovise;
+
 #include <cmath>
 
 // The fixture for testing class Project1. From google test primer.

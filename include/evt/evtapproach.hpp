@@ -3,6 +3,8 @@
 
 #include "measures_pool.hpp"
 
+namespace chronovise {
+
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class EVTApproach {
 
@@ -17,5 +19,7 @@ protected:
 	MeasuresPool<T_INPUT, T_TIME> m_pool;
 
 };
+
+} // namespace chronovise
 
 #endif

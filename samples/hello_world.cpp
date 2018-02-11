@@ -4,6 +4,8 @@
 #include "statistical/estimator_mle.hpp"
 #include "statistical/test_ks.hpp"
 
+using namespace chronovise;
+
 using exit_code_t = AbstractExecutionContext<unsigned int, unsigned long>::exit_code_t;
 
 static int my_testing_function(int x) {

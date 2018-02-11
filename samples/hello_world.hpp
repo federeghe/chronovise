@@ -7,11 +7,11 @@
 
 #include <iostream>
 
-class HelloWorld : public AbstractExecutionContext<unsigned int> {
+class HelloWorld : public chronovise::AbstractExecutionContext<unsigned int> {
 
 public:
 	HelloWorld() : uniform_input_dist(
-		new UniformInputGenerator<unsigned int>(0,100000)
+		new chronovise::UniformInputGenerator<unsigned int>(0,100000)
 	) {
 
 	}
@@ -23,8 +23,8 @@ public:
 	virtual exit_code_t onRelease() noexcept;
 
 private:
-	std::unique_ptr<UniformInputGenerator<unsigned int>> uniform_input_dist;
-	Timing timing;
+	std::unique_ptr<chronovise::UniformInputGenerator<unsigned int>> uniform_input_dist;
+	chronovise::Timing timing;
 
 
 };

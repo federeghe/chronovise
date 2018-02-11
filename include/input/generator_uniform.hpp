@@ -2,6 +2,8 @@
 
 #include <random>
 
+namespace chronovise {
+
 template <typename T>
 class UniformInputGenerator : public InputGenerator<T> {
 
@@ -23,4 +25,6 @@ private:
 	T max;
 
 };
+
+} // namespace chronovise
 

@@ -1,5 +1,6 @@
 #include "input/generator_uniform.hpp"
 
+namespace chronovise {
 
 template<>
 int UniformInputGenerator<int>::get() noexcept {
@@ -39,3 +40,4 @@ double UniformInputGenerator<double>::get() noexcept {
 	return dist(mt);
 }
 
+} // namespace chronovise

@@ -5,6 +5,7 @@
 
 #include <memory>
 
+namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class Estimator_MLE : public Estimator<T_INPUT, T_TIME> {
@@ -31,5 +32,7 @@ private:
 	estimator_status_t status=UNKNOWN;
 
 };
+
+} // namespace chronovise
 
 #endif
