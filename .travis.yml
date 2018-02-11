@@ -44,7 +44,7 @@ script:
   - cd build
   - cmake ..
   - make -j8
-  - ./tests/runUnitTests
+  - ./tests/run_tests
 
 env:
   global:
