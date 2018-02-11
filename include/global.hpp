@@ -38,4 +38,24 @@
 #define VERB(x) x
 #endif
 
+#define TEMPLATE_CLASS_IMPLEMENTATION(class_name) \
+template class class_name<char, unsigned long>; \
+template class class_name<int, unsigned long>; \
+template class class_name<long, unsigned long>; \
+template class class_name<float, unsigned long>; \
+template class class_name<double, unsigned long>; \
+template class class_name<unsigned char, unsigned long>; \
+template class class_name<unsigned int, unsigned long>; \
+template class class_name<unsigned long, unsigned long>; \
+template class class_name<char, double>; \
+template class class_name<int, double>; \
+template class class_name<long, double>; \
+template class class_name<float, double>; \
+template class class_name<double, double>; \
+template class class_name<unsigned char, double>; \
+template class class_name<unsigned int, double>; \
+template class class_name<unsigned long, double>
+
+
+
 #endif

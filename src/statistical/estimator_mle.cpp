@@ -1,4 +1,5 @@
 #include "statistical/estimator_mle.hpp"
+#include "global.hpp"
 
 #include <cassert>
 #include <ceres/ceres.h>
@@ -174,7 +175,6 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 	return summary.IsSolutionUsable();
 }
 
-template class Estimator_MLE<int, double>;
-template class Estimator_MLE<unsigned int, unsigned long>;
+TEMPLATE_CLASS_IMPLEMENTATION(Estimator_MLE);
 
 } // namespace chronovise

@@ -1,4 +1,5 @@
 #include "statistical/test_ks.hpp"
+#include "global.hpp"
 
 #include <cassert>
 
@@ -52,11 +53,6 @@ unsigned int TestKS<T_INPUT, T_TIME>::get_minimal_sample_size(unsigned short req
 	return 0;
 }
 
-template class TestKS<int>;
-template class TestKS<long>;
-template class TestKS<float>;
-template class TestKS<double>;
-template class TestKS<unsigned int>;
-template class TestKS<unsigned long>;
+TEMPLATE_CLASS_IMPLEMENTATION(TestKS);
 
 } // namespace chronovise

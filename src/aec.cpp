@@ -138,16 +138,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
 
 }
 
-
-template class AbstractExecutionContext<char, unsigned long>;
-template class AbstractExecutionContext<int, unsigned long>;
-template class AbstractExecutionContext<long, unsigned long>;
-template class AbstractExecutionContext<float, unsigned long>;
-template class AbstractExecutionContext<double, unsigned long>;
-template class AbstractExecutionContext<unsigned char, unsigned long>;
-template class AbstractExecutionContext<unsigned int, unsigned long>;
-template class AbstractExecutionContext<unsigned long, unsigned long>;
-
+TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 
 } // chronovise
 
