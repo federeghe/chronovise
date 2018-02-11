@@ -1,3 +1,25 @@
+/*
+ *  chronovise - Copyright 2018 Politecnico di Milano
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @file estimator_mle.cpp
+ * @author Check commit authors
+ * @brief File containing the implementation of Estimator_MLE class
+ */
+
 #include "statistical/estimator_mle.hpp"
 #include "global.hpp"
 
@@ -156,19 +178,19 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 
 	switch(summary.termination_type) {
 		case ceres::NO_CONVERGENCE:
-			this->status = NON_PRECISE;
+			this->status = estimator_status_t::NON_PRECISE;
 		break;
 		case ceres::FAILURE:
 		case ceres::USER_FAILURE:
-			this->status = FAILED;
+			this->status = estimator_status_t::FAILED;
 		break;
 		case ceres::CONVERGENCE:
 		case ceres::USER_SUCCESS:
-			this->status = SUCCESS;
+			this->status = estimator_status_t::SUCCESS;
 		break;
 
 		default:
-			this->status = UNKNOWN;
+			this->status = estimator_status_t::UNKNOWN;
 		break;
 	}
 

@@ -1,3 +1,25 @@
+/*
+ *  chronovise - Copyright 2018 Politecnico di Milano
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @file test.hpp
+ * @author Check commit authors
+ * @brief File containing the StatisticalTest class and derived (still abstract) classes.
+ */
+
 #ifndef STATISTICAL_TEST_HPP_
 #define STATISTICAL_TEST_HPP_
 
@@ -6,27 +28,44 @@
 
 namespace chronovise {
 
+/**
+ * The base abstract class for statistical tests.
+ */
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class StatisticalTest {
 
 public:
+	/**
+	 * The base constructor. It required the significance level (\alpha) to be
+	 * specified.
+	 * @param significance_level The significance level, e.g. 0.05.
+	 */
 	StatisticalTest(double significance_level)
 			: significance_level(significance_level) {
 
 	}
 
+	/**
+	 * Run the test.
+	 * @param measures The list of measures on which performs the test.
+	 */
 	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept = 0;
 
 	/**
-	 * @brief Returns the statistical test power.
+	 * Returns the statistical test power.
+	 * @return The value of statistical power. The value is in the range [0;1].
 	 * @note The returned value is not usually the computer power that does not provide any
 	 *	 statistical information. The power is usually computed a priori from the
 	 *	 significance_level provided
+	 * @throws std::runtime_error if has_power()==false (depending on implementation it may not throw
+	 *				and return garbage)
 	 */
 	virtual double get_power() const = 0;
 
 	/**
-	 * @brief Returns true if the null hypotesis is rejected
+	 * Returns true if the null hypotesis is rejected.
+	 * @return true if the null hypotesis is rejected
+	 * @note A false value does not mean that the hypothesis has been accepted.
 	 */
 	bool is_reject() const noexcept {
 		return this->reject;
@@ -62,20 +101,39 @@ public:
 	 */
 	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const = 0;
 
+	/**
+	 * Returns the significance level (\alpha).
+	 * @return The significance level.
+	 */
+	double get_significance_level() const noexcept {
+		return this->significance_level;
+	}
+
 
 protected:
-	bool reject = false;
-
 	const double significance_level;
+
+	bool reject = false;
 };
 
+/**
+ * The base abstract class for goodnes-of-fit tests.
+ */
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class StatisticalTest_AfterEVT : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
+	/**
+	 * @copydoc StatisticalTest::StatisticalTest()
+	 */
 	StatisticalTest_AfterEVT(double significance_level)
 	: StatisticalTest<T_INPUT,T_TIME>(significance_level) { }
 
+	/**
+	 * Set the reference (i.e. estimated) distribution to verify
+	 * @param ev_distribution The EV distribution to verify. The value is internally
+	 * 			  copied
+	 */
 	void set_ref_distribution(const EV_Distribution& ev_distribution) noexcept
 	{
 		this->ref_distribution = ev_distribution;
