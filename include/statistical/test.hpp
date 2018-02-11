@@ -6,7 +6,7 @@
 
 namespace chronovise {
 
-template <typename T_TIME=unsigned long>
+template <typename T_INPUT, typename T_TIME=unsigned long>
 class StatisticalTest {
 
 public:
@@ -15,7 +15,7 @@ public:
 
 	}
 
-	virtual void run(const MeasuresPool<T_TIME> &measures) noexcept = 0;
+	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept = 0;
 
 	/**
 	 * @brief Returns the statistical test power.
@@ -69,12 +69,12 @@ protected:
 	const double significance_level;
 };
 
-template <typename T_TIME=unsigned long>
-class StatisticalTest_AfterEVT : public StatisticalTest<T_TIME> {
+template <typename T_INPUT, typename T_TIME=unsigned long>
+class StatisticalTest_AfterEVT : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
 	StatisticalTest_AfterEVT(double significance_level)
-	: StatisticalTest<T_TIME>(significance_level) { }
+	: StatisticalTest<T_INPUT,T_TIME>(significance_level) { }
 
 	void set_ref_distribution(const EV_Distribution& ev_distribution) noexcept
 	{

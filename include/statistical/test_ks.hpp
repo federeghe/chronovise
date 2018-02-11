@@ -7,22 +7,22 @@
 
 namespace chronovise {
 
-template <typename T=unsigned long>
-class TestKS : public StatisticalTest_AfterEVT<T> {
+template <typename T_INPUT, typename T_TIME=unsigned long>
+class TestKS : public StatisticalTest_AfterEVT<T_INPUT, T_TIME> {
 
 public:
 
 	TestKS(double significance_level)
-	: StatisticalTest_AfterEVT<T>(significance_level) 
+	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level) 
 	{
-		static_assert(std::is_arithmetic<T>::value,
+		static_assert(std::is_arithmetic<T_TIME>::value,
 		"Type must be an integer or floating point type");
 	};
 
 	/**
 	 * @brief Run the test over the specified values
 	 */
-	virtual void run(const MeasuresPool<T> &measures) noexcept;
+	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept;
 
 	/**
 	 * @brief Returns the test power (if calculated, @see has_power())

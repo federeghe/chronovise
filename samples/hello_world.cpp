@@ -40,8 +40,8 @@ exit_code_t HelloWorld::onSetup() noexcept {
 	this->set_evt_estimator(std::move(evt_est));
 
 
-	std::shared_ptr<StatisticalTest_AfterEVT<>> aft_test(
-		new TestKS<>(0.05)
+	std::shared_ptr<StatisticalTest_AfterEVT<unsigned int>> aft_test(
+		new TestKS<unsigned int>(0.05)
 	);
 	this->add_post_evt_test(aft_test);
 

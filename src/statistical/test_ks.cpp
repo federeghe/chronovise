@@ -4,15 +4,15 @@
 
 namespace chronovise {
 
-template <typename T>
-void TestKS<T>::run(const MeasuresPool<T> &measures) noexcept {
+template <typename T_INPUT, typename T_TIME>
+void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
 	assert(measures.size() > get_minimal_sample_size() );
 
 }
 
-template <typename T>
-unsigned int TestKS<T>::get_minimal_sample_size(unsigned short req_power) const {
+template <typename T_INPUT, typename T_TIME>
+unsigned int TestKS<T_INPUT, T_TIME>::get_minimal_sample_size(unsigned short req_power) const {
 
 // TODO Add citation
 
