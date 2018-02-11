@@ -71,14 +71,10 @@ exit_code_t HelloWorld::onRun() noexcept {
 
 exit_code_t HelloWorld::onMonitor() noexcept {
 
-	if (get_iteration() > 1000) {
-		return AEC_OK;
-	}
-	return AEC_CONTINUE;
+	return AEC_SLOTH;
 }
 
 exit_code_t HelloWorld::onRelease() noexcept {
-
 
 	return AEC_OK;
 }

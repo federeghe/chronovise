@@ -25,7 +25,6 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 	exit_code_t ret;
 
-	input_iteration++;
 	iteration = 0;
 
 	bool keep_going;
@@ -42,6 +41,9 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 			keep_going = true;
 		} else if (ret == AEC_OK) {
 			keep_going = false;
+		} else if (ret == AEC_SLOTH) {
+			assert(min_nr_iteration > 0 && "You cannot use AEC_SLOTH without at least one test.");
+			keep_going = iteration < min_nr_iteration;
 		} else {
 			print_error("onMonitor() returns error code " + ret);
 		}
@@ -83,6 +85,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 
 	do {
 		current_input = input_gen->get();
+		input_iteration++;
 		internal_cycle();
 
 		if (merger_tech == merger_type_t::ENVELOPE) {
@@ -136,6 +139,20 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
 			  << "\tshape=" << std::setw(10) << it->get_shape() << std::endl; 
 	}
 
+}
+
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations(test_ptr_t test) noexcept {
+	if (this->reliability_req > 0) {
+		if (test->has_power()) {
+			this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size(this->reliability_req));
+			return;
+		} else {
+			this->estimation_unsafe = true;
+		}
+	}
+
+	this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size());
 }
 
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);

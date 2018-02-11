@@ -66,12 +66,12 @@ public:
 	typedef enum {
 
 		// Normal statuses
-		AEC_OK = 0,
-		AEC_CONTINUE,
-		AEC_STOP,
+		AEC_OK = 0,	/** `Successful` or `completed` meaning */
+		AEC_CONTINUE,	/** Instructs the framework to continue an action */
+		AEC_SLOTH,	/** Instructs the framework to decide itself something*/
 
 		// Error statuses
-		AEC_GENERIC_ERROR,
+		AEC_GENERIC_ERROR,	/** Generic error code */ 
 
 	} exit_code_t;
 
@@ -127,7 +127,7 @@ protected:
 	typedef std::shared_ptr<StatisticalTest_AfterEVT<T_INPUT, T_TIME>> test_aft_ptr_t;
 
 	inline void add_input_representativity_test(test_ptr_t st) noexcept {
-		this->representativity_tests.push_back(std::move(st));
+		this->representativity_tests.push_back(st);
 	}
 
 	inline void add_post_run_test(test_ptr_t st) noexcept {
@@ -150,10 +150,24 @@ protected:
 		return iteration;
 	}
 
+	/**
+	 * Setter for the reliability requirement. A value of 0 disable the reliability analysis (default).
+	 * @param req The exponent e of the number 10^-exp that represents the reliability requirement.
+	 */
+	inline void set_reliability_requirement(unsigned short req) noexcept {
+		this->reliability_req = req;
+	}
+
 private:
 
-	unsigned long input_iteration = 0;
-	unsigned long iteration = 0;
+	bool estimation_unsafe = false;
+
+	unsigned long input_iteration  = 0;
+	unsigned long iteration        = 0;
+	unsigned long min_nr_iteration = 0;
+
+	unsigned short reliability_req = 0;
+
 	T_INPUT current_input;
 
 	merger_type_t merger_tech = merger_type_t::UNKNOWN;
@@ -179,6 +193,8 @@ private:
 	void execute_analysis() noexcept;
 
 	void check_preconditions() const noexcept;
+
+	void set_min_iterations(test_ptr_t test) noexcept;
 
 };
 

@@ -50,7 +50,7 @@ public:
 	 * @brief It returns the minimal sample size to run the test. If a lower a sample with lower
 	 *	  size is provided to run() function, it will probably fail.
 	 */
-	virtual unsigned int get_minimal_sample_size() const noexcept = 0;
+	virtual unsigned long get_minimal_sample_size() const noexcept = 0;
 
 	/**
 	 * @brief It provides the minimal sample size to obtain a power of 1 with an accuracy
@@ -60,7 +60,7 @@ public:
 	 * @throw std::logic_error if has_power() == false
 	 * @throw std::invalid_argument if the value of req_power is too high and not supported
 	 */
-	virtual unsigned int get_minimal_sample_size(unsigned short req_power) const = 0;
+	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const = 0;
 
 
 protected:

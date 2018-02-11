@@ -48,11 +48,11 @@ public:
 		return this->significance_level;
 	}
 
-	virtual unsigned int get_minimal_sample_size() const noexcept {
+	virtual unsigned long get_minimal_sample_size() const noexcept {
 		return TEST_KS_MIN_SAMPLES;
 	}
 
-	virtual unsigned int get_minimal_sample_size(unsigned short req_power) const;
+	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const;
 
 protected:
 
