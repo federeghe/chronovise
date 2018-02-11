@@ -1,4 +1,4 @@
-# eMBPTA
+# chronovise
 Measurement-Based Probabilistic Timing Analysis framework
 
 What you need
@@ -10,8 +10,8 @@ What you need
 How to build it
 ===============
 ```bash
-$ git clone https://github.com/federeghe/eMBPTA.git
-$ cd eMBPTA
+$ git clone https://github.com/federeghe/chronovise.git
+$ cd chronovise
 $ mkdir build
 $ cd build
 $ cmake ..

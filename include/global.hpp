@@ -1,7 +1,7 @@
 #ifndef GLOBAL_HPP_
 #define GLOBAL_HPP_
 
-#define CFG_FRAMEWORK_NAME "eMBPTA"
+#define CFG_FRAMEWORK_NAME "chronovise"
 #define CFG_FRAMEWORK_VERSION "0.1"
 
 #ifdef GIT_VERSION

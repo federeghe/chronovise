@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(eMBPTA)
+project(chronovise)
 
 set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
@@ -17,20 +17,20 @@ execute_process(
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-add_library(eMBPTA ${SOURCES})
+add_library(chronovise ${SOURCES})
 
 find_package(Ceres REQUIRED)
 include_directories(${CERES_INCLUDE_DIRS})
-target_link_libraries (eMBPTA ${CERES_LIBRARIES})
+target_link_libraries (chronovise ${CERES_LIBRARIES})
 
 
-target_compile_options(eMBPTA PUBLIC -std=c++11 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+target_compile_options(chronovise PUBLIC -std=c++11 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
-target_include_directories(eMBPTA PUBLIC include)
+target_include_directories(chronovise PUBLIC include)
 
 set(APP_SOURCES ${APP_SOURCES} samples/hello_world.cpp)
-add_executable(eMBPTA_exec samples/main.cpp ${APP_SOURCES})
-target_link_libraries(eMBPTA_exec eMBPTA) 
+add_executable(chronovise_exec samples/main.cpp ${APP_SOURCES})
+target_link_libraries(chronovise_exec chronovise) 
 
 add_subdirectory(docs)
 add_subdirectory(tests)
