@@ -27,7 +27,7 @@ namespace chronovise {
 
 /**
  * The class used to represent Extreme-Value distribution. This is an immutable-class: you cannot
- * modified it after initialization.
+ * modified it after initialization with exception of operator=.
  * @note The shape parameter may have different conventions depending on considered sign. In this
  *	 software, the convention is the following one:
  *	 - < 0: Weibull distribution
@@ -113,9 +113,9 @@ public:
 
 	
 private:
-	const double param_location;
-	const double param_scale;
-	const double param_shape;
+	double param_location;
+	double param_scale;
+	double param_shape;
 
 };
 
