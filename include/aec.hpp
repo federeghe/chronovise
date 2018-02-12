@@ -162,9 +162,19 @@ protected:
 		return this->estimation_safe;
 	}
 
+	/**
+	 * Provides the information on safety of the representativeness of the input data.
+	 * @return true if the input data have been successfully tested.
+	 * @note If the application returns AEC_OK in onConfigure(), this value is always false.
+	 */
+	inline bool is_estimation_safe_input() const noexcept {
+		return this->estimation_safe_input;
+	}
+
 private:
 
 	bool estimation_safe = true;
+	bool estimation_safe_input = true;
 
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;
@@ -192,6 +202,7 @@ private:
 
 	void print_error(const std::string &s);
 
+	void external_cycle() noexcept;
 	void internal_cycle() noexcept;
 
 	void execute_analysis() noexcept;

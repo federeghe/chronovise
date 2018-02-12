@@ -21,6 +21,85 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_error(const std::string &s)
 }
 
 template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::check_preconditions() const noexcept {
+
+	assert( input_gen     != nullptr && "You must call set_input_source() before run.");
+	assert( evt_approach  != nullptr && "You must call set_evt_approach() before run.");
+	assert( evt_estimator != nullptr && "You must call set_evt_estimator() before run.");
+	assert( merger_tech   != merger_type_t::UNKNOWN && "You must call set_merging_technique() before run.");
+
+}
+
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
+
+	exit_code_t ret;
+
+	ret = this->onSetup();
+	if (ret != AEC_OK) {
+		print_error("onSetup() returns error code " + ret);
+	}
+
+	// Performs some checks that the user correctly set all member of the AEC class
+	// It will fail with a assert-failure in case preconditions not respected.
+	this->check_preconditions();
+
+	VERB(utility::print_welcome_message());
+
+	// This is the core of the estimation routine and represent the external cycle.
+	// Please refer to diagram AD#1
+	external_cycle();
+
+	// If the user requeste the trace-merging technique, it means that we didn't perform
+	// the estimation inside the cycle but we need to do that here.
+	if (merger_tech == merger_type_t::TRACE_MERGE) {
+		execute_analysis();
+		measures.clear();
+	}
+
+	ret = this->onRelease();
+	if (ret != AEC_OK) {
+		print_error("onRelease() returns error code " + ret);
+	}
+
+	VERB(std::cerr << std::endl);
+	
+}
+
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() noexcept {
+
+	bool require_more_samples = true;
+
+	while (require_more_samples) {
+		current_input = input_gen->get();
+
+		exit_code_t ret = this->onConfigure();
+
+		switch (ret) {
+			case AEC_OK:
+				// The use requested to stop the capture
+				require_more_samples = false;
+				// The safety of the estimation is not guaranteed in this case,
+				// since we didn't perform any safety check
+				estimation_safe_input = false;
+			break;
+			case AEC_CONTINUE:
+				input_iteration++;
+				internal_cycle();
+			break;	
+			case AEC_SLOTH:
+				// TODO run representative tests
+				// and accordingly set require_more_samples
+				assert(false);	// Not currently implemented.
+			default:
+				print_error("onConfigure() returns error code " + ret);
+			break;
+		}
+	}
+}
+
+template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 	exit_code_t ret;
@@ -52,67 +131,6 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 	} while (keep_going);
 
 	VERB(std::cerr << '+');
-}
-
-template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::check_preconditions() const noexcept {
-
-	assert( input_gen     != nullptr && "You must call set_input_source() before run.");
-	assert( evt_approach  != nullptr && "You must call set_evt_approach() before run.");
-	assert( evt_estimator != nullptr && "You must call set_evt_estimator() before run.");
-	assert( merger_tech   != merger_type_t::UNKNOWN && "You must call set_merging_technique() before run.");
-
-}
-
-template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
-
-	exit_code_t ret;
-
-	ret = this->onSetup();
-	if (ret != AEC_OK) {
-		print_error("onSetup() returns error code " + ret);
-	}
-
-	this->check_preconditions();
-
-	VERB(utility::print_welcome_message());
-
-	ret = this->onConfigure();
-	if (ret != AEC_CONTINUE) {
-		print_error("onConfigure() returns error code " + ret);
-	}
-
-	do {
-		current_input = input_gen->get();
-		input_iteration++;
-		internal_cycle();
-
-		if (merger_tech == merger_type_t::ENVELOPE) {
-			execute_analysis();
-			measures.clear();
-		}
-
-		ret = this->onConfigure();
-
-		if (ret != AEC_OK && ret != AEC_CONTINUE) {
-			print_error("onConfigure() returns error code " + ret);
-		}
-
-	} while(ret == AEC_CONTINUE);
-
-	if (merger_tech == merger_type_t::TRACE_MERGE) {
-		execute_analysis();
-		measures.clear();
-	}
-
-	ret = this->onRelease();
-	if (ret != AEC_OK) {
-		print_error("onRelease() returns error code " + ret);
-	}
-
-	VERB(std::cerr << std::endl);
-	
 }
 
 template <typename T_INPUT, typename T_TIME>
