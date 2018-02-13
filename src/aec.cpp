@@ -189,6 +189,15 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations(test_ptr_t tes
 	this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size());
 }
 
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::set_evt_approach(std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach,
+				float samples_test_reserve) noexcept {
+	assert(samples_test_reserve >= 0. && samples_test_reserve <= 1.);
+	this->evt_approach = std::move(evt_approach);
+	this->samples_test_reserve = samples_test_reserve;
+}
+
+
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 
 } // chronovise

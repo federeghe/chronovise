@@ -109,9 +109,15 @@ protected:
 		this->merger_tech = type;
 	}
 
-	inline void set_evt_approach(std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach) noexcept {
-		this->evt_approach = std::move(evt_approach);
-	}
+	/**
+	 * Configure the approach to use to split and/or select samples.
+	 * @param evt_approach The pointer to the class performing the splitting/selecting approach
+	 * @param samples_test_reserve The percentage of samples to be reserved for testing expressed
+	 *	  as a number from 0 to 1. Values near 0 reduces the test power. Values near 1 reduces
+	 * 	  the estimation precision (and it may consequently lead to a test failure).
+	 */
+	void set_evt_approach(std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach,
+					float samples_test_reserve=0.) noexcept;
 
 	inline void set_evt_estimator(std::unique_ptr<Estimator<T_INPUT, T_TIME>> est) noexcept {
 		this->evt_estimator = std::move(est);
@@ -176,10 +182,11 @@ private:
 	bool estimation_safe = true;
 	bool estimation_safe_input = true;
 
+	float samples_test_reserve = 0; /** 0-1: ratio of samples reserved for testing */
+
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;
 	unsigned long min_nr_iteration = 0;
-
 	unsigned short reliability_req = 0;
 
 	T_INPUT current_input;
