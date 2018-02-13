@@ -205,7 +205,7 @@ private:
 	void external_cycle() noexcept;
 	void internal_cycle() noexcept;
 
-	void execute_analysis() noexcept;
+	bool execute_analysis() noexcept;
 
 	void check_preconditions() const noexcept;
 

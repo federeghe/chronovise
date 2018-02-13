@@ -106,9 +106,9 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 	iteration = 0;
 
-	bool keep_going;
-	do {
-		VERB(std::cerr << '.');
+	bool keep_going = true;
+
+	while(keep_going) {
 
 		ret = this->onRun();
 		if (ret != AEC_OK) {
@@ -116,25 +116,41 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 		}
 
 		ret = this->onMonitor();
-		if (ret == AEC_CONTINUE) {
-			keep_going = true;
-		} else if (ret == AEC_OK) {
-			keep_going = false;
-		} else if (ret == AEC_SLOTH) {
-			assert(min_nr_iteration > 0 && "You cannot use AEC_SLOTH without at least one test.");
-			keep_going = iteration < min_nr_iteration;
-		} else {
-			print_error("onMonitor() returns error code " + ret);
+
+		switch(ret) {
+			case AEC_CONTINUE:
+			break;
+			case AEC_OK:
+				keep_going = false;
+			break;
+			case AEC_SLOTH:
+				assert(min_nr_iteration > 0 && "You cannot use AEC_SLOTH without at least one test.");
+				keep_going = iteration < min_nr_iteration;
+			break;
+			default:
+				print_error("onMonitor() returns error code " + ret);
+			break;
 		}
 
+		if (! keep_going) {
+			// We may be here in two cases:
+			// 1 - the onMonitor() returned AEC_OK
+			// 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
+			// Now, we have to continue to get sample only if we are not in AEC_OK case
+			// and execute_analysis() failed.
+			keep_going = execute_analysis() && (ret != AEC_OK); 
+		}
+		
+		VERB(std::cerr << '.');
 		iteration++;
-	} while (keep_going);
+	}
 
+	// TODO Print X if a test failed
 	VERB(std::cerr << '+');
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
+bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	// Perform BM or POT based on what the user provided
 	this->evt_approach->perform(measures);
@@ -150,12 +166,13 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	// And then test it...
 	for (auto &test : post_evt_tests) {
 		test->set_ref_distribution(evd);
-
 		// TODO
 
 	}
 
 	ev_dist_estimated.push_back(evd);
+
+	return true;
 }
 
 template <typename T_INPUT, typename T_TIME>
