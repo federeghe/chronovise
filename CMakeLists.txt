@@ -5,6 +5,7 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
 			src/aec_hmi.cpp
 			src/evt/evtapproach_bm.cpp
+			src/evt/pwcet.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
 			src/utility/utility.cpp

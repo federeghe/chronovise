@@ -25,6 +25,7 @@
 #include "measures_pool.hpp"
 
 #include "evt/evtapproach.hpp"
+#include "evt/pwcet.hpp"
 #include "input/generator.hpp"
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
