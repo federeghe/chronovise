@@ -23,7 +23,7 @@
 #ifndef STATISTICAL_TEST_HPP_
 #define STATISTICAL_TEST_HPP_
 
-#include "statistical/ev_distribution.hpp"
+#include "evt/ev_distribution.hpp"
 #include "measures_pool.hpp"
 
 namespace chronovise {

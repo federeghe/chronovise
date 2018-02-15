@@ -20,8 +20,8 @@
  * @brief File containing the EV_Distribution class
  */
 
-#ifndef STATISTICAL_EV_DISTRIBUTION_HPP_
-#define STATISTICAL_EV_DISTRIBUTION_HPP_
+#ifndef EVT_EV_DISTRIBUTION_HPP_
+#define EVT_EV_DISTRIBUTION_HPP_
 
 namespace chronovise {
 
@@ -121,4 +121,4 @@ private:
 
 } // namespace chronovise
 
-#endif	// STATISTICAL_EV_DISTRIBUTION_HPP_
+#endif	// EVT_EV_DISTRIBUTION_HPP_
