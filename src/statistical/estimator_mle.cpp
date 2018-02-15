@@ -31,6 +31,9 @@
 
 namespace chronovise {
 
+/**
+ * @private
+ */
 template <typename T_INPUT, typename T_TIME>
 class GEV_Function : public ceres::FirstOrderFunction {
 
