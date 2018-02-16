@@ -23,6 +23,7 @@
 #include "evt/pwcet.hpp"
 
 #include <cassert>
+#include <cmath>
 
 namespace chronovise {
 
@@ -30,17 +31,48 @@ double pWCET::get_probability(double wcet) const {
 
 	assert(wcet > 0. && "WCET must be positive");
 
-	double probability=0.5;// TODO
+	const double mu = this->evd.get_location();
+	const double sg = this->evd.get_scale();
+	const double xi = this->evd.get_shape();
 
+	double t_x;	// The value that will contain the t(wcet) value
 
-	assert(probability > 0. && probability < 1. && "Something bad happened in calculation.");
-	return probability;
+	if (this->evd.is_gumbell()) {
+		t_x = std::exp( - ( wcet - mu ) / sg);
+	} else {
+		double cond_value =  1. + xi * ((wcet-mu)/sg);
+		if (cond_value < 0.) {
+			// This is a problematic case, the F(x) is not defined in this range, because
+			// we are in the far right or in the far left of the distribution.
+			return xi > 0. ? 0. : 1.;
+		}
+
+		// t(x) calculation
+		t_x = std::pow(cond_value,  - 1. / xi);
+	}
+
+	// 1-CDF calculation
+	double cdf = std::exp(-t_x);
+
+	assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
+
+	return 1. - cdf;
 }
 
 double pWCET::get_wcet(double probability) const {
 	assert(probability > 0. && probability < 1. && "Probability must have a valid value");
 
-	double wcet=1;	// TODO
+	const double mu = this->evd.get_location();
+	const double sg = this->evd.get_scale();
+	const double xi = this->evd.get_shape();
+
+	double wcet;
+
+	if (this->evd.is_gumbell()) {
+		wcet = mu - sg * std::log(-std::log(probability));
+	} else {
+		wcet = mu + sg * (1-std::pow((-std::log(probability)),(-xi)))/(-xi);
+	}
 
 
 	assert(wcet > 0. && "Something bad happened in calculation.");

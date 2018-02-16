@@ -92,7 +92,7 @@ public:
 	 * @return true if shape == 0.0
 	 */
 	bool is_gumbell() const noexcept {
-		return this->param_shape == 0.0;
+		return this->param_shape == 0.0;	// TODO maybe less strict
 	}
 
 	/**

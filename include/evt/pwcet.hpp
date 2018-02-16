@@ -35,8 +35,8 @@ public:
 	 * The default constructor. It initializes the pWCET with the provided distribution. The
 	 * class is immutable, the EV_Distribution cannot be changed.  
 	 */
-	explicit pWCET(const EV_Distribution &ev_d) noexcept
-	: ev_d(ev_d)
+	explicit pWCET(const EV_Distribution &ev_distribution) noexcept
+	: evd(ev_distribution)
 	{
 	}
 
@@ -44,7 +44,7 @@ public:
 	 * Returns the underlying distribution passed to the constructor.
 	 */
 	inline const EV_Distribution & get_ev_distribution() const noexcept {
-		return this->ev_d;
+		return this->evd;
 	}
 
 	/**
@@ -64,7 +64,7 @@ public:
 	
 private:
 
-	const EV_Distribution ev_d;
+	const EV_Distribution evd;
 };
 
 } // namespace chronovise
