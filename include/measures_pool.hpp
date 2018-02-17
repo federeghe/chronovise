@@ -24,8 +24,10 @@
 #define MEASURES_POOL_HPP_
 
 #include <algorithm>
+#include <cassert>
 #include <map>
 #include <utility>
+#include <vector>
 
 namespace chronovise {
 
@@ -135,18 +137,45 @@ public:
 		return meas_list.size();
 	}
 
+	/**
+	 * Ordered access to the timing values regardless of the input value
+	 * @note Complexity is O(n log n) amortized: subsequent calls cost O(1).
+	 * @param idx Index of the value to access
+	 */
+	inline const T_TIME& operator[](size_t idx) const {
+		if (time_ordered_vector.size() == 0) {
+			populate_ordered_vector();
+		}
+		return time_ordered_vector[idx];
+	}
+
 
 private:
+
+
+	std::multimap<T_INPUT, T_TIME> meas_list;
+	mutable std::vector<T_TIME> time_ordered_vector;
+
+	MeasuresPool(const MeasuresPool& m) = delete;
+	MeasuresPool& operator=(MeasuresPool const&) = delete;
 	
 	template <typename A, typename B>
 	static constexpr bool meas_map_compare(std::pair<A ,B> i, std::pair<A, B> j) {
 		return i.second < j.second;
 	}
 
-	MeasuresPool(const MeasuresPool& m) = delete;
-	MeasuresPool& operator=(MeasuresPool const&) = delete;
+	void populate_ordered_vector() const {
+		assert(time_ordered_vector.size() == 0);
 
-	std::multimap<T_INPUT, T_TIME> meas_list;	
+		std::for_each(meas_list.cbegin(), meas_list.cend(), 
+				[&](const auto& element) {
+					time_ordered_vector.push_back(element.second);
+				});
+
+		std::sort(time_ordered_vector.begin(), time_ordered_vector.end());
+
+		assert(time_ordered_vector.size() == meas_list.size());
+	}
 
 };
 

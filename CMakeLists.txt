@@ -26,7 +26,7 @@ include_directories(${CERES_INCLUDE_DIRS})
 target_link_libraries (chronovise ${CERES_LIBRARIES})
 
 
-target_compile_options(chronovise PUBLIC -std=c++11 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+target_compile_options(chronovise PUBLIC -std=c++14 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
 target_include_directories(chronovise PUBLIC include)
 
