@@ -111,7 +111,24 @@ public:
 		return this->param_shape > 0.0;
 	}
 
+	/**
+	 * Returns the cumulative distribution function of the distribution
+	 * @return F(x) : x is the passed parameter
+	 */
+	double cdf(double x) const noexcept;
 	
+	/**
+	 * Returns the probability distribution function of the distribution
+	 * @return f(x) : x is the passed parameter
+	 */
+	double pdf(double x) const noexcept;
+
+	/**
+	 * Returns the p-quantile of the distribution
+	 * @return x : p=F(x)
+	 */
+	double quantile(double p) const;
+
 private:
 	double param_location;
 	double param_scale;

@@ -20,41 +20,42 @@
  * @brief File containing the pWCET class
  */
 
-#include "evt/pwcet.hpp"
+#include "evt/ev_distribution.hpp"
 
 #include <cassert>
 #include <cmath>
 
 namespace chronovise {
 
-double pWCET::get_probability(double wcet) const {
 
-	assert(wcet > 0. && "WCET must be positive");
+double EV_Distribution::cdf(double x) const noexcept {
+	const double mu = this->get_location();
+	const double sg = this->get_scale();
+	const double xi = this->get_shape();
+	const double norm_x = ( x - mu ) / sg;
 
-	double cdf = this->evd.cdf(wcet);
+	double t_x;	// The value that will contain the t(wcet) value
 
-	return 1. - cdf;
-}
-
-double pWCET::get_wcet(double probability) const {
-	assert(probability > 0. && probability < 1. && "Probability must have a valid value");
-
-	const double mu = this->evd.get_location();
-	const double sg = this->evd.get_scale();
-	const double xi = this->evd.get_shape();
-
-	double wcet;
-
-	if (this->evd.is_gumbell()) {
-		wcet = mu - sg * std::log(-std::log(probability));
+	if (this->is_gumbell()) {
+		t_x = std::exp( - norm_x);
 	} else {
-		wcet = mu + sg * (1-std::pow((-std::log(probability)),(-xi)))/(-xi);
+		double cond_value =  1. + xi * norm_x;
+		if (cond_value < 0.) {
+			// This is a problematic case, the F(x) is not defined in this range, because
+			// we are in the far right or in the far left of the distribution.
+			return xi > 0. ? 0. : 1.;
+		}
+
+		// t(x) calculation
+		t_x = std::pow(cond_value,  - 1. / xi);
 	}
 
+	// 1-CDF calculation
+	double cdf = std::exp(-t_x);
 
-	assert(wcet > 0. && "Something bad happened in calculation.");
-	return wcet;
+	assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
 
+	return cdf;
 }
 
 } // namespace chronovise
