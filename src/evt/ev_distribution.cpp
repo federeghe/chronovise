@@ -44,11 +44,11 @@ double EV_Distribution::cdf(double x) const noexcept {
 		if (cond_value < 0.) {
 			// This is a problematic case, the F(x) is not defined in this range, because
 			// we are in the far right or in the far left of the distribution.
-			return xi > 0. ? 0. : 1.;
+			return xi > 0. ? 1. : 0.;
 		}
 
 		// t(x) calculation
-		t_x = std::pow(cond_value,  - 1. / xi);
+		t_x = std::pow(cond_value,  1. / xi);
 	}
 
 	// 1-CDF calculation
@@ -68,9 +68,9 @@ double EV_Distribution::pdf(double x) const noexcept {
 	double pdf;
 
 	if (this->is_gumbell()) {
-		pdf = std::exp( - std::exp( norm_x ) ) * std::exp(norm_x) / sg;
+		pdf = std::exp( - std::exp( - norm_x ) ) * std::exp(- norm_x) / sg;
 	} else {
-		double limit = mu + xi / sg;
+		double limit = mu + sg / xi;
 		if ( (xi > 0. && x > limit) || (xi < 0. && x < limit)) {
 			return 0.;
 		}
@@ -88,7 +88,7 @@ double EV_Distribution::pdf(double x) const noexcept {
 double EV_Distribution::quantile(double p) const {
 
 	if (p <= 0. || p >= 1.) {
-		std::invalid_argument("The probability value is not valid.");
+		throw std::invalid_argument("The probability value is not valid.");
 	}
 
 	const double mu = this->get_location();
@@ -98,7 +98,7 @@ double EV_Distribution::quantile(double p) const {
 	if (this->is_gumbell()) {
 		return mu - sg * std::log(-std::log(p));
 	} else {
-		return mu + sg * (1.-std::pow((-std::log(p)),(-xi)))/(-xi);
+		return mu + sg * (1.-std::pow((-std::log(p)),(xi)))/(xi);
 	}
 }
 
