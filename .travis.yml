@@ -11,13 +11,15 @@ addons:
         sources:
             - ubuntu-toolchain-r-test
         packages:
-            - g++-6
+            - g++-5
             - cmake
             - libgoogle-glog-dev
             - libatlas-base-dev
             - libeigen3-dev
             - libsuitesparse-dev
             - libgtest-dev
+env:
+- MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
 
 #branches:
 #  only:
@@ -46,6 +48,5 @@ script:
   - make -j8
   - ./tests/run_tests
 
-env:
-  global:
-  - LANG="en_US.UTF-8"
+before_install:
+- eval "${MATRIX_EVAL}"
