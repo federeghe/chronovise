@@ -118,13 +118,15 @@ public:
 	double cdf(double x) const noexcept;
 	
 	/**
-	 * Returns the probability distribution function of the distribution
+	 * Returns the probability density function of the distribution
 	 * @return f(x) : x is the passed parameter
 	 */
 	double pdf(double x) const noexcept;
 
 	/**
 	 * Returns the p-quantile of the distribution
+	 * @param p The probability in the range (0;1) extremes not included
+	 * @throw std::invalid_argument if p is not a valid probability.
 	 * @return x : p=F(x)
 	 */
 	double quantile(double p) const;

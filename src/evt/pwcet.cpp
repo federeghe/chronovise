@@ -39,18 +39,7 @@ double pWCET::get_probability(double wcet) const {
 double pWCET::get_wcet(double probability) const {
 	assert(probability > 0. && probability < 1. && "Probability must have a valid value");
 
-	const double mu = this->evd.get_location();
-	const double sg = this->evd.get_scale();
-	const double xi = this->evd.get_shape();
-
-	double wcet;
-
-	if (this->evd.is_gumbell()) {
-		wcet = mu - sg * std::log(-std::log(probability));
-	} else {
-		wcet = mu + sg * (1-std::pow((-std::log(probability)),(-xi)))/(-xi);
-	}
-
+	double wcet = this->evd.quantile(probability);
 
 	assert(wcet > 0. && "Something bad happened in calculation.");
 	return wcet;

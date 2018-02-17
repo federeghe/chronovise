@@ -24,6 +24,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <stdexcept>
 
 namespace chronovise {
 
@@ -39,7 +40,7 @@ double EV_Distribution::cdf(double x) const noexcept {
 	if (this->is_gumbell()) {
 		t_x = std::exp( - norm_x);
 	} else {
-		double cond_value =  1. + xi * norm_x;
+		double cond_value =  1. - xi * norm_x;
 		if (cond_value < 0.) {
 			// This is a problematic case, the F(x) is not defined in this range, because
 			// we are in the far right or in the far left of the distribution.
@@ -56,6 +57,49 @@ double EV_Distribution::cdf(double x) const noexcept {
 	assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
 
 	return cdf;
+}
+
+double EV_Distribution::pdf(double x) const noexcept {
+	const double mu = this->get_location();
+	const double sg = this->get_scale();
+	const double xi = this->get_shape();
+	const double norm_x = ( x - mu ) / sg;
+
+	double pdf;
+
+	if (this->is_gumbell()) {
+		pdf = std::exp( - std::exp( norm_x ) ) * std::exp(norm_x) / sg;
+	} else {
+		double limit = mu + xi / sg;
+		if ( (xi > 0. && x > limit) || (xi < 0. && x < limit)) {
+			return 0.;
+		}
+
+		double cond_value =  1. - xi * norm_x;
+
+		pdf = std::exp ( - std::pow(cond_value, 1. / xi)) * std::pow(cond_value, 1. / xi - 1.) / sg;
+	}
+
+	assert(pdf >= 0. && pdf <= 1. && "Something bad happened in calculation.");
+
+	return pdf;
+}
+
+double EV_Distribution::quantile(double p) const {
+
+	if (p <= 0. || p >= 1.) {
+		std::invalid_argument("The probability value is not valid.");
+	}
+
+	const double mu = this->get_location();
+	const double sg = this->get_scale();
+	const double xi = this->get_shape();
+
+	if (this->is_gumbell()) {
+		return mu - sg * std::log(-std::log(p));
+	} else {
+		return mu + sg * (1.-std::pow((-std::log(p)),(-xi)))/(-xi);
+	}
 }
 
 } // namespace chronovise
