@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
 project(chronovise)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
 			src/aec_hmi.cpp
@@ -27,7 +31,7 @@ include_directories(${CERES_INCLUDE_DIRS})
 target_link_libraries (chronovise ${CERES_LIBRARIES})
 
 
-target_compile_options(chronovise PUBLIC -std=c++14 -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
 target_include_directories(chronovise PUBLIC include)
 
