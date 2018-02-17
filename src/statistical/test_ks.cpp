@@ -2,13 +2,31 @@
 #include "global.hpp"
 
 #include <cassert>
+#include <cmath>
 
 namespace chronovise {
+
+/** @private */
+namespace local_test_ks {
+	static double get_ks_critical_values(double alpha, unsigned long n) {
+		return std::sqrt(-0.5 * std::log(alpha/2))/std::sqrt(n);
+	}
+
+}
 
 template <typename T_INPUT, typename T_TIME>
 void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
 	assert(measures.size() > get_minimal_sample_size() );
+
+	using namespace local_test_ks;
+
+	const unsigned long n = measures.size();
+	const double critical_value = get_ks_critical_values(this->significance_level, n);
+
+	// Compute the 
+
+	// Compute the empirical F(x)
 
 }
 
