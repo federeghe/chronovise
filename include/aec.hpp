@@ -26,9 +26,11 @@
 
 #include "evt/evtapproach.hpp"
 #include "evt/pwcet.hpp"
+#include "global.hpp"
 #include "input/generator.hpp"
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
+#include "utility/utility.hpp"
 
 #include <list>
 #include <memory>
@@ -57,6 +59,10 @@ template <typename T_INPUT=unsigned long, typename T_TIME=unsigned long>
 class AbstractExecutionContext {
 
 public:
+
+	explicit AbstractExecutionContext() {
+		VERB(utility::print_welcome_message());
+	}
 
 	virtual ~AbstractExecutionContext() = default;
 
@@ -99,6 +105,11 @@ public:
 	 * value. 
 	 */
 	void print_distributions_summary() const noexcept;
+
+	/**
+	 * Print the configuration information of AEC such as tests, evt approach, etc.
+	 */	
+	void print_configuration_info() const noexcept;
 
 protected:
 

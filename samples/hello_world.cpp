@@ -45,6 +45,8 @@ exit_code_t HelloWorld::onSetup() noexcept {
 	);
 	this->add_post_evt_test(aft_test);
 
+	this->print_configuration_info();
+
 	return AEC_OK;
 }
 

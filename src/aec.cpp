@@ -44,8 +44,6 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 	// It will fail with a assert-failure in case preconditions not respected.
 	this->check_preconditions();
 
-	VERB(utility::print_welcome_message());
-
 	// This is the core of the estimation routine and represent the external cycle.
 	// Please refer to diagram AD#1
 	external_cycle();
