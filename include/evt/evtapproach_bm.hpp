@@ -12,7 +12,7 @@ public:
 
 	EVTApproach_BM(size_t block_size) : block_size(block_size) { }
 
-	virtual void perform(const MeasuresPool<T_INPUT, T_TIME>& original_pool);
+	virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool);
 
 private:
 	size_t block_size;

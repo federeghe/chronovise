@@ -5,12 +5,12 @@
 namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME>
-void EVTApproach_BM<T_INPUT, T_TIME>::perform(const MeasuresPool<T_INPUT, T_TIME>& original_pool) {
+void EVTApproach_BM<T_INPUT, T_TIME>::perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) {
 
 	this->m_pool.clear();
 
 	// We need at least 2 block ...
-	if (original_pool.size() < 2*block_size) {
+	if (original_pool.size_training() < 2*block_size) {
 		throw std::length_error("Not enough measures to split over at least 2 blocks");
 	}
 
@@ -18,7 +18,7 @@ void EVTApproach_BM<T_INPUT, T_TIME>::perform(const MeasuresPool<T_INPUT, T_TIME
 	T_TIME  curr_max = std::numeric_limits<T_TIME>::min();
 	T_INPUT curr_max_input;
 
-	for (auto it = original_pool.cbegin(); it != original_pool.cend(); it++, i++) {
+	for (auto it = original_pool.cbegin_trainset(); it != original_pool.cend_trainset(); it++, i++) {
 
 		if (curr_max < it->second) {
 			curr_max       = it->second;
@@ -31,7 +31,7 @@ void EVTApproach_BM<T_INPUT, T_TIME>::perform(const MeasuresPool<T_INPUT, T_TIME
 		}
 	}
 
-	if (original_pool.size() % block_size != 0) {
+	if (original_pool.size_training() % block_size != 0) {
 		// We need to add the last value becuase the last block is not sufficiently
 		// large to reach block_size
 		this->m_pool.push(curr_max_input, curr_max);

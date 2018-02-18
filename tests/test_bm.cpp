@@ -21,7 +21,7 @@ TEST_F(EVBM_Test, BMCheck) {
 	}
 	
 	EVTApproach_BM<int, unsigned long> ebm(10);
-	ebm.perform(source);
+	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 1));
 
 	auto &result = ebm.get_pool();
 
@@ -45,7 +45,7 @@ TEST_F(EVBM_Test, BMCheck_Incomplete) {
 	}
 	
 	EVTApproach_BM<int, unsigned long> ebm(10);
-	ebm.perform(source);
+	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 1));
 
 	auto &result = ebm.get_pool();
 

@@ -152,8 +152,11 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 template <typename T_INPUT, typename T_TIME>
 bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
+	// Create a pool set to manage training e test
+	MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve);
+
 	// Perform BM or POT based on what the user provided
-	this->evt_approach->perform(measures);
+	this->evt_approach->perform(mps);
 
 	// Now measures represents the old pool of values. We now want to
 	// get the new BM or POT pool.
