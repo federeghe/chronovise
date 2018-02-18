@@ -48,8 +48,9 @@ public:
 	/**
 	 * Run the test.
 	 * @param measures The list of measures on which performs the test.
+	 * @throw std::invalid_argument if the number of samples is less than get_minimal_sample_size()
 	 */
-	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept = 0;
+	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) = 0;
 
 	/**
 	 * Returns the statistical test power.
@@ -88,13 +89,16 @@ public:
 	/**
 	 * @brief It returns the minimal sample size to run the test. If a lower a sample with lower
 	 *	  size is provided to run() function, it will probably fail.
+	 * @note This value is always lower than get_minimal_sample_size(unsigned short req_power)
+	 *       regardless of the requested power.
 	 */
 	virtual unsigned long get_minimal_sample_size() const noexcept = 0;
 
 	/**
 	 * @brief It provides the minimal sample size to obtain a power of 1 with an accuracy
 	 *	  10^(-req_power). The obtained value should be incremented by the caller with
-	 *	  an appropriate engineering safety margin
+	 *	  an appropriate engineering safety margin.
+	 * @note This value is always greater than get_minimal_sample_size().
 	 * @param req_power The accuracy expressed with 10^(-req_power). Tipical values are 3, 6, or 9
 	 * @throw std::logic_error if has_power() == false
 	 * @throw std::invalid_argument if the value of req_power is too high and not supported

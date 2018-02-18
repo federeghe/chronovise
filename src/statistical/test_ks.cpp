@@ -35,9 +35,13 @@ namespace local_test_ks {
 }
 
 template <typename T_INPUT, typename T_TIME>
-void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
+void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
 
-	assert(measures.size() > get_minimal_sample_size() );
+	if(measures.size() < get_minimal_sample_size()) {
+		throw std::invalid_argument("The number of samples is too low for this test.");
+	}
+
+	this->reject = false;
 
 	using namespace local_test_ks;
 

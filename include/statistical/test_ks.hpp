@@ -51,7 +51,7 @@ public:
 	/**
 	 * @copydoc StatisticalTest::run()
 	 */
-	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept;
+	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
 
 	/**
 	 * @copydoc StatisticalTest::get_power()
