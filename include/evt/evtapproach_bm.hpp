@@ -12,10 +12,24 @@ public:
 
 	EVTApproach_BM(size_t block_size) : block_size(block_size) { }
 
-	virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool);
+	virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) override;
+
+	/**
+	 * @brief It returns the minimal sample size to run the estimator. If a sample with lower
+	 *	  size is provided to run() function, it will probably fail.
+	 */
+	virtual unsigned long get_minimal_sample_size() const noexcept override {
+		return this->block_size * 2;
+	}
 
 private:
 	size_t block_size;
+
+	void apply_bm(MeasuresPool<T_INPUT, T_TIME> & output_pool,
+			typename std::multimap<T_INPUT,T_TIME>::const_iterator begin,
+			typename std::multimap<T_INPUT,T_TIME>::const_iterator end,
+			int size) noexcept;
+
 
 };
 

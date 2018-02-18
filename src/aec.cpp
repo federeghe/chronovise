@@ -158,7 +158,8 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	// Now measures represents the old pool of values. We now want to
 	// get the new BM or POT pool.
-	auto &measures_to_estimate = this->evt_approach->get_pool();
+	const auto &measures_to_estimate = this->evt_approach->get_training_pool();
+	const auto &measures_test = this->evt_approach->get_test_pool();
 
 	// We can now estimated the EVT distribution...
 	this->evt_estimator->run(measures_to_estimate);
