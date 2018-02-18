@@ -198,7 +198,9 @@ private:
 
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;
-	unsigned long min_nr_iteration = 0;
+	unsigned long min_nr_iterations_train = 0;
+	unsigned long min_nr_iterations_tests = 0;
+	unsigned long min_nr_iterations_total = 0;
 	unsigned short reliability_req = 0;
 
 	T_INPUT current_input;
@@ -228,7 +230,7 @@ private:
 
 	void check_preconditions() const noexcept;
 
-	void set_min_iterations(test_ptr_t test) noexcept;
+	void set_min_iterations() noexcept;
 
 };
 

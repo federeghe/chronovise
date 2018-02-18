@@ -3,6 +3,7 @@
 #include "utility/utility.hpp"
 
 #include <cassert>
+#include <cmath>
 #include <iostream>
 #include <iomanip>
 
@@ -43,6 +44,9 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 	// Performs some checks that the user correctly set all member of the AEC class
 	// It will fail with a assert-failure in case preconditions not respected.
 	this->check_preconditions();
+
+	// Configure the minimal number of iterations given by tests.
+	this->set_min_iterations();
 
 	// This is the core of the estimation routine and represent the external cycle.
 	// Please refer to diagram AD#1
@@ -122,8 +126,13 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 				keep_going = false;
 			break;
 			case AEC_SLOTH:
-				assert(min_nr_iteration > 0 && "You cannot use AEC_SLOTH without at least one test.");
-				keep_going = iteration < min_nr_iteration;
+
+				assert(min_nr_iterations_train > 0 &&
+						"Selected EVT approach does not allow AEC_SLOTH.");
+				assert(min_nr_iterations_tests > 0 &&
+						"You cannot use AEC_SLOTH without at least one test.");
+
+				keep_going = iteration < min_nr_iterations_total;
 			break;
 			default:
 				print_error("onMonitor() returns error code " + ret);
@@ -136,14 +145,13 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 			// 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
 			// Now, we have to continue to get sample only if we are not in AEC_OK case
 			// and execute_analysis() failed.
-			keep_going = execute_analysis() && (ret != AEC_OK); 
+			keep_going = !execute_analysis() && (ret != AEC_OK); 
 		}
 		
 		VERB(std::cerr << '.');
 		iteration++;
 	}
 
-	// TODO Print X if a test failed
 	VERB(std::cerr << '+');
 }
 
@@ -161,15 +169,45 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	const auto &measures_to_estimate = this->evt_approach->get_training_pool();
 	const auto &measures_test = this->evt_approach->get_test_pool();
 
+	if (measures_to_estimate.size() < this->evt_estimator->get_minimal_sample_size()) {
+		min_nr_iterations_total *= 2;
+		return false;
+	}
+
+	auto lambda_check = [&measures_test](const auto &test) {
+		return measures_test.size() < test->get_minimal_sample_size();
+	};
+
+	if (std::any_of(post_run_tests.cbegin(), post_run_tests.cend(), lambda_check)) {
+		min_nr_iterations_total *= 2;
+		return false;
+	}
+
+	if (std::any_of(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_check)) {
+		min_nr_iterations_total *= 2;
+		return false;
+	}
+
 	// We can now estimated the EVT distribution...
 	this->evt_estimator->run(measures_to_estimate);
+
+	if (this->evt_estimator->get_status() != estimator_status_t::SUCCESS) {
+		// TODO: Handle other result values
+		VERB(std::cerr << '#');
+		return false;
+	}
+
 	EV_Distribution evd = this->evt_estimator->get_result();
 
 	// And then test it...
 	for (auto &test : post_evt_tests) {
 		test->set_ref_distribution(evd);
-		// TODO
-
+		test->run(measures_test);
+		if (test->is_reject()) {
+			VERB(std::cerr << 'X');
+			min_nr_iterations_total *= 2;	// Maybe a smart thing?
+			return false;
+		}
 	}
 
 	ev_dist_estimated.push_back(evd);
@@ -178,17 +216,85 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations(test_ptr_t test) noexcept {
+void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
+
+	// Calculate the minimum number of iterations is a bit tricky.
+
+	// First of all, the number of samples for the training set is defined by the EVT approach
+	// used. E.g. BM method must guarantee at least 2 blocks.
+	this->min_nr_iterations_train = this->evt_approach->get_minimal_sample_size();
+
+	this->min_nr_iterations_tests = 0;
+
+	// The minimal number of tests depends obviously on used tests and if a reliability requirement
+	// is provided or not.
 	if (this->reliability_req > 0) {
-		if (test->has_power()) {
-			this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size(this->reliability_req));
-			return;
-		} else {
+
+		// Check if the tests have all of them the power estimation routine.
+		auto lambda_power = [](const auto &x){return !x->has_power();};
+		bool any_without_power =
+		std::any_of(	representativity_tests.cbegin(),
+				representativity_tests.cend(),
+				lambda_power
+		)
+		||
+		std::any_of(	post_run_tests.cbegin(),
+				post_run_tests.cend(),
+				lambda_power
+		)
+		||
+		std::any_of(	post_evt_tests.cbegin(),
+				post_evt_tests.cend(),
+				lambda_power
+		);
+
+		//  If the power estimation routine is not present for at least one test we have to
+		// consider the estimation unsafe
+		if (any_without_power) {
 			this->estimation_safe = false;
+		} else {
+			// Otherwise we can calculate the minimal number of samples from the maximum
+			// of them
+			unsigned long min_iter = 0;
+			float rel_req = this->reliability_req;
+			auto lambda_max = [&min_iter, rel_req](const auto &test) {
+				min_iter = std::max(min_iter, test->get_minimal_sample_size(rel_req));
+			};
+
+			std::for_each(representativity_tests.cbegin(), representativity_tests.cend(), lambda_max); 
+			std::for_each(post_run_tests.cbegin(), post_run_tests.cend(), lambda_max); 
+			std::for_each(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_max); 
+
+			this->min_nr_iterations_tests = min_iter;
 		}
+
 	}
 
-	this->min_nr_iteration = std::max(min_nr_iteration, test->get_minimal_sample_size());
+	// If the reliability is not enable or not all the tests has the power estimation routine,
+	// let's use the minimal value to run tests
+	if (this->min_nr_iterations_tests == 0) {
+		unsigned long min_iter = 0;
+		auto lambda_max = [&min_iter](const auto &test) {
+			min_iter = std::max(min_iter, test->get_minimal_sample_size());
+		};
+		std::for_each(representativity_tests.cbegin(), representativity_tests.cend(), lambda_max); 
+		std::for_each(post_run_tests.cbegin(), post_run_tests.cend(), lambda_max); 
+		std::for_each(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_max); 
+
+		this->min_nr_iterations_tests = min_iter;
+	}
+
+	// Now: since the minimal number of samples per test may be less than the required for BM
+	// (or any other EVT approach), we have to compute it considering the size of the BM output
+	this->min_nr_iterations_tests = std::max(this->min_nr_iterations_tests, this->min_nr_iterations_train);
+
+	// At last, the training set and test set is divided by the ratio samples_test_reserve, so
+	// let's compute the total number.
+	this->min_nr_iterations_total = std::ceil(
+					std::max(this->min_nr_iterations_tests / samples_test_reserve, 
+					this->min_nr_iterations_train / (1 - samples_test_reserve))
+					);
+
 }
 
 template <typename T_INPUT, typename T_TIME>

@@ -228,7 +228,7 @@ public:
 	 * Returns the size of the underlying container
 	 * @return The number of pairs <T_INPUT,T_TIME> of the container
 	 */
-	inline size_t size_training() const noexcept {
+	inline size_t size_trainset() const noexcept {
 		return n_train;
 	}
 
@@ -236,7 +236,7 @@ public:
 	 * Returns the size of the underlying container
 	 * @return The number of pairs <T_INPUT,T_TIME> of the container
 	 */
-	inline size_t size_test() const noexcept {
+	inline size_t size_testset() const noexcept {
 		return mp.size() - n_train;
 	}
 
