@@ -71,7 +71,7 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 	// some values outside. So, just check (min_meas - epsilon) and (min_meas + epsilon)
 
 	double min_epsilon = this->ref_distribution->cdf(min_meas - std::numeric_limits<double>::epsilon());
-	double max_epsilon = this->ref_distribution->cdf(max_meas - std::numeric_limits<double>::epsilon());
+	double max_epsilon = 1. - this->ref_distribution->cdf(max_meas - std::numeric_limits<double>::epsilon());
 
 	if ( min_epsilon > critical_value || max_epsilon > critical_value) {
 		this->reject = true;
