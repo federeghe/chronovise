@@ -41,6 +41,10 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 		throw std::invalid_argument("The number of samples is too low for this test.");
 	}
 
+	if(! this->ref_distribution) {
+		throw std::invalid_argument("You must set a reference distribution for this test.");	
+	}
+
 	this->reject = false;
 
 	using namespace local_test_ks;
@@ -55,7 +59,7 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 
 	for (double x = min_meas; x <= max_meas; x += step_f) {
 		double Fn = empirical_F(measures, x);
-		double F = this->ref_distribution.cdf(x);
+		double F = this->ref_distribution->cdf(x);
 
 		if ( std::abs(F - Fn) > critical_value) {
 			this->reject = true;
@@ -66,8 +70,8 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 	// Now, we checked all the values that are in the domain of Fn, but we may miss
 	// some values outside. So, just check (min_meas - epsilon) and (min_meas + epsilon)
 
-	double min_epsilon = this->ref_distribution.cdf(min_meas - std::numeric_limits<double>::epsilon());
-	double max_epsilon = this->ref_distribution.cdf(max_meas - std::numeric_limits<double>::epsilon());
+	double min_epsilon = this->ref_distribution->cdf(min_meas - std::numeric_limits<double>::epsilon());
+	double max_epsilon = this->ref_distribution->cdf(max_meas - std::numeric_limits<double>::epsilon());
 
 	if ( min_epsilon > critical_value || max_epsilon > critical_value) {
 		this->reject = true;
@@ -76,9 +80,34 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 }
 
 template <typename T_INPUT, typename T_TIME>
+bool TestKS<T_INPUT, T_TIME>::has_power() const noexcept
+{
+	if (this->distribution_type == distribution_t::EVT_GEV)
+		return this->significance_level == 0.05 || this->significance_level == 0.01;
+
+	return false;
+}
+template <typename T_INPUT, typename T_TIME>
+bool TestKS<T_INPUT, T_TIME>::has_safe_power() const noexcept
+{
+	if (this->distribution_type == distribution_t::EVT_GEV) {
+		auto ev_dist = std::dynamic_pointer_cast<EV_Distribution>(this->ref_distribution);
+
+		return has_power() && ev_dist->get_shape() != 0.0
+			 	   && std::abs(ev_dist->get_shape()) < 0.5;
+	}
+	return false;
+
+}
+
+template <typename T_INPUT, typename T_TIME>
 unsigned long TestKS<T_INPUT, T_TIME>::get_minimal_sample_size(unsigned short req_power) const {
 
 // TODO Add citation
+
+	if (! has_power()) {
+		throw std::logic_error("Minimal sample size not available without power estimation routine.");
+	}
 
 	if (req_power == 0 || req_power > 9) {
 		throw std::invalid_argument("Requested power with unsupported accuracy");

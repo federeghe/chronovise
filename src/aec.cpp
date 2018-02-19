@@ -199,9 +199,11 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	EV_Distribution evd = this->evt_estimator->get_result();
 
+	auto ev_ref_shared = std::shared_ptr<Distribution>(&evd,[](auto* p){UNUSED(p);});
+
 	// And then test it...
 	for (auto &test : post_evt_tests) {
-		test->set_ref_distribution(evd);
+		test->set_ref_distribution(ev_ref_shared);
 		test->run(measures_test);
 		if (test->is_reject()) {
 			VERB(std::cerr << 'X');

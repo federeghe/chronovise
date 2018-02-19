@@ -21,6 +21,8 @@
  */
 
 #include "statistical/test.hpp"
+#include "statistical/distribution.hpp"
+#include "evt/ev_distribution.hpp"
 
 #include <cmath>
 #include <list>
@@ -41,8 +43,8 @@ public:
 	 * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
 	 * @note T_TIME must be an arithmetic type, otherwise a static_assert triggers.
 	 */
-	TestKS(double significance_level)
-	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level) 
+	TestKS(double significance_level, distribution_t distribution_type)
+	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type)
 	{
 		static_assert(std::is_arithmetic<T_TIME>::value,
 		"Type must be an integer or floating point type");
@@ -63,18 +65,12 @@ public:
 	/**
 	 * @copydoc StatisticalTest::has_power()
 	 */
- 	virtual bool has_power() const noexcept override {
-		return this->significance_level == 0.05 || this->significance_level == 0.01;
-	}
+ 	virtual bool has_power() const noexcept override;
 
 	/**
 	 * @copydoc StatisticalTest::has_safe_power()
 	 */
- 	virtual bool has_safe_power() const noexcept override {
-		return  has_power()
-			&& this->ref_distribution.get_shape() != 0.0
-			&& std::abs(this->ref_distribution.get_shape()) < 0.5;
-	}
+ 	virtual bool has_safe_power() const noexcept override;
 
 	/**
 	 * @copydoc StatisticalTest::get_minimal_sample_size()

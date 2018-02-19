@@ -23,8 +23,10 @@
 #ifndef STATISTICAL_TEST_HPP_
 #define STATISTICAL_TEST_HPP_
 
-#include "evt/ev_distribution.hpp"
+#include "statistical/distribution.hpp"
 #include "measures_pool.hpp"
+
+#include <memory>
 
 namespace chronovise {
 
@@ -130,21 +132,23 @@ public:
 	/**
 	 * @copydoc StatisticalTest::StatisticalTest()
 	 */
-	StatisticalTest_AfterEVT(double significance_level)
-	: StatisticalTest<T_INPUT,T_TIME>(significance_level) { }
+	StatisticalTest_AfterEVT(double significance_level, distribution_t distribution_type)
+	: StatisticalTest<T_INPUT,T_TIME>(significance_level), distribution_type(distribution_type)
+	{}
 
 	/**
 	 * Set the reference (i.e. estimated) distribution to verify
 	 * @param ev_distribution The EV distribution to verify. The value is internally
 	 * 			  copied
 	 */
-	void set_ref_distribution(const EV_Distribution& ev_distribution) noexcept
+	void set_ref_distribution(std::shared_ptr<Distribution> distribution) noexcept
 	{
-		this->ref_distribution = ev_distribution;
+		this->ref_distribution = distribution;
 	}
 
 protected:
-	EV_Distribution ref_distribution;
+	std::shared_ptr<Distribution> ref_distribution;
+	distribution_t distribution_type;
 };
 
 } // chronovise
