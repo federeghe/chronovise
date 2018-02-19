@@ -50,6 +50,13 @@ public:
 	}
 
 	/**
+	 * @copydoc Distribution::get_type()
+	 */
+	virtual distribution_t get_type() const noexcept {
+		return distribution_t::EVT_GEV;
+	}
+
+	/**
 	 * The full specification constructor. It initializes an Extreme-Value
 	 * distribution with the provided values.
 	 * @param location The location parameter (\mu)

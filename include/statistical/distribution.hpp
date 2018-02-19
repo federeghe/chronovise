@@ -15,9 +15,9 @@
  */
 
 /**
- * @file ev_distribution.hpp
+ * @file distribution.hpp
  * @author Check commit authors
- * @brief File containing the EV_Distribution class
+ * @brief File containing the Distribution class
  */
 
 #ifndef STATISTICAL_DISTRIBUTION_HPP_
@@ -32,6 +32,7 @@ namespace chronovise {
 typedef enum class distribution_e {
 	UNKNOWN,
 	EVT_GEV,
+	UNIFORM
 } distribution_t;
 
 
@@ -41,6 +42,12 @@ typedef enum class distribution_e {
 class Distribution {
 
 public:
+
+	/**
+	 * Returns the type of the distribution
+	 */
+	virtual distribution_t get_type() const noexcept = 0;
+
 	/**
 	 * Returns the cumulative distribution function of the distribution
 	 * @return F(x) : x is the passed parameter
