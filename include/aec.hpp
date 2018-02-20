@@ -83,11 +83,11 @@ public:
 	} exit_code_t;
 
 
-	virtual exit_code_t onSetup() noexcept = 0;
-	virtual exit_code_t onConfigure() noexcept = 0;
-	virtual exit_code_t onRun() noexcept = 0;
-	virtual exit_code_t onMonitor() noexcept = 0;
-	virtual exit_code_t onRelease() noexcept = 0;
+	virtual exit_code_t onSetup() = 0;
+	virtual exit_code_t onConfigure() = 0;
+	virtual exit_code_t onRun() = 0;
+	virtual exit_code_t onMonitor() = 0;
+	virtual exit_code_t onRelease() = 0;
 
 	/**
 	 * The list of possible exit status codes. It is used by AEC-implemented methods
@@ -221,10 +221,12 @@ private:
 
 	std::list<EV_Distribution> ev_dist_estimated;
 
-	void print_error(const std::string &s);
+	inline void print_error(const std::string &s) const {
+		throw std::runtime_error("An error occurred, error description follows: "+s);
+	}
 
-	void external_cycle() noexcept;
-	void internal_cycle() noexcept;
+	void external_cycle();
+	void internal_cycle();
 
 	bool execute_analysis() noexcept;
 

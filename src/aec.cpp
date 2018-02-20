@@ -10,18 +10,6 @@
 namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::print_error(const std::string &s) {
-
-	std::cerr << std::endl << "*** ERROR" << std::endl;
-	std::cerr << "An error occurred, error description follows:" << std::endl;
-	std::cerr << s << std::endl;
-
-	std::cerr << std::endl << "*** STOP" << std::endl;
-
-	std::abort();
-}
-
-template <typename T_INPUT, typename T_TIME>
 void AbstractExecutionContext<T_INPUT,T_TIME>::check_preconditions() const noexcept {
 
 	assert( input_gen     != nullptr && "You must call set_input_source() before run.");
@@ -56,7 +44,6 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 	// the estimation inside the cycle but we need to do that here.
 	if (merger_tech == merger_type_t::TRACE_MERGE) {
 		execute_analysis();
-		measures.clear();
 	}
 
 	ret = this->onRelease();
@@ -69,7 +56,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() noexcept {
+void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() {
 
 	bool require_more_samples = true;
 
@@ -95,14 +82,14 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() noexcept {
 				// and accordingly set require_more_samples
 				assert(false);	// Not currently implemented.
 			default:
-				print_error("onConfigure() returns error code " + ret);
+				print_error("onConfigure() returns error code " + std::to_string(ret));
 			break;
 		}
 	}
 }
 
 template <typename T_INPUT, typename T_TIME>
-void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
+void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
 	exit_code_t ret;
 
@@ -114,7 +101,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 
 		ret = this->onRun();
 		if (ret != AEC_OK) {
-			print_error("onRun() returns error code " + ret);
+			print_error("onRun() returns error code " + std::to_string(ret));
 		}
 
 		ret = this->onMonitor();
@@ -135,7 +122,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() noexcept {
 				keep_going = iteration < min_nr_iterations_total;
 			break;
 			default:
-				print_error("onMonitor() returns error code " + ret);
+				print_error("onMonitor() returns error code " + std::to_string(ret));
 			break;
 		}
 
@@ -213,6 +200,7 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	}
 
 	ev_dist_estimated.push_back(evd);
+	measures.clear();
 
 	return true;
 }
