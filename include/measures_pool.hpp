@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <cassert>
 #include <map>
+#include <numeric>
 #include <utility>
 #include <vector>
 
@@ -73,6 +74,16 @@ public:
 		auto it = std::min_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
+
+	/**
+	 * Returns the average/mean value in the pool. Complexity O(n).
+	 * @return The average value in the container 
+	 */
+	inline T_TIME avg() const noexcept {
+		return std::accumulate(meas_list.begin(), meas_list.end(), 0., 
+			[] (double value, const auto& p){return value+p.second;}) / meas_list.size();
+	}
+
 
 	/**
 	 * Returns the const_iterator to the begin of the underlying container
