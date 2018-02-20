@@ -6,6 +6,7 @@ add_executable(run_tests tester.cpp
 	test_bm.cpp
 	test_evt_distributions.cpp
 	test_test_ks.cpp
+	test_aec_1.cpp
 )
 target_include_directories(run_tests PUBLIC ../include)
 
