@@ -1,4 +1,5 @@
 #include "evt/evtapproach_bm.hpp"
+#include "global.hpp"
 
 #include <limits>
 
@@ -63,14 +64,8 @@ void EVTApproach_BM<T_INPUT, T_TIME>::apply_bm(MeasuresPool<T_INPUT, T_TIME> & o
 	}
 
 }
-template class EVTApproach_BM<char, unsigned long>;
-template class EVTApproach_BM<int, unsigned long>;
-template class EVTApproach_BM<long, unsigned long>;
-template class EVTApproach_BM<float, unsigned long>;
-template class EVTApproach_BM<double, unsigned long>;
-template class EVTApproach_BM<unsigned char, unsigned long>;
-template class EVTApproach_BM<unsigned int, unsigned long>;
-template class EVTApproach_BM<unsigned long, unsigned long>;
+
+TEMPLATE_CLASS_IMPLEMENTATION(EVTApproach_BM);
 
 } // namespace chronovise
 
