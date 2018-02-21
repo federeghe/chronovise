@@ -15,6 +15,7 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/evt/pwcet.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
+			src/statistical/test_ljung_box.cpp
 			src/utility/utility.cpp
 )
 
