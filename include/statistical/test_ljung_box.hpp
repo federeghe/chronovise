@@ -93,6 +93,8 @@ public:
 private:
 	unsigned int n_lags;
 
+	double sample_autocorrelation(const MeasuresPool<T_INPUT, T_TIME> &measures, double h) noexcept;
+
 };
 
 } // namespace chronovise
