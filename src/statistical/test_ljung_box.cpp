@@ -246,11 +246,16 @@ namespace local_test_ljung_box {
 template <typename T_INPUT, typename T_TIME>
 void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
 
-	if(measures.size() < get_minimal_sample_size()) {
+	size_t size = measures.size();
+
+	if(size < get_minimal_sample_size()) {
 		throw std::invalid_argument("The number of samples is too low for this test");
 	}
 
-	size_t size = measures.size();
+	if(size < n_lags) {
+		throw std::invalid_argument("The number of samples is too low for this n_lags value");
+	}
+
 
 	// Compute the test statistic
 	double Q = 0;
@@ -262,6 +267,12 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 	Q *= size * (size + 2);
 
 	if ( Q > local_test_ljung_box::qchisq_int(1.-this->significance_level, n_lags) ) {
+	if(!std::isfinite(Q)) {
+		this->reject = true;
+		return;
+	}
+
+	if ( Q > local_test_ljung_box::qchisq_int(1. - this->significance_level, n_lags) ) {
 		this->reject = true;
 	} else {
 		this->reject = false;
