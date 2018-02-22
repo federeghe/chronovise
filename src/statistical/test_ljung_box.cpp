@@ -260,13 +260,13 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 	// Compute the test statistic
 	double Q = 0;
 
-	for(size_t i=0; i < n_lags; i++) {
-		Q += std::pow(sample_autocorrelation(measures, i), 2) / (size - i);
+	for(size_t i=1; i <= n_lags; i++) {
+		double rho = sample_autocorrelation(measures, i);
+		Q += std::pow(rho, 2) / (size - i);
 	}
 
 	Q *= size * (size + 2);
 
-	if ( Q > local_test_ljung_box::qchisq_int(1.-this->significance_level, n_lags) ) {
 	if(!std::isfinite(Q)) {
 		this->reject = true;
 		return;
@@ -291,7 +291,7 @@ double TestLjungBox<T_INPUT, T_TIME>::sample_autocorrelation(const MeasuresPool<
 	for (const auto &x : measures) {
 		times.push_back(x.second);
 	}
-
+ 
 	auto autocovariance_f = [size, mean, &times](double h) {
 		double autocovariance=0;
 		for (size_t i=0; i < size; i++) {
