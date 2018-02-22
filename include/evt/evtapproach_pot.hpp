@@ -7,7 +7,7 @@ template <typename T>
 class EVTApproach_POT : public EVTApproach {
 
 public:
-	virtual void perform(const MeasuresPool<T_INPUT, T_TIME>& original_pool);
+	virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool);
 
 };
 

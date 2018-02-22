@@ -17,7 +17,7 @@
 /**
  * @file measures_pool.hpp
  * @author Check commit authors
- * @brief File containing the MeasuresPool class
+ * @brief File containing the MeasuresPool and MeasuresPoolSet classes
  */
 
 #ifndef MEASURES_POOL_HPP_
@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <cassert>
 #include <map>
+#include <numeric>
 #include <utility>
 #include <vector>
 
@@ -73,6 +74,16 @@ public:
 		auto it = std::min_element(meas_list.begin(), meas_list.end(), meas_map_compare<T_INPUT,T_TIME>);
 		return it->second;					
 	}
+
+	/**
+	 * Returns the average/mean value in the pool. Complexity O(n).
+	 * @return The average value in the container 
+	 */
+	inline T_TIME avg() const noexcept {
+		return std::accumulate(meas_list.begin(), meas_list.end(), 0., 
+			[] (double value, const auto& p){return value+p.second;}) / meas_list.size();
+	}
+
 
 	/**
 	 * Returns the const_iterator to the begin of the underlying container
@@ -149,7 +160,6 @@ public:
 		return time_ordered_vector[idx];
 	}
 
-
 private:
 
 
@@ -177,6 +187,74 @@ private:
 		assert(time_ordered_vector.size() == meas_list.size());
 	}
 
+};
+
+template <typename T_INPUT, typename T_TIME=unsigned long>
+class MeasuresPoolSet {
+
+public:
+	typedef MeasuresPool<T_INPUT, T_TIME> mp_t;
+
+	MeasuresPoolSet(const mp_t& mp, float training_set_ratio) : mp(mp)
+	{
+		assert(training_set_ratio >= 0. && training_set_ratio <= 1.);
+		this->n_train = mp.size() * training_set_ratio;
+	}
+
+	/**
+	 * Returns the const_iterator to the begin of the training set
+	 * @return The constant begin iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cbegin_trainset() const noexcept {
+		return mp.cbegin();
+	}
+
+	/**
+	 * Returns the const_iterator to the end of the training set
+	 * @return The constant end iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cend_trainset() const noexcept {
+		auto it = mp.cbegin();
+		std::advance(it, n_train);
+		return it;
+	}
+
+	/**
+	 * Returns the const_iterator to the begin of the test set
+	 * @return The constant begin iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cbegin_testset() const noexcept {
+		return this->cend_trainset();
+	}
+
+	/**
+	 * Returns the const_iterator to the end of the test set
+	 * @return The constant end iterator 
+	 */
+	inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cend_testset() const noexcept {
+		return mp.cend();
+	}
+
+	/**
+	 * Returns the size of the underlying container
+	 * @return The number of pairs <T_INPUT,T_TIME> of the container
+	 */
+	inline size_t size_trainset() const noexcept {
+		return n_train;
+	}
+
+	/**
+	 * Returns the size of the underlying container
+	 * @return The number of pairs <T_INPUT,T_TIME> of the container
+	 */
+	inline size_t size_testset() const noexcept {
+		return mp.size() - n_train;
+	}
+
+private:
+	const mp_t &mp;
+
+	size_t n_train;
 };
 
 } // namespace chronovise

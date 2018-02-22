@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.0)
 project(chronovise)
 
+set(CMAKE_BUILD_TYPE Debug)
+
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -13,6 +15,7 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/evt/pwcet.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
+			src/statistical/test_ljung_box.cpp
 			src/utility/utility.cpp
 )
 

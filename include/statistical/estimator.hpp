@@ -77,6 +77,12 @@ public:
 	 */
 	virtual estimator_status_t get_status() const noexcept = 0;	
 
+	/**
+	 * @brief It returns the minimal sample size to run the estimator. If a sample with lower
+	 *	  size is provided to run() function, it will probably fail.
+	 */
+	virtual unsigned long get_minimal_sample_size() const noexcept = 0;
+
 };
 
 } // namespace chronovise

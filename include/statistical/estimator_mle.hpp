@@ -65,7 +65,14 @@ public:
 	 */
 	virtual estimator_status_t get_status() const noexcept {
 		return status;
-	}	
+	}
+
+	/**
+	 * @copydoc Estimator::get_minimal_sample_size()
+	 */
+	virtual unsigned long get_minimal_sample_size() const noexcept {
+		return 2;	// Well... in theory ;-)
+	}
 
 private:
 	std::shared_ptr<EV_Distribution> result;

@@ -21,11 +21,11 @@ TEST_F(EVBM_Test, BMCheck) {
 	}
 	
 	EVTApproach_BM<int, unsigned long> ebm(10);
-	ebm.perform(source);
+	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
 
-	auto &result = ebm.get_pool();
+	auto &result = ebm.get_training_pool();
 
-	ASSERT_EQ(result.size(), 10);
+	ASSERT_EQ(result.size(), 5);
 
 	int i=0;	
 	for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
@@ -45,18 +45,18 @@ TEST_F(EVBM_Test, BMCheck_Incomplete) {
 	}
 	
 	EVTApproach_BM<int, unsigned long> ebm(10);
-	ebm.perform(source);
+	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
 
-	auto &result = ebm.get_pool();
+	auto &result = ebm.get_training_pool();
 
-	ASSERT_EQ(result.size(), 10);
+	ASSERT_EQ(result.size(), 5);
 
 	int i=0;	
 	for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
-		if (i != 9)
+		if (i != 4)
 			EXPECT_EQ(it->second, (i+1) * 10);
 		else
-			EXPECT_EQ(it->second, 95);
+			EXPECT_EQ(it->second, 47);
 	}
 
 }

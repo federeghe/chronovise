@@ -38,6 +38,8 @@
 #define VERB(x) x
 #endif
 
+#define UNUSED(x) ((void)x)
+
 #define TEMPLATE_CLASS_IMPLEMENTATION(class_name) \
 template class class_name<char, unsigned long>; \
 template class class_name<int, unsigned long>; \

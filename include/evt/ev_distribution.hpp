@@ -23,6 +23,8 @@
 #ifndef EVT_EV_DISTRIBUTION_HPP_
 #define EVT_EV_DISTRIBUTION_HPP_
 
+#include "statistical/distribution.hpp"
+
 namespace chronovise {
 
 /**
@@ -34,7 +36,7 @@ namespace chronovise {
  *	 - = 0: Gumbell distribution
  *	 - > 0: Frechet distribution 
  */
-class EV_Distribution {
+class EV_Distribution : public Distribution {
 
 public:
 
@@ -45,6 +47,13 @@ public:
 	explicit EV_Distribution() noexcept
 	: param_location(0), param_scale(1), param_shape(0)
 	{
+	}
+
+	/**
+	 * @copydoc Distribution::get_type()
+	 */
+	virtual distribution_t get_type() const noexcept {
+		return distribution_t::EVT_GEV;
 	}
 
 	/**
@@ -115,13 +124,13 @@ public:
 	 * Returns the cumulative distribution function of the distribution
 	 * @return F(x) : x is the passed parameter
 	 */
-	double cdf(double x) const noexcept;
+	virtual double cdf(double x) const noexcept override;
 	
 	/**
 	 * Returns the probability density function of the distribution
 	 * @return f(x) : x is the passed parameter
 	 */
-	double pdf(double x) const noexcept;
+	virtual double pdf(double x) const noexcept override;
 
 	/**
 	 * Returns the p-quantile of the distribution
@@ -129,7 +138,7 @@ public:
 	 * @throw std::invalid_argument if p is not a valid probability.
 	 * @return x : p=F(x)
 	 */
-	double quantile(double p) const;
+	virtual double quantile(double p) const override;
 
 private:
 	double param_location;

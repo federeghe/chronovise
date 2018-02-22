@@ -30,7 +30,7 @@ exit_code_t HelloWorld::onSetup() noexcept {
 	std::unique_ptr<EVTApproach<unsigned int>> evt_app(
 		new EVTApproach_BM<unsigned int>(10)
 	);
-	this->set_evt_approach(std::move(evt_app));
+	this->set_evt_approach(std::move(evt_app), 0.25);
 	
 
 
@@ -41,9 +41,11 @@ exit_code_t HelloWorld::onSetup() noexcept {
 
 
 	std::shared_ptr<StatisticalTest_AfterEVT<unsigned int>> aft_test(
-		new TestKS<unsigned int>(0.05)
+		new TestKS<unsigned int>(0.05, distribution_t::EVT_GEV)
 	);
 	this->add_post_evt_test(aft_test);
+
+	this->print_configuration_info();
 
 	return AEC_OK;
 }
@@ -71,9 +73,9 @@ exit_code_t HelloWorld::onRun() noexcept {
 
 exit_code_t HelloWorld::onMonitor() noexcept {
 
-	if (get_iteration() > 100)
-		return AEC_OK;
-	return AEC_CONTINUE;
+//	if (get_iteration() > 10000)
+//		return AEC_OK;
+	return AEC_SLOTH;
 }
 
 exit_code_t HelloWorld::onRelease() noexcept {

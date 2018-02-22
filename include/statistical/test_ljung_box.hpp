@@ -23,11 +23,12 @@
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
 #include "evt/ev_distribution.hpp"
+#include "global.hpp"
 
 #include <cmath>
 #include <list>
 
-#define TEST_KS_MIN_SAMPLES 10
+#define TEST_LJUNG_BOX_MIN_SAMPLES 10
 
 namespace chronovise {
 
@@ -35,19 +36,17 @@ namespace chronovise {
  * The Kolmogorov-Smirnov goodnes-of-fit test class.
  */
 template <typename T_INPUT, typename T_TIME=unsigned long>
-class TestKS : public StatisticalTest_AfterEVT<T_INPUT, T_TIME> {
+class TestLjungBox : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
 
 	/**
 	 * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
-	 * @note T_TIME must be an arithmetic type, otherwise a static_assert triggers.
+	 * @throw std::runtime_error("")
 	 */
-	TestKS(double significance_level, distribution_t distribution_type)
-	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type)
+	TestLjungBox(double significance_level, unsigned int n_lags)
+	: StatisticalTest<T_INPUT,T_TIME>(significance_level), n_lags(n_lags)
 	{
-		static_assert(std::is_arithmetic<T_TIME>::value,
-		"Type must be an integer or floating point type");
 	};
 
 	/**
@@ -59,33 +58,42 @@ public:
 	 * @copydoc StatisticalTest::get_power()
 	 */
  	virtual double get_power() const override {
-		return this->power;
+		throw std::runtime_error("No power available for this test");
 	}
 
 	/**
 	 * @copydoc StatisticalTest::has_power()
 	 */
- 	virtual bool has_power() const noexcept override;
+ 	virtual bool has_power() const noexcept override {
+		return false;
+	}
 
 	/**
 	 * @copydoc StatisticalTest::has_safe_power()
 	 */
- 	virtual bool has_safe_power() const noexcept override;
+ 	virtual bool has_safe_power() const noexcept override {
+		return false;
+	}
 
 	/**
 	 * @copydoc StatisticalTest::get_minimal_sample_size()
 	 */
 	virtual unsigned long get_minimal_sample_size() const noexcept override {
-		return TEST_KS_MIN_SAMPLES;
+		return TEST_LJUNG_BOX_MIN_SAMPLES;
 	}
 
 	/**
 	 * @copydoc StatisticalTest::get_minimal_sample_size(unsigned short) const
 	 */
-	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override;
+	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override {
+		UNUSED(req_power);
+		throw std::runtime_error("No power available for this test");
+	}
 
 private:
-	double power;
+	unsigned int n_lags;
+
+	double sample_autocorrelation(const MeasuresPool<T_INPUT, T_TIME> &measures, double h) noexcept;
 
 };
 

@@ -26,9 +26,11 @@
 
 #include "evt/evtapproach.hpp"
 #include "evt/pwcet.hpp"
+#include "global.hpp"
 #include "input/generator.hpp"
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
+#include "utility/utility.hpp"
 
 #include <list>
 #include <memory>
@@ -58,6 +60,10 @@ class AbstractExecutionContext {
 
 public:
 
+	explicit AbstractExecutionContext() {
+		VERB(utility::print_welcome_message());
+	}
+
 	virtual ~AbstractExecutionContext() = default;
 
 	/**
@@ -77,11 +83,11 @@ public:
 	} exit_code_t;
 
 
-	virtual exit_code_t onSetup() noexcept = 0;
-	virtual exit_code_t onConfigure() noexcept = 0;
-	virtual exit_code_t onRun() noexcept = 0;
-	virtual exit_code_t onMonitor() noexcept = 0;
-	virtual exit_code_t onRelease() noexcept = 0;
+	virtual exit_code_t onSetup() = 0;
+	virtual exit_code_t onConfigure() = 0;
+	virtual exit_code_t onRun() = 0;
+	virtual exit_code_t onMonitor() = 0;
+	virtual exit_code_t onRelease() = 0;
 
 	/**
 	 * The list of possible exit status codes. It is used by AEC-implemented methods
@@ -99,6 +105,11 @@ public:
 	 * value. 
 	 */
 	void print_distributions_summary() const noexcept;
+
+	/**
+	 * Print the configuration information of AEC such as tests, evt approach, etc.
+	 */	
+	void print_configuration_info() const noexcept;
 
 protected:
 
@@ -187,7 +198,9 @@ private:
 
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;
-	unsigned long min_nr_iteration = 0;
+	unsigned long min_nr_iterations_train = 0;
+	unsigned long min_nr_iterations_tests = 0;
+	unsigned long min_nr_iterations_total = 0;
 	unsigned short reliability_req = 0;
 
 	T_INPUT current_input;
@@ -208,16 +221,18 @@ private:
 
 	std::list<EV_Distribution> ev_dist_estimated;
 
-	void print_error(const std::string &s);
+	inline void print_error(const std::string &s) const {
+		throw std::runtime_error("An error occurred, error description follows: "+s);
+	}
 
-	void external_cycle() noexcept;
-	void internal_cycle() noexcept;
+	void external_cycle();
+	void internal_cycle();
 
 	bool execute_analysis() noexcept;
 
 	void check_preconditions() const noexcept;
 
-	void set_min_iterations(test_ptr_t test) noexcept;
+	void set_min_iterations() noexcept;
 
 };
 
