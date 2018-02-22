@@ -252,7 +252,7 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 		throw std::invalid_argument("The number of samples is too low for this test");
 	}
 
-	if(size < n_lags) {
+	if(size <= n_lags) {
 		throw std::invalid_argument("The number of samples is too low for this n_lags value");
 	}
 
@@ -260,9 +260,19 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 	// Compute the test statistic
 	double Q = 0;
 
+
+	double mean = measures.avg();
+
+	std::vector<T_TIME> timing;
+	timing.reserve(size);
+	for (const auto &x : measures) {
+		timing.push_back(x.second);
+	}
+ 
+
 	for(size_t i=1; i <= n_lags; i++) {
-		double rho = sample_autocorrelation(measures, i);
-		Q += std::pow(rho, 2) / (size - i);
+		double rho = sample_autocorrelation(mean, size, timing, i);
+		Q += rho * rho / (size - i);
 	}
 
 	Q *= size * (size + 2);
@@ -272,7 +282,9 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 		return;
 	}
 
-	if ( Q > local_test_ljung_box::qchisq_int(1. - this->significance_level, n_lags) ) {
+	double critical_value = local_test_ljung_box::qchisq_int(1. - this->significance_level, n_lags);
+
+	if ( Q > critical_value) {
 		this->reject = true;
 	} else {
 		this->reject = false;
@@ -281,21 +293,12 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
 }
 
 template <typename T_INPUT, typename T_TIME>
-double TestLjungBox<T_INPUT, T_TIME>::sample_autocorrelation(const MeasuresPool<T_INPUT, T_TIME> &measures, double h) noexcept {
+double TestLjungBox<T_INPUT, T_TIME>::sample_autocorrelation(double mean, size_t size, const std::vector<T_TIME> &values, int h) noexcept {
 
-	double mean = measures.avg();
-	size_t size = measures.size();
-
-	std::vector<T_TIME> times;
-	times.reserve(size);
-	for (const auto &x : measures) {
-		times.push_back(x.second);
-	}
- 
-	auto autocovariance_f = [size, mean, &times](double h) {
+	auto autocovariance_f = [size, mean, &values](int h) {
 		double autocovariance=0;
-		for (size_t i=0; i < size; i++) {
-			autocovariance += (times[i+h] - mean) * (times[i] - mean);
+		for (size_t i=0; i < size - h; i++) {
+			autocovariance += (values[i+h] - mean) * (values[i] - mean);
 		}
 		autocovariance /= size;
 		return autocovariance;

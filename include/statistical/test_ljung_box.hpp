@@ -93,7 +93,7 @@ public:
 private:
 	unsigned int n_lags;
 
-	double sample_autocorrelation(const MeasuresPool<T_INPUT, T_TIME> &measures, double h) noexcept;
+	double sample_autocorrelation(double mean, size_t size, const std::vector<T_TIME> &values, int h) noexcept;
 
 };
 
