@@ -6,6 +6,7 @@
 #include "evt/evtapproach_bm.hpp"
 #include "statistical/estimator_mle.hpp"
 #include "statistical/test_ks.hpp"
+#include "statistical/test_ljung_box.hpp"
 #include "aec.hpp"
 #include "measures_pool.hpp"
 #include "timing.hpp"
@@ -37,6 +38,11 @@ public:
 	//	this->add_representativity_test();	// TODO
 
 		/* ********** POST-RUN SECTION ********** */
+		std::shared_ptr<StatisticalTest<unsigned int,double>> stat_test(
+			new TestLjungBox<unsigned int,double>(0.05, 10)
+		);
+		this->add_sample_test(stat_test);
+
 		this->set_merging_technique(merger_type_e::ENVELOPE);
 
 		std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(
