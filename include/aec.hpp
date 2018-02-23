@@ -148,8 +148,18 @@ protected:
 		this->representativity_tests.push_back(st);
 	}
 
-	inline void add_post_run_test(test_ptr_t st) noexcept {
+	/**
+	 * Tests executed on post EVT-approach samples (e.g. on the output samples of BM)
+	 */
+	inline void add_post_approach_test(test_ptr_t st) noexcept {
 		this->post_run_tests.push_back(std::move(st));
+	}
+
+	/**
+	 * Tests executed on post EVT-approach samples (e.g. on the output samples of BM)
+	 */
+	inline void add_sample_test(test_ptr_t st) noexcept {
+		this->sample_tests.push_back(std::move(st));
 	}
 
 	inline void add_post_evt_test(test_aft_ptr_t st) noexcept {
@@ -216,6 +226,7 @@ private:
 	typedef std::list<test_ptr_t> list_of_test_t;
 	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 	list_of_test_t representativity_tests;
+	list_of_test_t sample_tests;
 	list_of_test_t post_run_tests;
 	list_of_aft_test_t post_evt_tests;
 

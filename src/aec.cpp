@@ -132,7 +132,9 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			// 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
 			// Now, we have to continue to get sample only if we are not in AEC_OK case
 			// and execute_analysis() failed.
-			keep_going = !execute_analysis() && (ret != AEC_OK); 
+			keep_going = !execute_analysis() && (ret != AEC_OK);
+
+			// TODO take corrective actions
 		}
 		
 		VERB(std::cerr << '.');
@@ -147,6 +149,15 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	// Create a pool set to manage training e test
 	MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve);
+
+
+	for (auto &test : sample_tests) {
+		test->run(measures);
+		if (test->is_reject()) {
+			VERB(std::cerr << '$');
+			return false;
+		}
+	}
 
 	// Perform BM or POT based on what the user provided
 	this->evt_approach->perform(mps);
@@ -223,8 +234,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
 		// Check if the tests have all of them the power estimation routine.
 		auto lambda_power = [](const auto &x){return !x->has_power();};
 		bool any_without_power =
-		std::any_of(	representativity_tests.cbegin(),
-				representativity_tests.cend(),
+		std::any_of(	sample_tests.cbegin(),
+				sample_tests.cend(),
 				lambda_power
 		)
 		||
@@ -251,7 +262,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
 				min_iter = std::max(min_iter, test->get_minimal_sample_size(rel_req));
 			};
 
-			std::for_each(representativity_tests.cbegin(), representativity_tests.cend(), lambda_max); 
+			std::for_each(sample_tests.cbegin(), sample_tests.cend(), lambda_max); 
 			std::for_each(post_run_tests.cbegin(), post_run_tests.cend(), lambda_max); 
 			std::for_each(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_max); 
 
@@ -267,7 +278,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
 		auto lambda_max = [&min_iter](const auto &test) {
 			min_iter = std::max(min_iter, test->get_minimal_sample_size());
 		};
-		std::for_each(representativity_tests.cbegin(), representativity_tests.cend(), lambda_max); 
+		std::for_each(sample_tests.cbegin(), sample_tests.cend(), lambda_max); 
 		std::for_each(post_run_tests.cbegin(), post_run_tests.cend(), lambda_max); 
 		std::for_each(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_max); 
 
