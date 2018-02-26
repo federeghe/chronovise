@@ -58,6 +58,8 @@ template class class_name<unsigned char, double>; \
 template class class_name<unsigned int, double>; \
 template class class_name<unsigned long, double>
 
-
+#define TEMPLATE_CLASS_IMPLEMENTATION_T(class_name) \
+template class class_name<unsigned long>; \
+template class class_name<double>
 
 #endif

@@ -21,13 +21,15 @@
  */
 
 #include "evt/pwcet.hpp"
+#include "global.hpp"
 
 #include <cassert>
 #include <cmath>
 
 namespace chronovise {
 
-double pWCET::get_probability(double wcet) const {
+template <typename T>
+double pWCET<T>::get_probability(T wcet) const {
 
 	assert(wcet > 0. && "WCET must be positive");
 
@@ -36,7 +38,8 @@ double pWCET::get_probability(double wcet) const {
 	return 1. - cdf;
 }
 
-double pWCET::get_wcet(double probability) const {
+template <typename T>
+T pWCET<T>::get_wcet(double probability) const {
 	assert(probability > 0. && probability < 1. && "Probability must have a valid value");
 
 	double wcet = this->evd.quantile(probability);
@@ -45,6 +48,30 @@ double pWCET::get_wcet(double probability) const {
 	return wcet;
 
 }
+
+template <typename T>
+static double get_cumulative_probability(const std::list<pWCET<T>> &pwcet_list, T wcet) noexcept {
+
+	double minimum = 1.;
+	for (const auto& pwcet : pwcet_list) {
+		double prob = pwcet.get_probability(wcet);
+		minimum = prob < minimum ? prob : minimum;
+	}
+	return minimum;
+}
+
+template <typename T>
+static T get_cumulative_wcet(const std::list<pWCET<T>> &pwcet_list, double probability) noexcept {
+
+	T maximum = 0;
+	for (const auto& pwcet : pwcet_list) {
+		T prob = pwcet.get_wcet(probability);
+		maximum = prob > maximum ? prob : maximum;
+	}
+	return maximum;
+}
+
+TEMPLATE_CLASS_IMPLEMENTATION_T(pWCET);
 
 } // namespace chronovise
 

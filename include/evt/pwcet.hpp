@@ -25,8 +25,11 @@
 
 #include "evt/ev_distribution.hpp"
 
+#include <list>
+
 namespace chronovise {
 
+template <typename T=double>
 class pWCET {
 
 public:
@@ -52,15 +55,24 @@ public:
 	 * @param wcet
 	 * @return The probability in the range [0;1].
 	 */
-	double get_probability(double wcet) const;
+	double get_probability(T wcet) const;
 
 	/**
 	 * Returns the Extreme-Value WCET given the probability.
 	 * @param probability The probability in the range (0;1). The caller must ensure that the
 	 *        probability does not loose precision reaching exactly 1.
 	 */
-	double get_wcet(double probability) const;
+	T get_wcet(double probability) const;
 
+	/**
+	 * Returns the lowest probability among all the provided pWCETs given a particular WCET
+	 */
+	static double get_cumulative_probability(const std::list<pWCET<T>> &pwcet_list, T wcet) noexcept;
+
+	/**
+	 * Returns the highest WCET among all the provided pWCETs given a particular probability
+	 */
+	static T get_cumulative_wcet(const std::list<pWCET<T>> &pwcet_list, double probability) noexcept;
 	
 private:
 
