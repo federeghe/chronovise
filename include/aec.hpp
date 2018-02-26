@@ -201,6 +201,18 @@ protected:
 
 private:
 
+	typedef enum class internal_status_e {
+		OK = 0,
+		REJECT_SAMPLE_TEST,
+		FAIL_EVT_APP_MIN_SAMPLE_SIZE,
+		FAIL_POST_RUN_TEST_SAMPLE_SIZE,
+		FAIL_POST_EVT_TEST_SAMPLE_SIZE,
+		FAIL_EVT_ESTIMATOR,
+		REJECT_POST_RUN_TEST,
+		REJECT_POST_EVT_TEST
+	} internal_status_t;
+
+
 	bool estimation_safe = true;
 	bool estimation_safe_input = true;
 
@@ -239,7 +251,7 @@ private:
 	void external_cycle();
 	void internal_cycle();
 
-	bool execute_analysis() noexcept;
+	internal_status_t execute_analysis() noexcept;
 
 	void check_preconditions() const noexcept;
 

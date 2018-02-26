@@ -132,7 +132,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			// 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
 			// Now, we have to continue to get sample only if we are not in AEC_OK case
 			// and execute_analysis() failed.
-			keep_going = !execute_analysis() && (ret != AEC_OK);
+			auto ret_analysis = execute_analysis();
+			keep_going = !(ret_analysis == internal_status_t::OK) && (ret != AEC_OK);
 
 			// TODO take corrective actions
 		}
@@ -145,7 +146,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 }
 
 template <typename T_INPUT, typename T_TIME>
-bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
+typename AbstractExecutionContext<T_INPUT,T_TIME>::internal_status_t
+AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	// Create a pool set to manage training e test
 	MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve);
@@ -155,7 +157,7 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 		test->run(measures);
 		if (test->is_reject()) {
 			VERB(std::cerr << '$');
-			return false;
+			return internal_status_t::REJECT_SAMPLE_TEST;
 		}
 	}
 
@@ -169,7 +171,7 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (measures_to_estimate.size() < this->evt_estimator->get_minimal_sample_size()) {
 		min_nr_iterations_total *= 2;
-		return false;
+		return internal_status_t::FAIL_EVT_APP_MIN_SAMPLE_SIZE;
 	}
 
 	auto lambda_check = [&measures_test](const auto &test) {
@@ -178,12 +180,12 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (std::any_of(post_run_tests.cbegin(), post_run_tests.cend(), lambda_check)) {
 		min_nr_iterations_total *= 2;
-		return false;
+		return internal_status_t::FAIL_POST_RUN_TEST_SAMPLE_SIZE;
 	}
 
 	if (std::any_of(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_check)) {
 		min_nr_iterations_total *= 2;
-		return false;
+		return internal_status_t::FAIL_POST_EVT_TEST_SAMPLE_SIZE;
 	}
 
 	// We can now estimated the EVT distribution...
@@ -192,7 +194,7 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	if (this->evt_estimator->get_status() != estimator_status_t::SUCCESS) {
 		// TODO: Handle other result values
 		VERB(std::cerr << '#');
-		return false;
+		return internal_status_t::FAIL_EVT_ESTIMATOR;
 	}
 
 	EV_Distribution evd = this->evt_estimator->get_result();
@@ -206,14 +208,14 @@ bool AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 		if (test->is_reject()) {
 			VERB(std::cerr << 'X');
 			min_nr_iterations_total *= 2;	// Maybe a smart thing?
-			return false;
+			return internal_status_t::REJECT_POST_EVT_TEST;
 		}
 	}
 
 	ev_dist_estimated.push_back(evd);
 	measures.clear();
 
-	return true;
+	return internal_status_t::OK;
 }
 
 template <typename T_INPUT, typename T_TIME>
