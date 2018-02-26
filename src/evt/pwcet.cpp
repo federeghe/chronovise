@@ -50,7 +50,7 @@ T pWCET<T>::get_wcet(double probability) const {
 }
 
 template <typename T>
-static double get_cumulative_probability(const std::list<pWCET<T>> &pwcet_list, T wcet) noexcept {
+double pWCET<T>::get_cumulative_probability(const std::list<pWCET<T>> &pwcet_list, T wcet) noexcept {
 
 	double minimum = 1.;
 	for (const auto& pwcet : pwcet_list) {
@@ -61,7 +61,7 @@ static double get_cumulative_probability(const std::list<pWCET<T>> &pwcet_list, 
 }
 
 template <typename T>
-static T get_cumulative_wcet(const std::list<pWCET<T>> &pwcet_list, double probability) noexcept {
+T pWCET<T>::get_cumulative_wcet(const std::list<pWCET<T>> &pwcet_list, double probability) noexcept {
 
 	T maximum = 0;
 	for (const auto& pwcet : pwcet_list) {

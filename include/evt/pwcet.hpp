@@ -38,7 +38,7 @@ public:
 	 * The default constructor. It initializes the pWCET with the provided distribution. The
 	 * class is immutable, the EV_Distribution cannot be changed.  
 	 */
-	explicit pWCET(const EV_Distribution &ev_distribution) noexcept
+	pWCET(const EV_Distribution &ev_distribution) noexcept
 	: evd(ev_distribution)
 	{
 	}
