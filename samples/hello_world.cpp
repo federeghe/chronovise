@@ -5,6 +5,8 @@
 #include "statistical/test_ks.hpp"
 #include "statistical/test_ljung_box.hpp"
 
+#include <iostream>
+
 using namespace chronovise;
 
 using exit_code_t = AbstractExecutionContext<unsigned int, unsigned long>::exit_code_t;
@@ -70,7 +72,8 @@ exit_code_t HelloWorld::onRun() noexcept {
 
 	// Measure
 	timing.start_timing();
-	my_testing_function(this->get_current_input_value());
+//	my_testing_function(this->get_current_input_value());
+	my_testing_function(10);
 	timing.stop_timing();
 
 	// Publish data
@@ -86,6 +89,11 @@ exit_code_t HelloWorld::onMonitor() noexcept {
 }
 
 exit_code_t HelloWorld::onRelease() noexcept {
+
+	this->print_distributions_summary();
+
+	std::cout << "pWCET with 0.99 of probability is: " << this->get_pwcet_wcet(0.99);
+	//this->print_pwcet_probability(1000);
 
 	return AEC_OK;
 }

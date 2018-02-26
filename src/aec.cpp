@@ -135,7 +135,19 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			auto ret_analysis = execute_analysis();
 			keep_going = !(ret_analysis == internal_status_t::OK) && (ret != AEC_OK);
 
-			// TODO take corrective actions
+			switch(ret_analysis) {
+				case internal_status_t::REJECT_SAMPLE_TEST:
+					VERB(std::cerr << '$');
+				return;
+				case internal_status_t::FAIL_EVT_ESTIMATOR:
+					VERB(std::cerr << '#');
+				return;
+				case internal_status_t::REJECT_POST_EVT_TEST:
+					VERB(std::cerr << 'X');
+				break;
+				default:
+				break;
+			}
 		}
 		
 		VERB(std::cerr << '.');
@@ -156,7 +168,6 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	for (auto &test : sample_tests) {
 		test->run(measures);
 		if (test->is_reject()) {
-			VERB(std::cerr << '$');
 			return internal_status_t::REJECT_SAMPLE_TEST;
 		}
 	}
@@ -193,7 +204,6 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (this->evt_estimator->get_status() != estimator_status_t::SUCCESS) {
 		// TODO: Handle other result values
-		VERB(std::cerr << '#');
 		return internal_status_t::FAIL_EVT_ESTIMATOR;
 	}
 
@@ -206,7 +216,6 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 		test->set_ref_distribution(ev_ref_shared);
 		test->run(measures_test);
 		if (test->is_reject()) {
-			VERB(std::cerr << 'X');
 			min_nr_iterations_total *= 2;	// Maybe a smart thing?
 			return internal_status_t::REJECT_POST_EVT_TEST;
 		}

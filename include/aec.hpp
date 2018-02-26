@@ -111,6 +111,14 @@ public:
 	 */	
 	void print_configuration_info() const noexcept;
 
+	T_TIME get_pwcet_wcet(double probability) const noexcept {
+		std::list<pWCET<T_TIME>> pwcets;
+		for (const auto & evd : ev_dist_estimated) {	
+			pwcets.push_back(evd);
+		}
+		return pWCET<T_TIME>::get_cumulative_wcet(pwcets, probability);
+	}
+
 protected:
 
 	inline void set_input_source(std::unique_ptr<InputGenerator<T_INPUT>> ig) noexcept {
