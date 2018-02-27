@@ -271,3 +271,11 @@ TEST_F(EV_Distribution_Test, TestQuantile_noncenter) {
 	EXPECT_THROW(frechet_noncenter.quantile(1), std::invalid_argument);
 }
 
+TEST_F(EV_Distribution_Test, TestExtraQuantile) {
+
+	EV_Distribution weibull_test(14.063, 0.410583, -0.189839);
+
+	EXPECT_NEAR(17.079605534917178, weibull_test.quantile(0.99), 1e-8);
+
+}
+
