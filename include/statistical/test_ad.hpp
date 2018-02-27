@@ -43,14 +43,22 @@ public:
 	 * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
 	 * @note T_TIME must be an arithmetic type, otherwise a static_assert triggers.
 	 * @param MAD Request the Modified version of Anderson-Darling, i.e. the one
-	 * 	      considering the upper-bound only.
+	 *            considering the upper-bound only.
+	 * @param safe_margin A safe margin for the computed AD critical values. The
+	 *                    critical value is computed via a Monte Carlo simulation
+	 *                    thus a safety margin may increase reliability. A value of
+	 *                    1 will double the critical value (!).
+	 * @throw std::runtime_error if safety_margin < 0. 
 	 */
-	TestAD(double significance_level, distribution_t distribution_type, bool MAD)
-	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type),
-	MAD(MAD)
+	TestAD(double significance_level, distribution_t dist_type, bool MAD, double safe_margin)
+	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, dist_type),
+	MAD(MAD), safe_margin(safe_margin)
 	{
 		static_assert(std::is_arithmetic<T_TIME>::value,
 		"Type must be an integer or floating point type");
+		if (safe_margin < 0) {
+			throw std::runtime_error("Safety margin cannot be negative.");
+		}
 	};
 
 	/**
@@ -90,7 +98,7 @@ public:
 private:
 	bool MAD;
 	double power;
-
+	double safe_margin;
 };
 
 } // namespace chronovise

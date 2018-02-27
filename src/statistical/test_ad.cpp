@@ -10,17 +10,17 @@
 namespace chronovise {
 
 /** @private */
-namespace local_test_ks {
+namespace local_test_ad {
 
-	template<typename T_TIME>
-	static double get_ad_statistic_upper(const EV_Distribution& evd, const std::vector<T_TIME> samples) noexcept {
+	template<typename T_INPUT, typename T_TIME>
+	static inline double get_ad_statistic_upper(std::shared_ptr<Distribution> evd, const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
-		size_t cardinality = samples.size();
+		size_t cardinality = measures.size();
 		double S1=0.0, S2=0.0;
 
 		for (unsigned int i=0; i < cardinality; i++) {
 			double coeff1 = (2. - ((2.*((int)i+1.) - 1.) / ((double)cardinality)) );
-			double Fi = evd.cdf(samples[i]);
+			double Fi = evd->cdf(measures[i]);
 
 			// This is an extreme case, the distribution is completely
 			// wrong probably. This may be too pessimistic, but safe.
@@ -35,15 +35,15 @@ namespace local_test_ks {
 		return (double)cardinality / 2 - S1 - S2;
 	}
 
-	template<typename T_TIME>
-	static double get_ad_statistic_lower(const EV_Distribution& evd, const std::vector<T_TIME> samples) noexcept {
+	template<typename T_INPUT, typename T_TIME>
+	static inline double get_ad_statistic_lower(std::shared_ptr<Distribution> evd, const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
-		size_t cardinality = samples.size();
+		size_t cardinality = measures.size();
 		double S1=0.0, S2=0.0;
 
 		for (unsigned int i=0; i < cardinality; i++) {
 			double coeff2 = (((2.*((int)i+1) - 1.) / ((double)cardinality)) );
-			double Fi = evd.cdf(samples[i]);
+			double Fi = evd->cdf(measures[i]);
 
 			// This is an extreme case, the distribution is completely
 			// wrong probably. This may be too pessimistic, but safe.
@@ -59,10 +59,10 @@ namespace local_test_ks {
 		return - 3 * (double)cardinality / 2 + S1 - S2;
 	}
 
-	template<typename T_TIME>
-	static double get_ad_statistic(const EV_Distribution& evd, const std::vector<T_TIME> samples) noexcept {
-		double upper = get_ad_statistic_upper(evd, samples);
-		double lower = get_ad_statistic_lower(evd, samples);
+	template<typename T_INPUT, typename T_TIME>
+	static inline double get_ad_statistic(std::shared_ptr<Distribution> evd, const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
+		double upper = get_ad_statistic_upper(evd, measures);
+		double lower = get_ad_statistic_lower(evd, measures);
 
 		return upper + lower;
 	}
@@ -83,10 +83,17 @@ void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 
 	this->reject = false;
 
-	using namespace local_test_ks;
+	using namespace local_test_ad;
 
-	const unsigned long n = measures.size();
+	// TODO
+	double ad_critical_value = (1. + safe_margin); // * AndersonDarlingCV::get_critical_value(config::sample_cardinality, evt_param);
 
+	// Using MeasuresPool, the [] operator guarantees ordering.
+	double statistics = get_ad_statistic(this->ref_distribution, measures);
+
+	if (statistics > ad_critical_value) {
+		this->reject = true;
+	}
 }
 
 template <typename T_INPUT, typename T_TIME>
