@@ -9,7 +9,7 @@
 
 using namespace chronovise;
 
-using exit_code_t = AbstractExecutionContext<unsigned int, unsigned long>::exit_code_t;
+using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 static int my_testing_function(int x) {
 	volatile int i, a;
@@ -18,6 +18,10 @@ static int my_testing_function(int x) {
 	}
 	return a;
 }
+
+std::random_device random_dev;
+std::mt19937 mt(random_dev());
+std::normal_distribution<double> distribution(12.0,1.0);
 
 
 exit_code_t HelloWorld::onSetup() noexcept {
@@ -28,29 +32,29 @@ exit_code_t HelloWorld::onSetup() noexcept {
 //	this->add_representativity_test();	// TODO
 
 	/* ********** POST-RUN SECTION ********** */
-	std::shared_ptr<StatisticalTest<unsigned int>> stat_test(
-		new TestLjungBox<unsigned int>(0.05, 10)
+	std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test(
+		new TestLjungBox<unsigned int, double>(0.01, 10)
 	);
 	this->add_sample_test(stat_test);
 
 
 	this->set_merging_technique(merger_type_e::ENVELOPE);
 
-	std::unique_ptr<EVTApproach<unsigned int>> evt_app(
-		new EVTApproach_BM<unsigned int>(10)
+	std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(
+		new EVTApproach_BM<unsigned int, double>(25)
 	);
-	this->set_evt_approach(std::move(evt_app), 0.25);
+	this->set_evt_approach(std::move(evt_app), 0.1);
 	
 
 
-	std::unique_ptr<Estimator<unsigned int>> evt_est(
-		new Estimator_MLE<unsigned int>()
+	std::unique_ptr<Estimator<unsigned int, double>> evt_est(
+		new Estimator_MLE<unsigned int, double>()
 	);
 	this->set_evt_estimator(std::move(evt_est));
 
 
-	std::shared_ptr<StatisticalTest_AfterEVT<unsigned int>> aft_test(
-		new TestKS<unsigned int>(0.05, distribution_t::EVT_GEV)
+	std::shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> aft_test(
+		new TestKS<unsigned int, double>(0.01, distribution_t::EVT_GEV)
 	);
 	this->add_post_evt_test(aft_test);
 
@@ -63,6 +67,7 @@ exit_code_t HelloWorld::onConfigure() noexcept
 {
 	if (get_input_iteration() > 10)
 		return AEC_OK;
+
 	return AEC_CONTINUE;
 }
 
@@ -71,13 +76,14 @@ exit_code_t HelloWorld::onRun() noexcept {
 	// Clear the system state
 
 	// Measure
-	timing.start_timing();
+//	timing.start_timing();
 //	my_testing_function(this->get_current_input_value());
-	my_testing_function(10);
-	timing.stop_timing();
+//	timing.stop_timing();
 
 	// Publish data
-	this->add_sample(timing.get_ns());
+//	this->add_sample(timing.get_ms());
+
+	this->add_sample(distribution(mt) );
 	return AEC_OK;
 }
 
@@ -92,7 +98,8 @@ exit_code_t HelloWorld::onRelease() noexcept {
 
 	this->print_distributions_summary();
 
-	std::cout << "pWCET with 0.99 of probability is: " << this->get_pwcet_wcet(0.99);
+	std::cout << "pWCET(p=0.99) is: " << this->get_pwcet_wcet(0.99) << std::endl;
+	std::cout << "pWCET(WCET=20) is: " << this->get_pwcet_probability(20) << std::endl;
 	//this->print_pwcet_probability(1000);
 
 	return AEC_OK;

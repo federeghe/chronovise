@@ -7,11 +7,11 @@
 
 #include <iostream>
 
-class HelloWorld : public chronovise::AbstractExecutionContext<unsigned int> {
+class HelloWorld : public chronovise::AbstractExecutionContext<unsigned int, double> {
 
 public:
 	HelloWorld() : uniform_input_dist(
-		new chronovise::UniformInputGenerator<unsigned int>(0,100000)
+		new chronovise::UniformInputGenerator<unsigned int>(0,10)
 	) {
 
 	}
