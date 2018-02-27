@@ -13,6 +13,7 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/evt/ev_distribution.cpp
 			src/evt/evtapproach_bm.cpp
 			src/evt/pwcet.cpp
+			src/statistical/test_ad.cpp
 			src/statistical/test_ks.cpp
 			src/statistical/estimator_mle.cpp
 			src/statistical/test_ljung_box.cpp
