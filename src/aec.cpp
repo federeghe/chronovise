@@ -61,6 +61,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() {
 	bool require_more_samples = true;
 
 	while (require_more_samples) {
+		VERB(std::cerr << std::endl);
 		current_input = input_gen->get();
 
 		exit_code_t ret = this->onConfigure();
@@ -95,6 +96,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
 	iteration = 0;
 
+	internal_status_t ret_analysis;
 	bool keep_going = true;
 
 	while(keep_going) {
@@ -126,35 +128,48 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			break;
 		}
 
+		VERB(std::cerr << '.');
+
 		if (! keep_going) {
 			// We may be here in two cases:
 			// 1 - the onMonitor() returned AEC_OK
 			// 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
 			// Now, we have to continue to get sample only if we are not in AEC_OK case
 			// and execute_analysis() failed.
-			auto ret_analysis = execute_analysis();
-			keep_going = !(ret_analysis == internal_status_t::OK) && (ret != AEC_OK);
+			ret_analysis = execute_analysis();
+
+			if (ret_analysis == internal_status_t::OK || ret == AEC_OK) {
+				break;
+			}
+
+			keep_going = true;
 
 			switch(ret_analysis) {
 				case internal_status_t::REJECT_SAMPLE_TEST:
 					VERB(std::cerr << '$');
-				return;
+					keep_going = false;
+				break;
 				case internal_status_t::FAIL_EVT_ESTIMATOR:
 					VERB(std::cerr << '#');
-				return;
+					keep_going = false;
+				break;
 				case internal_status_t::REJECT_POST_EVT_TEST:
 					VERB(std::cerr << 'X');
+					keep_going = false;
 				break;
 				default:
+					VERB(std::cerr << '>');
 				break;
 			}
 		}
-		
-		VERB(std::cerr << '.');
+
 		iteration++;
 	}
+	measures.clear();
 
-	VERB(std::cerr << '+');
+	if (ret_analysis == internal_status_t::OK || ret == AEC_OK) {
+		VERB(std::cerr << '+');
+	}
 }
 
 template <typename T_INPUT, typename T_TIME>
@@ -216,13 +231,13 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 		test->set_ref_distribution(ev_ref_shared);
 		test->run(measures_test);
 		if (test->is_reject()) {
-			min_nr_iterations_total *= 2;	// Maybe a smart thing?
 			return internal_status_t::REJECT_POST_EVT_TEST;
 		}
 	}
 
 	ev_dist_estimated.push_back(evd);
-	measures.clear();
+	VERB(std::cout << std::endl);
+	VERB(std::cout << "WCOT: " << this->measures.max() << std::endl);
 
 	return internal_status_t::OK;
 }
