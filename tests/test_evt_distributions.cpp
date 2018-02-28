@@ -128,43 +128,43 @@ TEST_F(EV_Distribution_Test, TestGumbell) {
 
 TEST_F(EV_Distribution_Test, TestFrechet) {
 
-	EXPECT_DOUBLE_EQ(0, frechet.pdf(10));
-	EXPECT_NEAR(0.234853265703369, frechet.pdf(1.5), 1e-15);
-	EXPECT_NEAR(0.389400391535702, frechet.pdf(1), 1e-15);
-	EXPECT_NEAR(0.367879441171442, frechet.pdf(0), 1e-15);
-	EXPECT_NEAR(0.158098836842797, frechet.pdf(-1), 1e-15);
-	EXPECT_NEAR(0.000016747910872, frechet.pdf(-5), 1e-15);
-	EXPECT_DOUBLE_EQ(0, frechet.pdf(-100));
+	EXPECT_DOUBLE_EQ(0, weibull.pdf(10));
+	EXPECT_NEAR(0.234853265703369, weibull.pdf(1.5), 1e-15);
+	EXPECT_NEAR(0.389400391535702, weibull.pdf(1), 1e-15);
+	EXPECT_NEAR(0.367879441171442, weibull.pdf(0), 1e-15);
+	EXPECT_NEAR(0.158098836842797, weibull.pdf(-1), 1e-15);
+	EXPECT_NEAR(0.000016747910872, weibull.pdf(-5), 1e-15);
+	EXPECT_DOUBLE_EQ(0, weibull.pdf(-100));
 
-	EXPECT_DOUBLE_EQ(1, frechet.cdf(1000));
-	EXPECT_NEAR(0.939413062813476, frechet.cdf(1.5), 1e-15);
-	EXPECT_NEAR(0.778800783071405, frechet.cdf(1), 1e-15);
-	EXPECT_NEAR(0.367879441171442, frechet.cdf(0), 1e-15);
-	EXPECT_NEAR(0.105399224561864, frechet.cdf(-1), 1e-15);
-	EXPECT_NEAR(0.001930454136228, frechet.cdf(-3), 1e-15);
-	EXPECT_NEAR(0.000004785117392, frechet.cdf(-5), 1e-15);
-	EXPECT_DOUBLE_EQ(0, frechet.cdf(-100));
+	EXPECT_DOUBLE_EQ(1, weibull.cdf(1000));
+	EXPECT_NEAR(0.939413062813476, weibull.cdf(1.5), 1e-15);
+	EXPECT_NEAR(0.778800783071405, weibull.cdf(1), 1e-15);
+	EXPECT_NEAR(0.367879441171442, weibull.cdf(0), 1e-15);
+	EXPECT_NEAR(0.105399224561864, weibull.cdf(-1), 1e-15);
+	EXPECT_NEAR(0.001930454136228, weibull.cdf(-3), 1e-15);
+	EXPECT_NEAR(0.000004785117392, weibull.cdf(-5), 1e-15);
+	EXPECT_DOUBLE_EQ(0, weibull.cdf(-100));
 
 }
 
 TEST_F(EV_Distribution_Test, TestWeibull) {
 
-	EXPECT_NEAR(0, weibull.pdf(100000000), 1e-15);
-	EXPECT_NEAR(0.004502798505168, weibull.pdf(10), 1e-15);
-	EXPECT_NEAR(0.021495287400530, weibull.pdf(5), 1e-15);
-	EXPECT_NEAR(0.134609406946660, weibull.pdf(1.5), 1e-15);
-	EXPECT_NEAR(0.189979374349616, weibull.pdf(1), 1e-15);
-	EXPECT_NEAR(0.367879441171442, weibull.pdf(0), 1e-15);
-	EXPECT_DOUBLE_EQ(0, weibull.pdf(-3));
+	EXPECT_NEAR(0, frechet.pdf(100000000), 1e-15);
+	EXPECT_NEAR(0.004502798505168, frechet.pdf(10), 1e-15);
+	EXPECT_NEAR(0.021495287400530, frechet.pdf(5), 1e-15);
+	EXPECT_NEAR(0.134609406946660, frechet.pdf(1.5), 1e-15);
+	EXPECT_NEAR(0.189979374349616, frechet.pdf(1), 1e-15);
+	EXPECT_NEAR(0.367879441171442, frechet.pdf(0), 1e-15);
+	EXPECT_DOUBLE_EQ(0, frechet.pdf(-3));
 
-	EXPECT_DOUBLE_EQ(1, weibull.cdf(100000000));
-	EXPECT_NEAR(0.972604477116348, weibull.cdf(10), 1e-15);
-	EXPECT_NEAR(0.921610447297725, weibull.cdf(5), 1e-15);
-	EXPECT_NEAR(0.721422290354756, weibull.cdf(1.5), 1e-15);
-	EXPECT_NEAR(0.641180388429955, weibull.cdf(1), 1e-15);
-	EXPECT_NEAR(0.367879441171442, weibull.cdf(0), 1e-15);
-	EXPECT_NEAR(0.018315638888734, weibull.cdf(-1), 1e-15);
-	EXPECT_DOUBLE_EQ(0, weibull.cdf(-3));
+	EXPECT_DOUBLE_EQ(1, frechet.cdf(100000000));
+	EXPECT_NEAR(0.972604477116348, frechet.cdf(10), 1e-15);
+	EXPECT_NEAR(0.921610447297725, frechet.cdf(5), 1e-15);
+	EXPECT_NEAR(0.721422290354756, frechet.cdf(1.5), 1e-15);
+	EXPECT_NEAR(0.641180388429955, frechet.cdf(1), 1e-15);
+	EXPECT_NEAR(0.367879441171442, frechet.cdf(0), 1e-15);
+	EXPECT_NEAR(0.018315638888734, frechet.cdf(-1), 1e-15);
+	EXPECT_DOUBLE_EQ(0, frechet.cdf(-3));
 
 }
 
@@ -192,39 +192,42 @@ TEST_F(EV_Distribution_Test, TestGumbell_noncenter) {
 TEST_F(EV_Distribution_Test, TestWeibull_noncenter) {
 
 	EXPECT_NEAR(0, weibull_noncenter.pdf(100000000), 1e-15);
-	EXPECT_NEAR(0.000000210412879, weibull_noncenter.pdf(90), 1e-15);
-	EXPECT_NEAR(0.002086028577664, weibull_noncenter.pdf(55), 1e-15);
-	EXPECT_NEAR(0.191156905666840, weibull_noncenter.pdf(51), 1e-15);
-	EXPECT_NEAR(0.458242490738717, weibull_noncenter.pdf(50.5), 1e-15);
+	EXPECT_NEAR(0, weibull_noncenter.pdf(90), 1e-15);
+	EXPECT_NEAR(0, weibull_noncenter.pdf(55), 1e-15);
+	EXPECT_NEAR(0.129254439530373, weibull_noncenter.pdf(51), 1e-15);
+	EXPECT_NEAR(0.649733144629201, weibull_noncenter.pdf(50.5), 1e-15);
 	EXPECT_NEAR(0.919698602928606, weibull_noncenter.pdf(50), 1e-15);
 	EXPECT_DOUBLE_EQ(0, weibull_noncenter.pdf(40));
 
 	EXPECT_DOUBLE_EQ(1, weibull_noncenter.cdf(100000000));
-	EXPECT_NEAR(0.999997811703665, weibull_noncenter.cdf(90), 1e-15);
-	EXPECT_NEAR(0.996552102003320, weibull_noncenter.cdf(55), 1e-15);
-	EXPECT_NEAR(0.866396740426735, weibull_noncenter.cdf(51), 1e-15);
-	EXPECT_NEAR(0.713923879496951, weibull_noncenter.cdf(50.5), 1e-15);
+	EXPECT_NEAR(1, weibull_noncenter.cdf(90), 1e-15);
+	EXPECT_NEAR(1, weibull_noncenter.cdf(55), 1e-15);
+	EXPECT_NEAR(0.980418859845197, weibull_noncenter.cdf(51), 1e-15);
+	EXPECT_NEAR(0.799791723636727, weibull_noncenter.cdf(50.5), 1e-15);
 	EXPECT_NEAR(0.367879441171442, weibull_noncenter.cdf(50), 1e-15);
 	EXPECT_DOUBLE_EQ(0, weibull_noncenter.cdf(40));
 
 }
 
-TEST_F(EV_Distribution_Test, TestFrechet_noncenter) {
+TEST_F(EV_Distribution_Test, TestFrechet_noncenterPDF) {
 
-	EXPECT_NEAR(0, frechet_noncenter.pdf(2e7), 1e-15);
-	EXPECT_NEAR(0.015564083897971e-6, frechet_noncenter.pdf(1.3e7), 1e-15);
-	EXPECT_NEAR(0.117426632851685e-6, frechet_noncenter.pdf(1.2e7), 1e-15);
-	EXPECT_NEAR(0.307447029809785e-6, frechet_noncenter.pdf(1.1e7), 1e-15);
+	EXPECT_NEAR(0.001891322928647e-6, frechet_noncenter.pdf(2e7), 1e-15);
+	EXPECT_NEAR(0.054765153057232e-6, frechet_noncenter.pdf(1.3e7), 1e-15);
+	EXPECT_NEAR(0.108082937718290e-6, frechet_noncenter.pdf(1.2e7), 1e-15);
+	EXPECT_NEAR(0.217551917329768e-6, frechet_noncenter.pdf(1.1e7), 1e-15);
 	EXPECT_NEAR(0.367879441171442e-6, frechet_noncenter.pdf(1e7), 1e-15);
-	EXPECT_NEAR(0.169996811828562e-6, frechet_noncenter.pdf(0.9e7), 1e-15);
+	EXPECT_NEAR(0.178693458254981e-6, frechet_noncenter.pdf(0.9e7), 1e-15);
 	EXPECT_NEAR(0, frechet_noncenter.pdf(1e5), 1e-15);
 
-	EXPECT_DOUBLE_EQ(1, frechet_noncenter.cdf(2e7));
-	EXPECT_NEAR(0.996101369470118, frechet_noncenter.cdf(1.3e7), 1e-15);
-	EXPECT_NEAR(0.939413062813476, frechet_noncenter.cdf(1.2e7), 1e-15);
-	EXPECT_NEAR(0.728763329919491, frechet_noncenter.cdf(1.1e7), 1e-15);
+}
+
+TEST_F(EV_Distribution_Test, TestFrechet_noncenterCDF) {
+	EXPECT_NEAR(0.993358264430476, frechet_noncenter.cdf(2e7), 1e-15);
+	EXPECT_NEAR(0.898865163508697, frechet_noncenter.cdf(1.3e7), 1e-15);
+	EXPECT_NEAR(0.820754808298268, frechet_noncenter.cdf(1.2e7), 1e-15);
+	EXPECT_NEAR(0.663915763335474, frechet_noncenter.cdf(1.1e7), 1e-15);
 	EXPECT_NEAR(0.367879441171442, frechet_noncenter.cdf(1e7), 1e-15);
-	EXPECT_NEAR(0.087038367656224, frechet_noncenter.cdf(0.9e7), 1e-15);
+	EXPECT_NEAR(0.042404795269493, frechet_noncenter.cdf(0.9e7), 1e-15);
 	EXPECT_NEAR(0, frechet_noncenter.cdf(1e5), 1e-15);
 
 }
@@ -238,44 +241,50 @@ TEST_F(EV_Distribution_Test, TestQuantile) {
 	EXPECT_THROW(gumbell.quantile(1), std::invalid_argument);
 
 	EXPECT_THROW(weibull.quantile(0), std::invalid_argument);
-	EXPECT_NEAR(-0.301356399423962, weibull.quantile(0.25), 1e-15);
-	EXPECT_NEAR(0.402244817572900, weibull.quantile(0.5), 1e-15);
-	EXPECT_NEAR(1.728838691486778, weibull.quantile(0.75), 1e-15);
+	EXPECT_NEAR(-0.354820045030949, weibull.quantile(0.25), 1e-15);
+	EXPECT_NEAR(0.334890777684605, weibull.quantile(0.5), 1e-15);
+	EXPECT_NEAR(0.927279957394697, weibull.quantile(0.75), 1e-15);
 	EXPECT_THROW(weibull.quantile(1), std::invalid_argument);
 
 	EXPECT_THROW(frechet.quantile(0), std::invalid_argument);
-	EXPECT_NEAR(-0.354820045030949, frechet.quantile(0.25), 1e-15);
-	EXPECT_NEAR(0.334890777684605, frechet.quantile(0.5), 1e-15);
-	EXPECT_NEAR(0.927279957394697, frechet.quantile(0.75), 1e-15);
+	EXPECT_NEAR(-0.301356399423962, frechet.quantile(0.25), 1e-15);
+	EXPECT_NEAR(0.402244817572900, frechet.quantile(0.5), 1e-15);
+	EXPECT_NEAR(1.728838691486778, frechet.quantile(0.75), 1e-15);
 	EXPECT_THROW(frechet.quantile(1), std::invalid_argument);
 }
 
-TEST_F(EV_Distribution_Test, TestQuantile_noncenter) {
+TEST_F(EV_Distribution_Test, TestQuantileGumbell_noncenter) {
 
 	EXPECT_THROW(gumbell_noncenter.quantile(0), std::invalid_argument);
 	EXPECT_NEAR(0.993467314800434e3, gumbell_noncenter.quantile(0.25), 1e-12);
 	EXPECT_NEAR(1.007330258411633e3, gumbell_noncenter.quantile(0.5), 1e-12);
 	EXPECT_NEAR(1.024917986474145e3, gumbell_noncenter.quantile(0.75), 1e-12);
 	EXPECT_THROW(gumbell_noncenter.quantile(1), std::invalid_argument);
+}
 
-	EXPECT_THROW(weibull_noncenter.quantile(0), std::invalid_argument);
-	EXPECT_NEAR(49.874538507037819, weibull_noncenter.quantile(0.25), 1e-14);
-	EXPECT_NEAR(50.153531683914871, weibull_noncenter.quantile(0.5), 1e-14);
-	EXPECT_NEAR(50.584699870715212, weibull_noncenter.quantile(0.75), 1e-14);
-	EXPECT_THROW(weibull_noncenter.quantile(1), std::invalid_argument);
+TEST_F(EV_Distribution_Test, TestQuantileFrechet_noncenter) {
 
 	EXPECT_THROW(frechet_noncenter.quantile(0), std::invalid_argument);
-	EXPECT_NEAR(0.965965895807166e7, frechet_noncenter.quantile(0.25), 1e-8);
-	EXPECT_NEAR(1.035022277686389e7, frechet_noncenter.quantile(0.5), 1e-8);
-	EXPECT_NEAR(1.107053582700822e7, frechet_noncenter.quantile(0.75), 1e-8);
+	EXPECT_NEAR(0.968634626759456e7, frechet_noncenter.quantile(0.25), 1e-8);
+	EXPECT_NEAR(1.038382920978717e7, frechet_noncenter.quantile(0.5), 1e-8);
+	EXPECT_NEAR(1.146174967678804e7, frechet_noncenter.quantile(0.75), 1e-8);
 	EXPECT_THROW(frechet_noncenter.quantile(1), std::invalid_argument);
+}
+
+TEST_F(EV_Distribution_Test, TestQuantileWeibull_noncenter) {
+
+	EXPECT_THROW(weibull_noncenter.quantile(0), std::invalid_argument);
+	EXPECT_NEAR(49.863863583228664, weibull_noncenter.quantile(0.25), 1e-8);
+	EXPECT_NEAR(50.140089110745556, weibull_noncenter.quantile(0.5), 1e-8);
+	EXPECT_NEAR(50.428214330803286, weibull_noncenter.quantile(0.75), 1e-8);
+	EXPECT_THROW(weibull_noncenter.quantile(1), std::invalid_argument);
 }
 
 TEST_F(EV_Distribution_Test, TestExtraQuantile) {
 
 	EV_Distribution weibull_test(14.063, 0.410583, -0.189839);
 
-	EXPECT_NEAR(17.079605534917178, weibull_test.quantile(0.99), 1e-8);
+	EXPECT_NEAR(15.642968703665069, weibull_test.quantile(0.999), 1e-8);
 
 }
 
