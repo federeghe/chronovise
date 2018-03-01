@@ -53,7 +53,7 @@ typedef enum class merger_type_e {
 
 /**
  * The abstract class to be extended by the application. It is often shorten in the
- * documentation with AEC acronym.
+ * documentation with AEC acronym (AbstractExecutionContext).
  */
 template <typename T_INPUT=unsigned long, typename T_TIME=unsigned long>
 class AbstractExecutionContext {
@@ -220,6 +220,7 @@ protected:
 
 private:
 
+	/* *** PRIVATE TYPE *** */
 	typedef enum class internal_status_e {
 		OK = 0,
 		REJECT_SAMPLE_TEST,
@@ -231,6 +232,8 @@ private:
 		REJECT_POST_EVT_TEST
 	} internal_status_t;
 
+	typedef std::list<test_ptr_t> list_of_test_t;
+	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 
 	bool estimation_safe = true;
 	bool estimation_safe_input = true;
@@ -255,8 +258,6 @@ private:
 	MeasuresPool<T_INPUT, T_TIME> measures;
 	MeasuresPool<T_INPUT, T_TIME> wcots;
 
-	typedef std::list<test_ptr_t> list_of_test_t;
-	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 	list_of_test_t representativity_tests;
 	list_of_test_t sample_tests;
 	list_of_test_t post_run_tests;
