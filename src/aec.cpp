@@ -236,9 +236,7 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	}
 
 	ev_dist_estimated.push_back(evd);
-	VERB(std::cout << std::endl);
-	VERB(std::cout << "WCOT: " << this->measures.max() << std::endl);
-
+	wcots.push(current_input,this->measures.max());
 	return internal_status_t::OK;
 }
 

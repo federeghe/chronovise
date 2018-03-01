@@ -56,6 +56,19 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_configuration_info() const 
 
 }
 
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_wcots() const noexcept {
+
+	utility::print_title("Worst-Case Observed Time");
+
+	unsigned int i=0;
+
+	for (auto it=wcots.cbegin(); it != wcots.cend(); it++, i++) {
+		std::cerr << '#'  << std::setw(4) << i << ": ";
+		std::cerr << it->second << std::endl;
+	}
+}
+
 
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 

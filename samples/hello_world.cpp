@@ -98,7 +98,9 @@ exit_code_t HelloWorld::onRelease() noexcept {
 
 	this->print_distributions_summary();
 
-	std::cout << "pWCET(p=0.99) is: " << this->get_pwcet_wcet(0.99) << std::endl;
+	this->print_wcots();
+
+	std::cout << "pWCET(p=0.9999) is: " << this->get_pwcet_wcet(0.9999) << std::endl;
 	std::cout << "pWCET(WCET=20) is: " << this->get_pwcet_probability(20) << std::endl;
 	//this->print_pwcet_probability(1000);
 

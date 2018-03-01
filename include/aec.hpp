@@ -111,6 +111,8 @@ public:
 	 */	
 	void print_configuration_info() const noexcept;
 
+	void print_wcots() const noexcept;
+
 	T_TIME get_pwcet_wcet(double probability) const noexcept {
 		std::list<pWCET<T_TIME>> pwcets;
 		for (const auto & evd : ev_dist_estimated) {	
@@ -251,6 +253,7 @@ private:
 	std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_estimator;
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
+	MeasuresPool<T_INPUT, T_TIME> wcots;
 
 	typedef std::list<test_ptr_t> list_of_test_t;
 	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
