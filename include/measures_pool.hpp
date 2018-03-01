@@ -160,6 +160,13 @@ public:
 		return time_ordered_vector[idx];
 	}
 
+	inline const std::vector<T_TIME>& get_ordered_vector() const {
+		if (time_ordered_vector.size() == 0) {
+			populate_ordered_vector();
+		}
+		return time_ordered_vector;
+	}
+
 private:
 
 
