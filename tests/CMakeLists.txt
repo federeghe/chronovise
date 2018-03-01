@@ -6,6 +6,7 @@ add_executable(run_tests tester.cpp
 	test_bm.cpp
 	test_evt_distributions.cpp
 	test_test_ks.cpp
+	test_test_ad.cpp
 	test_aec_1.cpp
 	test_test_ljung_box.cpp
 )
