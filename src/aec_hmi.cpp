@@ -35,8 +35,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_configuration_info() const 
 
 	utility::print_title("Configuration info");
 
-	if (reliability_req) {
-		std::cerr << "Reliability requirement: " << reliability_req  << std::endl;
+	if (safety.has_reliability_requirement()) {
+		std::cerr << "Reliability requirement: " << safety.get_reliability_requirement()  << std::endl;
 	} else {
 		std::cerr << "Reliability requirement: NOT SET" << std::endl;
 

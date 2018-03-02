@@ -31,6 +31,7 @@
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
 #include "utility/utility.hpp"
+#include "safety.hpp"
 
 #include <list>
 #include <memory>
@@ -129,6 +130,10 @@ public:
 		return pWCET<T_TIME>::get_cumulative_probability(pwcets, wcet);
 	}
 
+	inline const Safety& get_safety_info() const noexcept {
+		return this->safety;
+	}
+
 
 protected:
 
@@ -197,25 +202,8 @@ protected:
 		return iteration;
 	}
 
-	/**
-	 * Setter for the reliability requirement. A value of 0 disable the reliability analysis (default).
-	 * @param req The exponent e of the number 10^-exp that represents the reliability requirement.
-	 */
-	inline void set_reliability_requirement(unsigned short req) noexcept {
-		this->reliability_req = req;
-	}
-
-	inline bool is_estimation_safe() const noexcept {
-		return this->estimation_safe;
-	}
-
-	/**
-	 * Provides the information on safety of the representativeness of the input data.
-	 * @return true if the input data have been successfully tested.
-	 * @note If the application returns AEC_OK in onConfigure(), this value is always false.
-	 */
-	inline bool is_estimation_safe_input() const noexcept {
-		return this->estimation_safe_input;
+	inline void set_reliability_requirement(double req) noexcept {
+		safety.set_reliability_requirement(req);
 	}
 
 private:
@@ -235,9 +223,6 @@ private:
 	typedef std::list<test_ptr_t> list_of_test_t;
 	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 
-	bool estimation_safe = true;
-	bool estimation_safe_input = true;
-
 	float samples_test_reserve = 0; /** 0-1: ratio of samples reserved for testing */
 
 	unsigned long input_iteration  = 0;
@@ -245,7 +230,6 @@ private:
 	unsigned long min_nr_iterations_train = 0;
 	unsigned long min_nr_iterations_tests = 0;
 	unsigned long min_nr_iterations_total = 0;
-	unsigned short reliability_req = 0;
 
 	T_INPUT current_input;
 
@@ -264,6 +248,8 @@ private:
 	list_of_aft_test_t post_evt_tests;
 
 	std::list<EV_Distribution> ev_dist_estimated;
+
+	Safety safety;
 
 	inline void print_error(const std::string &s) const {
 		throw std::runtime_error("An error occurred, error description follows: "+s);

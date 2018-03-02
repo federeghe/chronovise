@@ -72,7 +72,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() {
 				require_more_samples = false;
 				// The safety of the estimation is not guaranteed in this case,
 				// since we didn't perform any safety check
-				estimation_safe_input = false;
+				this->safety.set_input_representativity(false);
 			break;
 			case AEC_CONTINUE:
 				input_iteration++;
@@ -253,7 +253,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
 
 	// The minimal number of tests depends obviously on used tests and if a reliability requirement
 	// is provided or not.
-	if (this->reliability_req > 0) {
+	if (safety.has_reliability_requirement()) {
 
 		// Check if the tests have all of them the power estimation routine.
 		auto lambda_power = [](const auto &x){return !x->has_power();};
@@ -276,12 +276,12 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_min_iterations() noexcept {
 		//  If the power estimation routine is not present for at least one test we have to
 		// consider the estimation unsafe
 		if (any_without_power) {
-			this->estimation_safe = false;
+			this->safety.set_evt_safe(false);
 		} else {
 			// Otherwise we can calculate the minimal number of samples from the maximum
 			// of them
 			unsigned long min_iter = 0;
-			float rel_req = this->reliability_req;
+			float rel_req = safety.get_reliability_requirement();
 			auto lambda_max = [&min_iter, rel_req](const auto &test) {
 				min_iter = std::max(min_iter, test->get_minimal_sample_size(rel_req));
 			};

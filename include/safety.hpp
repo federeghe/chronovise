@@ -38,6 +38,52 @@ public:
 	 */
 	Safety() {}
 
+	/**
+	 * Setter for the reliability requirement.
+	 * @param reliability_requirement The reliability expressed as the probability that the WCET
+	 *        is greater than the computed one.
+	 */
+	void set_reliability_requirement(double reliability_requirement) noexcept {
+		this->reliability_req = reliability_requirement;
+		reliability_req_opt = true;
+	}
+
+	bool has_reliability_requirement() const noexcept {
+		return this->reliability_req_opt;
+	}
+
+	double get_reliability_requirement() const noexcept {
+		return this->reliability_req;
+	}
+
+	void set_input_representativity(bool is_representativity) noexcept {
+		this->input_representativity = is_representativity;
+	}
+
+	/**
+	 * Provides the information on safety of the representativeness of the input data.
+	 * @return true if the input data have been successfully tested.
+	 * @note If the application returns AEC_OK in onConfigure(), this value is always false.
+	 */
+	bool is_input_representativity() const noexcept {
+		return this->input_representativity;
+	}
+
+	void set_evt_safe(bool is_safe) noexcept {
+		this->evt_safe = is_safe;
+	}
+
+	bool is_evt_safe() const noexcept {
+		return this->evt_safe;
+	}
+
+private:
+	bool input_representativity = true;
+	bool evt_safe = true;
+
+	bool reliability_req_opt = false; // True of realibility_req setted
+	double reliability_req;
+
 };
 
 } // namespace chronovise
