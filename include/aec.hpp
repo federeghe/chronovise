@@ -180,7 +180,7 @@ protected:
 	}
 
 	/**
-	 * Tests executed on post EVT-approach samples (e.g. on the output samples of BM)
+	 * Tests executed on pre EVT-approach samples (e.g. on the output samples of BM)
 	 */
 	inline void add_sample_test(test_ptr_t st) noexcept {
 		this->sample_tests.push_back(std::move(st));
@@ -223,7 +223,22 @@ private:
 	typedef std::list<test_ptr_t> list_of_test_t;
 	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 
+
+	/* *** ATTRIBUTES - CONFIGURATION *** */
 	float samples_test_reserve = 0; /** 0-1: ratio of samples reserved for testing */
+
+	merger_type_t merger_tech = merger_type_t::UNKNOWN;
+
+	std::unique_ptr<InputGenerator<T_INPUT>> input_gen;
+	std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach;
+	std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_estimator;
+
+	list_of_test_t representativity_tests;
+	list_of_test_t sample_tests;
+	list_of_test_t post_run_tests;
+	list_of_aft_test_t post_evt_tests;
+
+	/* *** ATTRIBUTES - RUNTIME *** */
 
 	unsigned long input_iteration  = 0;
 	unsigned long iteration        = 0;
@@ -233,29 +248,20 @@ private:
 
 	T_INPUT current_input;
 
-	merger_type_t merger_tech = merger_type_t::UNKNOWN;
-
-	std::unique_ptr<InputGenerator<T_INPUT>> input_gen;
-	std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach;
-	std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_estimator;
-
 	MeasuresPool<T_INPUT, T_TIME> measures;
 	MeasuresPool<T_INPUT, T_TIME> wcots;
-
-	list_of_test_t representativity_tests;
-	list_of_test_t sample_tests;
-	list_of_test_t post_run_tests;
-	list_of_aft_test_t post_evt_tests;
-
 	std::list<EV_Distribution> ev_dist_estimated;
 
 	Safety safety;
 
-	inline void print_error(const std::string &s) const {
+	/* *** METHODS *** */
+
+	[[noreturn]] inline void print_error(const std::string &s) const {
 		throw std::runtime_error("An error occurred, error description follows: "+s);
 	}
 
 	void external_cycle();
+
 	void internal_cycle();
 
 	internal_status_t execute_analysis() noexcept;

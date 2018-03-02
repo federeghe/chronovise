@@ -142,6 +142,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 				break;
 			}
 
+			// If we are here onMonitor() returned AEC_SLOTH
 			keep_going = true;
 
 			switch(ret_analysis) {
@@ -169,6 +170,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
 	if (ret_analysis == internal_status_t::OK || ret == AEC_OK) {
 		VERB(std::cerr << '+');
+	} else {
+		this->safety.set_input_representativity(false);
 	}
 }
 
