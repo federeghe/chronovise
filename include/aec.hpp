@@ -119,7 +119,7 @@ public:
 	T_TIME get_pwcet_wcet(double probability) const noexcept {
 		std::list<pWCET<T_TIME>> pwcets;
 		for (const auto & evd : ev_dist_estimated) {	
-			pwcets.push_back(evd);
+			pwcets.push_back(pWCET<T_TIME>(evd));
 		}
 		return pWCET<T_TIME>::get_cumulative_wcet(pwcets, probability);
 	}
@@ -127,7 +127,7 @@ public:
 	double get_pwcet_probability(T_TIME wcet) const noexcept {
 		std::list<pWCET<T_TIME>> pwcets;
 		for (const auto & evd : ev_dist_estimated) {	
-			pwcets.push_back(evd);
+			pwcets.push_back(pWCET<T_TIME>(evd));
 		}
 		return pWCET<T_TIME>::get_cumulative_probability(pwcets, wcet);
 	}
@@ -241,7 +241,7 @@ private:
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
 	MeasuresPool<T_INPUT, T_TIME> wcots;
-	std::list<GEV_Distribution> ev_dist_estimated;
+	std::list<std::shared_ptr<Distribution>> ev_dist_estimated;
 
 	Safety safety;
 

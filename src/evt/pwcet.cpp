@@ -33,7 +33,7 @@ double pWCET<T>::get_probability(T wcet) const {
 
 	assert(wcet > 0. && "WCET must be positive");
 
-	double cdf = this->evd.cdf(wcet);
+	double cdf = this->ref_dist->cdf(wcet);
 
 	return 1. - cdf;
 }
@@ -42,7 +42,7 @@ template <typename T>
 T pWCET<T>::get_wcet(double probability) const {
 	assert(probability > 0. && probability < 1. && "Probability must have a valid value");
 
-	double wcet = this->evd.quantile(probability);
+	double wcet = this->ref_dist->quantile(probability);
 
 	assert(wcet > 0. && "Something bad happened in calculation.");
 	return wcet;

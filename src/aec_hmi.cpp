@@ -1,5 +1,6 @@
 #include "aec.hpp"
 #include "global.hpp"
+#include "utility/oop.hpp"
 #include "utility/utility.hpp"
 #include <iostream>
 #include <iomanip>
@@ -17,12 +18,17 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
 	std::cerr << "| Legend: G - Gumbell, W - Weibull, F - Frechet" << std::endl;
 
 	size_t i=0;
-	for (auto it=ev_dist_estimated.cbegin(); it != ev_dist_estimated.cend(); it++, i++) {
-		std::cerr << '#'  << std::setw(4) << i << ": "
-			  << "location=" << std::setw(12) << it->get_location()
-			  << "  scale=" << std::setw(12) << it->get_scale()
-			  << "  shape=" << std::setw(12) << it->get_shape() << " ["
-			  << (it->is_gumbell() ? 'G' : it->is_frechet() ? 'F' : 'W') << "]";
+	for (auto it_raw=ev_dist_estimated.cbegin(); it_raw != ev_dist_estimated.cend(); it_raw++, i++) {
+		auto it_generic = *it_raw;
+
+		if (instanceof_ptr<const GEV_Distribution>(it_generic)) {
+			auto it = std::dynamic_pointer_cast<const GEV_Distribution> (it_generic);
+			std::cerr << '#'  << std::setw(4) << i << ": "
+				  << "location=" << std::setw(12) << it->get_location()
+				  << "  scale=" << std::setw(12) << it->get_scale()
+				  << "  shape=" << std::setw(12) << it->get_shape() << " ["
+				  << (it->is_gumbell() ? 'G' : it->is_frechet() ? 'F' : 'W') << "]";
+		}
 
 		std::cerr << std::endl;
 	}

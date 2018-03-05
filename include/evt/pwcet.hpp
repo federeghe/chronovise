@@ -26,6 +26,7 @@
 #include "evt/gev_distribution.hpp"
 
 #include <list>
+#include <memory>
 
 namespace chronovise {
 
@@ -36,18 +37,22 @@ public:
 
 	/**
 	 * The default constructor. It initializes the pWCET with the provided distribution. The
-	 * class is immutable, the EV_Distribution cannot be changed.  
+	 * class is immutable, the Distribution cannot be changed.
+	 * @throws std::invalid_argument if ref_distribution is `nullptr`.
 	 */
-	pWCET(const GEV_Distribution &gev_distribution) noexcept
-	: evd(gev_distribution)
+	explicit pWCET(std::shared_ptr<const Distribution> ref_distribution)
+	: ref_dist(ref_distribution)
 	{
+		if (! ref_distribution) {
+			throw std::invalid_argument("Reference distribution is null.");
+		}
 	}
 
 	/**
 	 * Returns the underlying distribution passed to the constructor.
 	 */
-	inline const GEV_Distribution & get_ev_distribution() const noexcept {
-		return this->evd;
+	inline std::shared_ptr<const Distribution> & get_distribution() const noexcept {
+		return this->ref_dist;
 	}
 
 	/**
@@ -76,7 +81,7 @@ public:
 	
 private:
 
-	const GEV_Distribution evd;
+	mutable std::shared_ptr<const Distribution> ref_dist;
 };
 
 } // namespace chronovise

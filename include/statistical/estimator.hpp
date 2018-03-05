@@ -24,8 +24,10 @@
 #ifndef STATISTICAL_ESTIMATOR_HPP_
 #define STATISTICAL_ESTIMATOR_HPP_
 
-#include "evt/gev_distribution.hpp"
+#include "statistical/distribution.hpp"
 #include "measures_pool.hpp"
+
+#include <memory>
 
 namespace chronovise {
 
@@ -69,7 +71,7 @@ public:
 	 * @return the EVT distribution estimated.
 	 * @throws std::runtime_error if the estimation is not yet performed or if it failed
 	 */
-	virtual GEV_Distribution get_result() const = 0;
+	virtual std::shared_ptr<Distribution> get_result() const = 0;
 
 	/**
 	 * Run the status of the estimation.

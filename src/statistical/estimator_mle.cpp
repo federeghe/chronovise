@@ -21,6 +21,8 @@
  */
 
 #include "statistical/estimator_mle.hpp"
+
+#include "evt/gev_distribution.hpp"
 #include "global.hpp"
 
 #include <cassert>

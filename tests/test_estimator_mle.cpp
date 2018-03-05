@@ -1,5 +1,7 @@
 #include "gtest/gtest.h"
+#include "evt/gev_distribution.hpp"
 #include "statistical/estimator_mle.hpp"
+#include "utility/oop.hpp"
 
 #define MAX_VALUE 100000
 #define MAX_VALUE_F 2.0
@@ -53,9 +55,11 @@ TEST_F(EstimatorMLE_Test, EVT_1_1_05) {
 	mle.run(mp);
 	auto res = mle.get_result();
 
-	ASSERT_NEAR(res.get_location(), 1., 1e-1);	
-	ASSERT_NEAR(res.get_scale(), 1., 1e-1);	
-	ASSERT_NEAR(res.get_shape(), 0.5, 1e-1);	
+	ASSERT_TRUE(instanceof_ptr<GEV_Distribution>(res));
+
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_location(), 1., 1e-1);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_scale(), 1., 1e-1);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_shape(), 0.5, 1e-1);	
 
 }
 
@@ -76,9 +80,11 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_M05) {
 	mle.run(mp);
 	auto res = mle.get_result();
 
-	ASSERT_NEAR(res.get_location(), 0., 1e-1);	
-	ASSERT_NEAR(res.get_scale(), 1., 1e-1);
-	ASSERT_NEAR(res.get_shape(), -0.5, 1e-1);
+	ASSERT_TRUE(instanceof_ptr<GEV_Distribution>(res));
+
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_location(), 0., 1e-1);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_scale(), 1., 1e-1);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_shape(), -0.5, 1e-1);
 
 }
 
@@ -100,9 +106,9 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_P05) {
 	mle.run(mp);
 	auto res = mle.get_result();
 
-	ASSERT_NEAR(res.get_location(), 0., 1e-1);	
-	ASSERT_NEAR(res.get_scale(), 1., 1e-1);
-	ASSERT_NEAR(res.get_shape(), 0.5, 1e-1);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_location(), 0., 1e-1);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_scale(), 1., 1e-1);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_shape(), 0.5, 1e-1);
 
 }
 
@@ -123,9 +129,9 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_0) {
 	mle.run(mp);
 	auto res = mle.get_result();
 
-	ASSERT_NEAR(res.get_location(), 0., 1e-1);	
-	ASSERT_NEAR(res.get_scale(), 1., 1e-1);
-	ASSERT_NEAR(res.get_shape(), 0., 1e-1);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_location(), 0., 1e-1);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_scale(), 1., 1e-1);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_shape(), 0., 1e-1);
 
 }
 
@@ -145,9 +151,9 @@ TEST_F(EstimatorMLE_Test, EVT_100_01_025) {
 	mle.run(mp);
 	auto res = mle.get_result();
 
-	ASSERT_NEAR(res.get_location(), 100., 1e-0);	
-	ASSERT_NEAR(res.get_scale(), 0.1, 1e-0);
-	ASSERT_NEAR(res.get_shape(), 0.25, 1e-0);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_location(), 100., 1e-0);	
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_scale(), 0.1, 1e-0);
+	ASSERT_NEAR(std::dynamic_pointer_cast<GEV_Distribution>(res)->get_shape(), 0.25, 1e-0);
 
 }
 

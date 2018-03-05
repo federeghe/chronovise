@@ -24,6 +24,7 @@
 #define STATISTICAL_ESTIMATOR_MLE_HPP_
 
 #include "statistical/estimator.hpp"
+#include "statistical/distribution.hpp"
 
 #include <memory>
 
@@ -53,11 +54,11 @@ public:
 	/**
 	 * @copydoc Estimator::get_result()
 	 */
-	virtual GEV_Distribution get_result() const override final {
+	virtual std::shared_ptr<Distribution> get_result() const override final {
 		if (result == nullptr)
 			throw std::runtime_error("Estimator never run");
 		
-		return *result;
+		return result;
 	}
 
 	/**
@@ -75,7 +76,7 @@ public:
 	}
 
 private:
-	std::shared_ptr<GEV_Distribution> result;
+	std::shared_ptr<Distribution> result;
 	estimator_status_t status=estimator_status_t::UNKNOWN;
 
 };

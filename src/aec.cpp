@@ -224,13 +224,11 @@ aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexce
 		return aec_status_t::FAIL_EVT_ESTIMATOR;
 	}
 
-	GEV_Distribution evd = this->evt_estimator->get_result();
-
-	auto ev_ref_shared = std::shared_ptr<Distribution>(&evd,[](auto* p){UNUSED(p);});
+	std::shared_ptr<Distribution> evd = this->evt_estimator->get_result();
 
 	// And then test it...
 	for (auto &test : post_evt_tests) {
-		test->set_ref_distribution(ev_ref_shared);
+		test->set_ref_distribution(evd);
 		test->run(measures_test);
 		if (test->is_reject()) {
 			return aec_status_t::REJECT_POST_EVT_TEST;
