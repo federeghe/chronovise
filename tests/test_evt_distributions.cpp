@@ -1,24 +1,24 @@
 #include "gtest/gtest.h"
-#include "evt/ev_distribution.hpp"
+#include "evt/gev_distribution.hpp"
 
 #include <cmath>
 
 using namespace chronovise;
 
 // The fixture for testing class Project1. From google test primer.
-class EV_Distribution_Test : public ::testing::Test {
+class GEV_Distribution_Test : public ::testing::Test {
 protected:
 	// You can remove any or all of the following functions if its body
 	// is empty.
 
-	EV_Distribution_Test() : gumbell(0, 1, 0), weibull(0, 1, -0.5), frechet(0, 1, 0.5),
+	GEV_Distribution_Test() : gumbell(0, 1, 0), weibull(0, 1, -0.5), frechet(0, 1, 0.5),
 				 gumbell_noncenter(1000, 20, 0), weibull_noncenter(50, 0.4, -0.25),
 				 frechet_noncenter(1e7, 1e6, 0.25)
   	{
 		// You can do set-up work for each test here.
 	}
 
-	virtual ~EV_Distribution_Test() {
+	virtual ~GEV_Distribution_Test() {
 		// You can do clean-up work that doesn't throw exceptions here.
 	}
 
@@ -34,18 +34,18 @@ protected:
 		// before the destructor).
 	}
 
-	EV_Distribution gumbell;
-	EV_Distribution weibull;
-	EV_Distribution frechet;
+	GEV_Distribution gumbell;
+	GEV_Distribution weibull;
+	GEV_Distribution frechet;
 	
-	EV_Distribution gumbell_noncenter;
-	EV_Distribution weibull_noncenter;
-	EV_Distribution frechet_noncenter;
+	GEV_Distribution gumbell_noncenter;
+	GEV_Distribution weibull_noncenter;
+	GEV_Distribution frechet_noncenter;
 
 
 };
 
-TEST_F(EV_Distribution_Test, TestIsMethods_Gumbell) {
+TEST_F(GEV_Distribution_Test, TestIsMethods_Gumbell) {
 	EXPECT_TRUE(gumbell.is_gumbell());
 	EXPECT_FALSE(gumbell.is_weibull());
 	EXPECT_FALSE(gumbell.is_frechet());
@@ -55,7 +55,7 @@ TEST_F(EV_Distribution_Test, TestIsMethods_Gumbell) {
 	EXPECT_FALSE(gumbell_noncenter.is_frechet());
 }
 
-TEST_F(EV_Distribution_Test, TestIsMethods_Weibull) {
+TEST_F(GEV_Distribution_Test, TestIsMethods_Weibull) {
 	EXPECT_FALSE(weibull.is_gumbell());
 	EXPECT_TRUE(weibull.is_weibull());
 	EXPECT_FALSE(weibull.is_frechet());
@@ -64,7 +64,7 @@ TEST_F(EV_Distribution_Test, TestIsMethods_Weibull) {
 	EXPECT_TRUE(weibull_noncenter.is_weibull());
 	EXPECT_FALSE(weibull_noncenter.is_frechet());
 }
-TEST_F(EV_Distribution_Test, TestIsMethods_Frechet) {
+TEST_F(GEV_Distribution_Test, TestIsMethods_Frechet) {
 	EXPECT_FALSE(frechet.is_gumbell());
 	EXPECT_FALSE(frechet.is_weibull());
 	EXPECT_TRUE(frechet.is_frechet());
@@ -74,7 +74,7 @@ TEST_F(EV_Distribution_Test, TestIsMethods_Frechet) {
 	EXPECT_TRUE(frechet_noncenter.is_frechet());
 }
 
-TEST_F(EV_Distribution_Test, TestGetMethods_Centered) {
+TEST_F(GEV_Distribution_Test, TestGetMethods_Centered) {
 
 	EXPECT_EQ(0, gumbell.get_location());
 	EXPECT_EQ(0, weibull.get_location());
@@ -89,7 +89,7 @@ TEST_F(EV_Distribution_Test, TestGetMethods_Centered) {
 	EXPECT_EQ(0.5, frechet.get_shape());
 }
 
-TEST_F(EV_Distribution_Test, TestGetMethods_NonCentered) {
+TEST_F(GEV_Distribution_Test, TestGetMethods_NonCentered) {
 
 	EXPECT_EQ(1000, gumbell_noncenter.get_location());
 	EXPECT_EQ(50, weibull_noncenter.get_location());
@@ -106,7 +106,7 @@ TEST_F(EV_Distribution_Test, TestGetMethods_NonCentered) {
 
 // Data taken from MATLAB (r) 2017b
 
-TEST_F(EV_Distribution_Test, TestGumbell) {
+TEST_F(GEV_Distribution_Test, TestGumbell) {
 
 	EXPECT_DOUBLE_EQ(0, gumbell.pdf(1000));
 	EXPECT_NEAR(1.928749847963918e-22, gumbell.pdf(50), 1e-15);
@@ -126,7 +126,7 @@ TEST_F(EV_Distribution_Test, TestGumbell) {
 }
 
 
-TEST_F(EV_Distribution_Test, TestFrechet) {
+TEST_F(GEV_Distribution_Test, TestFrechet) {
 
 	EXPECT_DOUBLE_EQ(0, weibull.pdf(10));
 	EXPECT_NEAR(0.234853265703369, weibull.pdf(1.5), 1e-15);
@@ -147,7 +147,7 @@ TEST_F(EV_Distribution_Test, TestFrechet) {
 
 }
 
-TEST_F(EV_Distribution_Test, TestWeibull) {
+TEST_F(GEV_Distribution_Test, TestWeibull) {
 
 	EXPECT_NEAR(0, frechet.pdf(100000000), 1e-15);
 	EXPECT_NEAR(0.004502798505168, frechet.pdf(10), 1e-15);
@@ -168,7 +168,7 @@ TEST_F(EV_Distribution_Test, TestWeibull) {
 
 }
 
-TEST_F(EV_Distribution_Test, TestGumbell_noncenter) {
+TEST_F(GEV_Distribution_Test, TestGumbell_noncenter) {
 
 	EXPECT_NEAR(0, gumbell_noncenter.pdf(2000), 1e-15);
 	EXPECT_NEAR(0.000000186331964, gumbell_noncenter.pdf(1250), 1e-15);
@@ -189,7 +189,7 @@ TEST_F(EV_Distribution_Test, TestGumbell_noncenter) {
 }
 
 
-TEST_F(EV_Distribution_Test, TestWeibull_noncenter) {
+TEST_F(GEV_Distribution_Test, TestWeibull_noncenter) {
 
 	EXPECT_NEAR(0, weibull_noncenter.pdf(100000000), 1e-15);
 	EXPECT_NEAR(0, weibull_noncenter.pdf(90), 1e-15);
@@ -209,7 +209,7 @@ TEST_F(EV_Distribution_Test, TestWeibull_noncenter) {
 
 }
 
-TEST_F(EV_Distribution_Test, TestFrechet_noncenterPDF) {
+TEST_F(GEV_Distribution_Test, TestFrechet_noncenterPDF) {
 
 	EXPECT_NEAR(0.001891322928647e-6, frechet_noncenter.pdf(2e7), 1e-15);
 	EXPECT_NEAR(0.054765153057232e-6, frechet_noncenter.pdf(1.3e7), 1e-15);
@@ -221,7 +221,7 @@ TEST_F(EV_Distribution_Test, TestFrechet_noncenterPDF) {
 
 }
 
-TEST_F(EV_Distribution_Test, TestFrechet_noncenterCDF) {
+TEST_F(GEV_Distribution_Test, TestFrechet_noncenterCDF) {
 	EXPECT_NEAR(0.993358264430476, frechet_noncenter.cdf(2e7), 1e-15);
 	EXPECT_NEAR(0.898865163508697, frechet_noncenter.cdf(1.3e7), 1e-15);
 	EXPECT_NEAR(0.820754808298268, frechet_noncenter.cdf(1.2e7), 1e-15);
@@ -232,7 +232,7 @@ TEST_F(EV_Distribution_Test, TestFrechet_noncenterCDF) {
 
 }
 
-TEST_F(EV_Distribution_Test, TestQuantile) {
+TEST_F(GEV_Distribution_Test, TestQuantile) {
 
 	EXPECT_THROW(gumbell.quantile(0), std::invalid_argument);
 	EXPECT_NEAR(-0.326634259978281, gumbell.quantile(0.25), 1e-15);
@@ -253,7 +253,7 @@ TEST_F(EV_Distribution_Test, TestQuantile) {
 	EXPECT_THROW(frechet.quantile(1), std::invalid_argument);
 }
 
-TEST_F(EV_Distribution_Test, TestQuantileGumbell_noncenter) {
+TEST_F(GEV_Distribution_Test, TestQuantileGumbell_noncenter) {
 
 	EXPECT_THROW(gumbell_noncenter.quantile(0), std::invalid_argument);
 	EXPECT_NEAR(0.993467314800434e3, gumbell_noncenter.quantile(0.25), 1e-12);
@@ -262,7 +262,7 @@ TEST_F(EV_Distribution_Test, TestQuantileGumbell_noncenter) {
 	EXPECT_THROW(gumbell_noncenter.quantile(1), std::invalid_argument);
 }
 
-TEST_F(EV_Distribution_Test, TestQuantileFrechet_noncenter) {
+TEST_F(GEV_Distribution_Test, TestQuantileFrechet_noncenter) {
 
 	EXPECT_THROW(frechet_noncenter.quantile(0), std::invalid_argument);
 	EXPECT_NEAR(0.968634626759456e7, frechet_noncenter.quantile(0.25), 1e-8);
@@ -271,7 +271,7 @@ TEST_F(EV_Distribution_Test, TestQuantileFrechet_noncenter) {
 	EXPECT_THROW(frechet_noncenter.quantile(1), std::invalid_argument);
 }
 
-TEST_F(EV_Distribution_Test, TestQuantileWeibull_noncenter) {
+TEST_F(GEV_Distribution_Test, TestQuantileWeibull_noncenter) {
 
 	EXPECT_THROW(weibull_noncenter.quantile(0), std::invalid_argument);
 	EXPECT_NEAR(49.863863583228664, weibull_noncenter.quantile(0.25), 1e-8);
@@ -280,9 +280,9 @@ TEST_F(EV_Distribution_Test, TestQuantileWeibull_noncenter) {
 	EXPECT_THROW(weibull_noncenter.quantile(1), std::invalid_argument);
 }
 
-TEST_F(EV_Distribution_Test, TestExtraQuantile) {
+TEST_F(GEV_Distribution_Test, TestExtraQuantile) {
 
-	EV_Distribution weibull_test(14.063, 0.410583, -0.189839);
+	GEV_Distribution weibull_test(14.063, 0.410583, -0.189839);
 
 	EXPECT_NEAR(15.642968703665069, weibull_test.quantile(0.999), 1e-8);
 

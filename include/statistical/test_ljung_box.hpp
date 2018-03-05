@@ -22,7 +22,7 @@
 
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
-#include "evt/ev_distribution.hpp"
+#include "evt/gev_distribution.hpp"
 #include "global.hpp"
 
 #include <cmath>

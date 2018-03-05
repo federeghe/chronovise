@@ -15,12 +15,12 @@
  */
 
 /**
- * @file pwcet.hpp
+ * @file gev_distribution.cpp
  * @author Check commit authors
- * @brief File containing the pWCET class
+ * @brief File containing the GEV_Distribution class
  */
 
-#include "evt/ev_distribution.hpp"
+#include "evt/gev_distribution.hpp"
 
 #include <cassert>
 #include <cmath>
@@ -29,7 +29,7 @@
 namespace chronovise {
 
 
-double EV_Distribution::cdf(double x) const noexcept {
+double GEV_Distribution::cdf(double x) const noexcept {
 	const double mu = this->get_location();
 	const double sg = this->get_scale();
 	const double xi = this->get_shape();
@@ -59,7 +59,7 @@ double EV_Distribution::cdf(double x) const noexcept {
 	return cdf;
 }
 
-double EV_Distribution::pdf(double x) const noexcept {
+double GEV_Distribution::pdf(double x) const noexcept {
 	const double mu = this->get_location();
 	const double sg = this->get_scale();
 	const double xi = this->get_shape();
@@ -85,7 +85,7 @@ double EV_Distribution::pdf(double x) const noexcept {
 	return pdf;
 }
 
-double EV_Distribution::quantile(double p) const {
+double GEV_Distribution::quantile(double p) const {
 
 	if (p <= 0. || p >= 1.) {
 		throw std::invalid_argument("The probability value is not valid.");

@@ -10,7 +10,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
 			src/aec_hmi.cpp
-			src/evt/ev_distribution.cpp
+			src/evt/gev_distribution.cpp
 			src/evt/evtapproach_bm.cpp
 			src/evt/pwcet.cpp
 			src/statistical/test_ad.cpp

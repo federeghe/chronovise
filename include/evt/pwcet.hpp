@@ -23,7 +23,7 @@
 #ifndef EVT_PWCET_HPP_
 #define EVT_PWCET_HPP_
 
-#include "evt/ev_distribution.hpp"
+#include "evt/gev_distribution.hpp"
 
 #include <list>
 
@@ -38,15 +38,15 @@ public:
 	 * The default constructor. It initializes the pWCET with the provided distribution. The
 	 * class is immutable, the EV_Distribution cannot be changed.  
 	 */
-	pWCET(const EV_Distribution &ev_distribution) noexcept
-	: evd(ev_distribution)
+	pWCET(const GEV_Distribution &gev_distribution) noexcept
+	: evd(gev_distribution)
 	{
 	}
 
 	/**
 	 * Returns the underlying distribution passed to the constructor.
 	 */
-	inline const EV_Distribution & get_ev_distribution() const noexcept {
+	inline const GEV_Distribution & get_ev_distribution() const noexcept {
 		return this->evd;
 	}
 
@@ -76,9 +76,9 @@ public:
 	
 private:
 
-	const EV_Distribution evd;
+	const GEV_Distribution evd;
 };
 
 } // namespace chronovise
 
-#endif	// STATISTICAL_EV_DISTRIBUTION_HPP_
+#endif	// EVT_PWCET_HPP_

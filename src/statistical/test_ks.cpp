@@ -91,7 +91,7 @@ template <typename T_INPUT, typename T_TIME>
 bool TestKS<T_INPUT, T_TIME>::has_safe_power() const noexcept
 {
 	if (this->distribution_type == distribution_t::EVT_GEV) {
-		auto ev_dist = std::dynamic_pointer_cast<EV_Distribution>(this->ref_distribution);
+		auto ev_dist = std::dynamic_pointer_cast<GEV_Distribution>(this->ref_distribution);
 
 		return has_power() && ev_dist->get_shape() != 0.0
 			 	   && std::abs(ev_dist->get_shape()) < 0.5;

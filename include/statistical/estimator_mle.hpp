@@ -53,7 +53,7 @@ public:
 	/**
 	 * @copydoc Estimator::get_result()
 	 */
-	virtual EV_Distribution get_result() const override final {
+	virtual GEV_Distribution get_result() const override final {
 		if (result == nullptr)
 			throw std::runtime_error("Estimator never run");
 		
@@ -75,7 +75,7 @@ public:
 	}
 
 private:
-	std::shared_ptr<EV_Distribution> result;
+	std::shared_ptr<GEV_Distribution> result;
 	estimator_status_t status=estimator_status_t::UNKNOWN;
 
 };

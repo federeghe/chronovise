@@ -138,7 +138,7 @@ public:
 
 	/**
 	 * Set the reference (i.e. estimated) distribution to verify
-	 * @param ev_distribution The EV distribution to verify. The value is internally
+	 * @param distribution The EV distribution to verify. The value is internally
 	 * 			  copied
 	 */
 	void set_ref_distribution(std::shared_ptr<Distribution> distribution) noexcept

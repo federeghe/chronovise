@@ -15,13 +15,13 @@
  */
 
 /**
- * @file ev_distribution.hpp
+ * @file gev_distribution.hpp
  * @author Check commit authors
- * @brief File containing the EV_Distribution class
+ * @brief File containing the GEV_Distribution class
  */
 
-#ifndef EVT_EV_DISTRIBUTION_HPP_
-#define EVT_EV_DISTRIBUTION_HPP_
+#ifndef EVT_GEV_DISTRIBUTION_HPP_
+#define EVT_GEV_DISTRIBUTION_HPP_
 
 #include "statistical/distribution.hpp"
 
@@ -36,7 +36,7 @@ namespace chronovise {
  *	 - = 0: Gumbell distribution
  *	 - > 0: Frechet distribution 
  */
-class EV_Distribution : public Distribution {
+class GEV_Distribution : public Distribution {
 
 public:
 
@@ -44,7 +44,7 @@ public:
 	 * The default constructor. It initializes an Extreme-Value
 	 * distribution with location=0, scale=1, shape=0.
 	 */
-	explicit EV_Distribution() noexcept
+	explicit GEV_Distribution() noexcept
 	: param_location(0), param_scale(1), param_shape(0)
 	{
 	}
@@ -65,7 +65,7 @@ public:
 	 * @warning Pay attention to convention on the sign of shape parameter.
 	 *          Read the class description.
 	 */
-	explicit EV_Distribution(double location, double scale, double shape) noexcept
+	explicit GEV_Distribution(double location, double scale, double shape) noexcept
 	:  param_location(location), param_scale(scale), param_shape(shape)
 	{		
 	}
@@ -149,4 +149,4 @@ private:
 
 } // namespace chronovise
 
-#endif	// EVT_EV_DISTRIBUTION_HPP_
+#endif	// EVT_GEV_DISTRIBUTION_HPP_

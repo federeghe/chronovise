@@ -241,7 +241,7 @@ private:
 
 	MeasuresPool<T_INPUT, T_TIME> measures;
 	MeasuresPool<T_INPUT, T_TIME> wcots;
-	std::list<EV_Distribution> ev_dist_estimated;
+	std::list<GEV_Distribution> ev_dist_estimated;
 
 	Safety safety;
 

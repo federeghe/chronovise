@@ -79,4 +79,4 @@ private:
 
 } // namespace chronovise
 
-#endif	// EVT_EV_DISTRIBUTION_UNIFORM_HPP_
+#endif	// STATISTICAL_DISTRIBUTION_UNIFORM_HPP_

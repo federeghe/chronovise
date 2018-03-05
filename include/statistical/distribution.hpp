@@ -73,4 +73,4 @@ public:
 
 } // namespace chronovise
 
-#endif	// EVT_EV_DISTRIBUTION_HPP_
+#endif	// STATISTICAL_DISTRIBUTION_HPP_

@@ -173,7 +173,7 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 	ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
 	ceres::Solve(options, problem, parameters, &summary);
 
-	result = std::make_shared<EV_Distribution>(parameters[0], parameters[1], parameters[2]);
+	result = std::make_shared<GEV_Distribution>(parameters[0], parameters[1], parameters[2]);
 
 #if LOCAL_DEBUG
 	std::cout << summary.FullReport() << std::endl;
