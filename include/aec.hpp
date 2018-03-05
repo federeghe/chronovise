@@ -22,16 +22,17 @@
 
 #ifndef AEC_HPP_
 #define AEC_HPP_
-#include "measures_pool.hpp"
 
 #include "evt/evtapproach.hpp"
 #include "evt/pwcet.hpp"
+#include "fixer.hpp"
 #include "global.hpp"
 #include "input/generator.hpp"
+#include "measures_pool.hpp"
+#include "safety.hpp"
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
 #include "utility/utility.hpp"
-#include "safety.hpp"
 
 #include <list>
 #include <memory>
@@ -51,6 +52,7 @@ typedef enum class merger_type_e {
 	TRACE_MERGE,	/** Trace-merging technique */
 	ENVELOPE	/** Envelope-merging technique */
 } merger_type_t;
+
 
 /**
  * The abstract class to be extended by the application. It is often shorten in the
@@ -208,18 +210,7 @@ protected:
 
 private:
 
-	/* *** PRIVATE TYPE *** */
-	typedef enum class internal_status_e {
-		OK = 0,
-		REJECT_SAMPLE_TEST,
-		FAIL_EVT_APP_MIN_SAMPLE_SIZE,
-		FAIL_POST_RUN_TEST_SAMPLE_SIZE,
-		FAIL_POST_EVT_TEST_SAMPLE_SIZE,
-		FAIL_EVT_ESTIMATOR,
-		REJECT_POST_RUN_TEST,
-		REJECT_POST_EVT_TEST
-	} internal_status_t;
-
+	/* *** PRIVATE TYPES *** */
 	typedef std::list<test_ptr_t> list_of_test_t;
 	typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 
@@ -264,7 +255,7 @@ private:
 
 	void internal_cycle();
 
-	internal_status_t execute_analysis() noexcept;
+	aec_status_t execute_analysis() noexcept;
 
 	void check_preconditions() const noexcept;
 

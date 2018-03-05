@@ -96,7 +96,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
 	iteration = 0;
 
-	internal_status_t ret_analysis;
+	aec_status_t ret_analysis;
 	bool keep_going = true;
 
 	while(keep_going) {
@@ -138,7 +138,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			// and execute_analysis() failed.
 			ret_analysis = execute_analysis();
 
-			if (ret_analysis == internal_status_t::OK || ret == AEC_OK) {
+			if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
 				break;
 			}
 
@@ -146,15 +146,15 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 			keep_going = true;
 
 			switch(ret_analysis) {
-				case internal_status_t::REJECT_SAMPLE_TEST:
+				case aec_status_t::REJECT_SAMPLE_TEST:
 					VERB(std::cerr << '$');
 					keep_going = false;
 				break;
-				case internal_status_t::FAIL_EVT_ESTIMATOR:
+				case aec_status_t::FAIL_EVT_ESTIMATOR:
 					VERB(std::cerr << '#');
 					keep_going = false;
 				break;
-				case internal_status_t::REJECT_POST_EVT_TEST:
+				case aec_status_t::REJECT_POST_EVT_TEST:
 					VERB(std::cerr << 'X');
 					keep_going = false;
 				break;
@@ -168,7 +168,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 	}
 	measures.clear();
 
-	if (ret_analysis == internal_status_t::OK || ret == AEC_OK) {
+	if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
 		VERB(std::cerr << '+');
 	} else {
 		this->safety.set_input_representativity(false);
@@ -176,8 +176,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 }
 
 template <typename T_INPUT, typename T_TIME>
-typename AbstractExecutionContext<T_INPUT,T_TIME>::internal_status_t
-AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
+aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	// Create a pool set to manage training e test
 	MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve);
@@ -186,7 +185,7 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 	for (auto &test : sample_tests) {
 		test->run(measures);
 		if (test->is_reject()) {
-			return internal_status_t::REJECT_SAMPLE_TEST;
+			return aec_status_t::REJECT_SAMPLE_TEST;
 		}
 	}
 
@@ -200,7 +199,7 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (measures_to_estimate.size() < this->evt_estimator->get_minimal_sample_size()) {
 		min_nr_iterations_total *= 2;
-		return internal_status_t::FAIL_EVT_APP_MIN_SAMPLE_SIZE;
+		return aec_status_t::FAIL_EVT_APP_MIN_SAMPLE_SIZE;
 	}
 
 	auto lambda_check = [&measures_test](const auto &test) {
@@ -209,12 +208,12 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (std::any_of(post_run_tests.cbegin(), post_run_tests.cend(), lambda_check)) {
 		min_nr_iterations_total *= 2;
-		return internal_status_t::FAIL_POST_RUN_TEST_SAMPLE_SIZE;
+		return aec_status_t::FAIL_POST_RUN_TEST_SAMPLE_SIZE;
 	}
 
 	if (std::any_of(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_check)) {
 		min_nr_iterations_total *= 2;
-		return internal_status_t::FAIL_POST_EVT_TEST_SAMPLE_SIZE;
+		return aec_status_t::FAIL_POST_EVT_TEST_SAMPLE_SIZE;
 	}
 
 	// We can now estimated the EVT distribution...
@@ -222,7 +221,7 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
 	if (this->evt_estimator->get_status() != estimator_status_t::SUCCESS) {
 		// TODO: Handle other result values
-		return internal_status_t::FAIL_EVT_ESTIMATOR;
+		return aec_status_t::FAIL_EVT_ESTIMATOR;
 	}
 
 	EV_Distribution evd = this->evt_estimator->get_result();
@@ -234,13 +233,13 @@ AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 		test->set_ref_distribution(ev_ref_shared);
 		test->run(measures_test);
 		if (test->is_reject()) {
-			return internal_status_t::REJECT_POST_EVT_TEST;
+			return aec_status_t::REJECT_POST_EVT_TEST;
 		}
 	}
 
 	ev_dist_estimated.push_back(evd);
 	wcots.push(current_input,this->measures.max());
-	return internal_status_t::OK;
+	return aec_status_t::OK;
 }
 
 template <typename T_INPUT, typename T_TIME>
