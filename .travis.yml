@@ -45,8 +45,9 @@ script:
   - mkdir build
   - cd build
   - cmake ..
-  - make -j8
-  - ./tests/run_tests
+  - make -j2
+  - make tests
+  - make check
 
 before_install:
 - eval "${MATRIX_EVAL}"
