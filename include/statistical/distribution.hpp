@@ -32,6 +32,7 @@ namespace chronovise {
 typedef enum class distribution_e {
 	UNKNOWN,
 	EVT_GEV,
+	EVT_GPD,
 	UNIFORM
 } distribution_t;
 

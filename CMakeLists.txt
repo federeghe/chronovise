@@ -11,6 +11,7 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/aec.cpp
 			src/aec_hmi.cpp
 			src/evt/gev_distribution.cpp
+			src/evt/gpd_distribution.cpp
 			src/evt/evtapproach_bm.cpp
 			src/evt/pwcet.cpp
 			src/statistical/test_ad.cpp
