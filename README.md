@@ -32,6 +32,12 @@ $ cmake ..
 $ make
 ```
 
+You can also enable OpenMP to speedup the process changing the `cmake` command to:
+
+```
+cmake -DUSE_OPENMP=ON ..
+```
+
 Test suite
 ----------
 The test suite is based on [Google Test](https://github.com/google/googletest), so you need to
