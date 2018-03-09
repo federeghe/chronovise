@@ -30,13 +30,11 @@ void EVTApproach_PoT<T_INPUT, T_TIME>::perform(const MeasuresPoolSet<T_INPUT, T_
 
 	apply_pot(this->training_pool,
 		 original_pool.cbegin_trainset(),
-		 original_pool.cend_trainset(),
-		 original_pool.size_trainset());
+		 original_pool.cend_trainset());
 
 	apply_pot(this->test_pool,
 		 original_pool.cbegin_testset(),
-		 original_pool.cend_testset(),
-		 original_pool.size_testset());
+		 original_pool.cend_testset());
 
 
 }
@@ -44,8 +42,7 @@ void EVTApproach_PoT<T_INPUT, T_TIME>::perform(const MeasuresPoolSet<T_INPUT, T_
 template <typename T_INPUT, typename T_TIME>
 void EVTApproach_PoT<T_INPUT, T_TIME>::apply_pot(MeasuresPool<T_INPUT, T_TIME> & output_pool,
 					       typename std::multimap<T_INPUT,T_TIME>::const_iterator begin,
-					       typename std::multimap<T_INPUT,T_TIME>::const_iterator end,
-					       int size) {
+					       typename std::multimap<T_INPUT,T_TIME>::const_iterator end) {
 
 	size_t i=1;
 

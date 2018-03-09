@@ -50,8 +50,7 @@ private:
 
 	void apply_pot(MeasuresPool<T_INPUT, T_TIME> & output_pool,
 			typename std::multimap<T_INPUT,T_TIME>::const_iterator begin,
-			typename std::multimap<T_INPUT,T_TIME>::const_iterator end,
-			int size);
+			typename std::multimap<T_INPUT,T_TIME>::const_iterator end);
 
 
 };
