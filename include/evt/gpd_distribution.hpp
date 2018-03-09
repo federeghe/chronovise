@@ -25,6 +25,8 @@
 
 #include "statistical/distribution.hpp"
 
+#include <stdexcept>
+
 namespace chronovise {
 
 /**
@@ -55,14 +57,17 @@ public:
 	 * The full specification constructor. It initializes an Generalized Pareto Distribution
 	 * with the provided values.
 	 * @param location The location parameter (\mu)
-	 * @param scale    The scale parameter (\sigma)
+	 * @param scale    The scale parameter (\sigma), it must be positive
 	 * @param shape    The shape parameter (\xi)
 	 * @warning Pay attention to convention on the sign of shape parameter.
 	 *          Read the class description.
 	 */
-	explicit GPD_Distribution(double location, double scale, double shape) noexcept
+	explicit GPD_Distribution(double location, double scale, double shape)
 	:  param_location(location), param_scale(scale), param_shape(shape)
-	{		
+	{
+		if (scale < 0) {
+			throw std::invalid_argument("Scale parameter must be positive");
+		}
 	}
 
 	/**
@@ -93,15 +98,15 @@ public:
 
 	/**
 	 * Check if the distribution degenerates to Pareto distribution
-	 * @return true if shape == 0.0
+	 * @return true if shape > 0.0 and location = scale / shape
 	 */
 	bool is_pareto() const noexcept {
-		return param_shape >= 0.0 && param_location == param_scale / param_shape;
+		return param_shape > 0. && param_location == param_scale / param_shape;
 	}
 
 	/**
 	 * Check if the distribution degenerates to Exponential distribution
-	 * @return true if shape == 0.0
+	 * @return true if shape and location are both zero
 	 */
 	bool is_exponential() const noexcept {
 		return this->param_shape == 0.0 && this->param_location == 0.0;
