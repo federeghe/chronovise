@@ -3,7 +3,8 @@ add_executable(run_all_tests EXCLUDE_FROM_ALL
 	test_generators.cpp
 	test_estimator_mle.cpp
 	test_bm.cpp
-	test_evt_distributions.cpp
+	test_gev_distribution.cpp
+	test_gpd_distribution.cpp
 	test_test_ks.cpp
 	test_test_ad.cpp
 	test_aec_1.cpp
