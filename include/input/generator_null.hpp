@@ -34,12 +34,12 @@ class NullInputGenerator : public InputGenerator<unsigned int> {
 
 public:
 
-	/**
-	 * @copydoc InputGenerator::get()
-	 */
-	virtual unsigned int get() noexcept override {
-		return 0;
-	}
+    /**
+     * @copydoc InputGenerator::get()
+     */
+    virtual unsigned int get() noexcept override {
+        return 0;
+    }
 
 private:
 

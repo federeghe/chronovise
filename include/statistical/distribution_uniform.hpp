@@ -32,51 +32,51 @@ namespace chronovise {
 class DistributionUniform : public Distribution {
 
 public:
-	
-	DistributionUniform(double a, double b) : a(a), b(b)
-	{}
+    
+    DistributionUniform(double a, double b) : a(a), b(b)
+    {}
 
-	/**
-	 * @copydoc Distribution::get_type()
-	 */
-	virtual distribution_t get_type() const noexcept {
-		return distribution_t::UNIFORM;
-	}
+    /**
+     * @copydoc Distribution::get_type()
+     */
+    virtual distribution_t get_type() const noexcept {
+        return distribution_t::UNIFORM;
+    }
 
-	/**
-	 * @copydoc Distribution::cdf
-	 */
-	virtual double cdf(double x) const noexcept {
-		if (x < a) return 0;
-		if (x > b) return 1;
-		return (x-a)/(b-a);
-	}
-	
-	/**
-	 * @copydoc Distribution::pdf
-	 */
-	virtual double pdf(double x) const noexcept {
-		if (x < a || x > b) return 0;
-		return 1. / (b - a);
-	}
+    /**
+     * @copydoc Distribution::cdf
+     */
+    virtual double cdf(double x) const noexcept {
+        if (x < a) return 0;
+        if (x > b) return 1;
+        return (x-a)/(b-a);
+    }
+    
+    /**
+     * @copydoc Distribution::pdf
+     */
+    virtual double pdf(double x) const noexcept {
+        if (x < a || x > b) return 0;
+        return 1. / (b - a);
+    }
 
-	/**
-	 * @copydoc Distribution::quantile
-	 */
-	virtual double quantile(double p) const {
-		if (p <= 0. || p >= 1.) {
-			throw std::invalid_argument("The probability value is not valid.");
-		}
+    /**
+     * @copydoc Distribution::quantile
+     */
+    virtual double quantile(double p) const {
+        if (p <= 0. || p >= 1.) {
+            throw std::invalid_argument("The probability value is not valid.");
+        }
 
-		return a + p * (b-a);
-	}
+        return a + p * (b-a);
+    }
 
 private:
-	double a;
-	double b;
+    double a;
+    double b;
 
 };
 
 } // namespace chronovise
 
-#endif	// STATISTICAL_DISTRIBUTION_UNIFORM_HPP_
+#endif    // STATISTICAL_DISTRIBUTION_UNIFORM_HPP_

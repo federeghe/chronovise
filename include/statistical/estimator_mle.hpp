@@ -39,45 +39,45 @@ class Estimator_MLE : public Estimator<T_INPUT, T_TIME> {
 
 public:
 
-	/**
-	 * A simple destructor
-	 */
-	virtual ~Estimator_MLE() {}
+    /**
+     * A simple destructor
+     */
+    virtual ~Estimator_MLE() {}
 
-	/**
-	 * @copydoc Estimator::run()
-	 * @note The initial guess for MLE is set to location=0, shape=0,
-	 * scale=measures.max()/100.
-	 */
-	virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept override;
+    /**
+     * @copydoc Estimator::run()
+     * @note The initial guess for MLE is set to location=0, shape=0,
+     * scale=measures.max()/100.
+     */
+    virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept override;
 
-	/**
-	 * @copydoc Estimator::get_result()
-	 */
-	virtual std::shared_ptr<Distribution> get_result() const override final {
-		if (result == nullptr)
-			throw std::runtime_error("Estimator never run");
-		
-		return result;
-	}
+    /**
+     * @copydoc Estimator::get_result()
+     */
+    virtual std::shared_ptr<Distribution> get_result() const override final {
+        if (result == nullptr)
+            throw std::runtime_error("Estimator never run");
+        
+        return result;
+    }
 
-	/**
-	 * @copydoc Estimator::get_status()
-	 */
-	virtual estimator_status_t get_status() const noexcept {
-		return status;
-	}
+    /**
+     * @copydoc Estimator::get_status()
+     */
+    virtual estimator_status_t get_status() const noexcept {
+        return status;
+    }
 
-	/**
-	 * @copydoc Estimator::get_minimal_sample_size()
-	 */
-	virtual unsigned long get_minimal_sample_size() const noexcept {
-		return 2;	// Well... in theory ;-)
-	}
+    /**
+     * @copydoc Estimator::get_minimal_sample_size()
+     */
+    virtual unsigned long get_minimal_sample_size() const noexcept {
+        return 2;    // Well... in theory ;-)
+    }
 
 private:
-	std::shared_ptr<Distribution> result;
-	estimator_status_t status=estimator_status_t::UNKNOWN;
+    std::shared_ptr<Distribution> result;
+    estimator_status_t status=estimator_status_t::UNKNOWN;
 
 };
 

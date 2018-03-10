@@ -39,53 +39,53 @@ class TestKS : public StatisticalTest_AfterEVT<T_INPUT, T_TIME> {
 
 public:
 
-	/**
-	 * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
-	 * @note T_TIME must be an arithmetic type, otherwise a static_assert triggers.
-	 */
-	TestKS(double significance_level, distribution_t distribution_type)
-	: StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type)
-	{
-		static_assert(std::is_arithmetic<T_TIME>::value,
-		"Type must be an integer or floating point type");
-	};
+    /**
+     * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
+     * @note T_TIME must be an arithmetic type, otherwise a static_assert triggers.
+     */
+    TestKS(double significance_level, distribution_t distribution_type)
+    : StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type)
+    {
+        static_assert(std::is_arithmetic<T_TIME>::value,
+        "Type must be an integer or floating point type");
+    };
 
-	/**
-	 * @copydoc StatisticalTest::run()
-	 */
-	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
+    /**
+     * @copydoc StatisticalTest::run()
+     */
+    virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
 
-	/**
-	 * @copydoc StatisticalTest::get_power()
-	 */
- 	virtual double get_power() const override {
-		return this->power;
-	}
+    /**
+     * @copydoc StatisticalTest::get_power()
+     */
+     virtual double get_power() const override {
+        return this->power;
+    }
 
-	/**
-	 * @copydoc StatisticalTest::has_power()
-	 */
- 	virtual bool has_power() const noexcept override;
+    /**
+     * @copydoc StatisticalTest::has_power()
+     */
+     virtual bool has_power() const noexcept override;
 
-	/**
-	 * @copydoc StatisticalTest::has_safe_power()
-	 */
- 	virtual bool has_safe_power() const noexcept override;
+    /**
+     * @copydoc StatisticalTest::has_safe_power()
+     */
+     virtual bool has_safe_power() const noexcept override;
 
-	/**
-	 * @copydoc StatisticalTest::get_minimal_sample_size()
-	 */
-	virtual unsigned long get_minimal_sample_size() const noexcept override {
-		return TEST_KS_MIN_SAMPLES;
-	}
+    /**
+     * @copydoc StatisticalTest::get_minimal_sample_size()
+     */
+    virtual unsigned long get_minimal_sample_size() const noexcept override {
+        return TEST_KS_MIN_SAMPLES;
+    }
 
-	/**
-	 * @copydoc StatisticalTest::get_minimal_sample_size(unsigned short) const
-	 */
-	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override;
+    /**
+     * @copydoc StatisticalTest::get_minimal_sample_size(unsigned short) const
+     */
+    virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override;
 
 private:
-	double power;
+    double power;
 
 };
 

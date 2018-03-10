@@ -30,76 +30,76 @@ namespace chronovise {
 
 
 double GEV_Distribution::cdf(double x) const noexcept {
-	const double mu = this->get_location();
-	const double sg = this->get_scale();
-	const double xi = this->get_shape();
-	const double norm_x = ( x - mu ) / sg;
+    const double mu = this->get_location();
+    const double sg = this->get_scale();
+    const double xi = this->get_shape();
+    const double norm_x = ( x - mu ) / sg;
 
-	double t_x;	// The value that will contain the t(wcet) value
+    double t_x;    // The value that will contain the t(wcet) value
 
-	if (this->is_gumbell()) {
-		t_x = std::exp( - norm_x);
-	} else {
-		double cond_value =  1. + xi * norm_x;
-		if (cond_value < 0.) {
-			// This is a problematic case, the F(x) is not defined in this range, because
-			// we are in the far right or in the far left of the distribution.
-			return xi < 0. ? 1. : 0.;
-		}
+    if (this->is_gumbell()) {
+        t_x = std::exp( - norm_x);
+    } else {
+        double cond_value =  1. + xi * norm_x;
+        if (cond_value < 0.) {
+            // This is a problematic case, the F(x) is not defined in this range, because
+            // we are in the far right or in the far left of the distribution.
+            return xi < 0. ? 1. : 0.;
+        }
 
-		// t(x) calculation
-		t_x = std::pow(cond_value,  - 1. / xi);
-	}
+        // t(x) calculation
+        t_x = std::pow(cond_value,  - 1. / xi);
+    }
 
-	// 1-CDF calculation
-	double cdf = std::exp(-t_x);
+    // 1-CDF calculation
+    double cdf = std::exp(-t_x);
 
-	assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
+    assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
 
-	return cdf;
+    return cdf;
 }
 
 double GEV_Distribution::pdf(double x) const noexcept {
-	const double mu = this->get_location();
-	const double sg = this->get_scale();
-	const double xi = this->get_shape();
-	const double norm_x = ( x - mu ) / sg;
+    const double mu = this->get_location();
+    const double sg = this->get_scale();
+    const double xi = this->get_shape();
+    const double norm_x = ( x - mu ) / sg;
 
-	double pdf;
+    double pdf;
 
-	if (this->is_gumbell()) {
-		pdf = std::exp( - std::exp( - norm_x ) ) * std::exp(- norm_x) / sg;
-	} else {
-		double limit = mu - sg / xi;
-		if ( (xi < 0. && x > limit) || (xi > 0. && x < limit)) {
-			return 0.;
-		}
+    if (this->is_gumbell()) {
+        pdf = std::exp( - std::exp( - norm_x ) ) * std::exp(- norm_x) / sg;
+    } else {
+        double limit = mu - sg / xi;
+        if ( (xi < 0. && x > limit) || (xi > 0. && x < limit)) {
+            return 0.;
+        }
 
-		double cond_value =  1. + xi * norm_x;
+        double cond_value =  1. + xi * norm_x;
 
-		pdf = std::exp ( - std::pow(cond_value, -1. / xi)) * std::pow(cond_value, 1. / (-xi) - 1.) / sg;
-	}
+        pdf = std::exp ( - std::pow(cond_value, -1. / xi)) * std::pow(cond_value, 1. / (-xi) - 1.) / sg;
+    }
 
-	assert(pdf >= 0. && pdf <= 1. && "Something bad happened in calculation.");
+    assert(pdf >= 0. && pdf <= 1. && "Something bad happened in calculation.");
 
-	return pdf;
+    return pdf;
 }
 
 double GEV_Distribution::quantile(double p) const {
 
-	if (p <= 0. || p >= 1.) {
-		throw std::invalid_argument("The probability value is not valid.");
-	}
+    if (p <= 0. || p >= 1.) {
+        throw std::invalid_argument("The probability value is not valid.");
+    }
 
-	const double mu = this->get_location();
-	const double sg = this->get_scale();
-	const double xi = this->get_shape();
+    const double mu = this->get_location();
+    const double sg = this->get_scale();
+    const double xi = this->get_shape();
 
-	if (this->is_gumbell()) {
-		return mu - sg * std::log(-std::log(p));
-	} else {
-		return mu + sg * (1.-std::pow((-std::log(p)),(-xi)))/(-xi);
-	}
+    if (this->is_gumbell()) {
+        return mu - sg * std::log(-std::log(p));
+    } else {
+        return mu + sg * (1.-std::pow((-std::log(p)),(-xi)))/(-xi);
+    }
 }
 
 } // namespace chronovise

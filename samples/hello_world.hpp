@@ -10,21 +10,21 @@
 class HelloWorld : public chronovise::AbstractExecutionContext<unsigned int, double> {
 
 public:
-	HelloWorld() : uniform_input_dist(
-		new chronovise::UniformInputGenerator<unsigned int>(0,10)
-	) {
+    HelloWorld() : uniform_input_dist(
+        new chronovise::UniformInputGenerator<unsigned int>(0,10)
+    ) {
 
-	}
+    }
 
-	virtual exit_code_t onSetup() noexcept;
-	virtual exit_code_t onConfigure() noexcept;
-	virtual exit_code_t onRun() noexcept;
-	virtual exit_code_t onMonitor() noexcept;
-	virtual exit_code_t onRelease() noexcept;
+    virtual exit_code_t onSetup() noexcept;
+    virtual exit_code_t onConfigure() noexcept;
+    virtual exit_code_t onRun() noexcept;
+    virtual exit_code_t onMonitor() noexcept;
+    virtual exit_code_t onRelease() noexcept;
 
 private:
-	std::unique_ptr<chronovise::UniformInputGenerator<unsigned int>> uniform_input_dist;
-	chronovise::Timing timing;
+    std::unique_ptr<chronovise::UniformInputGenerator<unsigned int>> uniform_input_dist;
+    chronovise::Timing timing;
 
 
 };

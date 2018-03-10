@@ -27,9 +27,9 @@
 #include <chrono>
 
 #if __GNUC__
-	#define FORCED_INLINE_FUNCTION __attribute__((always_inline))
+    #define FORCED_INLINE_FUNCTION __attribute__((always_inline))
 #else
-	#define FORCED_INLINE_FUNCTION inline
+    #define FORCED_INLINE_FUNCTION inline
 #endif
 
 namespace chronovise {
@@ -44,56 +44,56 @@ class Timing {
 
 public:
 
-	/**
-	 * Starts the timing. It save the current time point internally as the
-	 * start point of the measurement.
-	 * @note This class is always inline (if the compiler allows it).
-	 */
-	FORCED_INLINE_FUNCTION void start_timing() noexcept {
-		start_tp = std::chrono::high_resolution_clock::now();
-	}
+    /**
+     * Starts the timing. It save the current time point internally as the
+     * start point of the measurement.
+     * @note This class is always inline (if the compiler allows it).
+     */
+    FORCED_INLINE_FUNCTION void start_timing() noexcept {
+        start_tp = std::chrono::high_resolution_clock::now();
+    }
 
-	/**
-	 * Stops the timing. It save the current time point internally as the
-	 * stop point of the measurement. It should be called after start_timing()
-	 * otherwise undefined behaviour occurs.
-	 * @note This class is always inline (if the compiler allows it).
-	 */
-	FORCED_INLINE_FUNCTION void stop_timing() noexcept {
-		stop_tp  = std::chrono::high_resolution_clock::now();
-	}
+    /**
+     * Stops the timing. It save the current time point internally as the
+     * stop point of the measurement. It should be called after start_timing()
+     * otherwise undefined behaviour occurs.
+     * @note This class is always inline (if the compiler allows it).
+     */
+    FORCED_INLINE_FUNCTION void stop_timing() noexcept {
+        stop_tp  = std::chrono::high_resolution_clock::now();
+    }
 
-	/**
-	 * Returns the time duration (stop - start) in nanoseconds.
-	 */
-	inline unsigned long get_ns() const noexcept {
-		return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::nano>>(stop_tp - start_tp).count();
-	}
+    /**
+     * Returns the time duration (stop - start) in nanoseconds.
+     */
+    inline unsigned long get_ns() const noexcept {
+        return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::nano>>(stop_tp - start_tp).count();
+    }
 
-	/**
-	 * Returns the time duration (stop - start) in microseconds.
-	 */
-	inline unsigned long get_us() const noexcept {
-		return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::micro>>(stop_tp - start_tp).count();
-	}
+    /**
+     * Returns the time duration (stop - start) in microseconds.
+     */
+    inline unsigned long get_us() const noexcept {
+        return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::micro>>(stop_tp - start_tp).count();
+    }
 
-	/**
-	 * Returns the time duration (stop - start) in milliseconds.
-	 */
-	inline unsigned long get_ms() const noexcept {
-		return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::milli>>(stop_tp - start_tp).count();
-	}
+    /**
+     * Returns the time duration (stop - start) in milliseconds.
+     */
+    inline unsigned long get_ms() const noexcept {
+        return std::chrono::duration_cast<std::chrono::duration<unsigned long,std::milli>>(stop_tp - start_tp).count();
+    }
 
-	/**
-	 * Returns the time duration (stop - start) in seconds.
-	 */
-	inline unsigned long get_s() const noexcept {
-		return std::chrono::duration_cast<std::chrono::duration<unsigned long>>(stop_tp - start_tp).count();
-	}
+    /**
+     * Returns the time duration (stop - start) in seconds.
+     */
+    inline unsigned long get_s() const noexcept {
+        return std::chrono::duration_cast<std::chrono::duration<unsigned long>>(stop_tp - start_tp).count();
+    }
 
 private:
-	std::chrono::high_resolution_clock::time_point start_tp;
-	std::chrono::high_resolution_clock::time_point stop_tp;
+    std::chrono::high_resolution_clock::time_point start_tp;
+    std::chrono::high_resolution_clock::time_point stop_tp;
 
 };
 

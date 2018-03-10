@@ -30,10 +30,10 @@ namespace chronovise {
  * and accordingly implement the Test*
  */
 typedef enum class distribution_e {
-	UNKNOWN,
-	EVT_GEV,
-	EVT_GPD,
-	UNIFORM
+    UNKNOWN,
+    EVT_GEV,
+    EVT_GPD,
+    UNIFORM
 } distribution_t;
 
 
@@ -44,34 +44,34 @@ class Distribution {
 
 public:
 
-	/**
-	 * Returns the type of the distribution
-	 */
-	virtual distribution_t get_type() const noexcept = 0;
+    /**
+     * Returns the type of the distribution
+     */
+    virtual distribution_t get_type() const noexcept = 0;
 
-	/**
-	 * Returns the cumulative distribution function of the distribution
-	 * @return F(x) : x is the passed parameter
-	 */
-	virtual double cdf(double x) const noexcept = 0;
-	
-	/**
-	 * Returns the probability density function of the distribution
-	 * @return f(x) : x is the passed parameter
-	 */
-	virtual double pdf(double x) const noexcept = 0;
+    /**
+     * Returns the cumulative distribution function of the distribution
+     * @return F(x) : x is the passed parameter
+     */
+    virtual double cdf(double x) const noexcept = 0;
+    
+    /**
+     * Returns the probability density function of the distribution
+     * @return f(x) : x is the passed parameter
+     */
+    virtual double pdf(double x) const noexcept = 0;
 
-	/**
-	 * Returns the p-quantile of the distribution
-	 * @param p The probability in the range (0;1) extremes not included
-	 * @throw std::invalid_argument if p is not a valid probability.
-	 * @return x : p=F(x)
-	 */
-	virtual double quantile(double p) const = 0;
+    /**
+     * Returns the p-quantile of the distribution
+     * @param p The probability in the range (0;1) extremes not included
+     * @throw std::invalid_argument if p is not a valid probability.
+     * @return x : p=F(x)
+     */
+    virtual double quantile(double p) const = 0;
 
 
 };
 
 } // namespace chronovise
 
-#endif	// STATISTICAL_DISTRIBUTION_HPP_
+#endif    // STATISTICAL_DISTRIBUTION_HPP_

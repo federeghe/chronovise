@@ -34,10 +34,10 @@ class InputGenerator {
 
 public:
 
-	/**
-	 * Generates a new input value.
-	 */
-	virtual T get() noexcept = 0;
+    /**
+     * Generates a new input value.
+     */
+    virtual T get() noexcept = 0;
 
 };
 

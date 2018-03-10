@@ -35,30 +35,30 @@ class UniformInputGenerator : public InputGenerator<T> {
 
 public:
 
-	/**
-	 * Min-Max constructor. It inizializes the seed from
-	 * a random available device. The numbes are drawn from
-	 * the interval [min,max] with a uniform probability.
-	 * @param min The maximum value of the generated values
-	 * @param max The maximum value of the generated values
-	 */
-	UniformInputGenerator(T min, T max) : mt(rd())
-	{
-		this->min = min;
-		this->max = max;
-	} 
+    /**
+     * Min-Max constructor. It inizializes the seed from
+     * a random available device. The numbes are drawn from
+     * the interval [min,max] with a uniform probability.
+     * @param min The maximum value of the generated values
+     * @param max The maximum value of the generated values
+     */
+    UniformInputGenerator(T min, T max) : mt(rd())
+    {
+        this->min = min;
+        this->max = max;
+    } 
 
-	/**
-	 * @copydoc InputGenerator::get()
-	 */
-	virtual T get() noexcept override;
+    /**
+     * @copydoc InputGenerator::get()
+     */
+    virtual T get() noexcept override;
 
 private:
-	std::random_device rd;
-	std::mt19937 mt;
-	
-	T min;
-	T max;
+    std::random_device rd;
+    std::mt19937 mt;
+    
+    T min;
+    T max;
 
 };
 

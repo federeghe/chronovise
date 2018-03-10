@@ -14,50 +14,50 @@ protected:
 
 TEST_F(EVPoT_Test, PoTCheck) {
 
-	MeasuresPool<int, unsigned long> source;
+    MeasuresPool<int, unsigned long> source;
 
-	for (int i=1; i<=100; i++) {
-		source.push(1,i);
-	}
-	for (int i=1; i<=100; i++) {
-		source.push(1,i);
-	}
-	
-	EVTApproach_PoT<int, unsigned long> ebm(50);
-	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    
+    EVTApproach_PoT<int, unsigned long> ebm(50);
+    ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
 
-	auto &result = ebm.get_training_pool();
+    auto &result = ebm.get_training_pool();
 
-	ASSERT_EQ(result.size(), 50);
+    ASSERT_EQ(result.size(), 50);
 
-	int i=51;
-	for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
-		ASSERT_EQ(it->second, i);
-	}
+    int i=51;
+    for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
+        ASSERT_EQ(it->second, i);
+    }
 
 }
 
 TEST_F(EVPoT_Test, PoTCheck_Testset) {
-	MeasuresPool<int, unsigned long> source;
+    MeasuresPool<int, unsigned long> source;
 
-	for (int i=1; i<=100; i++) {
-		source.push(1,i);
-	}
-	for (int i=1; i<=100; i++) {
-		source.push(1,i);
-	}
-	
-	EVTApproach_PoT<int, unsigned long> ebm(50);
-	ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    
+    EVTApproach_PoT<int, unsigned long> ebm(50);
+    ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5));
 
-	auto &result = ebm.get_test_pool();
+    auto &result = ebm.get_test_pool();
 
-	ASSERT_EQ(result.size(), 50);
+    ASSERT_EQ(result.size(), 50);
 
-	int i=51;
-	for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
-		ASSERT_EQ(it->second, i);
-	}
+    int i=51;
+    for (auto it = result.cbegin(); it != result.cend(); it++, i++) {
+        ASSERT_EQ(it->second, i);
+    }
 
 
 }

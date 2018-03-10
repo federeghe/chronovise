@@ -2,10 +2,10 @@
 #include "hello_world.hpp"
 
 int main() {
-	chronovise::AbstractExecutionContext<unsigned int, double> *aec = new HelloWorld();
-	aec->run();
+    chronovise::AbstractExecutionContext<unsigned int, double> *aec = new HelloWorld();
+    aec->run();
 
-	delete aec;
+    delete aec;
 
-	return 0;
+    return 0;
 }

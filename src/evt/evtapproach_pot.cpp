@@ -24,41 +24,41 @@ namespace chronovise {
 template <typename T_INPUT, typename T_TIME>
 void EVTApproach_PoT<T_INPUT, T_TIME>::perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) {
 
-	this->training_pool.clear();
-	this->test_pool.clear();
+    this->training_pool.clear();
+    this->test_pool.clear();
 
 
-	apply_pot(this->training_pool,
-		 original_pool.cbegin_trainset(),
-		 original_pool.cend_trainset());
+    apply_pot(this->training_pool,
+         original_pool.cbegin_trainset(),
+         original_pool.cend_trainset());
 
-	apply_pot(this->test_pool,
-		 original_pool.cbegin_testset(),
-		 original_pool.cend_testset());
+    apply_pot(this->test_pool,
+         original_pool.cbegin_testset(),
+         original_pool.cend_testset());
 
 
 }
 
 template <typename T_INPUT, typename T_TIME>
 void EVTApproach_PoT<T_INPUT, T_TIME>::apply_pot(MeasuresPool<T_INPUT, T_TIME> & output_pool,
-					       typename std::multimap<T_INPUT,T_TIME>::const_iterator begin,
-					       typename std::multimap<T_INPUT,T_TIME>::const_iterator end) {
+                           typename std::multimap<T_INPUT,T_TIME>::const_iterator begin,
+                           typename std::multimap<T_INPUT,T_TIME>::const_iterator end) {
 
-	size_t i=1;
+    size_t i=1;
 
-	for (auto it = begin; it != end; it++, i++) {
-		auto curr_max       = it->second;
-		auto curr_max_input = it->first;
+    for (auto it = begin; it != end; it++, i++) {
+        auto curr_max       = it->second;
+        auto curr_max_input = it->first;
 
-		if (curr_max > threshold) {
-			output_pool.push(curr_max_input, curr_max);
-		}
+        if (curr_max > threshold) {
+            output_pool.push(curr_max_input, curr_max);
+        }
 
-	}
+    }
 
-	if (output_pool.size() == 0) {
-		throw std::length_error("PoT threshold is too high: no samples survived.");
-	}
+    if (output_pool.size() == 0) {
+        throw std::length_error("PoT threshold is too high: no samples survived.");
+    }
 
 }
 

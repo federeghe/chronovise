@@ -12,7 +12,7 @@ namespace chronovise {
  */
 template<typename Base, typename T>
 inline bool instanceof(const T *ptr) noexcept {
-	return dynamic_cast<const Base*>(ptr) != nullptr;
+    return dynamic_cast<const Base*>(ptr) != nullptr;
 }
 
 /**
@@ -22,7 +22,7 @@ inline bool instanceof(const T *ptr) noexcept {
  */
 template<typename Base, typename T>
 inline bool instanceof_ptr(const std::shared_ptr<T> ptr) noexcept {
-	return std::dynamic_pointer_cast<const Base>(ptr) != nullptr;
+    return std::dynamic_pointer_cast<const Base>(ptr) != nullptr;
 }
 
 

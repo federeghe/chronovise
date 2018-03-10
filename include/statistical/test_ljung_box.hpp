@@ -40,60 +40,60 @@ class TestLjungBox : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
 
-	/**
-	 * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
-	 * @throw std::runtime_error("")
-	 */
-	TestLjungBox(double significance_level, unsigned int n_lags)
-	: StatisticalTest<T_INPUT,T_TIME>(significance_level), n_lags(n_lags)
-	{
-	};
+    /**
+     * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
+     * @throw std::runtime_error("")
+     */
+    TestLjungBox(double significance_level, unsigned int n_lags)
+    : StatisticalTest<T_INPUT,T_TIME>(significance_level), n_lags(n_lags)
+    {
+    };
 
-	/**
-	 * @copydoc StatisticalTest::run()
-	 */
-	virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
+    /**
+     * @copydoc StatisticalTest::run()
+     */
+    virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
 
-	/**
-	 * @copydoc StatisticalTest::get_power()
-	 */
- 	virtual double get_power() const override {
-		throw std::runtime_error("No power available for this test");
-	}
+    /**
+     * @copydoc StatisticalTest::get_power()
+     */
+     virtual double get_power() const override {
+        throw std::runtime_error("No power available for this test");
+    }
 
-	/**
-	 * @copydoc StatisticalTest::has_power()
-	 */
- 	virtual bool has_power() const noexcept override {
-		return false;
-	}
+    /**
+     * @copydoc StatisticalTest::has_power()
+     */
+     virtual bool has_power() const noexcept override {
+        return false;
+    }
 
-	/**
-	 * @copydoc StatisticalTest::has_safe_power()
-	 */
- 	virtual bool has_safe_power() const noexcept override {
-		return false;
-	}
+    /**
+     * @copydoc StatisticalTest::has_safe_power()
+     */
+     virtual bool has_safe_power() const noexcept override {
+        return false;
+    }
 
-	/**
-	 * @copydoc StatisticalTest::get_minimal_sample_size()
-	 */
-	virtual unsigned long get_minimal_sample_size() const noexcept override {
-		return TEST_LJUNG_BOX_MIN_SAMPLES;
-	}
+    /**
+     * @copydoc StatisticalTest::get_minimal_sample_size()
+     */
+    virtual unsigned long get_minimal_sample_size() const noexcept override {
+        return TEST_LJUNG_BOX_MIN_SAMPLES;
+    }
 
-	/**
-	 * @copydoc StatisticalTest::get_minimal_sample_size(unsigned short) const
-	 */
-	virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override {
-		UNUSED(req_power);
-		throw std::runtime_error("No power available for this test");
-	}
+    /**
+     * @copydoc StatisticalTest::get_minimal_sample_size(unsigned short) const
+     */
+    virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override {
+        UNUSED(req_power);
+        throw std::runtime_error("No power available for this test");
+    }
 
 private:
-	unsigned int n_lags;
+    unsigned int n_lags;
 
-	double sample_autocorrelation(double mean, size_t size, const std::vector<T_TIME> &values, int h) noexcept;
+    double sample_autocorrelation(double mean, size_t size, const std::vector<T_TIME> &values, int h) noexcept;
 
 };
 
