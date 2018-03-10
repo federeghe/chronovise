@@ -30,27 +30,41 @@ namespace chronovise {
 
 
 double GPD_Distribution::cdf(double x) const noexcept {
-	// TODO
+	const double mu = this->get_location();
+	const double sg = this->get_scale();
+	const double xi = this->get_shape();
+	const double norm_x = (x-mu)/sg;
 
-	return 0.;
+	double cond_value = 1. + xi * norm_x;
+
+	double cdf = 0.;
+
+	if (cond_value >= 0. && xi != 0) {
+		cdf = 1 - std::pow(cond_value, - 1. / xi);
+	}
+	else if (x >=0 && xi == 0.) {
+		cdf = 1 - std::exp(-norm_x);
+	}
+	
+
+	return cdf;
 }
 
 double GPD_Distribution::pdf(double x) const noexcept {
 	const double mu = this->get_location();
 	const double sg = this->get_scale();
 	const double xi = this->get_shape();
+	const double norm_x = (x-mu)/sg;
 
-
-	double cond_value = 1. + xi * x / mu;
+	double cond_value = 1. + xi * norm_x;
 
 	double pdf = 0.;
 
-	if (cond_value  >= 0. && xi != 0. && mu > 0.) {
-		pdf = 1. / mu * cond_value;
+	if (cond_value >= 0. && xi != 0.) {
+		pdf = 1. / sg * std::pow(cond_value, -1./xi - 1.);
 	}
-
-	if (x >= 0. && xi == 0. && mu > 0.) {
-		pdf = 1. / mu * std::exp(-x / mu);
+	else if (x >= 0. && xi == 0.) {
+		pdf = 1. / sg * std::exp(-norm_x);
 	}
 
 	assert(pdf >= 0. && pdf <= 1. && "Something bad happened in calculation.");
@@ -61,11 +75,23 @@ double GPD_Distribution::pdf(double x) const noexcept {
 
 double GPD_Distribution::quantile(double p) const {
 
+	const double mu = this->get_location();
+	const double sg = this->get_scale();
+	const double xi = this->get_shape();
+
 	if (p <= 0. || p >= 1.) {
 		throw std::invalid_argument("The probability value is not valid.");
 	}
 
-	return 0.;
+	double quantile;
+
+	if (xi != 0.) {
+		quantile = sg * mu * (1. - std::pow(1. - p, -xi)) / (-xi);
+	} else {
+		quantile = - sg * mu * std::log(1. - p);
+	}
+
+	return quantile;
 }
 
 } // namespace chronovise

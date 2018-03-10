@@ -69,6 +69,7 @@ namespace local_test_ad {
 
 	template<typename T_TIME>
 	static inline double get_ad_statistic(std::shared_ptr<Distribution> evd, const std::vector<T_TIME> &measures) noexcept {
+
 		double upper = get_ad_statistic_upper(evd, measures);
 		double lower = get_ad_statistic_lower(evd, measures);
 
@@ -89,12 +90,20 @@ namespace local_test_ad {
 		std::vector<double> crits;
 		crits.resize(nr_runs);
 
+#if defined(_OPENMP)
+		#pragma omp parallel
+		{
+#endif
+
 		std::vector<double> sample;
 		sample.reserve(sample_cardinality);
 
 		std::mt19937 random_gen(std::random_device{}());
 		std::uniform_real_distribution<double> distribution(0.0,1.0);
 
+#if defined(_OPENMP)
+		#pragma omp for firstprivate(evd, MAD, sample_cardinality, significance_level)
+#endif
 		for (unsigned long i=0; i < nr_runs; i++) {
 
 			for (unsigned int j=0; j < sample_cardinality; j++) {
@@ -110,6 +119,10 @@ namespace local_test_ad {
 				crits[i] = get_ad_statistic(evd, sample);
 			}
 		}
+
+#if defined(_OPENMP)
+		}
+#endif
 
 		std::sort(crits.begin(),crits.end());
 
@@ -136,13 +149,17 @@ void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 
 	using namespace local_test_ad;
 
-	// TODO
 	double ad_critical_value = (1. + safe_margin) *
 					get_ad_critical_value(this->ref_distribution,
 								MAD, size, this->significance_level);
 
+	double statistics;
 	// Using MeasuresPool, the [] operator guarantees ordering.
-	double statistics = get_ad_statistic<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
+	if (MAD) {
+		statistics = get_ad_statistic_upper<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
+	} else {
+		statistics = get_ad_statistic<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
+	}
 
 	if (statistics > ad_critical_value) {
 		this->reject = true;
