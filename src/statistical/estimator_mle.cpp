@@ -268,7 +268,7 @@ void GPD_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
 
   
 template <typename T_INPUT, typename T_TIME>
-bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
+bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)  {
 
     ceres::GradientProblemSolver::Options options;
 
@@ -281,8 +281,12 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 
     ceres::GradientProblemSolver::Summary summary;
 
+    if (this->ti == NULL) {
+        throw std::runtime_error("Set_source_evt_approach not called.");
+    }
+    
     // Now we have to select the function to optimize based on the provided type information
-    if (*this->ti == typeid(EVTApproach_PoT<T_INPUT, T_TIME>)) {
+    if (*this->ti == typeid(EVTApproach_BM<T_INPUT, T_TIME>)) {
 
         // Block-Maxima case -> GEV Distribution
 
@@ -290,11 +294,12 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
                         measures.max()/100 > 1 ? measures.max()/100 : 1.,
                         0.
                     };
+ 
         ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
         ceres::Solve(options, problem, parameters, &summary);
         result = std::make_shared<GEV_Distribution>(parameters[0], parameters[1], parameters[2]);
     }
-    if (*this->ti == typeid(EVTApproach_BM<T_INPUT, T_TIME>)) {
+    else if (*this->ti == typeid(EVTApproach_PoT<T_INPUT, T_TIME>)) {
         
         // Peak-over-Threshold case -> GPD Distribution
 
@@ -307,7 +312,7 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
         result = std::make_shared<GPD_Distribution>(measures.begin()->second, parameters[0], parameters[1]);
     }
     else {
-        this->status = estimator_status_t::UNKNOWN;
+        throw std::runtime_error("Invalid type_info provided.");
         return false;
     }
 

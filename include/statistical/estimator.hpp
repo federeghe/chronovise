@@ -77,7 +77,7 @@ public:
      * @param measures The list of measure provided for estimation of their distribution.
      * @return true if the result is usable (i.e. get_result() returns SUCCESS or NON_PRECISE), false otherwise
      */
-    virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept = 0;
+    virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) = 0;
 
     /**
      * Run the result. It must be called after a successful estimator run.

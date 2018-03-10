@@ -1,5 +1,8 @@
 #include "gtest/gtest.h"
 #include "evt/gev_distribution.hpp"
+#include "evt/gpd_distribution.hpp"
+#include "evt/evtapproach_bm.hpp"
+#include "evt/evtapproach_pot.hpp"
 #include "statistical/estimator_mle.hpp"
 #include "utility/oop.hpp"
 
@@ -52,6 +55,7 @@ TEST_F(EstimatorMLE_Test, EVT_1_1_05) {
     }
 
     Estimator_MLE<int, double> mle;
+    mle.set_source_evt_approach(&typeid(EVTApproach_BM<int, double>));
     mle.run(mp);
     auto res = mle.get_result();
 
@@ -77,6 +81,7 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_M05) {
     }
 
     Estimator_MLE<int, double> mle;
+    mle.set_source_evt_approach(&typeid(EVTApproach_BM<int, double>));
     mle.run(mp);
     auto res = mle.get_result();
 
@@ -103,6 +108,7 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_P05) {
     }
 
     Estimator_MLE<int, double> mle;
+    mle.set_source_evt_approach(&typeid(EVTApproach_BM<int, double>));
     mle.run(mp);
     auto res = mle.get_result();
 
@@ -126,6 +132,7 @@ TEST_F(EstimatorMLE_Test, EVT_0_1_0) {
     }
 
     Estimator_MLE<int, double> mle;
+    mle.set_source_evt_approach(&typeid(EVTApproach_BM<int, double>));
     mle.run(mp);
     auto res = mle.get_result();
 
@@ -148,6 +155,7 @@ TEST_F(EstimatorMLE_Test, EVT_100_01_025) {
     }
 
     Estimator_MLE<int, double> mle;
+    mle.set_source_evt_approach(&typeid(EVTApproach_BM<int, double>));
     mle.run(mp);
     auto res = mle.get_result();
 

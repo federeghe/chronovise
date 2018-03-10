@@ -49,7 +49,7 @@ public:
      * @note The initial guess for MLE is set to location=0, shape=0,
      * scale=measures.max()/100.
      */
-    virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept override;
+    virtual bool run(const MeasuresPool<T_INPUT, T_TIME> &measures) override;
 
     /**
      * @copydoc Estimator::get_result()
