@@ -162,6 +162,111 @@ void GEV_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
     gradient[xi_idx] += (1.-u) * dlogu - z / one_plus_xiz;
 }
 
+/**
+ * @private
+ */
+template <typename T_INPUT, typename T_TIME>
+class GPD_Function : public ceres::FirstOrderFunction {
+
+public:
+
+    GPD_Function(const MeasuresPool<T_INPUT, T_TIME> &measures) : x_data(measures) {}
+
+    virtual ~GPD_Function() {}
+
+    virtual bool Evaluate(const double* parameters,
+                double* cost,
+                double* gradient) const override;
+
+    virtual int NumParameters() const override {
+        return 3;
+    }
+
+
+private:
+
+
+    static constexpr size_t sg_idx = 0;    // Index of the `scale` parameter
+    static constexpr size_t xi_idx = 1;    // Index of the `shape` parameter
+
+    const MeasuresPool<T_INPUT, T_TIME> &x_data;
+
+    void accumulate_gradient_term(const double* parameters, double *gradient, double x) const;
+
+    static bool cmp_0(double x) {
+        const double epsilon = 1e-6;
+        return std::abs(x) <= epsilon * std::abs(x);
+        // see Knuth section 4.2.2 pages 217-218
+    }
+
+};
+
+template <typename T_INPUT, typename T_TIME>
+bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* cost, double* gradient) const {
+
+    const double mu = x_data.cbegin()->second;
+    const double sg = parameters[sg_idx];
+    const double xi = parameters[xi_idx];
+
+#if LOCAL_DEBUG
+    std::cout << "mu=" << mu;
+    std::cout << " sg=" << sg;
+    std::cout << " xi=" << xi << std::endl;
+#endif
+
+#warning add ref
+
+    if (sg  <   0) return false;
+
+    gradient[sg_idx] = gradient[xi_idx] = 0;
+
+    double cost_function=0;
+
+    for (const auto &x : x_data) {
+
+        // Compute the normalization of the sample
+        const double z = (x.second - mu) / sg;
+        if (1. + xi*z <= 0) {
+            // This is the EVT condition. We have to skip this value because outside
+            // the support of EV distributions.
+            return false;
+        }
+
+        // Ceres will minimize this function, so we have to invert the sign
+        cost_function += - (std::log(1 - xi * z));
+
+        if (gradient != NULL) {
+            accumulate_gradient_term(parameters, gradient, x.second - mu);
+        }
+    }
+
+    cost[0] = cost_function;
+    assert(std::isfinite(cost[0]));
+
+    if (gradient != NULL) {
+        gradient[sg_idx] *= -1;
+        gradient[xi_idx] *= -1;
+        assert(std::isfinite(gradient[sg_idx]));
+        assert(std::isfinite(gradient[xi_idx]));
+    }
+    
+    
+    return true;
+}
+
+
+template <typename T_INPUT, typename T_TIME>
+void GPD_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* parameters, double *gradient, double x) const {
+    const double sg = parameters[sg_idx];
+    const double xi = parameters[xi_idx];
+
+    const double denominator = 1 - xi * x / sg;
+
+    gradient[sg_idx] += (x/(sg*sg)) / denominator;
+    gradient[xi_idx] += (-x/sg) / denominator;
+}
+
+  
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
@@ -192,10 +297,18 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
     if (*this->ti == typeid(EVTApproach_BM<T_INPUT, T_TIME>)) {
         
         // Peak-over-Threshold case -> GPD Distribution
+
+        double parameters[2] =  {
+                        measures.max()/100 > 1 ? measures.max()/100 : 1.,
+                        0.
+                    };
+        ceres::GradientProblem problem(new GPD_Function<T_INPUT, T_TIME>(measures));
+        ceres::Solve(options, problem, parameters, &summary);
+        result = std::make_shared<GPD_Distribution>(measures.begin()->second, parameters[0], parameters[1]);
     }
     else {
         this->status = estimator_status_t::UNKNOWN;
-        return;
+        return false;
     }
 
 
