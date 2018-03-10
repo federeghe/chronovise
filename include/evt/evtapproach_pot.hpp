@@ -42,7 +42,7 @@ public:
 	 * 	  for this. Consider that perform may in any case fail, e.g. if threshold is too high.
 	 */
 	virtual unsigned long get_minimal_sample_size() const noexcept override {
-		return 0;
+		return 1;
 	}
 
 private:

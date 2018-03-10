@@ -22,12 +22,16 @@
 
 #include "statistical/estimator_mle.hpp"
 
+#include "evt/evtapproach_bm.hpp"
+#include "evt/evtapproach_pot.hpp"
 #include "evt/gev_distribution.hpp"
+#include "evt/gpd_distribution.hpp"
 #include "global.hpp"
 
 #include <cassert>
 #include <ceres/ceres.h>
 #include <cmath>
+#include <iostream>
 
 #define LOCAL_DEBUG 0
 
@@ -161,7 +165,6 @@ void GEV_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
-	double parameters[3] = {(double)measures.avg(), measures.max()/100 > 1 ? measures.max()/100 : 1., 0.};
 	ceres::GradientProblemSolver::Options options;
 
 	// TODO reliability considerations
@@ -172,10 +175,30 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 	options.line_search_direction_type = ceres::BFGS;
 
 	ceres::GradientProblemSolver::Summary summary;
-	ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
-	ceres::Solve(options, problem, parameters, &summary);
 
-	result = std::make_shared<GEV_Distribution>(parameters[0], parameters[1], parameters[2]);
+	// Now we have to select the function to optimize based on the provided type information
+	if (*this->ti == typeid(EVTApproach_PoT<T_INPUT, T_TIME>)) {
+
+		// Block-Maxima case -> GEV Distribution
+
+		double parameters[3] =  {	(double)measures.avg(),
+						measures.max()/100 > 1 ? measures.max()/100 : 1.,
+						0.
+					};
+		ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
+		ceres::Solve(options, problem, parameters, &summary);
+		result = std::make_shared<GEV_Distribution>(parameters[0], parameters[1], parameters[2]);
+	}
+	if (*this->ti == typeid(EVTApproach_BM<T_INPUT, T_TIME>)) {
+		
+		// Peak-over-Threshold case -> GPD Distribution
+	}
+	else {
+		this->status = estimator_status_t::UNKNOWN;
+		return;
+	}
+
+
 
 #if LOCAL_DEBUG
 	std::cout << summary.FullReport() << std::endl;

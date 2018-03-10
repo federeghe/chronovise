@@ -28,6 +28,7 @@
 #include "measures_pool.hpp"
 
 #include <memory>
+#include <typeinfo>
 
 namespace chronovise {
 
@@ -60,6 +61,18 @@ public:
 	virtual ~Estimator() {}
 
 	/**
+	 * This is used to set the EVT approach used in input sample generations to the estimator,
+	 * that may usually imply a change in the estimation procedure. In particular, if the
+	 * approach is Block-Maxima a GEV function is estimated, otherwise if is a
+	 * Peak-over-Threashold a GPD function is estimated.
+	 * @param A pointer to the type_info object (that is guaranteed to be alive till the end of
+	 *        the program
+ 	 */
+	void set_source_evt_approach(const std::type_info* ti) noexcept {
+		this->ti = ti;
+	}
+
+	/**
 	 * Run the estimation routine on the dataset provided.
 	 * @param measures The list of measure provided for estimation of their distribution.
 	 * @return true if the result is usable (i.e. get_result() returns SUCCESS or NON_PRECISE), false otherwise
@@ -85,6 +98,8 @@ public:
 	 */
 	virtual unsigned long get_minimal_sample_size() const noexcept = 0;
 
+protected:
+	const std::type_info *ti;
 };
 
 } // namespace chronovise

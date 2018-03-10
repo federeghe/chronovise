@@ -33,6 +33,10 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 	// It will fail with a assert-failure in case preconditions not respected.
 	this->check_preconditions();
 
+	// Provide to EVT estimator the information of which approach will be used to create the
+	// estimator input dataset.
+	this->evt_estimator->set_source_evt_approach(&typeid(*this->evt_approach));
+
 	// Configure the minimal number of iterations given by tests.
 	this->set_min_iterations();
 
