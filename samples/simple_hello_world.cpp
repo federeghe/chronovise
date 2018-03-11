@@ -12,7 +12,7 @@ using namespace chronovise;
 
 using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
-SimpleHelloWorld::SimpleHelloWorld() {
+SimpleHelloWorld::SimpleHelloWorld() noexcept {
     // Nothing to do...
 }
 
@@ -59,7 +59,7 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
 exit_code_t SimpleHelloWorld::onConfigure() noexcept
 {
     // Since no input generation is provided, we want to execute the estimation only 1 time.
-    if (get_input_iteration() > 1)
+    if (get_input_iteration() > 0)
         return AEC_OK;
 
     return AEC_CONTINUE;
@@ -92,8 +92,8 @@ exit_code_t SimpleHelloWorld::onRelease() noexcept {
 
     this->print_wcots();
 
-    std::cout << "pWCET(p=0.9999) is: " << this->get_pwcet_wcet(0.9999) << std::endl;
-    std::cout << "pWCET(WCET=20) is: " << this->get_pwcet_probability(20) << std::endl;
+    std::cout << "pWCET(p=0.99999) is: " << this->get_pwcet_wcet(0.99999) << std::endl;
+    std::cout << "pWCET(WCET=19) is: " << this->get_pwcet_probability(20) << std::endl;
 
     return AEC_OK;
 }
