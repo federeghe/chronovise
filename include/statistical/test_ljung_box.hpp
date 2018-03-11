@@ -15,10 +15,13 @@
  */
 
 /**
- * @file test_ks.hpp
+ * @file test_ljung_box.hpp
  * @author Check commit authors
- * @brief File containing the Kolmogorov-Smirnov test.
+ * @brief File containing the LjungBox test.
  */
+
+#ifndef STATISTICAL_TEST_LJUNG_BOX_HPP_
+#define STATISTICAL_TEST_LJUNG_BOX_HPP_
 
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
@@ -98,4 +101,6 @@ private:
 };
 
 } // namespace chronovise
+
+#endif // STATISTICAL_TEST_LJUNG_BOX_HPP_
 

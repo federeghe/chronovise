@@ -20,6 +20,9 @@
  * @brief File containing the Kolmogorov-Smirnov test.
  */
 
+#ifndef STATISTICAL_TEST_KS_HPP_
+#define STATISTICAL_TEST_KS_HPP_
+
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
 #include "evt/gev_distribution.hpp"
@@ -91,3 +94,4 @@ private:
 
 } // namespace chronovise
 
+#endif // STATISTICAL_TEST_KS_HPP_

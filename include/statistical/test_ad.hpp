@@ -20,6 +20,9 @@
  * @brief File containing the Anderson-Darling test.
  */
 
+#ifndef STATISTICAL_TEST_AD_HPP_
+#define STATISTICAL_TEST_AD_HPP_
+
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
 
@@ -103,3 +106,4 @@ private:
 
 } // namespace chronovise
 
+#endif // STATISTICAL_TEST_AD_HPP_
