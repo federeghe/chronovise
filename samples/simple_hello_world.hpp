@@ -6,9 +6,7 @@
 class SimpleHelloWorld : public chronovise::SimpleExecutionContext<unsigned int, double> {
 
 public:
-    SimpleHelloWorld() {
-
-    }
+    SimpleHelloWorld() noexcept;
 
     virtual exit_code_t onSetup() noexcept override;
     virtual exit_code_t onConfigure() noexcept override;

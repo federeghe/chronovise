@@ -12,6 +12,9 @@ using namespace chronovise;
 
 using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
+SimpleHelloWorld::SimpleHelloWorld() {
+    // Nothing to do...
+}
 
 exit_code_t SimpleHelloWorld::onSetup() noexcept {
 
@@ -29,14 +32,25 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     // 2nd parameter: number of lags for the test 
     this->use_LjungBox_as_sample_test(0.01, 10);
 
+    // Select ENVELOPE as merging technique. The possible values are:
+    // ENVELOPE: different inputs provide different pWCETs estimation
+    // MERGER:   different inputs generating samples that are merged and only 1 pWCET estimation
+    //           is performed.
     this->set_merging_technique(merger_type_e::ENVELOPE);
 
+    // Select the EVT approach to use:
+    // - Block Maxima -> It will generate a GEV
+    // - PoT          -> It will generate a GPD
     this->use_evt_approach_BM(25, 0.1);
-    
+
+    // Select the estimator. Currently the only one available is the Maximum-Likelihood-Estimator
     this->use_estimator_MLE();
 
-    this->use_KS_test(0.01);
+    // Select the Kolmogorov-Smirnov test as test on the estimated probability distribution for
+    // pWCET
+    this->use_KS_as_post_evt_test(0.01);
 
+    // Let's print some debug information
     this->print_configuration_info();
 
     return AEC_OK;
@@ -53,11 +67,12 @@ exit_code_t SimpleHelloWorld::onConfigure() noexcept
 
 exit_code_t SimpleHelloWorld::onRun() noexcept {
 
+    // Some C++11 stuffs to initialize the random normal distribution
     static std::random_device random_dev;
     static std::mt19937 mt(random_dev());
     static std::normal_distribution<double> distribution(12.0,1.0);
 
-
+    // Add a new sample as a "time measure" drawned by an i.i.d. normal distribution.
     auto new_sample = distribution(mt);
     this->add_sample(new_sample);
     
@@ -65,11 +80,14 @@ exit_code_t SimpleHelloWorld::onRun() noexcept {
 }
 
 exit_code_t SimpleHelloWorld::onMonitor() noexcept {
+
+    // Let chronovise to decide when it's time to stop
     return AEC_SLOTH;
 }
 
 exit_code_t SimpleHelloWorld::onRelease() noexcept {
 
+    // Print of the results, etc.
     this->print_distributions_summary();
 
     this->print_wcots();

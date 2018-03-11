@@ -79,7 +79,7 @@ public:
         this->set_evt_estimator(std::move(evt_est));
     }
 
-    void use_KS_test(double crit_level) {
+    void use_KS_as_post_evt_test(double crit_level) {
         std::shared_ptr<StatisticalTest_AfterEVT<T_INPUT, T_TIME>> aft_test(
             new TestKS<T_INPUT, T_TIME>(crit_level, is_BM ? distribution_t::EVT_GEV : distribution_t::EVT_GPD)
         );
