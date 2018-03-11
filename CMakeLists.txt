@@ -53,10 +53,7 @@ target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\
 
 target_include_directories(chronovise PUBLIC include)
 
-set(APP_SOURCES ${APP_SOURCES} samples/hello_world.cpp)
-add_executable(chronovise_exec samples/main.cpp ${APP_SOURCES})
-target_link_libraries(chronovise_exec chronovise) 
-
+add_subdirectory(samples)
 add_subdirectory(docs)
 add_subdirectory(tests)
 
