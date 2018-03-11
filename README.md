@@ -63,6 +63,20 @@ provides you a failure, please re-run it a couple of times to check that is not 
 
 Run the examples
 ----------------
-TODO
+The framework is shipped with two example: **HelloWorld** and **SimpleHelloWorld**. The source
+files are located under the ```samples/``` directory.
+You can run them inside the `build` directory via:
+
+```./samples/hello_world```
+
+and
+
+```./samples/simple_hello_world```
+
+Please check the documentation for further details.
+
+Documentation
+=============
+Please check [the documentation index file](docs/INDEX.md).
 
 
