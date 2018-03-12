@@ -33,7 +33,7 @@
 #include <cmath>
 #include <iostream>
 
-#define LOCAL_DEBUG 0
+#define LOCAL_DEBUG 1
 
 namespace chronovise {
 
@@ -93,7 +93,7 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
     // Generalized Extreme-Value distribution." Extremes 20.4 (2017): 839-872. Appendix B
 
     if (xi  <= -1) return false;
-    if (sg  <   0) return false;
+    if (sg  <=  0) return false;
 
     gradient[mu_idx] = gradient[sg_idx] = gradient[xi_idx] = 0;
 
@@ -124,7 +124,7 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
         cost_function += - ( -std::log(sg) - u + (xi+1.) * std::log(u) );
 
         if (gradient != NULL) {
-            accumulate_gradient_term(parameters, gradient, z, u);
+	    accumulate_gradient_term(parameters, gradient, z, u);
         }
     }
 
@@ -204,7 +204,7 @@ private:
 template <typename T_INPUT, typename T_TIME>
 bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* cost, double* gradient) const {
 
-    const double mu = x_data.cbegin()->second;
+	const double mu = x_data.min();
     const double sg = parameters[sg_idx];
     const double xi = parameters[xi_idx];
 
@@ -214,9 +214,11 @@ bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
     std::cout << " xi=" << xi << std::endl;
 #endif
 
-#warning add ref
+    // Ref: Parameter estimation for 3-parameter generalized pareto distribution by the principle of maximum
+    // entropy (POME), V. P. SINGH & H. GUO, Hydrological Sciences Journal
 
-    if (sg  <   0) return false;
+    if (sg  <=  0) return false;
+    
 
     gradient[sg_idx] = gradient[xi_idx] = 0;
 
@@ -232,8 +234,15 @@ bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
             return false;
         }
 
+        if (z < 0. && xi >= 0.) {
+            return false;
+        }
+        if ((z < 0 || z > -1/xi) && xi < 0) {
+            return false;
+        }
+
         // Ceres will minimize this function, so we have to invert the sign
-        cost_function += - (std::log(1 - xi * z));
+        cost_function += -(std::log(1 + xi * z));
 
         if (gradient != NULL) {
             accumulate_gradient_term(parameters, gradient, x.second - mu);
@@ -244,11 +253,13 @@ bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
     assert(std::isfinite(cost[0]));
 
     if (gradient != NULL) {
-        gradient[sg_idx] *= -1;
-        gradient[xi_idx] *= -1;
+        gradient[sg_idx] *= +1;
+        gradient[xi_idx] *= +1;
         assert(std::isfinite(gradient[sg_idx]));
         assert(std::isfinite(gradient[xi_idx]));
     }
+
+    std::cout << "dSG: " << gradient[sg_idx] << " dXI: " <<  gradient[xi_idx] << std::endl;
     
     
     return true;
@@ -260,10 +271,8 @@ void GPD_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
     const double sg = parameters[sg_idx];
     const double xi = parameters[xi_idx];
 
-    const double denominator = 1 - xi * x / sg;
-
-    gradient[sg_idx] += (x/(sg*sg)) / denominator;
-    gradient[xi_idx] += (-x/sg) / denominator;
+    gradient[sg_idx] += - xi * x / (sg * (xi * x + sg));
+    gradient[xi_idx] += x / (xi * x + sg) ;
 }
 
   
@@ -305,11 +314,11 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 
         double parameters[2] =  {
                         measures.max()/100 > 1 ? measures.max()/100 : 1.,
-                        0.
+                        1.
                     };
         ceres::GradientProblem problem(new GPD_Function<T_INPUT, T_TIME>(measures));
         ceres::Solve(options, problem, parameters, &summary);
-        result = std::make_shared<GPD_Distribution>(measures.begin()->second, parameters[0], parameters[1]);
+        result = std::make_shared<GPD_Distribution>(measures.min(), parameters[0], parameters[1]);
     }
     else {
         throw std::runtime_error("Invalid type_info provided.");
