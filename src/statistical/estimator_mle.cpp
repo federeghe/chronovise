@@ -124,7 +124,7 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
         cost_function += - ( -std::log(sg) - u + (xi+1.) * std::log(u) );
 
         if (gradient != NULL) {
-	    accumulate_gradient_term(parameters, gradient, z, u);
+            accumulate_gradient_term(parameters, gradient, z, u);
         }
     }
 
@@ -204,7 +204,7 @@ private:
 template <typename T_INPUT, typename T_TIME>
 bool GPD_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* cost, double* gradient) const {
 
-	const double mu = x_data.min();
+    const double mu = x_data.min();
     const double sg = parameters[sg_idx];
     const double xi = parameters[xi_idx];
 

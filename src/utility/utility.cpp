@@ -28,7 +28,7 @@ void print_title(const std::string &title) noexcept {
 void print_closing_line() noexcept {
     std::cerr.width(80);
     std::cerr.fill('-');
-    std::cerr << std::left << "+" << std::right << "+" << std::endl;	
+    std::cerr << std::left << "+" << std::right << "+" << std::endl;
     std::cerr.fill(' ');
 }
 
