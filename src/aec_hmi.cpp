@@ -2,6 +2,10 @@
 #include "global.hpp"
 #include "utility/oop.hpp"
 #include "utility/utility.hpp"
+
+#include "evt/gev_distribution.hpp"
+#include "evt/gpd_distribution.hpp"
+
 #include <iostream>
 #include <iomanip>
 #include <string>
@@ -15,8 +19,12 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
     std::cerr << std::endl;
     utility::print_title("Distributions summary");
 
-    std::cerr << "| Legend: G - Gumbell, W - Weibull, F - Frechet" << std::endl;
+    std::cerr << "| Legend: " << std::endl;
+    std::cerr << "|         for GEV: G - Gumbell, W - Weibull, F - Frechet" << std::endl;
+    std::cerr << "|         for GPD: / - Normal, E - Exponential, P - Pareto" << std::endl;
 
+	utility::print_closing_line();
+	
     size_t i=0;
     for (auto it_raw=ev_dist_estimated.cbegin(); it_raw != ev_dist_estimated.cend(); it_raw++, i++) {
         auto it_generic = *it_raw;
@@ -30,8 +38,22 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
                   << (it->is_gumbell() ? 'G' : it->is_frechet() ? 'F' : 'W') << "]";
         }
 
+        if (instanceof_ptr<const GPD_Distribution>(it_generic)) {
+            auto it = std::dynamic_pointer_cast<const GPD_Distribution> (it_generic);
+            std::cerr << '#'  << std::setw(4) << i << ": "
+                  << "location=" << std::setw(12) << it->get_location()
+                  << "  scale=" << std::setw(12) << it->get_scale()
+                  << "  shape=" << std::setw(12) << it->get_shape() << " ["
+                  << (it->is_pareto() ? 'P' : it->is_exponential() ? 'E' : '/') << "]";
+        }
+		
         std::cerr << std::endl;
     }
+
+	if (ev_dist_estimated.size() == 0) {
+        std::cerr << "No distribution found." << std::endl;
+	}
+	
     std::cerr << std::endl;
 
 }
