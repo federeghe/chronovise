@@ -116,21 +116,9 @@ public:
 
     void print_wcots() const noexcept;
 
-    T_TIME get_pwcet_wcet(double probability) const noexcept {
-        std::list<pWCET<T_TIME>> pwcets;
-        for (const auto & evd : ev_dist_estimated) {    
-            pwcets.push_back(pWCET<T_TIME>(evd));
-        }
-        return pWCET<T_TIME>::get_cumulative_wcet(pwcets, probability);
-    }
+    T_TIME get_pwcet_wcet(double probability) const noexcept;
 
-    double get_pwcet_probability(T_TIME wcet) const noexcept {
-        std::list<pWCET<T_TIME>> pwcets;
-        for (const auto & evd : ev_dist_estimated) {    
-            pwcets.push_back(pWCET<T_TIME>(evd));
-        }
-        return pWCET<T_TIME>::get_cumulative_probability(pwcets, wcet);
-    }
+    double get_pwcet_probability(T_TIME wcet) const noexcept;
 
     inline const Safety& get_safety_info() const noexcept {
         return this->safety;

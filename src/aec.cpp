@@ -335,6 +335,33 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::set_evt_approach(std::unique_ptr<
 }
 
 
+template <typename T_INPUT, typename T_TIME>
+T_TIME AbstractExecutionContext<T_INPUT,T_TIME>::get_pwcet_wcet(double probability) const noexcept {
+    if (ev_dist_estimated.size() == 0) {
+        return T_TIME(NAN);
+    }
+
+    std::list<pWCET<T_TIME>> pwcets;
+    for (const auto & evd : ev_dist_estimated) {
+        pwcets.push_back(pWCET<T_TIME>(evd));
+    }
+    return pWCET<T_TIME>::get_cumulative_wcet(pwcets, probability);
+}
+
+template <typename T_INPUT, typename T_TIME>
+double AbstractExecutionContext<T_INPUT,T_TIME>::get_pwcet_probability(T_TIME wcet) const noexcept {
+    if (ev_dist_estimated.size() == 0) {
+        return NAN;
+    }
+
+    std::list<pWCET<T_TIME>> pwcets;
+    for (const auto & evd : ev_dist_estimated) {
+        pwcets.push_back(pWCET<T_TIME>(evd));
+    }
+    return pWCET<T_TIME>::get_cumulative_probability(pwcets, wcet);
+}
+
+
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 
 } // chronovise
