@@ -23,8 +23,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
     std::cerr << "|         for GEV: G - Gumbell, W - Weibull, F - Frechet" << std::endl;
     std::cerr << "|         for GPD: / - Normal, E - Exponential, P - Pareto" << std::endl;
 
-	utility::print_closing_line();
-	
+    utility::print_closing_line();
+
     size_t i=0;
     for (auto it_raw=ev_dist_estimated.cbegin(); it_raw != ev_dist_estimated.cend(); it_raw++, i++) {
         auto it_generic = *it_raw;
@@ -46,14 +46,14 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
                   << "  shape=" << std::setw(12) << it->get_shape() << " ["
                   << (it->is_pareto() ? 'P' : it->is_exponential() ? 'E' : '/') << "]";
         }
-		
+
         std::cerr << std::endl;
     }
 
-	if (ev_dist_estimated.size() == 0) {
+    if (ev_dist_estimated.size() == 0) {
         std::cerr << "No distribution found." << std::endl;
-	}
-	
+    }
+
     std::cerr << std::endl;
 
 }
