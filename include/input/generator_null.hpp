@@ -41,6 +41,14 @@ public:
         return 0;
     }
 
+    /**
+     * @copydoc InputGenerator::to_string()
+     */
+    virtual const char* to_string() const noexcept {
+        return "Null";
+    }
+
+
 private:
 
 };

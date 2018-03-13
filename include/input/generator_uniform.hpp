@@ -53,6 +53,14 @@ public:
      */
     virtual T get() noexcept override;
 
+    /**
+     * @copydoc InputGenerator::to_string()
+     */
+    virtual const char* to_string() const noexcept {
+        return "Uniform";
+    }
+
+
 private:
     std::random_device rd;
     std::mt19937 mt;

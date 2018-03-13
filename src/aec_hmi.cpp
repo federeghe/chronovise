@@ -21,7 +21,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
 
     std::cerr << "| Legend: " << std::endl;
     std::cerr << "|         for GEV: G - Gumbell, W - Weibull, F - Frechet" << std::endl;
-    std::cerr << "|         for GPD: / - Normal, E - Exponential, P - Pareto" << std::endl;
+    std::cerr << "|         for GPD: / - Generic, E - Exponential, P - Pareto" << std::endl;
 
     utility::print_closing_line();
 
@@ -70,13 +70,19 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_configuration_info() const 
 
     }
     std::cerr << "Ratio size test set / total samples: " << samples_test_reserve << std::endl;
-    std::cerr << "Merging technique: " << (merger_tech == merger_type_t::TRACE_MERGE ? "TRACE_MERGE" 
-                         : merger_tech == merger_type_t::ENVELOPE ? "ENVELOPE"
+    std::cerr << "Merging technique: " << (merger_tech == merger_type_t::TRACE_MERGE ? "Trace merging" 
+                         : merger_tech == merger_type_t::ENVELOPE ? "Envelope"
                          : "UNKNOWN") << std::endl;
 
-    std::cerr << "Input generator: " << (input_gen == nullptr ? "NOT SET" : "SET") << std::endl;
-    std::cerr << "EVT approach: " << (evt_approach == nullptr ? "NOT SET" : "SET") << std::endl;
-    std::cerr << "EVT estimator: " << (evt_estimator == nullptr ? "NOT SET" : "SET") << std::endl;
+    std::cerr << "Input generator: " <<
+                 (input_gen == nullptr ? "NOT SET" : input_gen->to_string())
+                 << std::endl;
+    std::cerr << "EVT approach: " << 
+                 (evt_approach == nullptr ? "NOT SET" : evt_approach->to_string())
+                 << std::endl;
+    std::cerr << "EVT estimator: " <<
+                (evt_estimator == nullptr ? "NOT SET" : evt_estimator->to_string())
+                << std::endl;
 
     std::cerr << "Nr. Representativity tests: " << representativity_tests.size() << std::endl;
     std::cerr << "Nr. post-run tests: " << post_run_tests.size() << std::endl;

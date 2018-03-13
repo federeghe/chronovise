@@ -39,6 +39,11 @@ public:
      */
     virtual T get() noexcept = 0;
 
+    /**
+     * @brief A method returning a constant character string identifying the
+     *        Input generator
+     */
+    virtual const char* to_string() const noexcept = 0;
 };
 
 } // namespace chronovise

@@ -22,6 +22,10 @@ public:
         return this->block_size * 2;
     }
 
+    virtual const char* to_string() const noexcept override {
+        return "Block-Maxima";
+    }
+
 private:
     size_t block_size;
 

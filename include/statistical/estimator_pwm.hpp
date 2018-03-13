@@ -72,6 +72,13 @@ public:
         return 10;
     }
 
+    /**
+     * @copydoc Estimator::to_string()
+     */
+    virtual const char* to_string() const noexcept {
+        return "Probabilistic Weighted Moments (PWM)";
+    }
+
 private:
     std::shared_ptr<Distribution> result;
     estimator_status_t status=estimator_status_t::UNKNOWN;

@@ -42,9 +42,16 @@ public:
      */
     virtual unsigned long get_minimal_sample_size() const noexcept = 0;
 
+    /**
+     * @brief A method returning a constant character string identifying the
+     *        EVT method
+     */
+    virtual const char* to_string() const noexcept = 0;
+
 protected:
     MeasuresPool<T_INPUT, T_TIME> training_pool;
     MeasuresPool<T_INPUT, T_TIME> test_pool;
+
 
 };
 

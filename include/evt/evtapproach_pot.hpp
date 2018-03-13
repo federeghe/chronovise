@@ -43,6 +43,9 @@ public:
      */
     virtual unsigned long get_minimal_sample_size() const noexcept override {
         return 100;
+
+    virtual const char* to_string() const noexcept override {
+        return "Peak-over-Threshold";
     }
 
 private:
