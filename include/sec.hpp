@@ -28,6 +28,7 @@
 #include "evt/evtapproach_bm.hpp"
 #include "evt/evtapproach_pot.hpp"
 #include "statistical/estimator_mle.hpp"
+#include "statistical/estimator_pwm.hpp"
 #include "statistical/test_ad.hpp"
 #include "statistical/test_ks.hpp"
 #include "statistical/test_ljung_box.hpp"
@@ -75,6 +76,13 @@ public:
     void use_estimator_MLE() {
         std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
             new Estimator_MLE<T_INPUT, T_TIME>()
+        );
+        this->set_evt_estimator(std::move(evt_est));
+    }
+
+    void use_estimator_PWM() {
+        std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
+            new Estimator_PWM<T_INPUT, T_TIME>()
         );
         this->set_evt_estimator(std::move(evt_est));
     }

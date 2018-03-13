@@ -1,5 +1,6 @@
 #include "statistical/estimator_pwm.hpp"
 
+#include "evt/evtapproach_pot.hpp"
 #include "evt/gpd_distribution.hpp"
 #include "global.hpp"
 
@@ -7,6 +8,15 @@ namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_PWM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
+
+    if (this->ti == NULL) {
+        throw std::runtime_error("Set_source_evt_approach not called.");
+    }
+    
+    // Now we have to select the function to optimize based on the provided type information
+    if (*this->ti != typeid(EVTApproach_PoT<T_INPUT, T_TIME>)) {
+        throw std::runtime_error("PWM Estimator can currently be used only with PoT.");
+    }
 
     // Reference:
     // Parameter and Quantile Estimation for the Generalized Pareto Distribution

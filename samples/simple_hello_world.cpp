@@ -41,10 +41,10 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     // Select the EVT approach to use:
     // - Block Maxima -> It will generate a GEV
     // - PoT          -> It will generate a GPD
-    this->use_evt_approach_BM(25, 0.1);
+    this->use_evt_approach_PoT(13, 0.1);
 
     // Select the estimator. Currently the only one available is the Maximum-Likelihood-Estimator
-    this->use_estimator_MLE();
+    this->use_estimator_PWM();
 
     // Select the Kolmogorov-Smirnov test as test on the estimated probability distribution for
     // pWCET

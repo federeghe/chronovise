@@ -46,10 +46,10 @@ double GPD_Distribution::cdf(double x) const noexcept {
     double cdf = 0.;
 
     if (cond_value >= 0. && xi != 0.) {
-        cdf = 1 - std::pow(cond_value, - 1. / xi);
+        cdf = 1. - std::pow(cond_value, - 1. / xi);
     }
     else if (x >= 0. && xi == 0.) {
-        cdf = 1 - std::exp(-norm_x);
+        cdf = 1. - std::exp(-norm_x);
     }
     
     assert(cdf >= 0. && cdf <= 1. && "Something bad happened in calculation.");
