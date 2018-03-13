@@ -8,6 +8,11 @@ namespace chronovise {
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_PWM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
 
+    // Reference:
+    // Parameter and Quantile Estimation for the Generalized Pareto Distribution
+    // J.R.M.Hosking and J.R.Wallis, Technometrics, 1987
+    // DOI: 10.1080/00401706.1987.10488243
+
     const size_t n = measures.size();
     const auto mu = measures.min();
 

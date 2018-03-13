@@ -37,10 +37,7 @@ template <typename T_INPUT, typename T_TIME=unsigned long>
 class Estimator_PWM : public Estimator<T_INPUT, T_TIME> {
 
 public:
-#warning
-// QUANTILE ESTIMATION FOR THE GENERALIZED
-// PARETO DISTRIBUTION WITH APPLICATION TO
-// FINANCE 
+
     /**
      * A simple destructor
      */
