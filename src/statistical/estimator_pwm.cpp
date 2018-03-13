@@ -32,7 +32,7 @@ bool Estimator_PWM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
     T_TIME xi = W0 / (W0 - 2. * W1) - 2.; 
     T_TIME sg = 2. * W0 * W1 / (W0 - 2. * W1);
 
-    result = std::make_shared<GPD_Distribution>(measures.min(), sg, xi);
+    result = std::make_shared<GPD_Distribution>(measures.min(), sg, -xi);
 
     status = estimator_status_t::SUCCESS;
 

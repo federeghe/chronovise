@@ -82,7 +82,7 @@ TEST_F(EstimatorPWM_Test, GPD_2_20_1) {
 
     EXPECT_NEAR(std::dynamic_pointer_cast<GPD_Distribution>(res)->get_location(), 2., 5e-1);    
     EXPECT_NEAR(std::dynamic_pointer_cast<GPD_Distribution>(res)->get_scale(), 20., 5e-1);
-    EXPECT_NEAR(std::dynamic_pointer_cast<GPD_Distribution>(res)->get_shape(), 1., 5e-1);
+    EXPECT_NEAR(std::dynamic_pointer_cast<GPD_Distribution>(res)->get_shape(), -1., 5e-1);
 
 }
 

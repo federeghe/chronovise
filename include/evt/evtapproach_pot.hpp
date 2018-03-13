@@ -42,7 +42,8 @@ public:
      *       for this. Consider that perform may in any case fail, e.g. if threshold is too high.
      */
     virtual unsigned long get_minimal_sample_size() const noexcept override {
-        return 100;
+        return 1000;
+    }
 
     virtual const char* to_string() const noexcept override {
         return "Peak-over-Threshold";
