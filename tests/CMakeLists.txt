@@ -2,6 +2,7 @@ add_executable(run_all_tests EXCLUDE_FROM_ALL
 	tester.cpp
 	test_generators.cpp
 	test_estimator_mle.cpp
+        test_estimator_pwm.cpp
 	test_bm.cpp
 	test_pot.cpp
 	test_gev_distribution.cpp
