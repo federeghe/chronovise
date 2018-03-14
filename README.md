@@ -1,7 +1,6 @@
 # chronovise
-![alt text](./docs/logo.svg "Logo Chronovise")
-
 Measurement-Based Probabilistic Timing Analysis framework
+<img align="right" alt="Logo Chronovise" width="100" height="100" src="./docs/logo.svg">
 
 Master branch: [![Build Status](https://travis-ci.com/federeghe/chronovise.svg?token=GZRsPDxBM5ANCBVx8AuB&branch=master)](https://travis-ci.com/federeghe/chronovise)
 
