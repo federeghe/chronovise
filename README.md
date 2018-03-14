@@ -1,4 +1,6 @@
 # chronovise
+![alt text](./docs/logo.svg "Logo Chronovise")
+
 Measurement-Based Probabilistic Timing Analysis framework
 
 Master branch: [![Build Status](https://travis-ci.com/federeghe/chronovise.svg?token=GZRsPDxBM5ANCBVx8AuB&branch=master)](https://travis-ci.com/federeghe/chronovise)
@@ -79,4 +81,11 @@ Documentation
 =============
 Please check [the documentation index file](docs/INDEX.md).
 
+Development & Issue & Support
+=============================
+Can I contribute? Sure!
 
+The code is hosted in mirroring on [GitHub](https://github.com/federeghe/chronovise) and
+on a private university server. Please open any bug or pull request on the GitHub
+repository. If you need support or you want to contribute please ask directly to the
+head developer: Federico Reghenzani <federico[dot]reghenzani(at)polimi[dot].it>.
