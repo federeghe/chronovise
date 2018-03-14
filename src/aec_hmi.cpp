@@ -103,6 +103,22 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_wcots() const noexcept {
     }
 }
 
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_evt_info() const noexcept {
+
+    std::cerr << std::endl;
+    utility::print_title("EVT Information");
+
+    size_t train_nr = evt_approach->get_training_pool().size();
+    size_t test_nr  = evt_approach->get_test_pool().size();
+
+    std::cerr << "Number of samples" << std::endl;
+    std::cerr << "                Before EVT: " << this->real_nr_total_iterations << std::endl;
+    std::cerr << "                  Training: " << train_nr << std::endl;
+    std::cerr << "                   Testing: " << test_nr  << std::endl;
+    std::cerr << "           Total after EVT: " << train_nr + test_nr << std::endl;
+
+}
 
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 

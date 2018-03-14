@@ -133,6 +133,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
         }
 
         VERB(std::cerr << '.');
+        this->real_nr_total_iterations++;
 
         if (! keep_going) {
             // We may be here in two cases:

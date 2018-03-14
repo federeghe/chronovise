@@ -116,6 +116,8 @@ public:
 
     void print_wcots() const noexcept;
 
+    void print_evt_info() const noexcept;
+
     T_TIME get_pwcet_wcet(double probability) const noexcept;
 
     double get_pwcet_probability(T_TIME wcet) const noexcept;
@@ -224,6 +226,8 @@ private:
     unsigned long min_nr_iterations_train = 0;
     unsigned long min_nr_iterations_tests = 0;
     unsigned long min_nr_iterations_total = 0;
+
+    unsigned long real_nr_total_iterations = 0;
 
     T_INPUT current_input;
 

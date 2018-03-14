@@ -87,6 +87,8 @@ exit_code_t SimpleHelloWorld::onMonitor() noexcept {
 
 exit_code_t SimpleHelloWorld::onRelease() noexcept {
 
+    this->print_evt_info();
+
     // Print of the results, etc.
     this->print_distributions_summary();
 
