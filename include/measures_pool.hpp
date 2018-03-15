@@ -30,6 +30,8 @@
 #include <utility>
 #include <vector>
 
+#include "utility/optional.hpp"
+
 namespace chronovise {
 
 /**
@@ -102,6 +104,22 @@ public:
     }
 
     /**
+     * Returns the const_iterator to the begin of the underlying container for the input key
+     * @return The constant begin iterator 
+     */
+    inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cbegin(const T_INPUT& input) const noexcept {
+        return meas_list.equal_range(input).first;
+    }
+
+    /**
+     * Returns the const_iterator to the end of the underlying container for the input key
+     * @return The constant end iterator 
+     */
+    inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cend(const T_INPUT&input) const noexcept {
+        return meas_list.equal_range(input).second;
+    }
+
+    /**
      * Returns the const_iterator to the begin of the underlying container
      * @return The constant begin iterator 
      */
@@ -169,7 +187,6 @@ public:
 
 private:
 
-
     std::multimap<T_INPUT, T_TIME> meas_list;
     mutable std::vector<T_TIME> time_ordered_vector;
 
@@ -202,7 +219,23 @@ class MeasuresPoolSet {
 public:
     typedef MeasuresPool<T_INPUT, T_TIME> mp_t;
 
-    MeasuresPoolSet(const mp_t& mp, float training_set_ratio) : mp(mp)
+    /**
+     * The constructor of the class with reference_input specification
+     * @param mp The original MeasuresPool
+     * @param training_set_ratio The ratio of training set/test set ratio
+     */
+    MeasuresPoolSet(const mp_t& mp, float training_set_ratio) : MeasuresPoolSet(mp, training_set_ratio, nullptr)
+    {
+    }
+
+    /**
+     * The constructor of the class with reference_input specification
+     * @param mp The original MeasuresPool
+     * @param training_set_ratio The ratio of training set/test set ratio
+     * @param reference_input The input to refer in mp
+     */
+    MeasuresPoolSet(const mp_t& mp, float training_set_ratio, utility::optional<T_INPUT> reference_input)
+                   : mp(mp), reference_input(reference_input)
     {
         assert(training_set_ratio >= 0. && training_set_ratio <= 1.);
         this->n_train = mp.size() * training_set_ratio;
@@ -213,7 +246,7 @@ public:
      * @return The constant begin iterator 
      */
     inline typename std::multimap<T_INPUT,T_TIME>::const_iterator cbegin_trainset() const noexcept {
-        return mp.cbegin();
+            return mp.cbegin();
     }
 
     /**
@@ -259,9 +292,23 @@ public:
     }
 
 private:
+
+    typename std::multimap<T_INPUT,T_TIME>::const_iterator get_mp_cbegin() const noexcept {
+        if (!reference_input) return this->mp.cbegin();
+        else return this->mp.cbegin(*reference_input);
+    }
+
+    typename std::multimap<T_INPUT,T_TIME>::const_iterator get_mp_cend() const noexcept {
+        if (!reference_input) return this->mp.cend();
+        else return this->mp.cend(*reference_input);
+    }
+
     const mp_t &mp;
 
     size_t n_train;
+
+    utility::optional<T_INPUT> reference_input;
+
 };
 
 } // namespace chronovise

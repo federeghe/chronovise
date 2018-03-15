@@ -171,7 +171,6 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
         iteration++;
     }
-    measures.clear();
 
     if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
         VERB(std::cerr << '+');
@@ -184,7 +183,7 @@ template <typename T_INPUT, typename T_TIME>
 aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
 
     // Create a pool set to manage training e test
-    MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve);
+    MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve, current_input);
 
 
     for (auto &test : sample_tests) {
