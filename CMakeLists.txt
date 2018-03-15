@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(USE_OPENMP "USE_OPENMP" OFF)
+option(CERES_SOLVER "CERES_SOLVER" ON)
 
 if (USE_OPENMP)
 	find_package(OpenMP)
@@ -29,12 +30,14 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/evt/pwcet.cpp
 			src/statistical/test_ad.cpp
 			src/statistical/test_ks.cpp
-			src/statistical/estimator_mle.cpp
                         src/statistical/estimator_pwm.cpp
 			src/statistical/test_ljung_box.cpp
 			src/utility/utility.cpp
 )
 
+if(CERES_SOLVER)
+	set(SOURCES ${SOURCES} src/statistical/estimator_mle.cpp)
+endif(CERES_SOLVER)
 
 execute_process(
   COMMAND git log -1 --format=%H
@@ -45,10 +48,12 @@ execute_process(
 
 add_library(chronovise ${SOURCES})
 
-find_package(Ceres REQUIRED)
-include_directories(${CERES_INCLUDE_DIRS})
-target_link_libraries (chronovise ${CERES_LIBRARIES})
 
+if(CERES_SOLVER)
+	find_package(Ceres REQUIRED)
+	include_directories(${CERES_INCLUDE_DIRS})
+	target_link_libraries (chronovise ${CERES_LIBRARIES})
+endif(CERES_SOLVER)
 
 target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
