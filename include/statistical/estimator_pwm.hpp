@@ -83,6 +83,13 @@ private:
     std::shared_ptr<Distribution> result;
     estimator_status_t status=estimator_status_t::UNKNOWN;
 
+
+    double moment(const MeasuresPool<T_INPUT, T_TIME> &measures, int r) const noexcept;
+
+    void estimator_gpd(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept;
+    void estimator_gev(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept;
+
+
 };
 
 } // namespace chronovise
