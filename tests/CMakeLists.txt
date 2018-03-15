@@ -11,6 +11,7 @@ add_executable(run_all_tests EXCLUDE_FROM_ALL
 	test_test_ad.cpp
 	test_aec_1.cpp
 	test_test_ljung_box.cpp
+	test_optional.cpp
 )
 target_include_directories(run_all_tests PUBLIC ../include)
 

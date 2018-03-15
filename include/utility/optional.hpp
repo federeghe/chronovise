@@ -26,6 +26,7 @@
 #include "global.hpp"
 
 #include <cstddef>
+#include <type_traits>
 
 namespace chronovise {
 namespace utility {
@@ -38,13 +39,18 @@ namespace utility {
  */
 template<class T>
 class optional {
-    public:
+public:
 
         /**
          * It initializes the object without any object.
          */
         optional() : is_present(false), value()
-        { }
+        {
+             static_assert(std::is_default_constructible<T>(),
+                                        "A default constructor must exist.");
+             static_assert(std::is_default_constructible<T>(),
+                                           "A copy-constructor must exist.");
+        }
 
         /**
          * @copydoc optional::optional()
@@ -57,14 +63,20 @@ class optional {
          * @param value The value to set.
          */
         optional(T value) : is_present(true), value(value)
-        { }
+        {
+        }
 
         /**
-         * It provides the address to the stored value. The behaviour of this method
+         * It provides the stored value. The behaviour of this method
          * when called without previously set a value is undefined.
+         * @note Using this when T is not a pointer does not make any
+         *       sense and may confuse developers. In that case, it
+         *       throws an exception.
          */
-        T* operator->() noexcept {
-            return &value;
+        T operator->() noexcept {
+            static_assert(std::is_pointer<T>::value, "The use of -> "
+                                            "requires T to be a pointer.");
+            return value;
         }
 
         /**
@@ -93,7 +105,7 @@ class optional {
         /**
          * Reset the container to 'no-value'
          */
-        void reset() const {
+        void reset() noexcept {
             is_present = false;
         }
 
