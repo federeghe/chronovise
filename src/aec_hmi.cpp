@@ -113,7 +113,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_evt_info() const noexcept {
     size_t test_nr  = evt_approach->get_test_pool().size();
 
     std::cerr << "Number of samples" << std::endl;
-    std::cerr << "                Before EVT: " << this->real_nr_total_iterations << std::endl;
+    std::cerr << "                Before EVT: " << measures.size() << std::endl;
     std::cerr << "                  Training: " << train_nr << std::endl;
     std::cerr << "                   Testing: " << test_nr  << std::endl;
     std::cerr << "           Total after EVT: " << train_nr + test_nr << std::endl;

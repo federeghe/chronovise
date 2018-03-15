@@ -227,8 +227,6 @@ private:
     unsigned long min_nr_iterations_tests = 0;
     unsigned long min_nr_iterations_total = 0;
 
-    unsigned long real_nr_total_iterations = 0;
-
     T_INPUT current_input;
 
     MeasuresPool<T_INPUT, T_TIME> measures;
