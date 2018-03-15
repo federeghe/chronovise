@@ -25,6 +25,8 @@
 
 #include "global.hpp"
 
+#include <cstddef>
+
 namespace chronovise {
 namespace utility {
 
@@ -47,7 +49,7 @@ class optional {
         /**
          * @copydoc optional::optional()
          */
-        optional(nullptr_t x) : optional()
+        optional(std::nullptr_t x) : optional()
         { UNUSED(x); }
 
         /**
