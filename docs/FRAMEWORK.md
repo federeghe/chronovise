@@ -13,12 +13,13 @@ The **AbstractExecutionContext (AEC)** is the main class of chronovise. This abs
 the main logic of the MBPTA process and it should be extended by a user-provided class, implementing
 the following methods:
 
-- onSetup(): the initialization phase. The user application has to configure the framework in this
-             phase  
+- onSetup():     the initialization phase. The user application has to configure the framework in this
+                 phase.
 - onConfigure(): this method is called every time a new input is generated from chronovise. This is
                  to configure your application according to the new set of input provided.
-- onRun():
-- onMonitor():
-- onRelease():
+- onRun():       the onRun method is executed every time to get a new sample. The used should put the
+                 code to retrive the new sample here.
+- onMonitor():   the 
+- onRelease():   eventually, a last method to clean stuffs and print output informations.
 
 
