@@ -23,34 +23,75 @@
 #ifndef UTILITY_OPTIONAL_HPP_
 #define UTILITY_OPTIONAL_HPP_
 
+#include "global.hpp"
+
 namespace chronovise {
 namespace utility {
 
+/**
+ * A class that implements a similar approach to std::optional of C++17
+ * (not available in chronovise since it's using C++14).
+ * This class may represent any copy-able datatype T and with default
+ * constructor.
+ */
 template<class T>
 class optional {
     public:
+
+        /**
+         * It initializes the object without any object.
+         */
         optional() : is_present(false), value()
         { }
 
-        optional(nullptr_t) : optional()
-        { }
+        /**
+         * @copydoc optional::optional()
+         */
+        optional(nullptr_t x) : optional()
+        { UNUSED(x); }
 
+        /**
+         * It initializes the object with the provided value.
+         * @param value The value to set.
+         */
         optional(T value) : is_present(true), value(value)
         { }
 
-        T* operator->() {
+        /**
+         * It provides the address to the stored value. The behaviour of this method
+         * when called without previously set a value is undefined.
+         */
+        T* operator->() noexcept {
             return &value;
         }
 
-        T operator*() {
+        /**
+         * It provides the value of the stored value. The behaviour of this method
+         * when called without previously set a value is undefined.
+         */
+        T operator*() const {
             return value;
         }
 
-        operator bool() const {
+        /**
+         * It returns true when the value is present, false otherwise.
+         */
+        operator bool() const noexcept {
             return is_present;
         }
 
-        void reset() {
+        /**
+         * Set a new valid value
+         */
+        void set(T value) {
+            this->value = value;
+            this->is_present = true;
+        }
+
+        /**
+         * Reset the container to 'no-value'
+         */
+        void reset() const {
             is_present = false;
         }
 
