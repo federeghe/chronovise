@@ -52,6 +52,7 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
 
     // Let's print some debug information
     this->print_configuration_info();
+    this->print_legend();
 
     return AEC_OK;
 }

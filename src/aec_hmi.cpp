@@ -120,6 +120,21 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_evt_info() const noexcept {
 
 }
 
+template <typename T_INPUT, typename T_TIME>
+void AbstractExecutionContext<T_INPUT,T_TIME>::print_legend() const noexcept {
+
+    std::cerr << std::endl;
+    utility::print_title("Legend");
+    std::cerr << " " << hmi_10_iteration   << " : 10 values have been collected" << std::endl;
+    std::cerr << " " << hmi_more_sample    << " : the required sample size has been increased" << std::endl;
+    std::cerr << " " << hmi_reject_sample  << " : the sample has been rejected by a sample test" << std::endl;
+    std::cerr << " " << hmi_fail_estimator << " : the EVT estimator has failed" << std::endl;
+    std::cerr << " " << hmi_reject_evt     << " : the EVT distribution has been rejected by post-run tests" << std::endl;
+    std::cerr << " " << hmi_success   << " : one EVT distribution has been successfully estimated" << std::endl;
+
+}
+
+
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 
 } // chronovise

@@ -132,7 +132,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
             break;
         }
 
-        VERB(std::cerr << '.');
+        if (iteration % 10 == 0) VERB(std::cerr << hmi_10_iteration);
 
         if (! keep_going) {
             // We may be here in two cases:
@@ -151,19 +151,19 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 
             switch(ret_analysis) {
                 case aec_status_t::REJECT_SAMPLE_TEST:
-                    VERB(std::cerr << '$');
+                    VERB(std::cerr << hmi_reject_sample);
                     keep_going = false;
                 break;
                 case aec_status_t::FAIL_EVT_ESTIMATOR:
-                    VERB(std::cerr << '#');
+                    VERB(std::cerr << hmi_fail_estimator);
                     keep_going = false;
                 break;
                 case aec_status_t::REJECT_POST_EVT_TEST:
-                    VERB(std::cerr << 'X');
+                    VERB(std::cerr << hmi_reject_evt);
                     keep_going = false;
                 break;
                 default:
-                    VERB(std::cerr << '>');
+                    VERB(std::cerr << hmi_more_sample);
                 break;
             }
         }
@@ -172,7 +172,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
     }
 
     if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
-        VERB(std::cerr << '+');
+        VERB(std::cerr << hmi_success);
     } else {
         this->safety.set_input_representativity(false);
     }

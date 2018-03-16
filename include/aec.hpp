@@ -118,6 +118,8 @@ public:
 
     void print_evt_info() const noexcept;
 
+    void print_legend() const noexcept;
+
     T_TIME get_pwcet_wcet(double probability) const noexcept;
 
     double get_pwcet_probability(T_TIME wcet) const noexcept;
@@ -205,6 +207,16 @@ private:
     typedef std::list<test_aft_ptr_t> list_of_aft_test_t;
 
 
+    /* *** CONSTANT ATTRIBUTES *** */
+    static constexpr char hmi_10_iteration   = '.';
+    static constexpr char hmi_more_sample    = '>';
+    static constexpr char hmi_reject_sample  = '$';
+    static constexpr char hmi_fail_estimator = '#';
+    static constexpr char hmi_reject_evt     = 'X';
+    static constexpr char hmi_success        = '+';
+
+
+
     /* *** ATTRIBUTES - CONFIGURATION *** */
     float samples_test_reserve = 0; /** 0-1: ratio of samples reserved for testing */
 
@@ -250,6 +262,8 @@ private:
     void check_preconditions() const noexcept;
 
     void set_min_iterations() noexcept;
+
+
 
 };
 
