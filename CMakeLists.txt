@@ -31,8 +31,9 @@ set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
 			src/statistical/test_ad.cpp
 			src/statistical/test_ks.cpp
                         src/statistical/estimator_pwm.cpp
-			src/statistical/test_ljung_box.cpp
+                        src/statistical/test_ljung_box.cpp
 			src/utility/utility.cpp
+                        src/utility/exporter.cpp
 )
 
 if(CERES_SOLVER)

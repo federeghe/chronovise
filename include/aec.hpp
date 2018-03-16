@@ -124,6 +124,11 @@ public:
 
     double get_pwcet_probability(T_TIME wcet) const noexcept;
 
+    const MeasuresPool<T_INPUT, T_TIME> & get_measures() const noexcept {
+        return this->measures;
+    }
+
+
     inline const Safety& get_safety_info() const noexcept {
         return this->safety;
     }
