@@ -2,20 +2,22 @@
 
 #include "global.hpp"
 
+#include <iostream>
+
 namespace chronovise {
 
     template<typename T_INPUT, typename T_TIME>
     std::unique_ptr<std::ofstream> Exporter<T_INPUT,T_TIME>::open_stream(const std::string& filename) {
 
-        std::unique_ptr<std::ofstream> file (new std::ofstream);
+        std::unique_ptr<std::ofstream> file  = std::make_unique<std::ofstream>();
 
-        // Launch outside exception if opening file is a failure
+        // Throw exception if opening file is a failure
         file->exceptions(std::ofstream::failbit | std::ofstream::badbit);
 
-        // Trying
+        // Trying to open it
         file->open(filename);
 
-        return file;
+        return std::move(file);
 
     }
 
@@ -33,6 +35,8 @@ namespace chronovise {
         }
 
     }
+
+
 
 TEMPLATE_CLASS_IMPLEMENTATION(Exporter);
 
