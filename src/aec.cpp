@@ -142,7 +142,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
             // and execute_analysis() failed.
             ret_analysis = execute_analysis();
 
-            if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
+            if (ret_analysis == aec_status_t::OK) {
                 break;
             }
 
@@ -171,7 +171,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
         iteration++;
     }
 
-    if (ret_analysis == aec_status_t::OK || ret == AEC_OK) {
+    if (ret_analysis == aec_status_t::OK) {
         VERB(std::cerr << hmi_success);
     } else {
         this->safety.set_input_representativity(false);
@@ -179,7 +179,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 }
 
 template <typename T_INPUT, typename T_TIME>
-aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() noexcept {
+aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() {
 
     // Create a pool set to manage training e test
     MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve, current_input);

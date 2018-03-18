@@ -262,7 +262,7 @@ private:
 
     void internal_cycle();
 
-    aec_status_t execute_analysis() noexcept;
+    aec_status_t execute_analysis();
 
     void check_preconditions() const noexcept;
 
