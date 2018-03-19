@@ -40,14 +40,20 @@ before_script:
     - sudo make
     - sudo cp *.a /usr/lib
 
+    - pip install --user cpp-coveralls
+
 script:
   - cd ${TRAVIS_BUILD_DIR}
   - mkdir build
   - cd build
-  - cmake ..
+  - cmake .. -DUSE_OPENMP=1 -DCOVERAGE=1
   - make -j2
   - make tests
   - make check
 
 before_install:
-- eval "${MATRIX_EVAL}"
+  - eval "${MATRIX_EVAL}"
+
+after_success:
+  - coveralls --exclude docs --exclude tests --gcov-options '\-lp'
+

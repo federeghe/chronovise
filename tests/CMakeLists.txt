@@ -16,8 +16,15 @@ add_executable(run_all_tests EXCLUDE_FROM_ALL
 )
 target_include_directories(run_all_tests PUBLIC ../include)
 
-target_link_libraries(run_all_tests gtest gtest_main)
-target_link_libraries(run_all_tests chronovise)
+SET(COVERAGE OFF CACHE BOOL "Coverage")
+if (COVERAGE)
+    target_compile_options(run_all_tests PRIVATE --coverage)
+    target_link_libraries(run_all_tests PRIVATE --coverage)
+endif()
+
+
+target_link_libraries(run_all_tests PRIVATE gtest gtest_main)
+target_link_libraries(run_all_tests PRIVATE chronovise)
 
 add_custom_target(tests)
 add_custom_target(check
