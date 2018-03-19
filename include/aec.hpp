@@ -128,6 +128,13 @@ public:
         return this->measures;
     }
 
+    const MeasuresPool<T_INPUT, T_TIME> & get_wcots() const noexcept {
+        return this->wcots;
+    }
+
+    const std::list<std::shared_ptr<Distribution>> & get_estimated_distributions() const noexcept {
+        return this->ev_dist_estimated;
+    }
 
     inline const Safety& get_safety_info() const noexcept {
         return this->safety;

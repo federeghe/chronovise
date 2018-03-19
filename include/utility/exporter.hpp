@@ -36,10 +36,15 @@ class Exporter {
 public:
     explicit Exporter(const AbstractExecutionContext<T_INPUT, T_TIME> &aec, bool binary=false) noexcept
             : aec(aec), binary(binary)
+
     {
     }
 
     void save_time_samples(const std::string& filename) const;
+
+    void save_wcots(const std::string& filename) const;
+
+    void save_estimated_distributions(const std::string& filename) const;
 
 private:
     const AbstractExecutionContext<T_INPUT, T_TIME> &aec;
