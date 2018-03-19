@@ -55,4 +55,4 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 after_success:
-  - coveralls --exclude ceres-solver-1.13.0 --exclude docs --exclude samples --exclude tests -E ".*CMakeFiles.*" -E "*_hmi.cpp" --gcov-options '\-lp' --root ..
+  - coveralls --exclude ceres-solver-1.13.0 --exclude docs --exclude samples --exclude tests -E ".*CMakeFiles.*" -E ".*_hmi.cpp" --gcov-options '\-lp' --root ..

@@ -135,6 +135,11 @@ public:
     void run();
 
     /**
+     * It prints a legend for the symbols printed by the AEC run() method.
+     */
+    void print_legend() const noexcept;
+
+    /**
      * Print the distribution summary. It must be called at the end of execution,
      * otherwise no output is provided.
      * @note For some merging technique like trace-merge, it provides only a single
@@ -148,13 +153,12 @@ public:
     void print_configuration_info() const noexcept;
 
     /**
-     * It prints the information on WCOTs
+     * It prints the information on computer Worst-Case Observed Time. No analysis
+     * is performed to carry out this value, just the maximum time per input.
      */
     void print_wcots() const noexcept;
 
     void print_evt_info() const noexcept;
-
-    void print_legend() const noexcept;
 
     T_TIME get_pwcet_wcet(double probability) const noexcept;
 
