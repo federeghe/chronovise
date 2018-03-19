@@ -23,6 +23,8 @@
 #ifndef STATISTICAL_DISTRIBUTION_UNIFORM_HPP_
 #define STATISTICAL_DISTRIBUTION_UNIFORM_HPP_
 
+#include <utility>
+
 namespace chronovise {
 
 
@@ -69,6 +71,10 @@ public:
         }
 
         return a + p * (b-a);
+    }
+
+    std::pair<double, double> get_parameters() const noexcept {
+        return std::make_pair(a, b);
     }
 
 private:
