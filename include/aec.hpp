@@ -32,7 +32,7 @@
 #include "safety.hpp"
 #include "statistical/test.hpp"
 #include "statistical/estimator.hpp"
-#include "utility/utility.hpp"
+#include "utility/utility_hmi.hpp"
 
 #include <list>
 #include <memory>

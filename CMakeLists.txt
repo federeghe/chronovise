@@ -22,20 +22,21 @@ if (USE_OPENMP)
 endif(USE_OPENMP)
 
 
-set(SOURCES ${SOURCES}	src/input/generator_uniform.cpp
-			src/aec.cpp
-			src/aec_hmi.cpp
-			src/evt/gev_distribution.cpp
-			src/evt/gpd_distribution.cpp
-			src/evt/evtapproach_bm.cpp
-			src/evt/evtapproach_pot.cpp
-			src/evt/pwcet.cpp
-			src/statistical/test_ad.cpp
-			src/statistical/test_ks.cpp
-                        src/statistical/estimator_pwm.cpp
-                        src/statistical/test_ljung_box.cpp
-			src/utility/utility.cpp
-                        src/utility/exporter.cpp
+set(SOURCES ${SOURCES}
+        src/input/generator_uniform.cpp
+        src/aec.cpp
+        src/aec_hmi.cpp
+        src/evt/gev_distribution.cpp
+        src/evt/gpd_distribution.cpp
+        src/evt/evtapproach_bm.cpp
+        src/evt/evtapproach_pot.cpp
+        src/evt/pwcet.cpp
+        src/statistical/test_ad.cpp
+        src/statistical/test_ks.cpp
+        src/statistical/estimator_pwm.cpp
+        src/statistical/test_ljung_box.cpp
+        src/utility/utility_hmi.cpp
+        src/utility/exporter.cpp
 )
 
 if(CERES_SOLVER)
