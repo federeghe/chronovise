@@ -7,6 +7,7 @@
 #include "input/generator_null.hpp"
 
 #include <iostream>
+#include <iomanip>
 
 using namespace chronovise;
 
@@ -41,7 +42,7 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     // Select the EVT approach to use:
     // - Block Maxima -> It will generate a GEV
     // - PoT          -> It will generate a GPD
-    this->use_evt_approach_PoT(13, 0.1);
+    this->use_evt_approach_PoT(13.5, 0.1);
 
     // Select the estimator. Currently the only one available is the Maximum-Likelihood-Estimator
     this->use_estimator_PWM();
@@ -96,7 +97,7 @@ exit_code_t SimpleHelloWorld::onRelease() noexcept {
     this->print_wcots();
 
     std::cout << "pWCET(p=0.99999) is: " << this->get_pwcet_wcet(0.99999) << std::endl;
-    std::cout << "pWCET(WCET=19) is: " << this->get_pwcet_probability(20) << std::endl;
+    std::cout << "pWCET(WCET=17) is: " << std::setprecision(10) << this->get_pwcet_probability(17) << std::endl;
 
     return AEC_OK;
 }

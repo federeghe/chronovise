@@ -4,7 +4,7 @@
 
 #include "input/generator_null.hpp"
 #include "evt/evtapproach_bm.hpp"
-#include "statistical/estimator_mle.hpp"
+#include "statistical/estimator_pwm.hpp"
 #include "statistical/test_ks.hpp"
 #include "statistical/test_ljung_box.hpp"
 #include "aec.hpp"
@@ -48,7 +48,7 @@ public:
         this->set_evt_approach(std::move(evt_app), 0.45);
 
         std::unique_ptr<Estimator<unsigned int, unsigned long>> evt_est(
-            new Estimator_MLE<unsigned int, unsigned long>()
+            new Estimator_PWM<unsigned int, unsigned long>()
         );
         this->set_evt_estimator(std::move(evt_est));
 
@@ -66,7 +66,7 @@ public:
 
     virtual exit_code_t onMonitor() {
 
-        if (get_iteration() < 49) {
+        if (get_iteration() < 200-1) {
             return AEC_CONTINUE;
         }
 
@@ -86,6 +86,7 @@ private:
 
 TEST_F(Exporter_Test, sample_output) {
 
+    testing::internal::CaptureStderr();
 
     chronovise::AbstractExecutionContext<unsigned int, unsigned long> *aec = new EXP_C_1();
 
@@ -125,7 +126,7 @@ TEST_F(Exporter_Test, sample_output) {
         }
     }
 
-    EXPECT_EQ(50+1, i);
+    EXPECT_EQ(200+1, i);
 
     delete aec;
 

@@ -13,10 +13,10 @@ using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 static int my_testing_function(int x) {
     volatile int i, a;
-    for (i=0; i < x * 10; i++) {
+    for (i=0; i < x * 100000+1000; i++) {
         a = i;
     }
-    return a;
+    return 0;
 }
 
 std::random_device random_dev;
@@ -44,8 +44,6 @@ exit_code_t HelloWorld::onSetup() noexcept {
         new EVTApproach_BM<unsigned int, double>(25)
     );
     this->set_evt_approach(std::move(evt_app), 0.1);
-    
-
 
     std::unique_ptr<Estimator<unsigned int, double>> evt_est(
         new Estimator_MLE<unsigned int, double>()
@@ -72,27 +70,43 @@ exit_code_t HelloWorld::onConfigure() noexcept
     return AEC_CONTINUE;
 }
 
+static void alloca_bad_stack_free() {
+
+    volatile int x[100000];
+    volatile int* volatile p=x;
+
+    p[0] = 1;
+    for (int i=1; i<100000; i++) {
+        p[i] = p[i-1];
+    }
+    for (int i=0; i<100000-1; i++) {
+        p[i+1] = p[i];
+    }
+
+}
+
 exit_code_t HelloWorld::onRun() noexcept {
 
     // Clear the system state
+    alloca_bad_stack_free();
 
     // Measure
-//    timing.start_timing();
-//    my_testing_function(this->get_current_input_value());
-//    timing.stop_timing();
+    timing.start_timing();
+    my_testing_function(this->get_current_input_value());
+    timing.stop_timing();
 
     // Publish data
-//    this->add_sample(timing.get_ms());
+    this->add_sample(timing.get_us());
 
-    this->add_sample(distribution(mt) );
+    //this->add_sample(distribution(mt) );
     return AEC_OK;
 }
 
 exit_code_t HelloWorld::onMonitor() noexcept {
 
-//    if (get_iteration() > 10000)
-//        return AEC_OK;
-    return AEC_SLOTH;
+    if (get_iteration() > 1000)
+        return AEC_OK;
+    return AEC_CONTINUE;
 }
 
 exit_code_t HelloWorld::onRelease() noexcept {
