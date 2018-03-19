@@ -59,9 +59,9 @@ public:
     /**
      * The full specification constructor. It initializes an Extreme-Value
      * distribution with the provided values.
-     * @param location The location parameter (\mu)
-     * @param scale    The scale parameter (\sigma)
-     * @param shape    The shape parameter (\xi)
+     * @param location The location parameter \f$\mu\f$
+     * @param scale    The scale parameter \f$\sigma\f$
+     * @param shape    The shape parameter \f$\xi\f$
      * @warning Pay attention to convention on the sign of shape parameter.
      *          Read the class description.
      */

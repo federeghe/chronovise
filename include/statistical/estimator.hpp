@@ -65,7 +65,7 @@ public:
      * that may usually imply a change in the estimation procedure. In particular, if the
      * approach is Block-Maxima a GEV function is estimated, otherwise if is a
      * Peak-over-Threashold a GPD function is estimated.
-     * @param A pointer to the type_info object (that is guaranteed to be alive till the end of
+     * @param ti A pointer to the type_info object (that is guaranteed to be alive till the end of
      *        the program
       */
     void set_source_evt_approach(const std::type_info* ti) noexcept {

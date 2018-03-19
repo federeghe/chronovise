@@ -38,7 +38,7 @@ class StatisticalTest {
 
 public:
     /**
-     * The base constructor. It required the significance level (\alpha) to be
+     * The base constructor. It required the significance level (alpha) to be
      * specified.
      * @param significance_level The significance level, e.g. 0.05.
      */
@@ -108,7 +108,7 @@ public:
     virtual unsigned long get_minimal_sample_size(unsigned short req_power) const = 0;
 
     /**
-     * Returns the significance level (\alpha).
+     * Returns the significance level (alpha).
      * @return The significance level.
      */
     double get_significance_level() const noexcept {
@@ -129,8 +129,13 @@ template <typename T_INPUT, typename T_TIME=unsigned long>
 class StatisticalTest_AfterEVT : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
+
     /**
-     * @copydoc StatisticalTest::StatisticalTest()
+     * The constructor for goodness-of-fit tests. It requires the significance level to be
+     * specified and the reference distribution type.
+     * @param significance_level The significance level, e.g. 0.05.
+     * @param distribution_type The type of the distribution to be used as a reference for
+     *                          goodness-of-fit test.
      */
     StatisticalTest_AfterEVT(double significance_level, distribution_t distribution_type)
     : StatisticalTest<T_INPUT,T_TIME>(significance_level), distribution_type(distribution_type)

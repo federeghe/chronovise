@@ -44,13 +44,15 @@ class TestLjungBox : public StatisticalTest<T_INPUT, T_TIME> {
 public:
 
     /**
-     * @copydoc StatisticalTest_AfterEVT::StatisticalTest_AfterEVT()
-     * @throw std::runtime_error("")
+     * The TestLjungBox constructor.
+     * @param significance_level The significance level for the test (alpha)
+     * @param n_lags The number of lags of the Ljung-Box test. In non-seasonal data
+     *               it should be around the value of 10.
      */
     TestLjungBox(double significance_level, unsigned int n_lags)
     : StatisticalTest<T_INPUT,T_TIME>(significance_level), n_lags(n_lags)
     {
-    };
+    }
 
     /**
      * @copydoc StatisticalTest::run()
