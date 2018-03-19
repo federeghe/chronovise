@@ -205,3 +205,12 @@ TEST_F(GPD_Distribution_Test, TestQuantileExponential) {
 
 }
 
+TEST_F(GPD_Distribution_Test, SpecialCases) {
+    
+    EXPECT_DOUBLE_EQ(standard_noncenter.cdf(5), 0);
+    EXPECT_DOUBLE_EQ(standard_noncenter.pdf(5), 0);
+    EXPECT_DOUBLE_EQ(standard_noncenter.cdf(30), 0);
+    EXPECT_DOUBLE_EQ(standard_noncenter.pdf(30), 0);
+
+}
+

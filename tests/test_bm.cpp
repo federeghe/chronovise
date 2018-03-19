@@ -34,7 +34,29 @@ TEST_F(EVBM_Test, BMCheck) {
 
 }
 
+TEST_F(EVBM_Test, BM_Exception1) {
+    MeasuresPool<int, unsigned long> source;
 
+    for (int i=1; i<=10; i++) {
+        source.push(1,i);
+    }
+    
+    EVTApproach_BM<int, unsigned long> ebm(10); // Requires 20 samples
+    EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5)), std::length_error);
+    
+}
+
+TEST_F(EVBM_Test, BM_Exception2) {
+    MeasuresPool<int, unsigned long> source;
+
+    for (int i=1; i<=50; i++) {
+        source.push(1,i);
+    }
+    
+    EVTApproach_BM<int, unsigned long> ebm(10); // Requires 20 samples for both training and test
+    EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.1)), std::length_error);
+    
+}
 
 TEST_F(EVBM_Test, BMCheck_Incomplete) {
 

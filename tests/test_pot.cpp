@@ -61,3 +61,19 @@ TEST_F(EVPoT_Test, PoTCheck_Testset) {
 
 
 }
+
+TEST_F(EVPoT_Test, PoT_NoSurvivors) {
+
+    MeasuresPool<int, unsigned long> source;
+
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    for (int i=1; i<=100; i++) {
+        source.push(1,i);
+    }
+    
+    EVTApproach_PoT<int, unsigned long> ebm(150);
+    EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5)), std::length_error);
+
+}
