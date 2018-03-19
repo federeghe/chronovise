@@ -12,7 +12,7 @@ testing new MBPTA algorithms and evaluating the pWCET of a certain system/softwa
 |--------------|----------------|--------------|
 | master       | Stable         | [![Build Status](https://travis-ci.org/federeghe/chronovise.svg?branch=master)](https://travis-ci.org/federeghe/chronovise) |
 | master-next  | Development    | [![Build Status](https://travis-ci.org/federeghe/chronovise.svg?branch=master-next)](https://travis-ci.org/federeghe/chronovise) |
-
+| master       | Coverage       | [![Coverage Status](https://coveralls.io/repos/github/federeghe/chronovise/badge.svg)](https://coveralls.io/github/federeghe/chronovise) |
 
 What you need
 -------------

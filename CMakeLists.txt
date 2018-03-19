@@ -9,6 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(USE_OPENMP "USE_OPENMP" OFF)
 option(CERES_SOLVER "CERES_SOLVER" ON)
+option(COVERAGE "COVERAGE" OFF)
+
 
 if (USE_OPENMP)
 	find_package(OpenMP)
@@ -57,6 +59,10 @@ if(CERES_SOLVER)
 endif(CERES_SOLVER)
 
 target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+
+if(COVERAGE)
+        target_compile_options(chronovise PUBLIC --coverage)
+endif(COVERAGE)
 
 target_include_directories(chronovise PUBLIC include)
 
