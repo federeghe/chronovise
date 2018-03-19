@@ -71,3 +71,27 @@ Currently, the following types are automatically compiled with chronovise:
 
 If you need custom input types in `T_INPUT` or want to add a new value for `T_TIME`, you can modify
 the macro `TEMPLATE_CLASS_IMPLEMENTATION` in `include/global.hpp`.
+
+### Setup the framework
+Besides the implementation of the required methods, the application must call the following methods in order
+to configure the framework:
+ - `set_input_source(...)`: to set the input generator that the framework will use to draw input sample. If the
+                            application is not input dependent, please use the NullGenerator.
+ - `set_merging_technique(...)`: select between ENVELOPE and MERGE tracing
+ - `set_evt_approach(...)`: set the EVT approach to use. In the current version of the framework, BM and PoT are
+                            already implemented.
+ - `set_evt_estimator(...)`: set the EVT estimator to use to estimate the extreme distribution from the output of
+                             the EVT approach. In chronovise there currently are two estimator: PWM and MLE. The
+                             last one is available for BM only and it requires the ceres-solver package.
+In addition to the previous mandatory items, the application can add some statistical tests at predefined hooks:
+ - `add_input_representativity_test(...)`: add a test to check the representativity of the inputs. This is the
+                                           only hook you can use to check T_INPUT data.
+ - `add_sample_test(...)`: add a test on collected time values before proceeding to EVT. This is usually used to
+                           check the i.i.d. or similar properties.
+ - `add_post_approach_test(...)`: add a test to be executed after the EVT approach, i.e. after block-maxima or
+                                  peak-over-threshold, but before the EVT estimation.
+ - `add_post_evt_test(...)`: add a test on the estimated extreme-value distribution.
+
+SimpleExecutionContext
+----------------------
+
