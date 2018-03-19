@@ -214,3 +214,9 @@ TEST_F(GPD_Distribution_Test, SpecialCases) {
 
 }
 
+TEST_F(GPD_Distribution_Test, Type) {
+
+    EXPECT_EQ(standard.get_type(), distribution_t::EVT_GPD);
+
+}
+

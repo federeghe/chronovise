@@ -112,7 +112,19 @@ TEST_F(EstimatorPWM_Test, GEV_05_1_2) {
 
 }
 
+TEST_F(EstimatorPWM_Test, Exceptions) {
 
+    MeasuresPool<int, double> mp;
+
+    Estimator_PWM<int, double> mle;
+
+    EXPECT_THROW(mle.run(mp), std::runtime_error);
+
+    mle.set_source_evt_approach(&typeid(int));
+
+    EXPECT_THROW(mle.run(mp), std::runtime_error);
+
+}
 
 
 

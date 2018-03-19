@@ -1,4 +1,4 @@
-add_executable(run_all_tests EXCLUDE_FROM_ALL
+set(TEST_SOURCES ${TEST_SOURCES}
 	tester.cpp
 	test_generators.cpp
         test_estimator_pwm.cpp
@@ -12,6 +12,14 @@ add_executable(run_all_tests EXCLUDE_FROM_ALL
 	test_optional.cpp
 	test_exporter.cpp
 	test_pwcet.cpp
+)
+
+if(CERES_SOLVER)
+        set (TEST_SOURCES ${TEST_SOURCES} test_aec_1.cpp test_estimator_mle.cpp)
+endif(CERES_SOLVER)
+
+add_executable(run_all_tests EXCLUDE_FROM_ALL
+        ${TEST_SOURCES}
 )
 
 target_include_directories(run_all_tests PUBLIC ../include)

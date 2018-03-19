@@ -105,7 +105,7 @@ public:
     virtual const char* to_string() const noexcept = 0;
 
 protected:
-    const std::type_info *ti;
+    const std::type_info *ti = nullptr;
 };
 
 } // namespace chronovise

@@ -288,3 +288,9 @@ TEST_F(GEV_Distribution_Test, TestExtraQuantile) {
 
 }
 
+
+TEST_F(GEV_Distribution_Test, Type) {
+
+    EXPECT_EQ(gumbell.get_type(), distribution_t::EVT_GEV);
+
+}

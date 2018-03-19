@@ -115,7 +115,6 @@ TEST_F(Exporter_Test, sample_output) {
         while(std::getline(line_stream, cell, ',')) {
             cells.push_back(cell);
         }
-        continue;
 
         ASSERT_EQ(cells.size(), 2);
 
@@ -127,6 +126,8 @@ TEST_F(Exporter_Test, sample_output) {
     }
 
     EXPECT_EQ(200+1, i);
+
+    (void) testing::internal::GetCapturedStderr();
 
     delete aec;
 

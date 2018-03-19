@@ -176,7 +176,7 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
 
     ceres::GradientProblemSolver::Summary summary;
 
-    if (this->ti == NULL) {
+    if (this->ti == nullptr) {
         throw std::runtime_error("Set_source_evt_approach not called.");
     }
     

@@ -83,7 +83,7 @@ void Estimator_PWM<T_INPUT, T_TIME>::estimator_gpd(const MeasuresPool<T_INPUT, T
 template <typename T_INPUT, typename T_TIME>
 bool Estimator_PWM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
 
-    if (this->ti == NULL) {
+    if (this->ti == nullptr) {
         throw std::runtime_error("Set_source_evt_approach not called.");
     }
     
