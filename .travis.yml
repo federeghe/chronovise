@@ -55,5 +55,4 @@ before_install:
   - eval "${MATRIX_EVAL}"
 
 after_success:
-  - coveralls --exclude docs --exclude tests --exclude samples --gcov-options '\-lp' --root ..
-
+  - coveralls --exclude ceres-solver-1.13.0 --exclude docs --exclude samples --exclude tests -E ".*CMakeFiles.*" --gcov-options '\-lp' --root ..

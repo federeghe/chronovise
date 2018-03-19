@@ -10,8 +10,9 @@ testing new MBPTA algorithms and evaluating the pWCET of a certain system/softwa
 
 |    Branch    | Description    | Status       |
 |--------------|----------------|--------------|
-| master       | Stable         | [![Build Status](https://travis-ci.com/federeghe/chronovise.svg?token=GZRsPDxBM5ANCBVx8AuB&branch=master)](https://travis-ci.com/federeghe/chronovise) |
-| master-next  | Development    | [![Build Status](https://travis-ci.com/federeghe/chronovise.svg?token=GZRsPDxBM5ANCBVx8AuB&branch=master-next)](https://travis-ci.com/federeghe/chronovise) |
+| master       | Stable         | [![Build Status](https://travis-ci.org/federeghe/chronovise.svg?branch=master)](https://travis-ci.org/federeghe/chronovise) |
+| master-next  | Development    | [![Build Status](https://travis-ci.org/federeghe/chronovise.svg?branch=master-next)](https://travis-ci.org/federeghe/chronovise) |
+
 
 What you need
 -------------
