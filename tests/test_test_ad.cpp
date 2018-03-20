@@ -59,7 +59,7 @@ TEST_F(AD_Test_Test, DistributionREJECT) {
     DistributionUniform du(1., 2.);
     auto du_ref_shared = std::shared_ptr<Distribution>(&du,[](auto* p){UNUSED(p);});
 
-    TestAD<unsigned int, double> ad(0.05, distribution_t::EVT_GEV, false, 0);
+    TestAD<unsigned int, double> ad(0.05, distribution_t::EVT_GEV, true, 0);
     ad.set_ref_distribution(du_ref_shared);
 
     double normal_values[100] = {
@@ -85,7 +85,25 @@ TEST_F(AD_Test_Test, DistributionREJECT) {
 
 }
 
-TEST_F(AD_Test_Test, Exception) {
-    EXPECT_THROW((new TestAD<unsigned int, double>(0.5, distribution_t::EVT_GEV, true, -0.1)),
+TEST_F(AD_Test_Test, Exceptions) {
+     EXPECT_THROW((new TestAD<unsigned int, double>(0.5, distribution_t::EVT_GEV, true, -0.1)),
                  std::invalid_argument);
+
+     DistributionUniform du(1., 2.);
+     auto du_ref_shared = std::shared_ptr<Distribution>(&du,[](auto* p){UNUSED(p);});
+
+     TestAD<unsigned int, double> ad(0.05, distribution_t::EVT_GEV, false, 0);
+
+     MeasuresPool<unsigned int, double> mp;
+     mp.push(1,1);
+
+     EXPECT_THROW(ad.run(mp), std::invalid_argument);
+
+     for (int i=0; i<100; i++) {
+         mp.push(i, i);
+     }
+
+     // Missing distribution
+     EXPECT_THROW(ad.run(mp), std::invalid_argument);
+
 }

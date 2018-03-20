@@ -103,11 +103,18 @@ TEST_F(AEC_1_Test, 0) {
 
     chronovise::AbstractExecutionContext<unsigned int, double> *aec = new EC_1();
 
+    EXPECT_TRUE(std::isnan(aec->get_pwcet_wcet(0.5)));
+    EXPECT_TRUE(std::isnan(aec->get_pwcet_probability(10)));
+
     testing::internal::CaptureStderr();
     ASSERT_NO_THROW(aec->run());
 
     const auto &wcot_list = aec->get_wcots();
     EXPECT_EQ(*std::max_element(normal_nums, normal_nums+500), wcot_list.max());
+
+    EXPECT_FALSE(std::isnan(aec->get_pwcet_wcet(0.5)));
+    EXPECT_FALSE(std::isnan(aec->get_pwcet_probability(10)));
+
 
 }
 
