@@ -56,7 +56,8 @@ typedef enum class merger_type_e {
 
 /**
  * The abstract class to be extended by the application. It is often shorten in the
- * documentation with AEC acronym (AbstractExecutionContext).
+ * documentation with AEC acronym (AbstractExecutionContext). The run() method contains
+ * the logic of the pWCET analysis.
  */
 template <typename T_INPUT=unsigned long, typename T_TIME=unsigned long>
 class AbstractExecutionContext {
@@ -158,24 +159,46 @@ public:
      */
     void print_wcots() const noexcept;
 
+    /**
+     * Print the information about the EVT approach process such as number of samples
+     * acquired and remained after BM/PoT.
+     */
     void print_evt_info() const noexcept;
 
+    /**
+     * Given a probability, returns the global (i.e. the largest) worst-case execution time
+     */
     T_TIME get_pwcet_wcet(double probability) const noexcept;
 
+    /**
+     * Given a worst-case-execution time, returns the global (i.e. the smallest) probability
+     */
     double get_pwcet_probability(T_TIME wcet) const noexcept;
 
+    /**
+     * Getter for the list of acquired samples
+     */
     const MeasuresPool<T_INPUT, T_TIME> & get_measures() const noexcept {
         return this->measures;
     }
 
+    /**
+     * Getter for the list of Worst-Case Observed Times
+     */
     const MeasuresPool<T_INPUT, T_TIME> & get_wcots() const noexcept {
         return this->wcots;
     }
 
+    /**
+     * Getter for the list of estimated distributions
+     */
     const std::list<std::shared_ptr<Distribution>> & get_estimated_distributions() const noexcept {
         return this->ev_dist_estimated;
     }
 
+    /**
+     * Getter for the Safety object associated to this AEC
+     */
     inline const Safety& get_safety_info() const noexcept {
         return this->safety;
     }
@@ -183,10 +206,16 @@ public:
 
 protected:
 
+    /**
+     * Setter for the input generator source. This is mandatory before call run().
+     */
     inline void set_input_source(std::unique_ptr<InputGenerator<T_INPUT>> ig) noexcept {
         this->input_gen = std::move(ig);
     }
 
+    /**
+     * Setter for the merging technique to use. This is mandatory before call run().
+     */
     inline void set_merging_technique(merger_type_t type) noexcept {
         this->merger_tech = type;
     }
@@ -201,53 +230,89 @@ protected:
     void set_evt_approach(std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_approach,
                     float samples_test_reserve=0.) noexcept;
 
+    /**
+     * Set the EVT estimator to use. This is mandatory before call run().
+     */
     inline void set_evt_estimator(std::unique_ptr<Estimator<T_INPUT, T_TIME>> est) noexcept {
         this->evt_estimator = std::move(est);
     }
 
+    /**
+     * Add a new sample to the MeasuresPool of this AEC for the current input. This method should be
+     * called inside onRun() only.
+     */
     inline void add_sample(T_TIME value) noexcept {
         this->measures.push(current_input, value);
     }
 
-    inline void add_input_transformer() noexcept;
+//    TODO    
+//    inline void add_input_transformer() noexcept;
 
+    /**
+     * A typedef for convenience to shorten generic statistical test pointer.
+     */
     typedef std::shared_ptr<StatisticalTest<T_INPUT,T_TIME>> test_ptr_t;
+
+    /**
+     * A typedef for convenience to shorten post-EVT statistical test pointer.
+     */
     typedef std::shared_ptr<StatisticalTest_AfterEVT<T_INPUT, T_TIME>> test_aft_ptr_t;
 
+    /**
+     * Add a new input representativity test.
+     */
     inline void add_input_representativity_test(test_ptr_t st) noexcept {
         this->representativity_tests.push_back(st);
     }
 
     /**
-     * Tests executed on post EVT-approach samples (e.g. on the output samples of BM)
+     * Add a new test executed on post EVT-approach samples (e.g. on the output samples of BM)
      */
     inline void add_post_approach_test(test_ptr_t st) noexcept {
         this->post_run_tests.push_back(std::move(st));
     }
 
     /**
-     * Tests executed on pre EVT-approach samples (e.g. on the output samples of BM)
+     * Add a new test executed on pre EVT-approach samples (e.g. on the output samples of BM)
      */
     inline void add_sample_test(test_ptr_t st) noexcept {
         this->sample_tests.push_back(std::move(st));
     }
 
+    /**
+     * Add a new post-EVT test, typically a goodness-of-fit test
+     */
     inline void add_post_evt_test(test_aft_ptr_t st) noexcept {
         this->post_evt_tests.push_back(std::move(st));
     }
 
-    inline T_INPUT get_current_input_value() const noexcept {
+    /**
+     * Return the current input value
+     */
+    inline const T_INPUT& get_current_input_value() const noexcept {
         return this->current_input;
     }
 
+    /**
+     * Return the number of the current input iteration (outer loop).
+     * @note The first iteration has number '0'
+     */
     inline unsigned long get_input_iteration() const noexcept {
         return input_iteration;
     }
 
+    /**
+     * Return the number of the current iteration inside the current input (inner loop).
+     * @note The first iteration has number '0'
+     */
     inline unsigned long get_iteration() const noexcept {
         return iteration;
     }
 
+    /**
+     * Ask to the framework for a reliability requirement
+     * @warning Experimental feature
+     */
     inline void set_reliability_requirement(double req) noexcept {
         safety.set_reliability_requirement(req);
     }

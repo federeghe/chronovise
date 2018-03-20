@@ -15,7 +15,7 @@
  */
 
 /**
- * @file utility.hpp
+ * @file optional.hpp
  * @author Check commit authors
  * @brief File containing the optional class
  */

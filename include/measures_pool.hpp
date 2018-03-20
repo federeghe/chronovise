@@ -213,6 +213,10 @@ private:
 
 };
 
+/**
+ * The MeasuresPoolSet class is used internally to wrap and split the MeasuresPool into
+ * training and test set. It should be used in EVTApproach management only.
+ */
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class MeasuresPoolSet {
 

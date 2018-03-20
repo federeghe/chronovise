@@ -30,6 +30,9 @@
 
 namespace chronovise {
 
+/**
+ * The class providing a pWCET estimation from a given distribution.
+ */
 template <typename T=double>
 class pWCET {
 

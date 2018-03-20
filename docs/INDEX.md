@@ -8,7 +8,8 @@ Documentation:
 
 You can build the API documentation using the Doxygen tool:
 
-```$ cd build```
-```$ make docs```
+`$ cd build`
 
-and open the `index.html` file under the `build/docs` directory.
+`$ make docs`
+
+and open the `index.html` file under the `build/docs/html` directory.
