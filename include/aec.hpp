@@ -48,9 +48,9 @@ namespace chronovise {
  * a merge of pWCET at the end. 
  */
 typedef enum class merger_type_e {
-    UNKNOWN,    /** Internal representation, should not be used */
-    TRACE_MERGE,    /** Trace-merging technique */
-    ENVELOPE    /** Envelope-merging technique */
+    UNKNOWN,     /** Internal representation, should not be used */
+    TRACE_MERGE, /** Trace-merging technique */
+    ENVELOPE     /** Envelope-merging technique */
 } merger_type_t;
 
 
@@ -84,9 +84,9 @@ public:
     typedef enum {
 
         // Normal statuses
-        AEC_OK = 0,    /** `Successful` or `completed` meaning */
+        AEC_OK = 0,      /** `Successful` or `completed` meaning */
         AEC_CONTINUE,    /** Instructs the framework to continue an action */
-        AEC_SLOTH,    /** Instructs the framework to decide itself something*/
+        AEC_SLOTH,       /** Instructs the framework to decide itself something*/
 
         // Error statuses
         AEC_GENERIC_ERROR,    /** Generic error code */ 
@@ -95,7 +95,9 @@ public:
 
 
     /**
-     * The method called at the startup of the program
+     * The method called at the startup of the program. This method is called only
+     * once time and its goal should be to set up the AEC class, i.e. setting the
+     * evt approach, evt tests, etc.
      */
     virtual exit_code_t onSetup() = 0;
 
@@ -122,7 +124,8 @@ public:
     virtual exit_code_t onMonitor() = 0;
 
     /**
-     * The last function called for cleanup at the end of all iterations.
+     * The last function called for cleanup at the end of all iterations. It is
+     * called only one time per run.
      */
     virtual exit_code_t onRelease() = 0;
 
@@ -136,7 +139,8 @@ public:
     void run();
 
     /**
-     * It prints a legend for the symbols printed by the AEC run() method.
+     * It prints to stderr a legend for the symbols printed by the AEC run() method.
+     * @note It does NOT depend on the macro `VERBOSITY_NONE`.
      */
     void print_legend() const noexcept;
 
@@ -145,23 +149,27 @@ public:
      * otherwise no output is provided.
      * @note For some merging technique like trace-merge, it provides only a single
      * value. 
+     * @note It does NOT depend on the macro `VERBOSITY_NONE`.
      */
     void print_distributions_summary() const noexcept;
 
     /**
      * Print the configuration information of AEC such as tests, evt approach, etc.
+     * @note It does NOT depend on the macro `VERBOSITY_NONE`.
      */    
     void print_configuration_info() const noexcept;
 
     /**
      * It prints the information on computer Worst-Case Observed Time. No analysis
      * is performed to carry out this value, just the maximum time per input.
+     * @note It does NOT depend on the macro `VERBOSITY_NONE`.
      */
     void print_wcots() const noexcept;
 
     /**
      * Print the information about the EVT approach process such as number of samples
      * acquired and remained after BM/PoT.
+     * @note It does NOT depend on the macro `VERBOSITY_NONE`.
      */
     void print_evt_info() const noexcept;
 

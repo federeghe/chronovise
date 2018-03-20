@@ -23,7 +23,14 @@
 #ifndef GLOBAL_HPP_
 #define GLOBAL_HPP_
 
+/**
+ * The framework name
+ */
 #define CFG_FRAMEWORK_NAME "chronovise"
+
+/**
+ * The framework version
+ */
 #define CFG_FRAMEWORK_VERSION "0.1"
 
 #ifdef GIT_VERSION

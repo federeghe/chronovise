@@ -38,6 +38,10 @@ typedef enum class aec_status_e {
     REJECT_POST_EVT_TEST
 } aec_status_t;
 
+/**
+ * The class providing the methods to "fix" bad situations (e.g. i.i.d. test failure)
+ * @warning This class is still experimental and probably not currently working.
+ */
 template<typename T_INPUT, typename T_TIME>
 class Fixer {
 

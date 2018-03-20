@@ -101,7 +101,7 @@ Documentation
 -------------
 Please check [the documentation index file](docs/INDEX.md).
 
-Development & Issue & Support
+Development & Issues & Support
 -----------------------------
 Can I contribute? Sure!
 
