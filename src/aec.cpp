@@ -78,14 +78,30 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() {
                 // since we didn't perform any safety check
                 this->safety.set_input_representativity(false);
             break;
+            case AEC_SLOTH:
+            {
+                bool cont = false;
+                for (auto &test : representativity_tests) {
+                    test->run(measures);
+                    if (test->is_reject()) {
+                        cont = true;
+                        break;
+                    }
+                }
+
+                if (! cont) {
+                    require_more_samples = false;
+                    this->safety.set_input_representativity(true);
+                    break;
+                }
+
+            }
+            [[fallthrough]];
             case AEC_CONTINUE:
                 input_iteration++;
                 internal_cycle();
-            break;    
-            case AEC_SLOTH:
-                // TODO run representative tests
-                // and accordingly set require_more_samples
-                assert(false);    // Not currently implemented.
+            break;
+
             default:
                 print_error("onConfigure() returns error code " + std::to_string(ret));
             break;
