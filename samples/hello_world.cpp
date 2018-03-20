@@ -16,7 +16,7 @@ static int my_testing_function(int x) {
     for (i=0; i < x * 100000+1000; i++) {
         a = i;
     }
-    return 0;
+    return a;
 }
 
 std::random_device random_dev;
@@ -78,9 +78,6 @@ static void alloca_bad_stack_free() {
     p[0] = 1;
     for (int i=1; i<100000; i++) {
         p[i] = p[i-1];
-    }
-    for (int i=0; i<100000-1; i++) {
-        p[i+1] = p[i];
     }
 
 }

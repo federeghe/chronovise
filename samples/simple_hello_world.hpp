@@ -8,6 +8,8 @@ class SimpleHelloWorld : public chronovise::SimpleExecutionContext<unsigned int,
 public:
     SimpleHelloWorld() noexcept;
 
+    virtual ~SimpleHelloWorld() = default;
+
     virtual exit_code_t onSetup() noexcept override;
     virtual exit_code_t onConfigure() noexcept override;
     virtual exit_code_t onRun() noexcept override;
