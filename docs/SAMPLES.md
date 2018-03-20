@@ -29,9 +29,9 @@ This test application is composed of three files:
  - `hello_world.hpp` containing the header definition of extended AbstractExecutionContext class.
  - `hello_world.cpp` containing the implementation of the extended AbstractExecutionContext class.
 
-*WARNING (1)*: this application is compiled ONLY IF `ceres-solver` is installed, since it uses MLE estimator.
+**WARNING (1)**: this application is compiled ONLY IF `ceres-solver` is installed, since it uses MLE estimator.
 
-*WARNING (2)*: this application will probably and on purpose fail to get a pWCET estimation. Read below.
+**WARNING (2)**: this application will probably and on purpose fail to get a pWCET estimation. Read below.
 
 This is a more advanced example compared to the previous one. In this case, the user can specify custom
 objects derivated from the abstract classes to implement tests, estimators, input generators, etc. This

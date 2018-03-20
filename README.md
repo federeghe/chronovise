@@ -30,7 +30,7 @@ Dependencies:
   Please check the [ceres-solver documentation](http://ceres-solver.org/installation.html).
 * [optional] `Google Test` if you want to run the test suite.
 
-\* Be aware that in Ubuntu the current package has a
+\* Be aware that the current Ubuntu package has a
    [dependency bug](https://launchpad.net/ubuntu/+source/ceres-solver/+bugs).
 
 Building
@@ -72,7 +72,7 @@ install it in your machine before proceeding. Then you can build the test suite:
 
 ```make tests```
 
-and run them:
+and run it:
 
 ```make check```
 
@@ -84,8 +84,9 @@ provides you a failure, please re-run it a couple of times to check that is not 
 
 Run the examples
 ----------------
-The framework is shipped with two example: **HelloWorld** and **SimpleHelloWorld**. The source
-files are located under the ```samples/``` directory.
+The framework is shipped with two example automatically compiled with the framework: **HelloWorld**
+and **SimpleHelloWorld**. The source files are located under the ```samples/``` directory. The
+*HelloWorld* sample application is available only if ceres-solver is available.
 You can run them inside the `build` directory via:
 
 ```./samples/hello_world```
@@ -105,9 +106,9 @@ Development & Issue & Support
 Can I contribute? Sure!
 
 The code is hosted in mirroring on [GitHub](https://github.com/federeghe/chronovise) and
-on a private university server. Please open any bug or pull request on the GitHub
-repository. If you need support or you want to contribute please ask directly to the
-head developer: Federico Reghenzani <federico[dot]reghenzani(at)polimi[dot].it>.
+on a private university server. All bug reports and pull requests must be open on the GitHub
+repository. If you need support or you want to discuss new contributions please ask directly
+to the head developer: Federico Reghenzani <federico[dot]reghenzani(at)polimi[dot]it>.
 
 License
 -------
