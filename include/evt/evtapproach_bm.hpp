@@ -12,6 +12,8 @@ public:
 
     EVTApproach_BM(size_t block_size) : block_size(block_size) { }
 
+    virtual ~EVTApproach_BM() { }
+
     virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) override;
 
     /**

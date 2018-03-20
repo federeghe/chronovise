@@ -45,6 +45,11 @@ class Distribution {
 public:
 
     /**
+     * A default virtual destructor for inheritance
+     */
+    virtual ~Distribution() noexcept = default;
+
+    /**
      * Returns the type of the distribution
      */
     virtual distribution_t get_type() const noexcept = 0;

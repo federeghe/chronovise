@@ -12,6 +12,12 @@ template <typename T_INPUT, typename T_TIME=unsigned long>
 class EVTApproach {
 
 public:
+
+    /**
+     * A default virtual costructor
+     */
+    virtual ~EVTApproach() = default;
+
     /**
      * It performs the analysis on the provided pool of data. It also splits the pool
      * according to the iterators of the pool itself 

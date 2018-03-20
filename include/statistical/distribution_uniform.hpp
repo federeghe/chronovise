@@ -38,6 +38,8 @@ public:
     DistributionUniform(double a, double b) : a(a), b(b)
     {}
 
+    virtual ~DistributionUniform() noexcept { }
+
     /**
      * @copydoc Distribution::get_type()
      */

@@ -50,13 +50,6 @@ public:
     }
 
     /**
-     * @copydoc Distribution::get_type()
-     */
-    virtual distribution_t get_type() const noexcept {
-        return distribution_t::EVT_GEV;
-    }
-
-    /**
      * The full specification constructor. It initializes an Extreme-Value
      * distribution with the provided values.
      * @param location The location parameter \f$\mu\f$
@@ -68,6 +61,15 @@ public:
     explicit GEV_Distribution(double location, double scale, double shape) noexcept
     :  param_location(location), param_scale(scale), param_shape(shape)
     {        
+    }
+
+    virtual ~GEV_Distribution() noexcept = default;
+
+    /**
+     * @copydoc Distribution::get_type()
+     */
+    virtual distribution_t get_type() const noexcept {
+        return distribution_t::EVT_GEV;
     }
 
     /**

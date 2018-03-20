@@ -35,6 +35,8 @@ public:
 
     EVTApproach_PoT(T_TIME threshold) : threshold(threshold) { }
 
+    virtual ~EVTApproach_PoT() { }
+
     virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) override;
 
     /**

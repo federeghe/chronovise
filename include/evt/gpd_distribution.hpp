@@ -47,13 +47,6 @@ public:
     }
 
     /**
-     * @copydoc Distribution::get_type()
-     */
-    virtual distribution_t get_type() const noexcept {
-        return distribution_t::EVT_GPD;
-    }
-
-    /**
      * The full specification constructor. It initializes an Generalized Pareto Distribution
      * with the provided values.
      * @param location The location parameter \f$\mu\f$
@@ -69,6 +62,15 @@ public:
             throw std::invalid_argument("Scale parameter must be positive");
         }
     }
+
+    /**
+     * @copydoc Distribution::get_type()
+     */
+    virtual distribution_t get_type() const noexcept {
+        return distribution_t::EVT_GPD;
+    }
+
+    virtual ~GPD_Distribution() noexcept = default;
 
     /**
      * Getter for the location parameter
