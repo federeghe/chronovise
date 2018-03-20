@@ -220,3 +220,10 @@ TEST_F(GPD_Distribution_Test, Type) {
 
 }
 
+TEST_F(GPD_Distribution_Test, NegativeScale) {
+
+    EXPECT_THROW(new GPD_Distribution(10, -0.5, 0.5), std::invalid_argument);
+
+}
+
+

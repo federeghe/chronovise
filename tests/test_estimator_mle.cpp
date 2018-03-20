@@ -165,3 +165,18 @@ TEST_F(EstimatorMLE_Test, EVT_100_01_025) {
 
 }
 
+TEST_F(EstimatorMLE_Test, String) {
+    Estimator<int, double> *test = new Estimator_MLE<int, double>();
+
+    EXPECT_EQ("Maximum-Likelihood (MLE)", test->to_string());
+
+    delete test;
+}
+
+TEST_F(EstimatorMLE_Test, Exceptions) {
+
+    Estimator_MLE<int, double> test;
+
+    EXPECT_THROW(test.get_result(), std::runtime_error);
+
+}

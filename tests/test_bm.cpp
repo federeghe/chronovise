@@ -54,7 +54,7 @@ TEST_F(EVBM_Test, BM_Exception2) {
     }
     
     EVTApproach_BM<int, unsigned long> ebm(10); // Requires 20 samples for both training and test
-    EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.1)), std::length_error);
+    EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.8)), std::length_error);
     
 }
 
@@ -80,5 +80,15 @@ TEST_F(EVBM_Test, BMCheck_Incomplete) {
         else
             EXPECT_EQ(it->second, 47);
     }
+
+}
+
+TEST_F(EVBM_Test, BMString) {
+
+    EVTApproach<int,unsigned long> *test = new EVTApproach_BM<int, unsigned long>(10);
+
+    EXPECT_EQ("Block-Maxima", test->to_string());
+
+    delete test;
 
 }

@@ -84,3 +84,8 @@ TEST_F(AD_Test_Test, DistributionREJECT) {
     EXPECT_TRUE(ad.is_reject());
 
 }
+
+TEST_F(AD_Test_Test, Exception) {
+    EXPECT_THROW((new TestAD<unsigned int, double>(0.5, distribution_t::EVT_GEV, true, -0.1)),
+                 std::invalid_argument);
+}

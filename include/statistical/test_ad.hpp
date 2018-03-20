@@ -60,7 +60,7 @@ public:
         static_assert(std::is_arithmetic<T_TIME>::value,
         "Type must be an integer or floating point type");
         if (safe_margin < 0) {
-            throw std::runtime_error("Safety margin cannot be negative.");
+            throw std::invalid_argument("Safety margin cannot be negative.");
         }
     };
 

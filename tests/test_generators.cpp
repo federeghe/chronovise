@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "input/generator_uniform.hpp"
+#include "input/generator_null.hpp"
 
 #include <cmath>
 
@@ -133,4 +134,13 @@ TEST_F(UniformGenerator_Test, DoubleTwoInstance) {
     EXPECT_NE(g.get(), h.get());
 }
 
+
+TEST_F(UniformGenerator_Test, Strings) {
+
+    EXPECT_EQ("Uniform", a.to_string());
+
+    NullInputGenerator null;
+
+    EXPECT_EQ("Null", null.to_string());
+}
 

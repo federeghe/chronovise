@@ -77,3 +77,21 @@ TEST_F(EVPoT_Test, PoT_NoSurvivors) {
     EXPECT_THROW(ebm.perform(MeasuresPoolSet<int, unsigned long>(source, 0.5)), std::length_error);
 
 }
+
+TEST_F(EVPoT_Test, POTString) {
+
+    EVTApproach<int,unsigned long> *test = new EVTApproach_PoT<int, unsigned long>(1.5);
+
+    EXPECT_EQ("Peak-over-Threshold", test->to_string());
+
+    delete test;
+
+}
+
+TEST_F(EVPoT_Test, MinSampleSize) {
+
+    EVTApproach_PoT<int, unsigned long> x(1.5);
+
+    EXPECT_GT(x.get_minimal_sample_size(), 0);
+
+}

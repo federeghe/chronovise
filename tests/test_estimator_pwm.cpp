@@ -118,6 +118,8 @@ TEST_F(EstimatorPWM_Test, Exceptions) {
 
     Estimator_PWM<int, double> mle;
 
+    EXPECT_THROW(mle.get_result(), std::runtime_error);
+
     EXPECT_THROW(mle.run(mp), std::runtime_error);
 
     mle.set_source_evt_approach(&typeid(int));
@@ -127,4 +129,11 @@ TEST_F(EstimatorPWM_Test, Exceptions) {
 }
 
 
+TEST_F(EstimatorPWM_Test, String) {
+    Estimator<int, double> *test = new Estimator_PWM<int, double>();
+
+    EXPECT_EQ("Probabilistic Weighted Moments (PWM)", test->to_string());
+
+    delete test;
+}
 

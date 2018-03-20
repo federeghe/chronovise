@@ -6,6 +6,7 @@ set(TEST_SOURCES ${TEST_SOURCES}
 	test_pot.cpp
 	test_gev_distribution.cpp
 	test_gpd_distribution.cpp
+        test_uniform_distribution.cpp
 	test_test_ks.cpp
 	test_test_ad.cpp
 	test_test_ljung_box.cpp
