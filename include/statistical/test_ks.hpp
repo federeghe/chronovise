@@ -30,7 +30,7 @@
 #include <cmath>
 #include <list>
 
-#define TEST_KS_MIN_SAMPLES 10
+#define TEST_KS_MIN_SAMPLES 20
 
 namespace chronovise {
 
