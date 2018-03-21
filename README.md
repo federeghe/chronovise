@@ -16,9 +16,7 @@ testing new MBPTA algorithms and evaluating the pWCET of a certain system/softwa
 
 What you need
 -------------
-* A modern compiler like GCC or LLVM. C++14 support is needed (this is normally available in updated
-  Linux distributions).
-
+* A modern compiler like GCC or LLVM with C++14 support and the CMake building tool.
 * The code should be **cross-platform** because we do not use any Linux-specific feature. However,
   we usually test it only on Linux. Please fill a bug if it does not work with other operating systems.
 
@@ -28,6 +26,7 @@ Dependencies:
   [Fedora](https://admin.fedoraproject.org/pkgdb/package/rpms/ceres-solver/),
   [Arch Linux](https://aur.archlinux.org/packages/ceres-solver/) -- or build it from the source.
   Please check the [ceres-solver documentation](http://ceres-solver.org/installation.html).
+  This package is needed if you want to run Maximum Likelihood Estimation routines.
 * [optional] `Google Test` if you want to run the test suite.
 
 \* Be aware that the current Ubuntu package has a
@@ -35,7 +34,7 @@ Dependencies:
 
 Building
 --------
-To build the main library and the examples perform the standard `cmake` sequence of commands:
+To build the main library and the examples, perform the standard `git` and `cmake` sequence of commands:
 ```bash
 $ git clone https://github.com/federeghe/chronovise.git
 $ cd chronovise
@@ -45,13 +44,13 @@ $ cmake ..
 ```
 
 If you do not have access to `ceres-solver` you can disable modules that depends on it specifying the
-appropriate macro in cmake command:
+appropriate macro in cmake command (default: `CERES_SOLVER` is ON):
 
 ```
 $ cmake -DCERES_SOLVER=OFF ..
 ```
 
-You can also enable OpenMP to speedup the process changing the `cmake` command to:
+You can also enable OpenMP to speedup the EVT process (default: `USE_OPENMP` is `OFF`):
 
 ```
 $ cmake -DUSE_OPENMP=ON ..
@@ -63,12 +62,15 @@ Then, to compile:
 $ make
 ```
 
-(you can also specify the appropriate `-j` option to decrease the compilation time).
+(you can also specify the appropriate `-j` option to make to decrease the compilation time).
 
 ### Test suite
 
 The test suite is based on [Google Test](https://github.com/google/googletest), so you need to
-install it in your machine before proceeding. Then you can build the test suite:
+install it in your machine before proceeding. If you are not going to develop the chronovise
+framework you don't probably need the test suite and you can skip this section.
+
+Building the test suite (pay attention to test**s**):
 
 ```make tests```
 
@@ -84,7 +86,7 @@ provides you a failure, please re-run it a couple of times to check that is not 
 
 Run the examples
 ----------------
-The framework is shipped with two example automatically compiled with the framework: **HelloWorld**
+The framework is shipped with two examples automatically compiled with the framework: **HelloWorld**
 and **SimpleHelloWorld**. The source files are located under the ```samples/``` directory. The
 *HelloWorld* sample application is available only if ceres-solver is available.
 You can run them inside the `build` directory via:
@@ -95,11 +97,11 @@ and
 
 ```./samples/simple_hello_world```
 
-Please check the documentation for further details.
+Please read the documentation for further details.
 
 Documentation
 -------------
-Please check [the documentation index file](docs/INDEX.md).
+Goto [the documentation index file](docs/INDEX.md).
 
 Development & Issues & Support
 -----------------------------
