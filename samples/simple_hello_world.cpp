@@ -42,7 +42,7 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     // Select the EVT approach to use:
     // - Block Maxima -> It will generate a GEV
     // - PoT          -> It will generate a GPD
-    this->use_evt_approach_PoT(13.5, 0.1);
+    this->use_evt_approach_BM(20, 0.1);
 
     // Select the estimator. Currently the only one available is the Maximum-Likelihood-Estimator
     this->use_estimator_PWM();
@@ -96,8 +96,10 @@ exit_code_t SimpleHelloWorld::onRelease() noexcept {
 
     this->print_wcots();
 
-    std::cout << "pWCET(p=0.99999) is: " << this->get_pwcet_wcet(0.99999) << std::endl;
-    std::cout << "pWCET(WCET=17) is: " << std::setprecision(10) << this->get_pwcet_probability(17) << std::endl;
+    std::cout << "pWCET(p=0.999999) is: " << this->get_pwcet_wcet(0.999999) << std::endl;
+    std::cout << "pWCET(p=1-10^(-9)) is: " << this->get_pwcet_wcet(1 - std::pow(10., -9.)) << std::endl;
+    double prob= this->get_pwcet_probability(16.8);
+    std::cout << "pWCET(WCET=16.8) is: " << std::setprecision(16) << prob << std::endl;
 
     return AEC_OK;
 }
