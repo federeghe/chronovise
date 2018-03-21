@@ -18,10 +18,10 @@ double Estimator_PWM<T_INPUT, T_TIME>::moment(const MeasuresPool<T_INPUT, T_TIME
 
     for (size_t j=0; j < n; j++) {
         double coeff = 1.;
-        for (int m=0; m < r; m++) {
-            coeff *= (((double)j)-m)/(n-m);
+        for (int m=1; m <= r; m++) {
+            coeff *= (((double)j+1)-m)/(n-m);
         }
-        W += coeff * measures[j];
+        W += coeff * (measures[j]);
     }
 
     return W / n;
@@ -40,14 +40,13 @@ void Estimator_PWM<T_INPUT, T_TIME>::estimator_gev(const MeasuresPool<T_INPUT, T
 
     double c  = (2. * W1 - W0) / (3. * W2 - W0) - std::log(2.)/std::log(3.);
     double xi = 7.8590 * c + 2.9554 * c * c;
-    double sg =  ((2 * W1 - W0) * xi) / ( std::tgamma(1 + xi) * (1-std::pow(2,(-xi)) ));
+    double sg =  ((2 * W1 - W0) * xi) / ( std::tgamma(1. + xi) * (1. - std::pow(2.,(-xi)) ));
 
     assert(sg >= 0);
 
     double mu = W0 + sg*(std::tgamma(1+xi)-1)/xi;
 
-    result = std::make_shared<GEV_Distribution>(mu, sg, xi);
-
+    result = std::make_shared<GEV_Distribution>(mu, sg, -xi);
 }
 
 template <typename T_INPUT, typename T_TIME>
@@ -76,7 +75,7 @@ void Estimator_PWM<T_INPUT, T_TIME>::estimator_gpd(const MeasuresPool<T_INPUT, T
     T_TIME xi = W0 / (W0 - 2. * W1) - 2.; 
     T_TIME sg = 2. * W0 * W1 / (W0 - 2. * W1);
 
-    result = std::make_shared<GPD_Distribution>(measures.min(), sg, -xi);
+    result = std::make_shared<GPD_Distribution>(mu, sg, -xi);
 
 }
 
