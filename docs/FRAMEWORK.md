@@ -3,15 +3,15 @@ The chronovise framework
 
 The **chronovise** framework provides a set of features to run the entire **Measurement-Based
 Probabilistic Time Analysis (MBPTA)** process. The framework is built as a C++ static library
-that can be linked to your implementation. Your implementation should implement the methods of
-the abstract class provided by the framework, as subsequently described, in order to configure and
-adapt the framework to your specific requirements.
+that can be linked to your implementation. Your implementatiom must include a derivative class
+that implements the methods of the abstract class provided by the framework, as subsequently
+described, in order to configure and adapt the framework to your specific requirements.
 
 AbstractExecutionContext (AEC)
 ------------------------------
 The **AbstractExecutionContext (AEC)** is the main class of chronovise. This abstract class contains
 the main logic of the MBPTA process and it should be extended by a user-provided class, implementing
-the following methods:
+at least the following methods:
 
 - onSetup():     the initialization phase. The user application has to configure the framework in this
                  phase.
@@ -44,7 +44,7 @@ onRelease()
 
 ```
 
-For further details please check the diagrams in the `docs` subfolder.
+For further details please check the UML diagrams in the `docs` subfolder.
 
 ### Exit conditions
 
@@ -94,4 +94,16 @@ In addition to the previous mandatory items, the application can add some statis
 
 SimpleExecutionContext
 ----------------------
+The SimpleExecutionContext class (SEC) works in a similar way of the AEC (it is actually a wrapper of AEC).
+The user application still needs to implement onSetup()/onConfigure()/onRun()/onMonitor()/onRelease()
+methods with the same exact meaning. The major difference is the availability of some extra methods that
+help the user to set specific test or approach without the complex C++ template syntax. This is useful when
+you don't want to implement these tests/approach by yourself, but you can rely on the ones provided by
+chronovise. Please check the *Simple Hello World* example application.
+
+Getting the result
+------------------
+You have two options to get the result of EVT estimation: using print_* methods from AEC/SEC that prints
+the result in a human-readable way on stderr or you can use the Export class to export data to text or
+binary files.
 

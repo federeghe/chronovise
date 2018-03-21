@@ -28,15 +28,28 @@
 
 namespace chronovise {
 
+/**
+ * Peak-over-Threshold EVT approach class.
+ */
 template <typename T_INPUT, typename T_TIME=unsigned long>
 class EVTApproach_PoT : public EVTApproach<T_INPUT, T_TIME> {
 
 public:
 
+    /**
+     * The costructor of the PoT approach
+     * @param threshold the value for PoT, below that the samples are discarded
+     */
     EVTApproach_PoT(T_TIME threshold) : threshold(threshold) { }
 
+    /**
+     * @copydoc EVTApproach::~EVTApproach()
+     */
     virtual ~EVTApproach_PoT() { }
 
+    /**
+     * @copydoc EVTApproach::perform()
+     */
     virtual void perform(const MeasuresPoolSet<T_INPUT, T_TIME>& original_pool) override;
 
     /**
@@ -47,6 +60,10 @@ public:
         return 1000;
     }
 
+    /**
+     * Return the name of the approach (relative to the class not the object even if not static)
+     * @return The string "Peak-over-Threshold"
+     */
     virtual const char* to_string() const noexcept override {
         return "Peak-over-Threshold";
     }
