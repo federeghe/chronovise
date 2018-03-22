@@ -43,6 +43,7 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     // - Block Maxima -> It will generate a GEV
     // - PoT          -> It will generate a GPD
     this->use_evt_approach_BM(20, 0.1);
+    //this->use_evt_approach_PoT(13.5, 0.1);
 
     // Select the estimator. Currently the only one available is the Maximum-Likelihood-Estimator
     this->use_estimator_PWM();
