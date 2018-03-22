@@ -84,3 +84,22 @@ TEST_F(KS_Test_Test, DistributionREJECT) {
     EXPECT_TRUE(ks.is_reject());
 
 }
+
+
+TEST_F(KS_Test_Test, Exceptions) {
+
+    MeasuresPool<unsigned int, double> mp;
+
+    TestKS<unsigned int, double> ks(0.05, distribution_t::EVT_GEV);
+
+    // No enough samples
+    EXPECT_THROW(ks.run(mp), std::invalid_argument);
+
+    for (int i=0; i < 500; i++) {
+        mp.push(i,i);
+    }
+
+    // No distribution set
+    EXPECT_THROW(ks.run(mp), std::invalid_argument);
+
+}

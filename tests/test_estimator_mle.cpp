@@ -179,4 +179,12 @@ TEST_F(EstimatorMLE_Test, Exceptions) {
 
     EXPECT_THROW(test.get_result(), std::runtime_error);
 
+    MeasuresPool<int,double> mp;
+
+    EXPECT_THROW(test.run(mp), std::runtime_error);
+
+    test.set_source_evt_approach(&typeid(int));
+
+    EXPECT_THROW(test.run(mp), std::runtime_error);
+
 }
