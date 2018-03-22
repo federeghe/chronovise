@@ -35,7 +35,8 @@ typedef enum class aec_status_e {
     FAIL_POST_EVT_TEST_SAMPLE_SIZE,
     FAIL_EVT_ESTIMATOR,
     REJECT_POST_RUN_TEST,
-    REJECT_POST_EVT_TEST
+    REJECT_POST_EVT_TEST,
+    NO_ENOUGH_SAMPLES
 } aec_status_t;
 
 /**

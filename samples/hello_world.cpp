@@ -13,7 +13,7 @@ using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 static int my_testing_function(int x) {
     volatile int i, a;
-    for (i=0; i < x * 100000+1000; i++) {
+    for (i=0; i < x * 10000+1000; i++) {
         a = i;
     }
     return a;

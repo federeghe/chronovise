@@ -7,6 +7,8 @@
 #include <iostream>
 #include <iomanip>
 
+#define COEFF_INCREASE_SAMPLE_SIZE 0.2
+
 namespace chronovise {
 
 template <typename T_INPUT, typename T_TIME>
@@ -156,7 +158,13 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
             // 2 - the onMonitor() returned AEC_SLOTH and sufficient number of iteration reached
             // Now, we have to continue to get sample only if we are not in AEC_OK case
             // and execute_analysis() failed.
-            ret_analysis = execute_analysis();
+
+            if (iteration >= min_nr_iterations_total) {
+                ret_analysis = execute_analysis();
+            } else {
+                // In this case the application returned AEC_OK but no sufficient samples are estimated
+                ret_analysis = aec_status_t::NO_ENOUGH_SAMPLES;
+            }
 
             if (ret_analysis == aec_status_t::OK) {
                 break;
@@ -176,6 +184,10 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
                 break;
                 case aec_status_t::REJECT_POST_EVT_TEST:
                     VERB(std::cerr << hmi_reject_evt);
+                    keep_going = false;
+                break;
+                case aec_status_t::NO_ENOUGH_SAMPLES:
+                    VERB(std::cerr << hmi_no_enough_samples);
                     keep_going = false;
                 break;
                 default:
@@ -217,7 +229,7 @@ aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() {
     const auto &measures_test = this->evt_approach->get_test_pool();
 
     if (measures_to_estimate.size() < this->evt_estimator->get_minimal_sample_size()) {
-        min_nr_iterations_total *= 2;
+        min_nr_iterations_total *= (1.+COEFF_INCREASE_SAMPLE_SIZE);
         return aec_status_t::FAIL_EVT_APP_MIN_SAMPLE_SIZE;
     }
 
@@ -226,12 +238,12 @@ aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() {
     };
 
     if (std::any_of(post_run_tests.cbegin(), post_run_tests.cend(), lambda_check)) {
-        min_nr_iterations_total *= 2;
+        min_nr_iterations_total *= (1.+COEFF_INCREASE_SAMPLE_SIZE);
         return aec_status_t::FAIL_POST_RUN_TEST_SAMPLE_SIZE;
     }
 
     if (std::any_of(post_evt_tests.cbegin(), post_evt_tests.cend(), lambda_check)) {
-        min_nr_iterations_total *= 2;
+        min_nr_iterations_total *= (1.+COEFF_INCREASE_SAMPLE_SIZE);
         return aec_status_t::FAIL_POST_EVT_TEST_SAMPLE_SIZE;
     }
 

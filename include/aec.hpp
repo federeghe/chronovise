@@ -333,12 +333,13 @@ private:
 
 
     /* *** CONSTANT ATTRIBUTES *** */
-    static constexpr char hmi_10_iteration   = '.';
-    static constexpr char hmi_more_sample    = '>';
-    static constexpr char hmi_reject_sample  = '$';
-    static constexpr char hmi_fail_estimator = '#';
-    static constexpr char hmi_reject_evt     = 'X';
-    static constexpr char hmi_success        = '+';
+    static constexpr char hmi_10_iteration      = '.';
+    static constexpr char hmi_more_sample       = '>';
+    static constexpr char hmi_reject_sample     = '$';
+    static constexpr char hmi_fail_estimator    = '#';
+    static constexpr char hmi_reject_evt        = 'X';
+    static constexpr char hmi_success           = '+';
+    static constexpr char hmi_no_enough_samples = 'N';
 
 
 
