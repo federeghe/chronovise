@@ -23,18 +23,38 @@
 #ifndef STATISTICAL_TEST_HPP_
 #define STATISTICAL_TEST_HPP_
 
-#include "statistical/distribution.hpp"
+
 #include "measures_pool.hpp"
+#include "statistical/distribution.hpp"
+#include "utility/relation_node.hpp"
 
 #include <memory>
 
 namespace chronovise {
 
 /**
+ * The next class is used internally to express power in statistical test.
+ * We need a separate class because power getter functions does not depend on T_INPUT
+ * and T_TIME. However the computation of it may depend on T_INPUT and T_TIME.
+ */
+class PowerEntity {
+
+public:
+    virtual ~PowerEntity() { }
+
+    virtual bool has_power() const noexcept = 0;
+
+    virtual double get_power() const = 0;
+
+    virtual bool is_reject() const noexcept = 0;
+
+};
+
+/**
  * The base abstract class for statistical tests.
  */
 template <typename T_INPUT, typename T_TIME=unsigned long>
-class StatisticalTest {
+class StatisticalTest : private RelationNode, public PowerEntity {
 
 public:
     /**
@@ -42,8 +62,8 @@ public:
      * specified.
      * @param significance_level The significance level, e.g. 0.05.
      */
-    StatisticalTest(double significance_level)
-            : significance_level(significance_level) {
+    StatisticalTest(double significance_level) : RelationNode(relation_node_t::TEST),
+            significance_level(significance_level) {
 
     }
 
@@ -63,14 +83,14 @@ public:
      * @throws std::runtime_error if has_power()==false (depending on implementation it may not throw
      *                and return garbage)
      */
-    virtual double get_power() const = 0;
+    virtual double get_power() const override = 0;
 
     /**
      * Returns true if the null hypotesis is rejected.
      * @return true if the null hypotesis is rejected
      * @note A false value does not mean that the hypothesis has been accepted.
      */
-    bool is_reject() const noexcept {
+    virtual bool is_reject() const noexcept override final {
         return this->reject;
     }
 
@@ -120,6 +140,7 @@ protected:
     const double significance_level;
 
     bool reject = false;
+
 };
 
 /**
