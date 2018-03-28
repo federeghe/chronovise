@@ -25,12 +25,12 @@ TEST_F(Relations_Test, TypePersistence) {
 
 TEST_F(Relations_Test, Children) {
 
-    std::unique_ptr<RelationNode> child1(new RelationNode(relation_node_t::TEST));
-    std::unique_ptr<RelationNode> child2(new RelationNode(relation_node_t::TEST));
-    std::unique_ptr<RelationNode> child3(new RelationNode(relation_node_t::TEST));
+    std::shared_ptr<RelationNode> child1(new RelationNode(relation_node_t::TEST));
+    std::shared_ptr<RelationNode> child2(new RelationNode(relation_node_t::TEST));
+    std::shared_ptr<RelationNode> child3(new RelationNode(relation_node_t::TEST));
 
-    std::unique_ptr<RelationNode> interm(new RelationNode(relation_node_t::OPERATOR));
-    std::unique_ptr<RelationNode> root (new RelationNode(relation_node_t::OPERATOR));
+    std::shared_ptr<RelationNode> interm(new RelationNode(relation_node_t::OPERATOR));
+    std::shared_ptr<RelationNode> root (new RelationNode(relation_node_t::OPERATOR));
 
     interm->add_child(child1);
     interm->add_child(child2);
@@ -58,7 +58,7 @@ TEST_F(Relations_Test, Operator) {
 
 TEST_F(Relations_Test, Exceptions) {
 
-    std::unique_ptr<RelationNode> child1(new RelationNode(relation_node_t::TEST));
+    std::shared_ptr<RelationNode> child1(new RelationNode(relation_node_t::TEST));
 
     EXPECT_THROW(child1->add_child(child1) ,std::invalid_argument);
 

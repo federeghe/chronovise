@@ -23,8 +23,10 @@
 #ifndef UTILITY_RELATION_NODE_HPP_
 #define UTILITY_RELATION_NODE_HPP_
 
+
 #include <list>
 #include <memory>
+#include <numeric>
 
 namespace chronovise {
 
@@ -49,29 +51,30 @@ public:
 
     relation_node_t get_type() const noexcept { return this->type; }
 
-    void add_child(std::unique_ptr<RelationNode> &rn) {
-        if (this->type == relation_node_t::TEST) {
-            throw std::invalid_argument("A test cannot have children.");
-        }
-        this->children.push_back(std::move(rn));
-    }
+    void add_child(std::shared_ptr<RelationNode> rn);
 
-    std::list<std::unique_ptr<RelationNode>>::const_iterator cbegin() const noexcept {
+    std::list<std::shared_ptr<RelationNode>>::const_iterator cbegin() const noexcept {
         return this->children.cbegin();
     }
 
-    std::list<std::unique_ptr<RelationNode>>::const_iterator cend() const noexcept {
+    std::list<std::shared_ptr<RelationNode>>::const_iterator cend() const noexcept {
         return this->children.cend();
     }
 
-    const std::list<std::unique_ptr<RelationNode>> & get_children() const noexcept {
+    const std::list<std::shared_ptr<RelationNode>> & get_children() const noexcept {
         return this->children;
     }
+
+    size_t get_local_size() const noexcept {
+        return this->children.size();
+    }
+
+    size_t get_total_size() const noexcept;
 
 private:
     relation_node_t type;
 
-    std::list<std::unique_ptr<RelationNode>> children;
+    std::list<std::shared_ptr<RelationNode>> children;
 };
 
 } // namespace chronovise
