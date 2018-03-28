@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "utility/relation_node.hpp"
+#include "utility/relation_operator.hpp"
 
 using namespace chronovise;
 
@@ -40,6 +41,20 @@ TEST_F(Relations_Test, Children) {
     EXPECT_EQ(relation_node_t::TEST, (*root->cbegin())->get_type());
 
 }
+
+TEST_F(Relations_Test, Operator) {
+
+    RelationNode *op = new RelationOperator(relation_operator_type_t::UNION);
+
+    EXPECT_EQ(relation_node_t::OPERATOR, op->get_type());
+
+    RelationOperator *oper = (RelationOperator*) op;
+
+    EXPECT_EQ(relation_operator_type_t::UNION, oper->get_oper_type());
+
+    delete op;
+}
+
 
 TEST_F(Relations_Test, Exceptions) {
 

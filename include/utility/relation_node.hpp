@@ -30,9 +30,9 @@ namespace chronovise {
 
 typedef enum class relation_node_e {
 
-    UKNOWN,  /** Error value, it should not be used */
-    TEST,    /** Statistical test */
-    OPERATOR,/** Operator */
+    UKNOWN,   /** Error value, it should not be used */
+    TEST,     /** Statistical test */
+    OPERATOR, /** Operator */
 
 } relation_node_t;
 
