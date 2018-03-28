@@ -31,6 +31,7 @@ set(SOURCES ${SOURCES}
         src/evt/evtapproach_bm.cpp
         src/evt/evtapproach_pot.cpp
         src/evt/pwcet.cpp
+        src/safety.cpp
         src/statistical/test_ad.cpp
         src/statistical/test_ks.cpp
         src/statistical/estimator_pwm.cpp

@@ -23,6 +23,9 @@
 #ifndef SAFETY_HPP_
 #define SAFETY_HPP_
 
+#include "utility/relation_operator.hpp"
+
+#include <memory>
 
 namespace chronovise {
 
@@ -77,12 +80,25 @@ public:
         return this->evt_safe;
     }
 
+    void set_test_tree(std::shared_ptr<RelationOperator> root) noexcept {
+        this->test_tree_root = root;
+    }
+
+    /**
+     * It computes the reliability given the statistical test power. It return -1
+     * if the calculation is not possible or the tests' tree is not provided by the
+     * set_test_tree() method.
+     * @throw std::runtime_error in case of malformed tests' tree.
+     */
+    double compute_reliability() const;
+
 private:
     bool input_representativity = true;
     bool evt_safe = true;
-
     bool reliability_req_opt = false; // True of realibility_req setted
     double reliability_req;
+
+    std::shared_ptr<RelationOperator> test_tree_root;
 
 };
 
