@@ -83,6 +83,12 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::external_cycle() {
             case AEC_SLOTH:
             {
                 bool cont = false;
+
+                if (representativity_tests.size() == 0) {
+                    throw std::runtime_error("You cannot return AEC_SLOTH without "
+                                             "representativity tests.");
+                }
+
                 for (auto &test : representativity_tests) {
                     test->run(measures);
                     if (test->is_reject()) {

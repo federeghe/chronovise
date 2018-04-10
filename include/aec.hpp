@@ -215,6 +215,16 @@ public:
 protected:
 
     /**
+     * A typedef for convenience to shorten generic statistical test pointer.
+     */
+    typedef std::shared_ptr<StatisticalTest<T_INPUT,T_TIME>> test_ptr_t;
+
+    /**
+     * A typedef for convenience to shorten post-EVT statistical test pointer.
+     */
+    typedef std::shared_ptr<StatisticalTest_AfterEVT<T_INPUT, T_TIME>> test_aft_ptr_t;
+
+    /**
      * Setter for the input generator source. This is mandatory before call run().
      */
     inline void set_input_source(std::unique_ptr<InputGenerator<T_INPUT>> ig) noexcept {
@@ -255,16 +265,6 @@ protected:
 
 //    TODO    
 //    inline void add_input_transformer() noexcept;
-
-    /**
-     * A typedef for convenience to shorten generic statistical test pointer.
-     */
-    typedef std::shared_ptr<StatisticalTest<T_INPUT,T_TIME>> test_ptr_t;
-
-    /**
-     * A typedef for convenience to shorten post-EVT statistical test pointer.
-     */
-    typedef std::shared_ptr<StatisticalTest_AfterEVT<T_INPUT, T_TIME>> test_aft_ptr_t;
 
     /**
      * Add a new input representativity test.
