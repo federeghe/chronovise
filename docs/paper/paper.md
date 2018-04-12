@@ -27,10 +27,10 @@ The rapid advance of computer architectures towards more powerful but also more 
 complex platforms has the side effect of making the timing analysis of applications challenging 
 [@cullmann2010predictability].
 The increasing demand of computational power needed by applications is getting hard to fulfill for
-cyber-physical systems (CPS) having real-time constraints. Real-time constraints for CPS are
-frequently compulsory, i.e. the timing constraints must be satisfied in any condition because of the
+cyber-physical systems (CPS) having real-time constraints. These constraints for CPS are
+frequently compulsory, i.e. the timing requirements must be satisfied in any condition because of the
 mission-critical system purpose. The satisfaction of these
-constraints are traditionally performed using well-known *static analyses* that provide a
+constraints is traditionally demonstrated using well-known *static analyses* that provide a
 **Worst-Case Execution Time (WCET)**. However, the increasing
 complexity of computer architectures -- such as multi-core, multi-level caches, complex pipelines,
 etc. [@berg2004requirements] --  makes these analyses computationally unaffordable or too
@@ -47,7 +47,7 @@ probability of observing higher execution times.
 The statistical **Extreme Value Theory (EVT)**, typically used in natural disaster risk evaluation,
 is the basis for pWCET estimation.
 
-The *chronovise* framework is an open-source software aiming at standardizing the flow of EVT
+The *chronovise* framework is an open-source software aiming at standardizing the flow of MBPTA
 process, integrating both estimation phases and testing phases. The only previous works in literature
 are [@5591317] and [@Lesage2015], however the unavailability of source code, the limited features
 and the immaturity given the absence of subsequent works are the main reasons of our work, that wants
@@ -58,15 +58,15 @@ assumes the Generalized Extreme Value (GEV) and the Generalized Pareto Distribut
 couple of already implemented estimators (MLE and PWM) is available and also a couple of statistical
 tests: Kolmogorov-Smirnov [@massey1951kolmogorov] and (Modified) Anderson-Darling
 [@sinclair1990modified]. The API to provide an input generator and input representativity tests is
-also available to the user. Finally, an overall results confidence estimation computation is
-provided.
+also available to the user. Finally, the framework implements an overall results confidence estimation
+procedure.
 
 Instead of providing a read-to-use and fixed tool, *chronovise* is proposed as a flexible and
 extensible framework deployed as a static C++ library. The selection of C++ language enables the
 easy implementation of hardware-in-the-loop analyses.
 The behind idea of *chronovise* is to provide a common framework for both researchers and users.
 Even if EVT is a well-known statistical theory, it is continuously evolving and still a hot topic
-in mathematical environment. The application of EVT in real-time field is immature and it
+in mathematical environment. The application of EVT in real-time computing is immature and it
 still requires several theoretical advances. This is that leads us to implement this software:
 enabling the exploitation of an already implemented EVT process in order to perform experiments of
 new theories and methods, without the need to reimplement all the algorithms from scratch. Our
