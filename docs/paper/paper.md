@@ -67,7 +67,7 @@ overall results confidence estimation procedure is also available.  The API
 provided allows users to specify or to implement new input generators and
 input representativity tests.
 
-*Chronovise* is in fact proposed as a flexible and
+*Chronovise* is in fact presented as a flexible and
 extensible framework, deployed as a static C++ library. The selection of C++
 language enables the easy implementation of hardware-in-the-loop analyses.
 The underlying idea of *chronovise* is to provide a common framework for both
