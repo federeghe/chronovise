@@ -1,9 +1,10 @@
 ---
-title: 'chronovise: Measurement-Based Probabilistic Timing Analysis'
+title: 'chronovise: Measurement-Based Probabilistic Timing Analysis framework'
 tags:
 - probabilistic real-time
 - mbpta
-- wcet
+- worst-case execution time
+- extreme value theory
 authors:
 - name: Federico Reghenzani
   orcid: 0000-0002-1888-9579
@@ -18,7 +19,7 @@ authors:
 affiliations:
 - name: Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico di Milano
   index: 1
-date: 11 April 2018
+date: 13 April 2018
 bibliography: paper.bib
 ---
 
@@ -48,6 +49,9 @@ measured across its input domain and the WCET is provided as a so-called
 probabilistic-WCET (pWCET), i.e. a WCET with a probability of observing higher
 execution times.  The statistical **Extreme Value Theory (EVT)**, typically
 used in natural disaster risk evaluation, is the basis for pWCET estimation.
+However, to obtain a safe pWCET estimation, the execution time traces must
+fulfill the requirements of EVT that can be checked running appropriate testing
+procedures [@santinelli2017revising].
 
 The *chronovise* framework is an open-source software aiming at standardizing
 the flow of MBPTA process, integrating both estimation and testing phases. The
