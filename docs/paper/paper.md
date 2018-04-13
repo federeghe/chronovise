@@ -26,8 +26,8 @@ bibliography: paper.bib
 # Summary
 The rapid advance of computer architectures towards more powerful, but also
 more sophisticated and complex platforms, has the side effect of making the
-timing analysis of applications a challenging task.
-[@cullmann2010predictability].  The increasing demand of computational power
+timing analysis of applications a challenging task [@cullmann2010predictability].
+The increasing demand of computational power
 in cyber-physical systems (CPS) is getting hard to fulfill, if we consider
 typical real-time constrained applications. Time constraints in CPS are often
 mandatory requirements, i.e. the timing requirements must be satisfied in any
@@ -71,7 +71,7 @@ overall results confidence estimation procedure is also available.  The API
 provided allows users to specify or to implement new input generators and
 input representativity tests.
 
-*Chronovise* is in fact presented as a flexible and
+The software *chronovise* is in fact presented as a flexible and
 extensible framework, deployed as a static C++ library. The selection of C++
 language enables the easy implementation of hardware-in-the-loop analyses.
 The underlying idea of *chronovise* is to provide a common framework for both
