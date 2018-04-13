@@ -1,0 +1,37 @@
+{
+  "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+  "@type": "Code",
+  "author": [
+    {
+      "@id": "http://orcid.org/0000-0002-1888-9579",
+      "@type": "Person",
+      "email": "federico.reghenzani@polimi.it",
+      "name": "Federico Reghenzani",
+      "affiliation": "Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico di Milano"
+    },
+    {
+      "@id": "http://orcid.org/0000-0002-2302-4297",
+      "@type": "Person",
+      "email": "giuseppe.massari@polimi.it",
+      "name": "Giuseppe Massari",
+      "affiliation": "Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico di Milano"
+    },
+    {
+      "@id": "http://orcid.org/0000-0001-8294-730X",
+      "@type": "Person",
+      "email": "william.fornaciari@polimi.it",
+      "name": "William Fornaciari",
+      "affiliation": "Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico di Milano"
+    }
+  ],
+  "identifier": "",
+  "codeRepository": "https://github.com/federeghe/chronovise",
+  "datePublished": "2018-04-13",
+  "dateModified": "2018-04-13",
+  "dateCreated": "2018-04-13",
+  "description": "chronovise is a framework that computes probabilistic distribution of the Worst-Case Execution Time from the observed execution times of a given task. The framework is provided as a static C++ library with an abstract class to be implemented by the user.",
+  "keywords": "probabilistic real-time, mbpta, worst-case execution time, extreme value theory",
+  "license": "Apache 2.0",
+  "title": "chronovise",
+  "version": "v1.0"
+}
