@@ -116,4 +116,6 @@ License
 -------
 This code is licensed under Apache-2.0, please refer to the LICENSE file.
 
-The logo is a derivative work of the following original images [(1 - LGPL)](https://commons.wikimedia.org/wiki/File:Out_of_date_clock_icon.svg) and [(2 - Flaticon Basic)](https://www.flaticon.com/free-icon/vise_222459#term=vise&page=1&position=2).
+The logo is a derivative work of the following original images:
+* [the clock](https://commons.wikimedia.org/wiki/File:Out_of_date_clock_icon.svg) designed by [Tkgd2007](https://commons.wikimedia.org/wiki/User:Tkgd2007) from WikimediaCommons;
+* [the vise](https://www.flaticon.com/free-icon/vise_222459#term=vise&page=1&position=2) designed by [SmashIcon](https://www.flaticon.com/authors/smashicons) from Flaticon.
