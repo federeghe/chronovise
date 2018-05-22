@@ -17,7 +17,7 @@ testing new MBPTA algorithms and evaluating the pWCET of a certain system/softwa
 
 What you need
 -------------
-* A modern compiler like GCC or LLVM with C++14 support and the CMake building tool.
+* A modern compiler with C++14 support like GCC (version 5 or later) or LLVM and the CMake building tool.
 * The code should be **cross-platform** because we do not use any Linux-specific feature. However,
   we usually test it only on Linux. Please fill a bug if it does not work with other operating systems.
 
@@ -55,6 +55,12 @@ You can also enable OpenMP to speedup the EVT process (default: `USE_OPENMP` is 
 
 ```
 $ cmake -DUSE_OPENMP=ON ..
+```
+
+In case that you have multiple complilers installed in your system, you can specify a compatible compiler as follows:
+
+```
+$ CC=gcc-5 CXX=g++-5 cmake ..
 ```
 
 Then, to compile:
