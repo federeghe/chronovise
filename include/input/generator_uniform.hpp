@@ -48,6 +48,8 @@ public:
         this->max = max;
     } 
 
+    virtual ~UniformInputGenerator() = default;
+
     /**
      * @copydoc InputGenerator::get()
      */
@@ -56,7 +58,7 @@ public:
     /**
      * @copydoc InputGenerator::to_string()
      */
-    virtual const char* to_string() const noexcept {
+    virtual const char* to_string() const noexcept override {
         return "Uniform";
     }
 

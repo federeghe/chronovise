@@ -28,7 +28,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 
     ret = this->onSetup();
     if (ret != AEC_OK) {
-        print_error("onSetup() returns error code " + ret);
+        print_error("onSetup() returns error code " + std::to_string(ret));
     }
 
     // Performs some checks that the user correctly set all member of the AEC class
@@ -54,7 +54,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::run() {
 
     ret = this->onRelease();
     if (ret != AEC_OK) {
-        print_error("onRelease() returns error code " + ret);
+        print_error("onRelease() returns error code " + std::to_string(ret));
     }
 
     VERB(std::cerr << std::endl);

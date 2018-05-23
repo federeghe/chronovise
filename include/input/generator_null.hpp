@@ -34,6 +34,8 @@ class NullInputGenerator : public InputGenerator<unsigned int> {
 
 public:
 
+    virtual ~NullInputGenerator() = default;
+
     /**
      * @copydoc InputGenerator::get()
      */
@@ -44,7 +46,7 @@ public:
     /**
      * @copydoc InputGenerator::to_string()
      */
-    virtual const char* to_string() const noexcept {
+    virtual const char* to_string() const noexcept override {
         return "Null";
     }
 

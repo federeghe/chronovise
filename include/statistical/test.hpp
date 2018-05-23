@@ -98,7 +98,7 @@ public:
      * @brief Returns true if the test has power estimation routine. It can be called before the
      *      test
      */
-    virtual bool has_power() const noexcept = 0;
+    virtual bool has_power() const noexcept override = 0;
 
     /**
      * @brief Returns true if the test performed a power estimation that can be considered

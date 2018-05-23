@@ -63,6 +63,7 @@ public:
     }
 
     virtual result_t process_result(aec_status_t status) final {
+        UNUSED(status);
         return result_t::CANNOT_HANDLE;
     }
 

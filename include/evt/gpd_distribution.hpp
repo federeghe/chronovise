@@ -66,7 +66,7 @@ public:
     /**
      * @copydoc Distribution::get_type()
      */
-    virtual distribution_t get_type() const noexcept {
+    virtual distribution_t get_type() const noexcept override {
         return distribution_t::EVT_GPD;
     }
 

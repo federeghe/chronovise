@@ -20,7 +20,7 @@ namespace chronovise {
         // Trying to open it
         file->open(filename);
 
-        return std::move(file);
+        return file;
     }
 
     template<typename T_INPUT, typename T_TIME>

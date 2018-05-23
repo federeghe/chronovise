@@ -34,6 +34,8 @@ class InputGenerator {
 
 public:
 
+    virtual ~InputGenerator() = default;
+
     /**
      * Generates a new input value.
      */

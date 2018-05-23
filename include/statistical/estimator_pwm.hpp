@@ -61,21 +61,21 @@ public:
     /**
      * @copydoc Estimator::get_status()
      */
-    virtual estimator_status_t get_status() const noexcept {
+    virtual estimator_status_t get_status() const noexcept override {
         return status;
     }
 
     /**
      * @copydoc Estimator::get_minimal_sample_size()
      */
-    virtual unsigned long get_minimal_sample_size() const noexcept {
+    virtual unsigned long get_minimal_sample_size() const noexcept override {
         return 10;
     }
 
     /**
      * @copydoc Estimator::to_string()
      */
-    virtual const char* to_string() const noexcept {
+    virtual const char* to_string() const noexcept override {
         return "Probabilistic Weighted Moments (PWM)";
     }
 

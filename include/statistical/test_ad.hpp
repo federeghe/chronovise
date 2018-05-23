@@ -67,7 +67,7 @@ public:
     /**
      * @copydoc StatisticalTest::run()
      */
-    virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures);
+    virtual void run(const MeasuresPool<T_INPUT, T_TIME> &measures) override;
 
     /**
      * @copydoc StatisticalTest::get_power()
