@@ -17,7 +17,7 @@ testing new MBPTA algorithms and evaluating the pWCET of a certain system/softwa
 
 What you need
 -------------
-* A modern compiler with C++14 support like GCC (version 5 or later) or LLVM and the CMake building tool.
+* A modern compiler with C++14 support (gcc >= 5.0 or clang/LLVM >= 4.0) and the CMake building tool.
 * The code should be **cross-platform** because we do not use any Linux-specific feature. However,
   we usually test it only on Linux. Please fill a bug if it does not work with other operating systems.
 
