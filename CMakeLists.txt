@@ -35,6 +35,7 @@ set(SOURCES ${SOURCES}
         src/statistical/test_ad.cpp
         src/statistical/test_ks.cpp
         src/statistical/estimator_pwm.cpp
+        src/statistical/estimator_cv.cpp
         src/statistical/test_ljung_box.cpp
         src/utility/relation_node.cpp
         src/utility/utility_hmi.cpp
