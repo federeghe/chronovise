@@ -26,7 +26,9 @@
 #include "aec.hpp"
 
 #include "evt/evtapproach_bm.hpp"
+#include "evt/evtapproach_cv.hpp"
 #include "evt/evtapproach_pot.hpp"
+#include "statistical/estimator_cv.hpp"
 #include "statistical/estimator_mle.hpp"
 #include "statistical/estimator_pwm.hpp"
 #include "statistical/test_ad.hpp"
@@ -73,6 +75,14 @@ public:
         is_BM = false;
     }
 
+    void use_evt_approach_CV(float ratio_train_test) {
+        std::unique_ptr<EVTApproach<T_INPUT, T_TIME>> evt_app(
+            new EVTApproach_CV<T_INPUT, T_TIME>()
+        );
+        this->set_evt_approach(std::move(evt_app), ratio_train_test);
+        is_BM = false;
+    }
+
     void use_estimator_MLE() {
         std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
             new Estimator_MLE<T_INPUT, T_TIME>()
@@ -83,6 +93,13 @@ public:
     void use_estimator_PWM() {
         std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
             new Estimator_PWM<T_INPUT, T_TIME>()
+        );
+        this->set_evt_estimator(std::move(evt_est));
+    }
+
+    void use_estimator_CV() {
+        std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
+            new Estimator_CV<T_INPUT, T_TIME>()
         );
         this->set_evt_estimator(std::move(evt_est));
     }

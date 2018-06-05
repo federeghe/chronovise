@@ -45,7 +45,7 @@ public:
      * @param threshold The threshold used for PoT
      *
      */
-    Estimator_CV(T_TIME threshold) : PoT_threshold(threshold) {
+    Estimator_CV() {
         // Nothing to do
     }
 
@@ -95,7 +95,7 @@ public:
     }
 
 private:
-    T_TIME PoT_threshold;
+
     double cv_value;
     
     std::shared_ptr<Distribution> result;

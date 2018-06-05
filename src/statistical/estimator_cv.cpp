@@ -16,8 +16,7 @@
 
 #include "statistical/estimator_cv.hpp"
 
-#include "evt/evtapproach_bm.hpp"
-#include "evt/evtapproach_pot.hpp"
+#include "evt/evtapproach_cv.hpp"
 #include "evt/gpd_distribution.hpp"
 #include "global.hpp"
 
@@ -39,9 +38,7 @@ void Estimator_CV<T_INPUT, T_TIME>::estimator_gpd(const MeasuresPool<T_INPUT, T_
     std::vector<T_TIME> exceedence_values;
     
     for (const auto &val : measures) {
-        if (val.second > PoT_threshold) {
-            exceedence_values.push_back(val.second - PoT_threshold);
-        }
+            exceedence_values.push_back(val.second - measures[0]);
     }
 
     // Compute the mean of the vector
@@ -60,7 +57,7 @@ bool Estimator_CV<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
     }
     
     // Now we have to select the function to optimize based on the provided type information
-    if (*this->ti == typeid(EVTApproach_PoT<T_INPUT, T_TIME>)) {
+    if (*this->ti == typeid(EVTApproach_CV<T_INPUT, T_TIME>)) {
         this->estimator_gpd(measures);
     }
     else {
