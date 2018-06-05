@@ -29,6 +29,7 @@ set(SOURCES ${SOURCES}
         src/evt/gev_distribution.cpp
         src/evt/gpd_distribution.cpp
         src/evt/evtapproach_bm.cpp
+        src/evt/evtapproach_cv.cpp
         src/evt/evtapproach_pot.cpp
         src/evt/pwcet.cpp
         src/safety.cpp

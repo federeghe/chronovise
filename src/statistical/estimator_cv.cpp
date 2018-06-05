@@ -21,6 +21,7 @@
 #include "evt/gpd_distribution.hpp"
 #include "global.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 namespace chronovise {
@@ -35,9 +36,19 @@ void Estimator_CV<T_INPUT, T_TIME>::estimator_gpd(const MeasuresPool<T_INPUT, T_
 
     const size_t n = measures.size();
 
+    std::vector<T_TIME> exceedence_values;
     
+    for (const auto &val : measures) {
+        if (val.second > PoT_threshold) {
+            exceedence_values.push_back(val.second - PoT_threshold);
+        }
+    }
 
-//    result = std::make_shared<GPD_Distribution>(mu, sg, -xi);
+    // Compute the mean of the vector
+    T_TIME sum = std::accumulate(exceedence_values.begin(), exceedence_values.end(), 0.0);
+    T_TIME mean = sum / n;
+
+    result = std::make_shared<GPD_Distribution>(0, mean, 0);    // mu=0 and xi=0 is the exponential distribution
 
 }
 

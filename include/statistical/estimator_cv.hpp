@@ -90,9 +90,14 @@ public:
         return "MBPTA-CV";
     }
 
+    double get_cv_value() const noexcept {
+        return this->cv_value;
+    }
+
 private:
     T_TIME PoT_threshold;
-
+    double cv_value;
+    
     std::shared_ptr<Distribution> result;
     estimator_status_t status=estimator_status_t::UNKNOWN;
 
