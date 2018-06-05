@@ -45,7 +45,7 @@ void Estimator_CV<T_INPUT, T_TIME>::estimator_gpd(const MeasuresPool<T_INPUT, T_
     T_TIME sum = std::accumulate(exceedence_values.begin(), exceedence_values.end(), 0.0);
     T_TIME mean = sum / n;
 
-    result = std::make_shared<GPD_Distribution>(0, mean, 0);    // mu=0 and xi=0 is the exponential distribution
+    result = std::make_shared<GPD_Distribution>(measures[0], mean, 0);    //  xi=0 is the exponential distribution
 
 }
 

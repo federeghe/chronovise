@@ -26,15 +26,22 @@ namespace chronovise {
 
 template <typename T_TIME>
 static double compute_cv(typename std::vector<T_TIME>::const_iterator begin,
-                         typename std::vector<T_TIME>::const_iterator end, size_t n) {
+                         typename std::vector<T_TIME>::const_iterator end, size_t n, T_TIME threshold) {
+
+    std::vector<T_TIME> local_copy;
+
+    for (auto it=begin; it!=end; it++) {
+        local_copy.push_back(*it - threshold);
+    }
+
 
     // Compute the mean of the vector
-    T_TIME sum = std::accumulate(begin, end, 0.0);
+    T_TIME sum = std::accumulate(local_copy.begin(), local_copy.end(), 0.0);
     T_TIME mean = sum / n;
 
     // Now compute the stddev
     std::vector<T_TIME> diff(n);
-    std::transform(begin, end, diff.begin(), 
+    std::transform(local_copy.begin(), local_copy.end(), diff.begin(), 
         [mean](T_TIME x) { return x - mean; }
     );
     T_TIME sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
@@ -90,7 +97,10 @@ T_TIME EVTApproach_CV<T_INPUT, T_TIME>::get_best_threshold(typename std::multima
     int best_nr_values = 0;
 
     for (unsigned int i=0; i < local_copy.size() / 2; i++) {
-        double currcv = compute_cv<T_TIME>(local_copy.cend() - min_values - i, local_copy.cend(), min_values+i);
+
+        T_TIME threshold = local_copy[local_copy.size() - min_values - i];
+
+        double currcv = compute_cv<T_TIME>(local_copy.cend() - min_values - i, local_copy.cend(), min_values+i, threshold);
 
         currcv = std::abs(currcv);
 
