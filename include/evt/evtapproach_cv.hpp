@@ -68,6 +68,10 @@ public:
         return "Coefficient of Variation";
     }
 
+    double get_best_cv() const noexcept {
+        return this->best_cv;
+    }
+
 private:
 
     void apply_cv(MeasuresPool<T_INPUT, T_TIME> & output_pool,

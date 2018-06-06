@@ -3,6 +3,7 @@
 #include "utility/oop.hpp"
 #include "utility/utility_hmi.hpp"
 
+#include "evt/evtapproach_cv.hpp"
 #include "evt/gev_distribution.hpp"
 #include "evt/gpd_distribution.hpp"
 
@@ -47,6 +48,13 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_distributions_summary() con
                   << (it->is_pareto() ? 'P' : it->is_exponential() ? 'E' : '/') << "]";
         }
 
+        if(typeid(*this->evt_approach) == typeid(EVTApproach_CV<T_INPUT, T_TIME>)) {
+            auto cv =  ((EVTApproach_CV<T_INPUT, T_TIME>*)(this->evt_approach.get()))->get_best_cv();
+
+            std::cerr << std::endl << "       [CV=" << cv << "]";
+
+        }
+
         std::cerr << std::endl;
     }
 
@@ -70,14 +78,14 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_configuration_info() const 
 
     }
     std::cerr << "Ratio size test set / total samples: " << samples_test_reserve << std::endl;
-    std::cerr << "Merging technique: " << (merger_tech == merger_type_t::TRACE_MERGE ? "Trace merging" 
+    std::cerr << "Merging technique: " << (merger_tech == merger_type_t::TRACE_MERGE ? "Trace merging"
                          : merger_tech == merger_type_t::ENVELOPE ? "Envelope"
                          : "UNKNOWN") << std::endl;
 
     std::cerr << "Input generator: " <<
                  (input_gen == nullptr ? "NOT SET" : input_gen->to_string())
                  << std::endl;
-    std::cerr << "EVT approach: " << 
+    std::cerr << "EVT approach: " <<
                  (evt_approach == nullptr ? "NOT SET" : evt_approach->to_string())
                  << std::endl;
     std::cerr << "EVT estimator: " <<
@@ -139,4 +147,3 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_legend() const noexcept {
 TEMPLATE_CLASS_IMPLEMENTATION(AbstractExecutionContext);
 
 } // chronovise
-
