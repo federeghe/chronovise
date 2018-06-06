@@ -22,9 +22,6 @@
 #include <limits>
 #include <vector>
 
-#warning REMOVE ME
-#include <iostream>
-
 namespace chronovise {
 
 template <typename T_TIME>
