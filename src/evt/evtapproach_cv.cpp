@@ -22,6 +22,9 @@
 #include <limits>
 #include <vector>
 
+#warning REMOVE ME
+#include <iostream>
+
 namespace chronovise {
 
 template <typename T_TIME>
@@ -41,7 +44,7 @@ static double compute_cv(typename std::vector<T_TIME>::const_iterator begin,
 
     // Now compute the stddev
     std::vector<T_TIME> diff(n);
-    std::transform(local_copy.begin(), local_copy.end(), diff.begin(), 
+    std::transform(local_copy.begin(), local_copy.end(), diff.begin(),
         [mean](T_TIME x) { return x - mean; }
     );
     T_TIME sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
@@ -58,7 +61,7 @@ void EVTApproach_CV<T_INPUT, T_TIME>::perform(const MeasuresPoolSet<T_INPUT, T_T
     T_TIME best_threshold = 0;
 
     // We need to find the value of threshold that leads to the best
-    // 
+    //
 
     this->training_pool.clear();
 
@@ -93,7 +96,7 @@ T_TIME EVTApproach_CV<T_INPUT, T_TIME>::get_best_threshold(typename std::multima
 
     const int min_values = 10;
 
-    this->best_cv = 10e5;
+    double best_distance = 10e5;
     int best_nr_values = 0;
 
     for (unsigned int i=0; i < local_copy.size() / 2; i++) {
@@ -102,10 +105,11 @@ T_TIME EVTApproach_CV<T_INPUT, T_TIME>::get_best_threshold(typename std::multima
 
         double currcv = compute_cv<T_TIME>(local_copy.cend() - min_values - i, local_copy.cend(), min_values+i, threshold);
 
-        currcv = std::abs(currcv);
+        double distance_to_one = std::abs(currcv) - 1;
 
-        if (currcv < best_cv) {
+        if (distance_to_one < best_distance) {
             best_nr_values = min_values + i;
+            best_distance = distance_to_one;
             this->best_cv = currcv;
         }
     }
@@ -129,7 +133,7 @@ void EVTApproach_CV<T_INPUT, T_TIME>::apply_cv(MeasuresPool<T_INPUT, T_TIME> & o
         auto curr_max       = it->second;
         auto curr_max_input = it->first;
 
-        if (curr_max > threshold) {
+        if (curr_max >= threshold) {
             output_pool.push(curr_max_input, curr_max);
         }
 
@@ -144,4 +148,3 @@ void EVTApproach_CV<T_INPUT, T_TIME>::apply_cv(MeasuresPool<T_INPUT, T_TIME> & o
 TEMPLATE_CLASS_IMPLEMENTATION(EVTApproach_CV);
 
 } // namespace chronovise
-
