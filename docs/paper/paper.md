@@ -66,7 +66,7 @@ pWCET.
 
 The *chronovise* framework is an open-source software aiming at standardizing
 the flow of MBPTA process, integrating both estimation and testing phases. The
-few existing software presented in literature [@5591317] [@Lesage2015] lacks of
+few existing software presented in literature [@5591317] [@Lesage2015] lack of
 source code availability. Moreover, both works include a limited
 set of features, other than poor maturity level due to the missing integration
 of the most recent scientific contributions. Another software is available as
