@@ -41,43 +41,47 @@ approximations.
 The problem grows when dealing with Commercial-Off-The-Shelf (COTS) hardware
 [@dasari2013identifying] and complex operating systems [@reghenzani2017mixed].
 
-*Probabilistic hard real-time* has been proposed as a possible solution to
-address this complexity increase [@bernat2002wcet]. In particular, the
-**Measurement-Based Probabilistic Time Analysis (MBPTA)**
-[@grosjean2012measurement] is a probabilistic real-time branch focused on the
-estimation of the WCET, directly from the observed execution times of real-time
-tasks.  The time samples are collected across the application input domain and the WCET
+Probabilistic approaches for hard real-time systems have been proposed as a
+possible solution to address this complexity increase [@bernat2002wcet]. In
+particular, the **Measurement-Based Probabilistic Time Analysis (MBPTA)**
+[@grosjean2012measurement] is a probabilistic analysis branch for real-time
+systems to estimate the WCET directly from the observed execution times of
+real-time tasks.
+The time samples are collected across the application input domain and the WCET
 is provided in probablistic terms, the *probabilistic-WCET (pWCET)*, i.e. a WCET with a
 probability of observing higher execution times. The statistical theory at
 the basis of the WCET estimation is the **Extreme Value Theory (EVT)**
 [@castillo2005extreme] [@de2007extreme], typically used in natural disaster
 risk evaluation,
 However, to obtain a safe pWCET estimation,
-the execution time traces must fulfill the requirements of EVT. This can be
-checked by running suitable testing procedures [@santinelli2017revising]. In
-particular, MBPTA requires the time measurements to be [@kosmidis2017enabling]:
-(1) independent and identically distributed, (2) representative of all
-worst-case latency.  The first requirement can be relaxed under some
-circumstances [@santinelli2017revising], while the latter is relative to the
-input representativity and to the hardware properties. These two requirements
-is necessary to obtain a safe, i.e. non-underestimated, pWCET.
+the execution time traces must fulfill certain requirements. In particular,
+MBPTA requires the time measurements to be [@kosmidis2017enabling]: (1)
+independent and identically distributed, (2) representative of all worst-case
+latencies. The first requirement comes from the EVT, it can be checked with
+suitable statistical tests and can be relaxed under some circumstances
+[@santinelli2017revising], while the latter is relative to the
+input representativity and to the system (hardware/software) properties.
+Both requirements are necessary to obtain a safe, i.e. non-underestimated,
+pWCET.
 
 The *chronovise* framework is an open-source software aiming at standardizing
 the flow of MBPTA process, integrating both estimation and testing phases. The
-few previous software in literature are cited in [@5591317] and [@Lesage2015],
-for which source code is not available. Moreover, both works include a limited
+few existing software presented in literature [@5591317] [@Lesage2015] lacks of
+source code availability. Moreover, both works include a limited
 set of features, other than poor maturity level due to the missing integration
 of the most recent scientific contributions. Another software is available as
 open-source [@abella_jaume_2017_1065776], but specialized for a variant of
-classical EVT estimation procedures called MBPTA-CV [@abella2017measurement].
+classical MBPTA analysis called MBPTA-CV [@abella2017measurement].
 Our work aimis at filling the absence of
 a stable software with a well-defined EVT execution flow.  The proposed
 framework supports both Block-Maxima (BM), Peak-over-Threshold (PoT) and
 MBPTA-CV EVT approaches; the current available methods to estimate the extreme
 distribution. The output distribution respectively assumes the Generalized
-Extreme Value (GEV) and the Generalized Pareto Distribution (GPD) form. A
-couple of estimators, Maximum Likelihood Estimator (MLE) [@bucher2017onthe]
-and Probability Weighted Moment (PWM) [@hosking1987thegeneralized] are already
+Extreme Value (GEV) and the Generalized Pareto Distribution (GPD) form. Three
+estimators, Maximum Likelihood Estimator (MLE) [@bucher2017onthe],
+Generalized-MLE (GMLE) [@martins2000generalized],
+Probability Weighted Moment (PWM, called also L-moments)
+[@hosking1987thegeneralized], are already
 included, as well as some statistical tests: Kolmogorov-Smirnov
 [@massey1951kolmogorov] and (Modified) Anderson-Darling [@sinclair1990modified].
 Finally, the implementation of an overall results confidence estimation procedure
@@ -97,7 +101,7 @@ order to perform experiments of new theories and methods, without the need to
 reimplement algorithms from scratch. With our framework we want to create a
 common *software-base*, that would increase both the replicability of the
 experiments and the reliability of the results, which are common issues in
-research.  On the other hands, pure users -- i.e. engineers that use the
+research.  On the other hands, end-users -- i.e. engineers that use the
 already available algorithms to estimate the pWCET -- can just implement the
 measurement part and use the framework without introducing further changes.
 
