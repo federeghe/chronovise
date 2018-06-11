@@ -34,7 +34,7 @@ namespace chronovise {
  * The Maximum Likelihood Estimator class. The estimation routine is based on
  * ceres-solver software.
  */
-template <typename T_INPUT, typename T_TIME=unsigned long>
+template <typename T_INPUT, typename T_TIME=unsigned long, bool GMLE=false>
 class Estimator_MLE : public Estimator<T_INPUT, T_TIME> {
 
 public:
@@ -57,7 +57,7 @@ public:
     virtual std::shared_ptr<Distribution> get_result() const override final {
         if (result == nullptr)
             throw std::runtime_error("Estimator never run");
-        
+
         return result;
     }
 
@@ -79,7 +79,11 @@ public:
      * @copydoc Estimator::to_string()
      */
     virtual const char* to_string() const noexcept override {
-        return "Maximum-Likelihood (MLE)";
+        if(! GMLE) {
+            return "Maximum-Likelihood (MLE)";
+        } else {
+            return "Generalized Maximum-Likelihood (GMLE)";
+        }
     }
 
 private:

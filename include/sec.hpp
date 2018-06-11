@@ -90,6 +90,13 @@ public:
         this->set_evt_estimator(std::move(evt_est));
     }
 
+    void use_estimator_GMLE() {
+        std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
+            new Estimator_MLE<T_INPUT, T_TIME, true>()
+        );
+        this->set_evt_estimator(std::move(evt_est));
+    }
+
     void use_estimator_PWM() {
         std::unique_ptr<Estimator<T_INPUT, T_TIME>> evt_est(
             new Estimator_PWM<T_INPUT, T_TIME>()

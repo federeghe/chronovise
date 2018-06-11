@@ -40,7 +40,7 @@ namespace chronovise {
 /**
  * @private
  */
-template <typename T_INPUT, typename T_TIME>
+template <typename T_INPUT, typename T_TIME, bool GMLE=false>
 class GEV_Function : public ceres::FirstOrderFunction {
 
 public:
@@ -66,7 +66,7 @@ private:
 
     const MeasuresPool<T_INPUT, T_TIME> &x_data;
 
-    void accumulate_gradient_term(const double* parameters, double *gradient, double z, double u) const;
+    void accumulate_gradient_term(const double* parameters, double *gradient, double z, double u, bool) const;
 
     static bool cmp_0(double x) {
         const double epsilon = 1e-6;
@@ -76,8 +76,40 @@ private:
 
 };
 
-template <typename T_INPUT, typename T_TIME>
-bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* cost, double* gradient) const {
+/**
+ * @private
+ */
+template<bool B=false> struct LIKELIHOOD {
+    double operator()(double u, double sg, double xi) {
+        return -std::log(sg) - u + (xi+1.) * std::log(u);
+    }
+};
+
+/**
+ * @private
+ */
+template<> struct LIKELIHOOD<true> {
+    static constexpr double p = 6; // See the paper
+    static constexpr double q = 9; // See the paper
+
+    double operator()(double u, double sg, double xi) {
+        // Generalized maximum-likelihood generalized extreme-value quantile
+        // estimators for hydrologic data, Eduardo S. Martins, Jery R. Stedinger
+        // Water Resources Research, vol. 36, n. 3, pages 737-744, 2000
+
+        const double beta_value = std::tgamma(p) * std::tgamma(q) / std::tgamma(p + q);
+
+        struct LIKELIHOOD<false> l_f;
+        const double mle_f = l_f(u, sg, xi);
+
+        return mle_f
+            + std::pow(0.5 + xi, p-1) * std::pow(0.5 - xi, q-1) / beta_value;
+}
+};
+
+
+template <typename T_INPUT, typename T_TIME, bool GMLE>
+bool GEV_Function<T_INPUT, T_TIME, GMLE>::Evaluate(const double* parameters, double* cost, double* gradient) const {
 
     const double mu = parameters[mu_idx];
     const double sg = parameters[sg_idx];
@@ -119,12 +151,13 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
 
         assert(u > 0.);
 
+        struct LIKELIHOOD<GMLE> l_func;
 
         // Ceres will minimize this function, so we have to invert the sign
-        cost_function += - ( -std::log(sg) - u + (xi+1.) * std::log(u) );
+        cost_function += - l_func(u, sg, xi);
 
         if (gradient != NULL) {
-            accumulate_gradient_term(parameters, gradient, z, u);
+            accumulate_gradient_term(parameters, gradient, z, u, GMLE);
         }
     }
 
@@ -139,13 +172,13 @@ bool GEV_Function<T_INPUT, T_TIME>::Evaluate(const double* parameters, double* c
         assert(std::isfinite(gradient[sg_idx]));
         assert(std::isfinite(gradient[xi_idx]));
     }
-    
-    
+
+
     return true;
 }
 
-template <typename T_INPUT, typename T_TIME>
-void GEV_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* parameters, double *gradient, double z, double u) const {
+template <typename T_INPUT, typename T_TIME, bool GMLE>
+void GEV_Function<T_INPUT, T_TIME, GMLE>::accumulate_gradient_term(const double* parameters, double *gradient, double z, double u, bool generalized) const {
     const double sg = parameters[sg_idx];
     const double xi = parameters[xi_idx];
 
@@ -159,11 +192,22 @@ void GEV_Function<T_INPUT, T_TIME>::accumulate_gradient_term(const double* param
 
     gradient[mu_idx] += (xi + 1. - u) / (sg * one_plus_xiz);
     gradient[sg_idx] += ((1.-u)*z - 1.) / (sg * one_plus_xiz);
+
     gradient[xi_idx] += (1.-u) * dlogu - z / one_plus_xiz;
+    if (generalized) {
+
+        typedef struct LIKELIHOOD<true> llt;
+        constexpr double p = llt::p;
+        constexpr double q = llt::q;
+        const double beta_value = std::tgamma(p) * std::tgamma(q) / std::tgamma(p + q);
+
+        gradient[xi_idx] += 1./beta_value * ((p-1) * std::pow(0.5 + xi, p-2) * std::pow(0.5 - xi, q-1)
+                         -  (q-1) * std::pow(0.5 + xi, p-1) * std::pow(0.5 - xi, q-2) ) ;
+    }
 }
-  
-template <typename T_INPUT, typename T_TIME>
-bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)  {
+
+template <typename T_INPUT, typename T_TIME, bool GMLE>
+bool Estimator_MLE<T_INPUT, T_TIME, GMLE>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)  {
 
     ceres::GradientProblemSolver::Options options;
 
@@ -179,7 +223,7 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
     if (this->ti == nullptr) {
         throw std::runtime_error("Set_source_evt_approach not called.");
     }
-    
+
     // Now we have to select the function to optimize based on the provided type information
     if (*this->ti == typeid(EVTApproach_BM<T_INPUT, T_TIME>)) {
 
@@ -189,8 +233,8 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
                         measures.max()/100 > 1 ? measures.max()/100 : 1.,
                         0.
                     };
- 
-        ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME>(measures));
+
+        ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME, GMLE>(measures));
         ceres::Solve(options, problem, parameters, &summary);
         result = std::make_shared<GEV_Distribution>(parameters[0], parameters[1], parameters[2]);
     }
@@ -225,6 +269,6 @@ bool Estimator_MLE<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &me
     return summary.IsSolutionUsable();
 }
 
-TEMPLATE_CLASS_IMPLEMENTATION(Estimator_MLE);
-
+TEMPLATE_CLASS_IMPLEMENTATION_3(Estimator_MLE, true);
+TEMPLATE_CLASS_IMPLEMENTATION_3(Estimator_MLE, false);
 } // namespace chronovise
