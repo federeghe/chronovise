@@ -109,6 +109,8 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_wcots() const noexcept {
         std::cerr << '#'  << std::setw(4) << i << ": ";
         std::cerr << it->second << std::endl;
     }
+    std::cerr << std::endl;
+
 }
 
 template <typename T_INPUT, typename T_TIME>
