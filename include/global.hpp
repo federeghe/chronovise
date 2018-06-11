@@ -47,6 +47,24 @@
 
 #define UNUSED(x) ((void)x)
 
+#define TEMPLATE_CLASS_IMPLEMENTATION_3(class_name, param3) \
+template class class_name<char, unsigned long, param3>; \
+template class class_name<int, unsigned long, param3>; \
+template class class_name<long, unsigned long, param3>; \
+template class class_name<float, unsigned long, param3>; \
+template class class_name<double, unsigned long, param3>; \
+template class class_name<unsigned char, unsigned long, param3>; \
+template class class_name<unsigned int, unsigned long, param3>; \
+template class class_name<unsigned long, unsigned long, param3>; \
+template class class_name<char, double, param3>; \
+template class class_name<int, double, param3>; \
+template class class_name<long, double, param3>; \
+template class class_name<float, double, param3>; \
+template class class_name<double, double, param3>; \
+template class class_name<unsigned char, double, param3>; \
+template class class_name<unsigned int, double, param3>; \
+template class class_name<unsigned long, double, param3>
+
 #define TEMPLATE_CLASS_IMPLEMENTATION(class_name) \
 template class class_name<char, unsigned long>; \
 template class class_name<int, unsigned long>; \
