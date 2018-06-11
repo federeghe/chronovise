@@ -81,8 +81,9 @@ to configure the framework:
  - `set_evt_approach(...)`: set the EVT approach to use. In the current version of the framework, BM and PoT are
                             already implemented.
  - `set_evt_estimator(...)`: set the EVT estimator to use to estimate the extreme distribution from the output of
-                             the EVT approach. In chronovise there currently are two estimator: PWM and MLE. The
-                             last one is available for BM only and it requires the ceres-solver package.
+                             the EVT approach. In chronovise there currently are three estimator: PWM (L-moments),
+                             MLE and GMLE. The
+                             last two are available for BM only and they require the ceres-solver package.
 In addition to the previous mandatory items, the application can add some statistical tests at predefined hooks:
  - `add_input_representativity_test(...)`: add a test to check the representativity of the inputs. This is the
                                            only hook you can use to check T_INPUT data.
@@ -106,4 +107,3 @@ Getting the result
 You have two options to get the result of EVT estimation: using print_* methods from AEC/SEC that prints
 the result in a human-readable way on stderr or you can use the Export class to export data to text or
 binary files.
-
