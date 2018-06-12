@@ -101,7 +101,7 @@ order to perform experiments of new theories and methods, without the need to
 reimplement algorithms from scratch. With our framework we want to create a
 common *software-base*, that would increase both the replicability of the
 experiments and the reliability of the results, which are common issues in
-research.  On the other hands, end-users -- i.e. engineers that use the
+research. On the other hand, end-users -- i.e. engineers that use the
 already available algorithms to estimate the pWCET -- can just implement the
 measurement part and use the framework without introducing further changes.
 
