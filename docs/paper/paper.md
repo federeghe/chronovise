@@ -72,7 +72,7 @@ set of features, other than poor maturity level due to the missing integration
 of the most recent scientific contributions. Another software is available as
 open-source [@abella_jaume_2017_1065776], but specialized for a variant of
 classical MBPTA analysis called MBPTA-CV [@abella2017measurement].
-Our work aimis at filling the absence of
+Our work aims at filling the absence of
 a stable software with a well-defined EVT execution flow.  The proposed
 framework supports both Block-Maxima (BM), Peak-over-Threshold (PoT) and
 MBPTA-CV EVT approaches; the current available methods to estimate the extreme
