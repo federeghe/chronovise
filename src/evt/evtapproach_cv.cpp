@@ -89,7 +89,7 @@ T_TIME EVTApproach_CV<T_INPUT, T_TIME>::get_best_threshold(typename std::multima
         local_copy.push_back(it->second);
     }
 
-    std::sort (local_copy.begin(), local_copy.end(), std::greater<>());
+    std::sort (local_copy.begin(), local_copy.end());
 
     const int min_values = 10;
 
@@ -102,7 +102,7 @@ T_TIME EVTApproach_CV<T_INPUT, T_TIME>::get_best_threshold(typename std::multima
 
         double currcv = compute_cv<T_TIME>(local_copy.cend() - min_values - i, local_copy.cend(), min_values+i, threshold);
 
-        double distance_to_one = std::abs(currcv) - 1;
+        double distance_to_one = std::abs(currcv - 1);
 
         if (distance_to_one < best_distance) {
             best_nr_values = min_values + i;

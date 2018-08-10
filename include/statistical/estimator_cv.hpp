@@ -65,7 +65,7 @@ public:
     virtual std::shared_ptr<Distribution> get_result() const override final {
         if (result == nullptr)
             throw std::runtime_error("Estimator never run");
-        
+
         return result;
     }
 
@@ -80,7 +80,7 @@ public:
      * @copydoc Estimator::get_minimal_sample_size()
      */
     virtual unsigned long get_minimal_sample_size() const noexcept override {
-        return 100;
+        return 50;
     }
 
     /**
@@ -97,7 +97,7 @@ public:
 private:
 
     double cv_value;
-    
+
     std::shared_ptr<Distribution> result;
     estimator_status_t status=estimator_status_t::UNKNOWN;
 
