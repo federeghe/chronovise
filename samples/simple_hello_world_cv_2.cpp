@@ -8,12 +8,15 @@
 
 #include <iostream>
 #include <iomanip>
+#include <fstream>
 
 using namespace chronovise;
 
 using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 #include "test_cv_values.h"
+
+static std::ifstream file_test_values ("test_cv_values.txt");
 
 SimpleHelloWorld::SimpleHelloWorld() noexcept {
     // Nothing to do...
@@ -58,6 +61,11 @@ exit_code_t SimpleHelloWorld::onSetup() noexcept {
     this->print_configuration_info();
     this->print_legend();
 
+    if (!file_test_values) {
+        std::cout << "** Unable to open the input file" << std::endl;
+        return AEC_GENERIC_ERROR;
+    }
+
     return AEC_OK;
 }
 
@@ -71,19 +79,19 @@ exit_code_t SimpleHelloWorld::onConfigure() noexcept
 }
 
 
-static int i=0;
-
-
 exit_code_t SimpleHelloWorld::onRun() noexcept {
 
-    this->add_sample(values[i++]);
-    
+    double value;
+    file_test_values >> value;
+
+    this->add_sample(value);
+
     return AEC_OK;
 }
 
 exit_code_t SimpleHelloWorld::onMonitor() noexcept {
 
-    if (i >= 10001) {
+    if (get_iteration() > 10000) {
         return AEC_OK;
     } else {
         return AEC_CONTINUE;
