@@ -41,6 +41,7 @@ set(SOURCES ${SOURCES}
         src/utility/relation_node.cpp
         src/utility/utility_hmi.cpp
         src/utility/exporter.cpp
+        src/utility/fileimporter.cpp
 )
 
 if(CERES_SOLVER)
