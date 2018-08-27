@@ -34,6 +34,7 @@
 #include "statistical/test_ad.hpp"
 #include "statistical/test_ks.hpp"
 #include "statistical/test_ljung_box.hpp"
+#include "utility/fileimporter.hpp"
 
 namespace chronovise {
 
@@ -118,8 +119,18 @@ public:
         this->add_post_evt_test(aft_test);
     }
 
+    void use_file_as_source(const std::string &filename) noexcept {
+        fi = std::make_shared<utility::FileImporter<T_TIME>>(filename);
+    }
+
+    void add_sample_from_file() {
+        this->add_sample(this->fi->draw_sample());
+    }
+
 private:
     bool is_BM;
+
+    std::shared_ptr<utility::FileImporter<T_TIME>> fi;
 
 };
 
