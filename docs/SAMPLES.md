@@ -42,3 +42,14 @@ In this case the samples are acquired directly measuring the execution time of a
 the cache. However, in modern computer architecture this doesn't guarantee the i.i.d. assumption and for
 this reason if you execute this code in a standard x86[_64] machine the i.i.d. test will probably reject
 the samples. This is expected and leads the framework to be unable to produce a reliable pWCET.
+
+Other examples of usage
+-----------------------
+In the `samples` folder you can find also a couple of other examples:
+ - `simple_hello_world_cv.cpp`
+ - `simple_hello_world_cv_2.cpp`
+
+both are variant of the described `simple_hello_world` that uses the MBPTA-CV approach. The difference
+is that the version `simple_hello_world_cv` uses a normal distribution to produce data, while the
+`simple_hello_world_cv_2` version uses a file as source.
+
