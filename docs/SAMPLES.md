@@ -51,8 +51,8 @@ In the `samples` folder you can find also a couple of other examples:
 
 both are variant of the described `simple_hello_world` that uses the MBPTA-CV approach. The difference
 is that the version `simple_hello_world_cv` uses a normal distribution to produce data, while the
-`simple_hello_world_cv_2` version uses a file as source. The input file used for that example is
-`test_cv_values.txt` in the samples directory (the values were drawn from a gaussian distribution).
+`simple_hello_world_cv_2` version uses a file as source. The input file used for the latter example is
+`test_cv_values.txt` in the samples directory (the values have been drawn from a gaussian distribution).
 You can use any file with values separated by newlines or spaces. If, instead, you need to parse a
 different file (e.g. a CSV) you should check the code documentation of utility::FileImporter to
 specify a delimiter.
