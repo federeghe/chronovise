@@ -215,16 +215,16 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::internal_cycle() {
 template <typename T_INPUT, typename T_TIME>
 aec_status_t AbstractExecutionContext<T_INPUT,T_TIME>::execute_analysis() {
 
-    // Create a pool set to manage training e test
-    MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve, current_input);
-
-
+    // Perform the sample tests on the input data
     for (auto &test : sample_tests) {
         test->run(measures);
         if (test->is_reject()) {
             return aec_status_t::REJECT_SAMPLE_TEST;
         }
     }
+
+    // Create a pool set to manage training e test
+    MeasuresPoolSet<T_INPUT, T_TIME> mps(this->measures, 1.-samples_test_reserve, current_input);
 
     // Perform BM or POT based on what the user provided
     this->evt_approach->perform(mps);

@@ -91,6 +91,8 @@ public:
         // Error statuses
         AEC_GENERIC_ERROR,    /** Generic error code */ 
 
+        AEC_INPUT_ERROR,  /** Something wrong with input values */
+
     } exit_code_t;
 
 

@@ -93,6 +93,7 @@ void AbstractExecutionContext<T_INPUT,T_TIME>::print_configuration_info() const 
                 << std::endl;
 
     std::cerr << "Nr. Representativity tests: " << representativity_tests.size() << std::endl;
+    std::cerr << "Nr. sample tests: " << sample_tests.size() << std::endl;
     std::cerr << "Nr. post-run tests: " << post_run_tests.size() << std::endl;
     std::cerr << "Nr. post-evt tests (goodnes-of-fit): " << post_evt_tests.size() << std::endl;
 
