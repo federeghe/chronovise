@@ -53,7 +53,7 @@ public:
      *                    1 will double the critical value (!).
      * @throw std::runtime_error if safety_margin < 0. 
      */
-    TestAD(double significance_level, distribution_t distribution_type, bool MAD, double safe_margin)
+    TestAD(double significance_level, distribution_t distribution_type, bool MAD, double safe_margin=0)
     : StatisticalTest_AfterEVT<T_INPUT,T_TIME>(significance_level, distribution_type),
     MAD(MAD), safe_margin(safe_margin)
     {

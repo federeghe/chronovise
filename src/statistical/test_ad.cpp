@@ -26,6 +26,7 @@ namespace local_test_ad {
         double S1=0.0, S2=0.0;
 
         for (unsigned int i=0; i < cardinality; i++) {
+
             double coeff1 = (2. - ((2.*((int)i+1.) - 1.) / ((double)cardinality)) );
             double Fi = evd->cdf(measures[i]);
 
@@ -127,7 +128,7 @@ namespace local_test_ad {
         std::sort(crits.begin(),crits.end());
 
 
-        return crits[(int)(significance_level * nr_runs)];
+        return crits[(int)((1.-significance_level) * nr_runs)];
     }    
 
 }
