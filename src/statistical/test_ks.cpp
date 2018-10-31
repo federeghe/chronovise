@@ -57,13 +57,14 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
     const double max_meas = measures.max();
     const double step_f   = (max_meas - min_meas) / n;
 
+    double max_statistic = 0.;
+
     for (double x = min_meas; x <= max_meas; x += step_f) {
         double Fn = empirical_F(measures, x);
         double F = this->ref_distribution->cdf(x);
 
-        if ( std::abs(F - Fn) > critical_value) {
-            this->reject = true;
-            break;
+        if ( std::abs(F - Fn) > max_statistic) {
+            max_statistic = std::abs(F - Fn);
         }
     }
 
@@ -73,9 +74,19 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
     double min_epsilon = this->ref_distribution->cdf(min_meas - std::numeric_limits<double>::epsilon());
     double max_epsilon = 1. - this->ref_distribution->cdf(max_meas - std::numeric_limits<double>::epsilon());
 
-    if ( min_epsilon > critical_value || max_epsilon > critical_value) {
+    if ( min_epsilon > max_statistic) {
+        max_statistic = min_epsilon;
+    }
+
+    if ( max_epsilon > max_statistic) {
+        max_statistic = max_epsilon;
+    }
+
+    if (max_statistic > critical_value) {
         this->reject = true;
     }
+
+    this->statistic = max_statistic;
 
 }
 
@@ -99,6 +110,7 @@ bool TestKS<T_INPUT, T_TIME>::has_safe_power() const noexcept
     return false;
 
 }
+
 
 template <typename T_INPUT, typename T_TIME>
 unsigned long TestKS<T_INPUT, T_TIME>::get_minimal_sample_size(unsigned short req_power) const {

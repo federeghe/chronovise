@@ -99,7 +99,7 @@ void TestCvM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
     const long n = measures.size();
     const double critical_value = get_cvm_critical_values(this->significance_level, n);
 
-    double stat = 1. / (12. * n);
+    this->statistic = 1. / (12. * n);
 
     /* **** Compute the empirical F(x) **** */
 
@@ -108,10 +108,10 @@ void TestCvM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
         double F = this->ref_distribution->cdf(measures[i]);
 
         double term1 = (2. * i - 1.) / (2.*n);
-        stat += (term1 - F) * (term1 - F);
+        this->statistic += (term1 - F) * (term1 - F);
     }
 
-    if ( stat > critical_value) {
+    if ( this->statistic > critical_value) {
         this->reject = true;
     }
 
