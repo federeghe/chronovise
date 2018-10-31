@@ -40,7 +40,7 @@ namespace local_test_ad {
 
         S1 *= 2.0;
 
-        return (double)cardinality / 2 - S1 - S2;
+        return (double)cardinality / 2. - S1 - S2;
     }
 
     template<typename T_TIME>
@@ -65,7 +65,7 @@ namespace local_test_ad {
 
         S1 *= 2.0;
 
-        return - 3 * (double)cardinality / 2 + S1 - S2;
+        return - 3 * (double)cardinality / 2. + S1 - S2;
     }
 
     template<typename T_TIME>
@@ -86,7 +86,7 @@ namespace local_test_ad {
     static inline double get_ad_critical_value(std::shared_ptr<Distribution> evd, bool MAD,
                 size_t sample_cardinality, double significance_level) noexcept {
 
-        constexpr unsigned int nr_runs = 1000U;
+        constexpr unsigned int nr_runs = 100000U;
 
         std::vector<double> crits;
         crits.resize(nr_runs);
@@ -107,10 +107,15 @@ namespace local_test_ad {
 #endif
         for (unsigned long i=0; i < nr_runs; i++) {
 
+            sample.clear();
+
             for (unsigned int j=0; j < sample_cardinality; j++) {
                 // Inverse transform sampling
-                sample.push_back(evd->quantile(distribution(random_gen)));
+                double x = distribution(random_gen);
+                double q = evd->quantile(x);
+                sample.push_back(q);
             }
+
 
             std::sort(sample.begin(), sample.end());
 
