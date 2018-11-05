@@ -7,6 +7,9 @@
 #include <vector>
 #include <random>
 
+#warning
+#include <iostream>
+
 namespace chronovise {
 
 /** @private */
@@ -83,10 +86,46 @@ namespace local_test_ad {
    *******************************************************************
 */
 
-    static inline double get_ad_critical_value(std::shared_ptr<Distribution> evd, bool MAD,
-                size_t sample_cardinality, double significance_level) noexcept {
+    static double mce_estimation(std::vector<double> &sample, double significance_level) {
+         // https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3337209/
+        int R = sample.size();
 
-        constexpr unsigned int nr_runs = 100000U;
+        double phi_bar = 0;
+        for(int i=0; i < R; i++) {
+            double el_min = sample[i];
+            sample.erase(sample.begin()+i);
+
+            phi_bar += sample[(int)((1.-significance_level) * sample.size())];
+        
+            sample.insert(sample.begin()+i, el_min);
+        }
+
+        phi_bar /= R;
+
+        double MCE_jack=0;
+
+        for(int i=0; i < R; i++) {
+            double el_min = sample[i];
+            sample.erase(sample.begin()+i);
+
+            double X = sample[(int)((1.-significance_level) * sample.size())];
+
+            MCE_jack += (X-phi_bar)*(X-phi_bar);
+        
+            sample.insert(sample.begin()+i, el_min);        
+        }    
+
+         MCE_jack = sqrt(((R-1.)/R) * MCE_jack);
+
+        return MCE_jack;
+
+    }
+
+
+    static inline double get_ad_critical_value(std::shared_ptr<Distribution> evd, bool MAD,
+                size_t sample_cardinality, double significance_level, double &mce) noexcept {
+
+        constexpr unsigned int nr_runs = 10000U;
 
         std::vector<double> crits;
         crits.resize(nr_runs);
@@ -132,11 +171,17 @@ namespace local_test_ad {
 
         std::sort(crits.begin(),crits.end());
 
+        mce = mce_estimation(crits, significance_level);
 
         return crits[(int)((1.-significance_level) * nr_runs)];
     }    
 
+
+    
+
 }
+
+
 
 template <typename T_INPUT, typename T_TIME>
 void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures) {
@@ -155,11 +200,13 @@ void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 
     using namespace local_test_ad;
 
+    double mce;
     double ad_critical_value = (1. + safe_margin) *
                     get_ad_critical_value(this->ref_distribution,
-                                MAD, size, this->significance_level);
+                                MAD, size, this->significance_level, mce);
 
     double statistics;
+
     // Using MeasuresPool, the [] operator guarantees ordering.
     if (MAD) {
         statistics = get_ad_statistic_upper<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
@@ -167,8 +214,17 @@ void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
         statistics = get_ad_statistic<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
     }
 
+//    std::cout << statistics << " > " << ad_critical_value << std::endl;
+
     if (statistics > ad_critical_value) {
         this->reject = true;
+    }
+
+    if((statistics < ad_critical_value + 3*mce) &&
+        (statistics > ad_critical_value - 3*mce)) {
+        std::cout << "WARNING UNSAFE TEST RESULT" << std::endl;
+        std::cout << "Statistics: " << statistics << std::endl;
+        std::cout << "Crit Value: " << ad_critical_value << " +- " << 3*mce << std::endl;
     }
 }
 
