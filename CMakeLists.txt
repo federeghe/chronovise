@@ -73,7 +73,8 @@ endif(COVERAGE)
 
 target_include_directories(chronovise PUBLIC include)
 
-add_subdirectory(samples)
+add_subdirectory(apps)
 add_subdirectory(docs)
+add_subdirectory(samples)
 add_subdirectory(tests)
 
