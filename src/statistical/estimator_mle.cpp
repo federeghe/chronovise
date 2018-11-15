@@ -213,7 +213,7 @@ bool Estimator_MLE<T_INPUT, T_TIME, GMLE>::run(const MeasuresPool<T_INPUT, T_TIM
 
     // TODO reliability considerations
     options.function_tolerance=1e-9;
-    options.max_num_iterations = 500;
+    options.max_num_iterations = 5000;
     options.minimizer_progress_to_stdout = false;
     options.logging_type = ceres::SILENT;
     options.line_search_direction_type = ceres::BFGS;
@@ -229,8 +229,9 @@ bool Estimator_MLE<T_INPUT, T_TIME, GMLE>::run(const MeasuresPool<T_INPUT, T_TIM
 
         // Block-Maxima case -> GEV Distribution
 
-        double parameters[3] =  {    (double)measures.avg(),
-                        measures.max()/100 > 1 ? measures.max()/100 : 1.,
+        double parameters[3] =  {
+ (double)measures.avg(),
+                        measures.stdev() > 1 ? measures.stdev() : 1.,
                         0.
                     };
 
