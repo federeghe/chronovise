@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <cassert>
 #include <map>
+#include <cmath>
 #include <numeric>
 #include <utility>
 #include <vector>
@@ -86,6 +87,25 @@ public:
             [] (double value, const auto& p){return value+p.second;}) / meas_list.size();
     }
 
+    /**
+     * Returns the variance value in the pool. Complexity O(n).
+     * @return The variance value in the container 
+     */
+    inline T_TIME var() const noexcept {
+        T_TIME mean = this->avg();
+        std::vector<T_TIME> diff(this->size());
+        std::transform(meas_list.cbegin(), meas_list.cend(), diff.begin(), [mean](const auto& p) { return p.second - mean; });
+        double sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
+        return sq_sum / this->size();
+    }
+
+    /**
+     * Returns the standard deviation value in the pool. Complexity O(n).
+     * @return The standard deviation value in the container 
+     */
+    inline T_TIME stdev() const noexcept {
+        return std::sqrt(this->var());
+    }
 
     /**
      * Returns the const_iterator to the begin of the underlying container
