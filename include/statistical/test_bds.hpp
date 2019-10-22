@@ -15,13 +15,13 @@
  */
 
 /**
- * @file test_ljung_box.hpp
+ * @file test_bds.hpp
  * @author Check commit authors
- * @brief File containing the LjungBox test.
+ * @brief File containing the BDS test.
  */
 
-#ifndef STATISTICAL_TEST_LJUNG_BOX_HPP_
-#define STATISTICAL_TEST_LJUNG_BOX_HPP_
+#ifndef STATISTICAL_TEST_BDS_HPP_
+#define STATISTICAL_TEST_BDS_HPP_
 
 #include "statistical/test.hpp"
 #include "statistical/distribution.hpp"
@@ -31,26 +31,26 @@
 #include <cmath>
 #include <list>
 
-#define TEST_LJUNG_BOX_MIN_SAMPLES 10
+#define TEST_BDS_MIN_SAMPLES 10
 
 namespace chronovise {
 
 /**
- * The LjungBox test class.
+ * The Brock, Dechert, Scheinkman independence test class.
  */
 template <typename T_INPUT, typename T_TIME=unsigned long>
-class TestLjungBox : public StatisticalTest<T_INPUT, T_TIME> {
+class TestBDS : public StatisticalTest<T_INPUT, T_TIME> {
 
 public:
 
     /**
-     * The TestLjungBox constructor.
+     * The TestBDS constructor.
      * @param significance_level The significance level for the test (alpha)
      * @param n_lags The number of lags of the Ljung-Box test. In non-seasonal data
      *               it should be around the value of 10.
      */
-    TestLjungBox(double significance_level, unsigned int n_lags)
-    : StatisticalTest<T_INPUT,T_TIME>(significance_level), n_lags(n_lags)
+    TestBDS(double significance_level)
+    : StatisticalTest<T_INPUT,T_TIME>(significance_level)
     {
     }
 
@@ -84,7 +84,7 @@ public:
      * @copydoc StatisticalTest::get_minimal_sample_size()
      */
     virtual unsigned long get_minimal_sample_size() const noexcept override {
-        return TEST_LJUNG_BOX_MIN_SAMPLES;
+        return TEST_BDS_MIN_SAMPLES;
     }
 
     /**
@@ -96,13 +96,17 @@ public:
     }
 
 private:
-    unsigned int n_lags;
+    uint_fast8_t indicator_function(unsigned long t, unsigned long s, unsigned long m, double epsilon) const noexcept;
+    double embedding_dimension(unsigned long m) const noexcept;
+    double sigma(unsigned long m, double epsilon) const noexcept;
+    double k(double epsilon) const noexcept;
+    double h_e(T_TIME a, T_TIME b, T_TIME c, double epsilon) const noexcept;
 
-    double sample_autocorrelation(double mean, size_t size, const std::vector<T_TIME> &values, int h) noexcept;
+    const MeasuresPool<T_INPUT, T_TIME> *measures_save; // Don't worry about the pointer, it's an ugly but safe trick
 
 };
 
 } // namespace chronovise
 
-#endif // STATISTICAL_TEST_LJUNG_BOX_HPP_
+#endif // STATISTICAL_TEST_BDS_HPP_
 
