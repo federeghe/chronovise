@@ -40,14 +40,13 @@ uint_fast8_t TestBDS<T_INPUT, T_TIME>::indicator_function(unsigned long s, unsig
 
 }
 
+
 template <typename T_INPUT, typename T_TIME>
-double TestBDS<T_INPUT, T_TIME>::embedding_dimension(unsigned long m) const noexcept {
+double TestBDS<T_INPUT, T_TIME>::embedding_dimension(unsigned long m, double epsilon) const noexcept {
 
     const size_t size = measures_save->size();
-    const auto epsilon = BDS_DISTANCE;
 
-    double Tm = size - m + 1
-    double coeff = 2./(size*(size - 1));
+    double coeff = 2./((size-m+1.)*(size - m));
 
     double sum = 0;
 
@@ -61,18 +60,47 @@ double TestBDS<T_INPUT, T_TIME>::embedding_dimension(unsigned long m) const noex
 }
 
 
+
+template <typename T_INPUT, typename T_TIME>
+double TestBDS<T_INPUT, T_TIME>::embedding_dimension_1(unsigned long m, double epsilon) const noexcept {
+
+    const size_t size = measures_save->size();
+
+    double coeff = 2./((size-m+1.)*(size - m));
+
+    double sum = 0;
+
+    for (unsigned long s = 1; s <= size; s++) {
+        for (unsigned long t = s+1; t <= size; t++) {
+            T_TIME value_a = std::next(measures_save->cbegin(), t - 1)->second;
+            T_TIME value_b = std::next(measures_save->cbegin(), s - 1)->second;
+
+            if (value_a > value_b && ((value_a - value_b) >= epsilon)) {
+                continue;
+            }
+            if (value_b > value_a && ((value_b - value_a) >= epsilon)) {
+                continue;
+            }
+            sum += 1;
+        }
+    }
+
+    return coeff * sum;
+}
+
+
 template <typename T_INPUT, typename T_TIME>
 double TestBDS<T_INPUT, T_TIME>::h_e(T_TIME a, T_TIME b, T_TIME c, double epsilon) const noexcept {
 
-    uint_fast8_t diff1 = a > b ? a - b : b - a;
-    uint_fast8_t diff2 = a > c ? a - c : c - a;
-    uint_fast8_t diff3 = c > b ? c - b : b - c;
+    double diff1 = a > b ? a - b : b - a;
+    double diff2 = a > c ? a - c : c - a;
+    double diff3 = c > b ? c - b : b - c;
 
     uint_fast8_t term1 = (diff1 < epsilon ? 1 : 0) * (diff3 < epsilon ? 1 : 0);
     uint_fast8_t term2 = (diff2 < epsilon ? 1 : 0) * (diff3 < epsilon ? 1 : 0);
     uint_fast8_t term3 = (diff1 < epsilon ? 1 : 0) * (diff2 < epsilon ? 1 : 0);
 
-    return 1./3. * (term1 + term2 + term3);
+    return (term1 + term2 + term3) / 3.;
 
 }
 
@@ -107,7 +135,7 @@ double TestBDS<T_INPUT, T_TIME>::sigma(unsigned long m, double epsilon) const no
 
     double sum = 0.;
     double k = this->k(epsilon);
-    double c = this->embedding_dimension(1);
+    double c = this->embedding_dimension(1, epsilon);
 
     sum += std::pow(k, m);
 
@@ -121,6 +149,7 @@ double TestBDS<T_INPUT, T_TIME>::sigma(unsigned long m, double epsilon) const no
     sum += (m-1)*(m-1)*std::pow(c, 2 * m);
 
     sum -= m*m*k*std::pow(c, 2 * m - 2);
+
 
     return 4 * sum;
 
@@ -138,14 +167,10 @@ void TestBDS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
     }
 
 
-    auto epsilon = BDS_DISTANCE * measures.stdev();
-
-    std::cout << "EPS = " << epsilon << std::endl;
+    auto epsilon = BDS_DISTANCE * std::sqrt(measures.var() * size / (size-1));
 
     double m = 2;
 
-    std::cout << "A = " << this->embedding_dimension(m) << std::endl;
-    std::cout << "B = " << this->embedding_dimension(1) << std::endl;
 
     auto sigma = std::sqrt(this->sigma(m, epsilon));
     if (sigma == 0) {
@@ -153,11 +178,10 @@ void TestBDS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
         return;
     }
 
-    double statistics = std::abs(std::sqrt(size) * (this->embedding_dimension(m) - std::pow(this->embedding_dimension(1),m)) / sigma);
+    double statistics = std::abs(std::sqrt(size-m+1) * (this->embedding_dimension(m, epsilon) - std::pow(this->embedding_dimension_1(m, epsilon),m)) / sigma);
 
     double critical_value = 1.96;
 
-    std::cout << "Statistics = " << statistics << " CV = " << critical_value << std::endl;
 
     if ( statistics > critical_value) {
         this->reject = true;

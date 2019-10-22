@@ -97,7 +97,8 @@ public:
 
 private:
     uint_fast8_t indicator_function(unsigned long t, unsigned long s, unsigned long m, double epsilon) const noexcept;
-    double embedding_dimension(unsigned long m) const noexcept;
+    double embedding_dimension(unsigned long m, double epsilon) const noexcept;
+    double embedding_dimension_1(unsigned long m, double epsilon) const noexcept;
     double sigma(unsigned long m, double epsilon) const noexcept;
     double k(double epsilon) const noexcept;
     double h_e(T_TIME a, T_TIME b, T_TIME c, double epsilon) const noexcept;
