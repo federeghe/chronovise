@@ -19,40 +19,41 @@ double TestKPSS<T_INPUT, T_TIME>::compute_statistics(const MeasuresPool<T_INPUT,
     typedef std::pair<T_INPUT, T_TIME> P;
 
     size_t nobs = measures.size();
+    T_TIME avg  = measures.avg();
 
     // Getting rid of input values
     std::vector<T_TIME> observ;
     observ.reserve(nobs);
 
     std::transform(measures.cbegin(), measures.cend(), std::back_inserter(observ), 
-                   [](const P& p) { return p.second; });
+                   [avg](const P& p) { return p.second - avg; });
 
     double factor = 1. / nobs;
 
     std::vector<T_TIME> cumsum(nobs);
     std::partial_sum (observ.cbegin(), observ.cend(), cumsum.begin());
 
-    double dot_product_cumsum = std::inner_product(cumsum.cbegin(), cumsum.cend(), cumsum.cbegin(), 0);
-    double dot_product_observ = std::inner_product(observ.cbegin(), observ.cend(), observ.cbegin(), 0);
+    double dot_product_cumsum = std::inner_product(cumsum.cbegin(), cumsum.cend(), cumsum.cbegin(), 0.);
+    double dot_product_observ = std::inner_product(observ.cbegin(), observ.cend(), observ.cbegin(), 0.);
     double eta        = factor * factor * dot_product_cumsum;
     double obs_square = factor * dot_product_observ;
 
     double sum = 0.;
     
     for (unsigned int i=1; i <= n_lags; i++) {
-        auto begin_v1 = std::next(observ.cbegin(), i);
-        auto end_v1   = std::prev(observ.cend(), 1);
+        auto begin_v1 = std::next(observ.cbegin(), i-1);
+        auto end_v1   = observ.cend();
         auto begin_v2 = observ.cbegin();
-        auto end_v2   = std::prev(observ.cend(), i+1);
+        auto end_v2   = std::prev(observ.cend(), i-1);
 
         assert(std::distance(begin_v1, end_v1) == std::distance(begin_v2, end_v2));
 
         double dot_product_partial = std::inner_product(begin_v1, end_v1, begin_v2, 0);
         double bartlett_weight = ((double)i) / (n_lags + 1);
-        sum += (1 - bartlett_weight) * dot_product_partial;
+        sum += (1. - bartlett_weight) * dot_product_partial;
     }
 
-    std::cout << "ETA= " << eta << " Factor=" << factor << " SUM=" << sum << " OBS_SQUARE=" << obs_square << " DPC=" << dot_product_cumsum << std::endl;
+//    std::cout << "ETA= " << eta << " Factor=" << factor << " SUM=" << sum << " OBS_SQUARE=" << obs_square << " DPC=" << dot_product_cumsum << std::endl;
 
     return eta / (obs_square + 2 * factor * sum);
 
@@ -62,10 +63,12 @@ template <typename T_INPUT, typename T_TIME>
 double TestKPSS<T_INPUT, T_TIME>::compute_cv_value(const MeasuresPool<T_INPUT, T_TIME> &measures) noexcept {
 
     size_t size = measures.size();
-    auto cv_values = this->coeff_kpss.at(this->trend_class).at(this->significance_level);
+    auto cv_values = this->coeff_kpss.at(this->trend_class).at(1. - this->significance_level);
 
     int n = size - n_lags - 1;
+
     double critical_value = 0.;
+
     for (size_t i=0; i < cv_values.at(0).size(); i++) {
         critical_value += cv_values.at(0).at(i) / std::pow(n, i);
     }
@@ -83,6 +86,10 @@ void TestKPSS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measure
 
     if(size < get_minimal_sample_size()) {
         throw std::invalid_argument("The number of samples is too low for this test");
+    }
+
+    if(this->trend_class == test_kpss_trend_t::TREND) {
+        throw std::invalid_argument("Trend KPSS is not yet implemented.");
     }
 
     double statistics = compute_statistics(measures);

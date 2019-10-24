@@ -25,7 +25,7 @@ TEST_F(Test_KPSS_Test, GetterSetter) {
 
 TEST_F(Test_KPSS_Test, DistributionACCEPT) {
 
-    TestKPSS<unsigned int, double> jb(0.05, 5);
+    TestKPSS<unsigned int, double> jb(0.05, 0);
 
     double norm_ind_values[100] = {
 1.8339,-2.2588,0.8622,0.3188,-1.3077,-0.4336,0.3426,3.5784,2.7694,-1.3499,3.0349,0.7254
@@ -69,7 +69,7 @@ TEST_F(Test_KPSS_Test, DistributionREJECT_1) {
 
 TEST_F(Test_KPSS_Test, DistributionREJECT_2) {
 
-    TestKPSS<unsigned int, double> jb(0.05, 2);
+    TestKPSS<unsigned int, double> jb(0.05, 0);
 
     double start = 1.0;
 
@@ -92,7 +92,7 @@ TEST_F(Test_KPSS_Test, DistributionREJECT_2) {
 
 TEST_F(Test_KPSS_Test, DistributionREJECT_3) {
 
-    TestKPSS<unsigned int, double> jb(0.05, 10);
+    TestKPSS<unsigned int, double> jb(0.05, 0);
 
     MeasuresPool<unsigned int, double> mp1;
     MeasuresPool<unsigned int, double> mp2;
