@@ -282,9 +282,11 @@ void TestLjungBox<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &mea
         return;
     }
 
-    double critical_value = local_test_ljung_box::qchisq_int(1. - this->significance_level, n_lags);
+    this->critical_value = local_test_ljung_box::qchisq_int(1. - this->significance_level, n_lags);
 
-    if ( Q > critical_value) {
+    this->statistic = Q;
+
+    if ( Q > this->critical_value) {
         this->reject = true;
     } else {
         this->reject = false;

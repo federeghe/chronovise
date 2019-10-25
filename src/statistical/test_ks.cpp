@@ -50,7 +50,7 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
     using namespace local_test_ks;
 
     const unsigned long n = measures.size();
-    const double critical_value = get_ks_critical_values(this->significance_level, n);
+    this->critical_value = get_ks_critical_values(this->significance_level, n);
 
     /* **** Compute the empirical F(x) **** */
     const double min_meas = measures.min();
@@ -82,7 +82,7 @@ void TestKS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
         max_statistic = max_epsilon;
     }
 
-    if (max_statistic > critical_value) {
+    if (max_statistic > this->critical_value) {
         this->reject = true;
     }
 

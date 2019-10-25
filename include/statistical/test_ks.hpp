@@ -87,14 +87,9 @@ public:
      */
     virtual unsigned long get_minimal_sample_size(unsigned short req_power) const override;
 
-    virtual double get_statistic() const {
-        return this->statistic;
-    }
-
 private:
     double power;
 
-    double statistic;
 
 };
 

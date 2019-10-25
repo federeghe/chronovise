@@ -92,13 +92,11 @@ void TestKPSS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measure
         throw std::invalid_argument("Trend KPSS is not yet implemented.");
     }
 
-    double statistics = compute_statistics(measures);
-    double critical_value = compute_cv_value(measures);
-
-    std::cout << statistics << " > " << critical_value << "?" << std::endl;
+    this->statistic = compute_statistics(measures);
+    this->critical_value = compute_cv_value(measures);
 
 
-    if ( statistics > critical_value) {
+    if ( this->statistic > this->critical_value) {
         this->reject = true;
     } else {
         this->reject = false;

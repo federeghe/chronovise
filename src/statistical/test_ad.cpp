@@ -155,19 +155,18 @@ void TestAD<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
 
     using namespace local_test_ad;
 
-    double ad_critical_value = (1. + safe_margin) *
+    this->critical_value = (1. + safe_margin) *
                     get_ad_critical_value(this->ref_distribution,
                                 MAD, size, this->significance_level);
 
-    double statistics;
     // Using MeasuresPool, the [] operator guarantees ordering.
     if (MAD) {
-        statistics = get_ad_statistic_upper<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
+        this->statistic = get_ad_statistic_upper<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
     } else {
-        statistics = get_ad_statistic<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
+        this->statistic = get_ad_statistic<T_TIME>(this->ref_distribution, measures.get_ordered_vector());
     }
 
-    if (statistics > ad_critical_value) {
+    if (this->statistic > this->critical_value) {
         this->reject = true;
     }
 }

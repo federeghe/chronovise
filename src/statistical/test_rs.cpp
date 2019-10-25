@@ -33,12 +33,13 @@ double TestRS<T_INPUT, T_TIME>::compute_statistics(const MeasuresPool<T_INPUT, T
     std::vector<T_TIME> cumsum(nobs);
     std::partial_sum (observ.cbegin(), observ.cend(), cumsum.begin());
 
-    double cumsum_diff = *std::max_element(cumsum.cbegin(), cumsum.cend()) - *std::min_element(cumsum.cbegin(), cumsum.cend());
-
-    double v = (1. / std::sqrt(nobs)) * (cumsum_diff / stdev);
 
     double max_el = *std::max_element(cumsum.cbegin(), cumsum.cend());
     double min_el = *std::min_element(cumsum.cbegin(), cumsum.cend());
+    double cumsum_diff = max_el - min_el;
+
+    double v = (1. / std::sqrt(nobs)) * (cumsum_diff / stdev);
+
 
     return v;
 
@@ -67,11 +68,11 @@ void TestRS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures)
         throw std::invalid_argument("Not implemented");
     }
 
-    double statistics = compute_statistics(measures);
-    double critical_value = compute_cv_value(measures);
+    this->statistic = compute_statistics(measures);
+    this->critical_value = compute_cv_value(measures);
 
 
-    if ( statistics > critical_value) {
+    if ( this->statistic > this->critical_value) {
         this->reject = true;
     } else {
         this->reject = false;

@@ -97,7 +97,7 @@ void TestCvM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
     using namespace local_test_cvm;
 
     const long n = measures.size();
-    const double critical_value = get_cvm_critical_values(this->significance_level, n);
+    this->critical_value = get_cvm_critical_values(this->significance_level, n);
 
     this->statistic = 1. / (12. * n);
 
@@ -111,7 +111,7 @@ void TestCvM<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
         this->statistic += (term1 - F) * (term1 - F);
     }
 
-    if ( this->statistic > critical_value) {
+    if ( this->statistic > this->critical_value) {
         this->reject = true;
     }
 

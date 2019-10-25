@@ -166,6 +166,9 @@ void TestBDS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
         throw std::invalid_argument("The number of samples is too low for this test");
     }
 
+    if(this->significance_level != 0.05) {
+        throw std::invalid_argument("Not implemented");
+    }
 
     auto epsilon = BDS_DISTANCE * std::sqrt(measures.var() * size / (size-1));
 
@@ -178,12 +181,12 @@ void TestBDS<T_INPUT, T_TIME>::run(const MeasuresPool<T_INPUT, T_TIME> &measures
         return;
     }
 
-    double statistics = std::abs(std::sqrt(size-m+1) * (this->embedding_dimension(m, epsilon) - std::pow(this->embedding_dimension_1(m, epsilon),m)) / sigma);
+    this->statistic = std::abs(std::sqrt(size-m+1) * (this->embedding_dimension(m, epsilon) - std::pow(this->embedding_dimension_1(m, epsilon),m)) / sigma);
 
-    double critical_value = 1.96;
+    this->critical_value = 1.96;
 
 
-    if ( statistics > critical_value) {
+    if ( this->statistic > this->critical_value) {
         this->reject = true;
     } else {
         this->reject = false;

@@ -135,9 +135,31 @@ public:
         return this->significance_level;
     }
 
+    /**
+     * Returns the statistic computed by the test.
+     * @note This value is valid only after the call of run() funciton.
+     * @return The statistic value.
+     */
+    double get_statistic() const noexcept {
+        return this->statistic;
+    }
+
+    /**
+     * Returns the computed critical value of the current test.
+     * @note This value may or may not be valid before the call of run() funciton depending on the
+     *       test. It is guaranteed to be valid only after calling the run() function.
+     * @return The computed critical value.
+     */
+    double get_critical_value() const noexcept {
+        return this->critical_value;
+    }
+
 
 protected:
     const double significance_level;
+
+    double statistic;
+    double critical_value;
 
     bool reject = false;
 
