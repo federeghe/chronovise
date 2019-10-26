@@ -113,6 +113,9 @@ double TestBDS<T_INPUT, T_TIME>::k(double epsilon) const noexcept {
 
     double sum = 0.;
 
+#if defined(_OPENMP)
+    #pragma omp parallel for reduction(+:sum) firstprivate(measures_save, epsilon)
+#endif
     for (size_t t=1; t <= size; t++) {
         for (size_t s=t+1; s <= size; s++) {
             for (size_t r=s+1; r <= size; r++) {
