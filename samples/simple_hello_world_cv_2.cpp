@@ -81,7 +81,7 @@ exit_code_t SimpleHelloWorld::onRun() noexcept {
         // in onSetup().
         this->add_sample_from_file();
 
-    } catch( std::ios::failure ex) {
+    } catch(const std::ios::failure &ex) {
         std::cout << std::endl << "INPUT ERROR: "
                   << ex.what() << std::endl;
         return AEC_INPUT_ERROR;
