@@ -128,6 +128,7 @@ void run_and_print(void) {
     std::cout << "Mean:          "  << mp.avg() << std::endl;
     std::cout << "Variance:      "  << mp.var() << std::endl;
     std::cout << "Std Deviation: "  << mp.stdev() << std::endl;
+    std::cout << "CV           : "  << mp.stdev() / mp.avg() << std::endl;
 
     std::cout << "---"              << std::endl;
 
@@ -182,20 +183,23 @@ void compute_and_print_ppi(double stat_kpss, double stat_bds, double stat_rs, do
 
     assert(m_cv_kpss == m_cv_bds && m_cv_kpss == m_cv_rs);
 
+    std::vector<double> violate_set;
+    if(m_st_kpss < m_cv_kpss) violate_set.push_back(m_st_kpss);
+    if(m_st_bds  < m_cv_bds ) violate_set.push_back(m_st_bds);
+    if(m_st_rs   < m_cv_rs  ) violate_set.push_back(m_st_rs);
+
+    
     double PPI;
 
-    if (m_st_kpss < m_cv_kpss ||
-        m_st_bds  < m_cv_bds  ||
-        m_st_rs   < m_cv_rs) {
+    if (violate_set.size() > 0) {
+        auto min_value_it = std::min_element(violate_set.begin(), violate_set.end());
 
-        if (m_st_kpss <= m_st_bds && m_st_kpss <= m_st_rs) {
-            PPI = m_st_kpss * (1 - (m_cv_bds - m_st_bds)) * (1 - (m_cv_rs - m_st_rs));
-        }
-        if (m_st_bds <= m_st_kpss && m_st_bds <= m_st_rs) {
-            PPI = m_st_bds  * (1 - (m_cv_kpss - m_st_kpss)) * (1 - (m_cv_rs - m_st_rs));
-        }
-        if (m_st_rs <= m_st_bds && m_st_rs <= m_st_kpss) {
-            PPI = m_st_rs   * (1 - (m_cv_bds - m_st_bds)) * (1 - (m_cv_kpss - m_st_kpss));
+        PPI = *min_value_it;
+
+        for (auto it=violate_set.cbegin(); it != violate_set.cend(); it++) {
+            if (it != min_value_it) {
+                PPI *= (1-(m_cv_kpss - *it));
+            }
         }
 
     } else {
