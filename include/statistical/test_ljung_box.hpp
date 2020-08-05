@@ -30,6 +30,7 @@
 
 #include <cmath>
 #include <list>
+#include <stdexcept>
 
 #define TEST_LJUNG_BOX_MIN_SAMPLES 10
 

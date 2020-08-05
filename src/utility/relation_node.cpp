@@ -16,6 +16,7 @@
 
 
 #include "utility/relation_node.hpp"
+#include <stdexcept>
 
 namespace chronovise {
 

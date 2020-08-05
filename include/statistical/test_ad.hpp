@@ -28,6 +28,7 @@
 
 #include <cmath>
 #include <list>
+#include <stdexcept>
 
 #define TEST_AD_MIN_SAMPLES 10
 

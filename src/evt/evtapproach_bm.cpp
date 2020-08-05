@@ -2,6 +2,7 @@
 #include "global.hpp"
 
 #include <limits>
+#include <stdexcept>
 
 namespace chronovise {
 

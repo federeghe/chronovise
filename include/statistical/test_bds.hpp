@@ -30,6 +30,7 @@
 
 #include <cmath>
 #include <list>
+#include <stdexcept>
 
 #define TEST_BDS_MIN_SAMPLES 10
 

@@ -27,6 +27,7 @@
 #include "statistical/distribution.hpp"
 
 #include <memory>
+#include <stdexcept>
 
 namespace chronovise {
 
