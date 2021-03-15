@@ -230,10 +230,11 @@ bool Estimator_MLE<T_INPUT, T_TIME, GMLE>::run(const MeasuresPool<T_INPUT, T_TIM
         // Block-Maxima case -> GEV Distribution
 
         double parameters[3] =  {
- (double)measures.avg(),
+                        (double)measures.avg(),
                         measures.stdev() > 1 ? measures.stdev() : 1.,
                         0.
                     };
+
 
         ceres::GradientProblem problem(new GEV_Function<T_INPUT, T_TIME, GMLE>(measures));
         ceres::Solve(options, problem, parameters, &summary);
