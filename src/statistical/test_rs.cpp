@@ -19,18 +19,18 @@ double TestRS<T_INPUT, T_TIME>::compute_statistics(const MeasuresPool<T_INPUT, T
     typedef std::pair<T_INPUT, T_TIME> P;
 
     size_t nobs   = measures.size();
-    T_TIME avg    = measures.avg();
-    T_TIME stdev  = measures.stdev();
+    double avg    = measures.avg();
+    double stdev  = measures.stdev();
 
     // Getting rid of input values
-    std::vector<T_TIME> observ;
+    std::vector<double> observ;
     observ.reserve(nobs);
 
     std::transform(measures.cbegin(), measures.cend(), std::back_inserter(observ), 
                    [avg](const P& p) { return p.second - avg; });
 
 
-    std::vector<T_TIME> cumsum(nobs);
+    std::vector<double> cumsum(nobs);
     std::partial_sum (observ.cbegin(), observ.cend(), cumsum.begin());
 
 
