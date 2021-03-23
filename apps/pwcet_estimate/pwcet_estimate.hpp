@@ -5,6 +5,7 @@
 #include "timing.hpp"
 #include "input/generator_uniform.hpp"
 #include "statistical/test_ks.hpp"
+#include "statistical/test_ad.hpp"
 
 #include <iostream>
 
@@ -14,7 +15,7 @@ public:
     PWCET_Estimate(const chronovise::MeasuresPool<int, double> &mp) : copy_mp(mp) {
     }
 
-	virtual ~PWCET_Estimate() = default;
+    virtual ~PWCET_Estimate() = default;
 
     virtual exit_code_t onSetup() noexcept;
     virtual exit_code_t onConfigure() noexcept;
