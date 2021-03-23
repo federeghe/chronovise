@@ -16,6 +16,7 @@
 #include "statistical/test_bds.hpp"
 #include "statistical/test_rs.hpp"
 
+bool describe_csv = false;
 bool csv_output = false;
 bool use_double = false;
 bool use_pot = false;
@@ -31,7 +32,9 @@ bool parse_parameters(int argc, const char *argv[]) {
     for (int i=1; i<argc; i++) {
         std::string curr_arg(argv[i]);
         
-        if (curr_arg == "--csv-output") {
+        if (curr_arg == "--describe-csv") {
+            describe_csv = true;
+        } else if (curr_arg == "--csv-output") {
             csv_output = true;
         } else if (curr_arg == "--use-double") {
             use_double = true;
@@ -128,7 +131,7 @@ void execute_iid_tests(const chronovise::MeasuresPool<int, T> &mp) {
                   << rs_stats << ','
                   << rs_cv << ','
                   << pair_output.first << ','
-                  << pair_output.first << ','
+                  << pair_output.second << ','
                   << (pair_output.first < pair_output.second ? "R" : "P");
     } else {
         std::cout << "Number of samples:\t" << mp.size() << std::endl;
@@ -195,6 +198,9 @@ void execute_pwcet_estimation(const chronovise::MeasuresPool<int, T> &mp) {
         std::cout << std::endl;
         std::cout << "WCOT:          " << mp.max() << std::endl;
         std::cout << "WCET @ 10^-9:  " << pwcet.get_wcet(1-1e-9) << std::endl;
+    } else {
+        std::cout << ',' << dist->get_location() << ',' << dist->get_scale() << ',' << dist->get_shape()
+                  << ',' << pwcet.get_wcet(1-1e-9) << std::endl;
     }
 
 
@@ -224,13 +230,22 @@ void analyze_integer() {
 int main(int argc, const char *argv[]) {
 
     if (parse_parameters(argc, argv)) {
-        std::cerr << "Usage: chronovise-app [--csv-output] [--use-double] [--use-pot] [input_file]" << std::endl;
+        std::cerr << "Usage: chronovise-app [--csv-output] [--use-double] [--use-pot] input_file" << std::endl;
+        std::cerr << "       chronovise-app --describe-csv" << std::endl;
+        std::cerr << std::endl;
         std::cerr << "If input_file is not specified, it reads from stdin." << std::endl;
         std::cerr << "Options:" << std::endl;
-        std::cerr << " --csv-output: output in a CSV format" << std::endl;
-        std::cerr << " --use-double: input is in double floating point precision and not in integer" << std::endl;
-        std::cerr << " --use-pot:    Use the Peak-over-Threshold method instead of Block-Maxima" << std::endl;
+        std::cerr << " --csv-output:    output in a CSV format" << std::endl;
+        std::cerr << " --use-double:    input is in double floating point precision and not in integer" << std::endl;
+        std::cerr << " --use-pot:       Use the Peak-over-Threshold method instead of Block-Maxima" << std::endl;
+        std::cerr << " --describe-csv:  Print the header of the CSV output describing each column" << std::endl;
+        std::cerr << std::endl;
         return -1;
+    }
+    
+    if (describe_csv) {
+        std::cout << "NR_SAMPLES,KPSS_STAT,KPSS_CV,BDS_STAT,BDS_CV,RS_STAT,RS_CV,PPI_STAT,PPI_CV,PPI_RESULT,PWCET_MU,PWCET_SG,PWCET_XI,WCET10_M9" << std::endl;
+        return 0;
     }
 
     if (!input_s->good()) {
