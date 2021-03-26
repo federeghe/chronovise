@@ -61,6 +61,16 @@ execute_process(
 
 add_library(chronovise ${SOURCES})
 
+install(TARGETS chronovise
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+)
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/"
+        DESTINATION include/chronovise
+        FILES_MATCHING PATTERN "*.hpp"
+)
+
 
 if(CERES_SOLVER)
 	find_package(Ceres REQUIRED)
