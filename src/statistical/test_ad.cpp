@@ -32,8 +32,7 @@ namespace local_test_ad {
 
             // This is an extreme case, the distribution is completely
             // wrong probably. This may be too pessimistic, but safe.
-            if (Fi == 1.) return std::numeric_limits<double>::infinity();
-
+            if (Fi == 1.) { return std::numeric_limits<double>::infinity(); }
             S1 += Fi;
             S2 += coeff1 * std::log(1. - Fi);
         }

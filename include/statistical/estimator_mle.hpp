@@ -27,6 +27,7 @@
 #include "statistical/distribution.hpp"
 
 #include <memory>
+#include <stdexcept>
 
 namespace chronovise {
 
@@ -85,11 +86,19 @@ public:
             return "Generalized Maximum-Likelihood (GMLE)";
         }
     }
+    
+    void set_initial_guess(double mu, double sg, double xi) {
+        initial_guess[0] = mu;
+        initial_guess[1] = sg;
+        initial_guess[2] = xi;
+        this->inital_guess_provided = true;
+    }
 
 private:
     std::shared_ptr<Distribution> result;
     estimator_status_t status=estimator_status_t::UNKNOWN;
-
+    bool inital_guess_provided = false;
+    double initial_guess[3];
 };
 
 } // namespace chronovise

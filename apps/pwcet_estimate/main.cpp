@@ -17,7 +17,7 @@ int main() {
     chronovise::AbstractExecutionContext<unsigned int, double> *aec = new PWCET_Estimate(mp);
     aec->run();
 
-	delete aec;
+    delete aec;
 
     return 0;
 }

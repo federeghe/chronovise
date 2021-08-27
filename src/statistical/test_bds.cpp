@@ -25,9 +25,12 @@ uint_fast8_t TestBDS<T_INPUT, T_TIME>::indicator_function(unsigned long s, unsig
     assert(t <= size);
     assert(s <= size);
 
+    auto iterator_a = std::next(measures_save->cbegin(), t - 1);
+    auto iterator_b = std::next(measures_save->cbegin(), s - 1);
+
     for (unsigned long i=0; i<=m-1; i++) {
-        T_TIME value_a = std::next(measures_save->cbegin(), t - i - 1)->second;
-        T_TIME value_b = std::next(measures_save->cbegin(), s - i - 1)->second;
+        T_TIME value_a = iterator_a->second;
+        T_TIME value_b = iterator_b->second;
 
         if (value_a > value_b && ((value_a - value_b) >= epsilon)) {
             return 0;
@@ -35,6 +38,9 @@ uint_fast8_t TestBDS<T_INPUT, T_TIME>::indicator_function(unsigned long s, unsig
         if (value_b > value_a && ((value_b - value_a) >= epsilon)) {
             return 0;
         }
+        
+        iterator_a = std::prev(iterator_a);
+        iterator_b = std::prev(iterator_b);
     }
     return 1;
 
@@ -71,9 +77,9 @@ double TestBDS<T_INPUT, T_TIME>::embedding_dimension_1(unsigned long m, double e
     double sum = 0;
 
     for (unsigned long s = 1; s <= size; s++) {
+        T_TIME value_b = std::next(measures_save->cbegin(), s - 1)->second;
         for (unsigned long t = s+1; t <= size; t++) {
             T_TIME value_a = std::next(measures_save->cbegin(), t - 1)->second;
-            T_TIME value_b = std::next(measures_save->cbegin(), s - 1)->second;
 
             if (value_a > value_b && ((value_a - value_b) >= epsilon)) {
                 continue;
@@ -117,14 +123,20 @@ double TestBDS<T_INPUT, T_TIME>::k(double epsilon) const noexcept {
     #pragma omp parallel for reduction(+:sum) firstprivate(measures_save, epsilon)
 #endif
     for (size_t t=1; t <= size; t++) {
+        auto t_value = std::next(measures_save->cbegin(),t-1)->second;
+        auto s_iterator = std::next(measures_save->cbegin(),t);
         for (size_t s=t+1; s <= size; s++) {
+            auto s_value = s_iterator->second;
+            auto r_iterator = std::next(measures_save->cbegin(),s);
             for (size_t r=s+1; r <= size; r++) {
                 sum += h_e(
-                    std::next(measures_save->cbegin(),t-1)->second,
-                    std::next(measures_save->cbegin(),s-1)->second,
-                    std::next(measures_save->cbegin(),r-1)->second,
+                    t_value,
+                    s_value,
+                    r_iterator->second,
                     epsilon);
+                r_iterator++;
             }
+            s_iterator++;
         }
     }
 
