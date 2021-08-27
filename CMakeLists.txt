@@ -6,6 +6,7 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 option(USE_OPENMP "USE_OPENMP" OFF)
 option(CERES_SOLVER "CERES_SOLVER" ON)
@@ -60,6 +61,16 @@ execute_process(
 )
 
 add_library(chronovise ${SOURCES})
+
+install(TARGETS chronovise
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+)
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/"
+        DESTINATION include/chronovise
+        FILES_MATCHING PATTERN "*.hpp"
+)
 
 
 if(CERES_SOLVER)
