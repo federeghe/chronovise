@@ -47,8 +47,6 @@ public:
     /**
      * The TestBDS constructor.
      * @param significance_level The significance level for the test (alpha)
-     * @param n_lags The number of lags of the Ljung-Box test. In non-seasonal data
-     *               it should be around the value of 10.
      */
     TestBDS(double significance_level)
     : StatisticalTest<T_INPUT,T_TIME>(significance_level)

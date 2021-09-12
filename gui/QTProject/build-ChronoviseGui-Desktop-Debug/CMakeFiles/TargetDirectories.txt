@@ -1,0 +1,4 @@
+/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui.dir
+/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui_autogen.dir

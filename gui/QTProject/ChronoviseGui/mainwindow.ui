@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1449</width>
+    <height>1161</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#EEF;
+selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QLabel" name="logo_lbl">
+      <property name="minimumSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap resource="images.qrc">:/logos/logo.svg</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1" colspan="2">
+     <widget class="QLabel" name="title_lbl">
+      <property name="font">
+       <font>
+        <family>Ubuntu Condensed</family>
+        <pointsize>50</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Chronovise</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QGroupBox" name="plot_config_gb">
+      <property name="minimumSize">
+       <size>
+        <width>310</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Plot Configuration PDF</string>
+      </property>
+      <widget class="QRadioButton" name="linear_rb">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>55</y>
+         <width>68</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Linear</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="log_rb">
+       <property name="geometry">
+        <rect>
+         <x>193</x>
+         <y>55</y>
+         <width>106</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Logarithmic </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="y_scale_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>55</y>
+         <width>84</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y-Axis Scale:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="reset_button">
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Reset</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" rowspan="4" colspan="3">
+     <widget class="QTabWidget" name="plot_tab">
+      <property name="focusPolicy">
+       <enum>Qt::TabFocus</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QCustomPlot" name="pdf">
+       <attribute name="title">
+        <string>PDF</string>
+       </attribute>
+      </widget>
+      <widget class="QCustomPlot" name="cdf">
+       <attribute name="title">
+        <string>CDF</string>
+       </attribute>
+      </widget>
+      <widget class="QCustomPlot" name="ccdf">
+       <attribute name="title">
+        <string>CCDF</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QPushButton" name="input_file_button">
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Open Input File</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="compute_button">
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Compute</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QGroupBox" name="plot_config_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Plot Configuration CDF</string>
+      </property>
+      <widget class="QLabel" name="y_scale_lbl_2">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>55</y>
+         <width>84</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y-Axis Scale:</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="linear_rb_2">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>55</y>
+         <width>68</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Linear</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="log_rb_2">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>55</y>
+         <width>112</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Logarithmic </string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="2" column="0" colspan="3">
+     <widget class="QGroupBox" name="config_gb">
+      <property name="maximumSize">
+       <size>
+        <width>730</width>
+        <height>270</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Configuration</string>
+      </property>
+      <widget class="QComboBox" name="test3_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>120</y>
+         <width>272</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Kwiatkowski–Phillips–Schmidt–Shin</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Brock–Dechert–Scheinkman</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>LjungBox</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R/S</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="iid_test_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>35</y>
+         <width>93</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>EVT i.i.d. test:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox">
+       <property name="geometry">
+        <rect>
+         <x>593</x>
+         <y>58</y>
+         <width>69</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Level</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Trend</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="sig_lev_cb_2">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>89</y>
+         <width>58</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.01</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.05</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="evt_approach_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>182</y>
+         <width>100</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>EVT Approach:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="test1_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>58</y>
+         <width>272</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <property name="layoutDirection">
+        <enum>Qt::LeftToRight</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Kwiatkowski–Phillips–Schmidt–Shin</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Brock–Dechert–Scheinkman</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>LjungBox</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R/S</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="gof_test_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>151</y>
+         <width>215</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Kolmogorov-Smirnov</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Cramér–von Mises</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Anderson-Darling</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Modified Anderson-Darling</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="test2_lbl">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>90</y>
+         <width>57</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>↳Test 2:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test1_lbl">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>57</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>↳Test 1:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="sig_lev_lbl">
+       <property name="geometry">
+        <rect>
+         <x>459</x>
+         <y>35</y>
+         <width>128</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Significance Level: </string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="sig_lev_cb_4">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>151</y>
+         <width>58</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.01</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.05</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="evt_estimator_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>213</y>
+         <width>101</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>EVT Estimator:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="comboBox_3">
+       <property name="geometry">
+        <rect>
+         <x>593</x>
+         <y>120</y>
+         <width>69</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Level</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Trend</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="test2_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>89</y>
+         <width>272</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Kwiatkowski–Phillips–Schmidt–Shin</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Brock–Dechert–Scheinkman</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>LjungBox</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>R/S</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="test3_lbl">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>120</y>
+         <width>57</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>↳Test 3:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="sig_lev_cb_3">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>120</y>
+         <width>58</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.01</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.05</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="gof_test_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>151</y>
+         <width>63</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>GoF Test:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="trend_kpss_lbl">
+       <property name="geometry">
+        <rect>
+         <x>593</x>
+         <y>35</y>
+         <width>82</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Trend Class:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="evt_approach_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>182</y>
+         <width>169</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Block-Maxima</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Peak-over-Threshold</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="sig_lev_cb_1">
+       <property name="geometry">
+        <rect>
+         <x>480</x>
+         <y>58</y>
+         <width>58</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.01</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>0.05</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="comboBox_2">
+       <property name="geometry">
+        <rect>
+         <x>593</x>
+         <y>89</y>
+         <width>69</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Level</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Trend</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="evt_estimator_cb">
+       <property name="geometry">
+        <rect>
+         <x>119</x>
+         <y>213</y>
+         <width>334</width>
+         <height>25</height>
+        </rect>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Probability Weighted Moments</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Maximum Likelihood Estimation</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Generalized Maximum Likelihood Estimation</string>
+        </property>
+       </item>
+      </widget>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QGroupBox" name="plot_config_3">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Plot Configuration CCDF</string>
+      </property>
+      <widget class="QLabel" name="y_scale_lbl_3">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>55</y>
+         <width>84</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y-Axis Scale:</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="linear_rb_3">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>55</y>
+         <width>68</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Linear</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="log_rb_3">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>55</y>
+         <width>112</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Logarithmic </string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="3" rowspan="3">
+     <widget class="QGroupBox" name="result_gb">
+      <property name="minimumSize">
+       <size>
+        <width>500</width>
+        <height>350</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>400</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="mouseTracking">
+       <bool>false</bool>
+      </property>
+      <property name="title">
+       <string>Results</string>
+      </property>
+      <widget class="QLabel" name="test1_res_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>76</y>
+         <width>45</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Test 1:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test2_res_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>118</y>
+         <width>48</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Test 2: </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test_res_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>159</y>
+         <width>48</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Test 3: </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="output_lbl">
+       <property name="geometry">
+        <rect>
+         <x>369</x>
+         <y>35</y>
+         <width>90</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Otput</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test1_output_lbl">
+       <property name="geometry">
+        <rect>
+         <x>369</x>
+         <y>76</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test2_output_lbl">
+       <property name="geometry">
+        <rect>
+         <x>369</x>
+         <y>118</y>
+         <width>90</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test3_output_lbl">
+       <property name="geometry">
+        <rect>
+         <x>369</x>
+         <y>159</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="critical_value_lbl">
+       <property name="geometry">
+        <rect>
+         <x>272</x>
+         <y>35</y>
+         <width>90</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Critical Value</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test1_c_v_lbl">
+       <property name="geometry">
+        <rect>
+         <x>272</x>
+         <y>76</y>
+         <width>91</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test2_c_v_lbl">
+       <property name="geometry">
+        <rect>
+         <x>272</x>
+         <y>118</y>
+         <width>91</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test3_c_v_lbl">
+       <property name="geometry">
+        <rect>
+         <x>272</x>
+         <y>159</y>
+         <width>91</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="statistic_lbl">
+       <property name="geometry">
+        <rect>
+         <x>186</x>
+         <y>35</y>
+         <width>62</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Statistics</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test1_st_lbl">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>76</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test2_st_lbl">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>118</y>
+         <width>90</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test3_st_lbl">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>159</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="w_case_lbl">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>250</y>
+         <width>150</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Worst Observed Case:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_res_pwcet_103_lbl">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>280</y>
+         <width>156</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>pWCET(p=0.999999) is:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_res_pwcet_109_lbl">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>320</y>
+         <width>158</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>pWCET(p=1-10^(-9)) is: </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_res_pwcet_103">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>270</y>
+         <width>90</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lbl_res_pwcet_104">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>310</y>
+         <width>90</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="wtime_lbl">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>240</y>
+         <width>90</width>
+         <height>35</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="gof_test_result_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>210</y>
+         <width>67</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>GoF Test:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="gof_ouput_lbl">
+       <property name="geometry">
+        <rect>
+         <x>369</x>
+         <y>200</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header>qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
+ <connections/>
+</ui>

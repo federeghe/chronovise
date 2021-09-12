@@ -1,0 +1,22 @@
+{
+	"BUILD_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen",
+	"CMAKE_BINARY_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui",
+	"CMAKE_SOURCE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui",
+	"INCLUDE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/include",
+	"INPUTS" : 
+	[
+		"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/logo.svg"
+	],
+	"LOCK_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui_autogen.dir/AutoRcc_images_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "images" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_images.cpp",
+	"RCC_EXECUTABLE" : "/usr/lib/qt5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui_autogen.dir/AutoRcc_images_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/images.qrc",
+	"VERBOSITY" : 0
+}

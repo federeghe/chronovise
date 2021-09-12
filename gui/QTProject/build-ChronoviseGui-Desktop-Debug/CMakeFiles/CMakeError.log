@@ -1,0 +1,58 @@
+Performing C++ SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
+Change Dir: /home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_86622/fast && /usr/bin/make -f CMakeFiles/cmTC_86622.dir/build.make CMakeFiles/cmTC_86622.dir/build
+make[1]: ingresso nella directory «/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp»
+Building CXX object CMakeFiles/cmTC_86622.dir/src.cxx.o
+/usr/bin/g++    -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_86622.dir/src.cxx.o -c /home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_86622
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_86622.dir/link.txt --verbose=1
+/usr/bin/g++   -DCMAKE_HAVE_LIBC_PTHREAD    CMakeFiles/cmTC_86622.dir/src.cxx.o  -o cmTC_86622 
+/usr/bin/ld: CMakeFiles/cmTC_86622.dir/src.cxx.o: in function `main':
+src.cxx:(.text+0x46): undefined reference to `pthread_create'
+/usr/bin/ld: src.cxx:(.text+0x52): undefined reference to `pthread_detach'
+/usr/bin/ld: src.cxx:(.text+0x63): undefined reference to `pthread_join'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_86622.dir/build.make:87: cmTC_86622] Errore 1
+make[1]: uscita dalla directory «/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp»
+make: *** [Makefile:121: cmTC_86622/fast] Errore 2
+
+
+Source file was:
+#include <pthread.h>
+
+void* test_func(void* data)
+{
+  return data;
+}
+
+int main(void)
+{
+  pthread_t thread;
+  pthread_create(&thread, NULL, test_func, NULL);
+  pthread_detach(thread);
+  pthread_join(thread, NULL);
+  pthread_atfork(NULL, NULL, NULL);
+  pthread_exit(NULL);
+
+  return 0;
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ce027/fast && /usr/bin/make -f CMakeFiles/cmTC_ce027.dir/build.make CMakeFiles/cmTC_ce027.dir/build
+make[1]: ingresso nella directory «/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp»
+Building CXX object CMakeFiles/cmTC_ce027.dir/CheckFunctionExists.cxx.o
+/usr/bin/g++    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_ce027.dir/CheckFunctionExists.cxx.o -c /home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CheckLibraryExists/CheckFunctionExists.cxx
+Linking CXX executable cmTC_ce027
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ce027.dir/link.txt --verbose=1
+/usr/bin/g++   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_ce027.dir/CheckFunctionExists.cxx.o  -o cmTC_ce027  -lpthreads 
+/usr/bin/ld: impossibile trovare -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_ce027.dir/build.make:87: cmTC_ce027] Errore 1
+make[1]: uscita dalla directory «/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/CMakeTmp»
+make: *** [Makefile:121: cmTC_ce027/fast] Errore 2
+
+
+

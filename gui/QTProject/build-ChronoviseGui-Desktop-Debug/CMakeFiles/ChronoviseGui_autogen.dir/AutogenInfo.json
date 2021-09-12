@@ -1,0 +1,173 @@
+{
+	"BUILD_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen",
+	"CMAKE_BINARY_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui",
+	"CMAKE_EXECUTABLE" : "/usr/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui",
+	"HEADERS" : 
+	[
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/distributionmodel.h",
+			"MU",
+			"EWIEGA46WW/moc_distributionmodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtapproachmodel.h",
+			"MU",
+			"EWIEGA46WW/moc_evtapproachmodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtestimatormodel.h",
+			"MU",
+			"EWIEGA46WW/moc_evtestimatormodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/fileimportmodel.h",
+			"MU",
+			"EWIEGA46WW/moc_fileimportmodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.h",
+			"MU",
+			"EWIEGA46WW/moc_mainwindow.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/model.h",
+			"MU",
+			"EWIEGA46WW/moc_model.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.h",
+			"MU",
+			"EWIEGA46WW/moc_plotmodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/qcustomplot.h",
+			"MU",
+			"EWIEGA46WW/moc_qcustomplot.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpostmodel.h",
+			"MU",
+			"EWIEGA46WW/moc_testpostmodel.cpp"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpremodel.h",
+			"MU",
+			"EWIEGA46WW/moc_testpremodel.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"CERES_EXPORT_INTERNAL_SYMBOLS",
+		"GFLAGS_IS_A_DLL=0",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_PRINTSUPPORT_LIB",
+		"QT_WIDGETS_LIB"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug",
+		"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui",
+		"/usr/local/include/chronovise",
+		"/usr/include/x86_64-linux-gnu/qt5",
+		"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
+		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
+		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
+		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
+		"/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport",
+		"/usr/include/eigen3",
+		"/usr/local/include",
+		"/usr/include",
+		"/usr/include/c++/9",
+		"/usr/include/x86_64-linux-gnu/c++/9",
+		"/usr/include/c++/9/backward",
+		"/usr/lib/gcc/x86_64-linux-gnu/9/include",
+		"/usr/include/x86_64-linux-gnu"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/g++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "/usr/lib/qt5/bin/uic",
+	"QT_VERSION_MAJOR" : 5,
+	"SETTINGS_FILE" : "/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/CMakeFiles/ChronoviseGui_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/distributionmodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtapproachmodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtestimatormodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/fileimportmodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/main.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/model.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/qcustomplot.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpostmodel.cpp",
+			"MU"
+		],
+		[
+			"/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpremodel.cpp",
+			"MU"
+		]
+	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
+	"VERBOSITY" : 0
+}

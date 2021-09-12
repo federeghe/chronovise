@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="ChronoviseGui"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\..\;CMake Files\..\..\..\..\;CMake Files\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\;CMake Files\..\..\..\..\..\..\..\usr\;CMake Files\..\..\..\..\..\..\..\usr\lib\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5PrintSupport\;CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\;CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\;CMake Files\..\..\..\..\..\..\..\usr\local\;CMake Files\..\..\..\..\..\..\..\usr\local\lib\;CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\;CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ChronoviseGui">
+				<Option output="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_PRINTSUPPORT_LIB"/>
+					<Add option="-DCERES_EXPORT_INTERNAL_SYMBOLS"/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/include"/>
+					<Add directory="/usr/local/include/chronovise"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 ChronoviseGui"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ChronoviseGui/fast">
+				<Option output="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add option="-DQT_WIDGETS_LIB"/>
+					<Add option="-DQT_GUI_LIB"/>
+					<Add option="-DQT_CORE_LIB"/>
+					<Add option="-DQT_PRINTSUPPORT_LIB"/>
+					<Add option="-DCERES_EXPORT_INTERNAL_SYMBOLS"/>
+					<Add option="-DGFLAGS_IS_A_DLL=0"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui"/>
+					<Add directory="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/include"/>
+					<Add directory="/usr/local/include/chronovise"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore"/>
+					<Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/qt5/QtPrintSupport"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/include/eigen3"/>
+					<Add directory="/usr/include/c++/9"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/9"/>
+					<Add directory="/usr/include/c++/9/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/9/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 ChronoviseGui/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="ChronoviseGui_autogen">
+				<Option working_dir="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 ChronoviseGui_autogen"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/distributionmodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/distributionmodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtapproachmodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtapproachmodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtestimatormodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtestimatormodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/fileimportmodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/fileimportmodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/images.qrc">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/main.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.ui">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/model.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/model.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/qcustomplot.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/qcustomplot.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpostmodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpostmodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpremodel.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/testpremodel.h">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/qrc_images.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/qrc_images.cpp.rule">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/mocs_compilation.cpp">
+			<Option target="ChronoviseGui"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/images.qrc">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Widgets\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5GuiConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QComposePlatformInputContextPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSEmulatorIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsEglDeviceIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSKmsGbmIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEglFSX11IntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevKeyboardPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevMousePlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTabletPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QEvdevTouchScreenPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QGifPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QICOPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QIbusPlatformInputContextPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QJpegPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLibInputPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QLinuxFbIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalEglIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QMinimalIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QOffscreenIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QTuioTouchPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QVncIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Gui\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtras.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigExtrasMkspecDir.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreMacros.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5Core\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5PrintSupport/Qt5PrintSupportConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5PrintSupport\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5PrintSupport/Qt5PrintSupportConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5PrintSupport\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/Qt5PrintSupport/Qt5PrintSupport_QCupsPrinterSupportPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\Qt5PrintSupport\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-config-version.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-nonamespace-targets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/x86_64-linux-gnu/cmake/gflags/gflags-nonamespace-targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\x86_64-linux-gnu\cmake\gflags\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/cmake/eigen3/Eigen3Config.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/cmake/eigen3/Eigen3ConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/lib/cmake/eigen3/Eigen3Targets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\lib\cmake\eigen3\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/local/lib/cmake/Ceres/CeresConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/local/lib/cmake/Ceres/CeresConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/local/lib/cmake/Ceres/CeresTargets-release.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/local/lib/cmake/Ceres/CeresTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\"/>
+		</Unit>
+		<Unit filename="/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/../../../../../../../usr/local/lib/cmake/Ceres/FindGlog.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\..\..\..\..\usr\local\lib\cmake\Ceres\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
