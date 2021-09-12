@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent, Model* model)
 {
     ui->setupUi(this);
     this->model = model;
+    this->setup_plot();
 
 }
 
@@ -26,35 +27,166 @@ MainWindow::~MainWindow()
 }
 
 
+//initialize graph and the event signal couples
+void MainWindow::setup_plot()
+{
+    this->ui->pdf->addGraph();
+    this->ui->cdf->addGraph();
+    this->ui->ccdf->addGraph();
+    //connecting event when x axis changes its range to "adding new point to the plot" function
+    QObject::connect(this->ui->pdf->xAxis,SIGNAL (rangeChanged(const QCPRange)),this,SLOT (extend_plot_pdf(const QCPRange)));
+    QObject::connect(this->ui->cdf->xAxis,SIGNAL (rangeChanged(const QCPRange)),this,SLOT (extend_plot_cdf(const QCPRange)));
+    QObject::connect(this->ui->ccdf->xAxis,SIGNAL (rangeChanged(const QCPRange)),this,SLOT (extend_plot_ccdf(const QCPRange)));
+}
+
+//these 3 initialize plot functions
+void MainWindow::initialize_plot_pdf(std::shared_ptr<Distribution> distribution)
+{
+
+    this->ui->pdf->setInteraction(QCP::iRangeDrag, true);
+    this->ui->pdf->setInteraction(QCP::iRangeZoom, true);
+    for(double i=0.0;i<=100.0;i+=0.25)
+    {
+        //this->model->get_plot_data()->add_point_pdf(i,exp((i)));
+        this->model->get_plot_data()->add_point_pdf(i,distribution->pdf(i));
+    }
+    this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
+    this->ui->pdf->rescaleAxes();
+    //this->ui->pdf->xAxis->setRange(-1.0,100.0);
+    this->ui->pdf->replot();
+    this->ui->pdf->update();
+}
+void MainWindow::initialize_plot_cdf(std::shared_ptr<Distribution> distribution)
+{
+
+    this->ui->cdf->setInteraction(QCP::iRangeDrag, true);
+    this->ui->cdf->setInteraction(QCP::iRangeZoom, true);
+    for(double i=0.0;i<=100.0;i+=0.25)
+    {
+        //this->model->get_plot_data()->add_point_cdf(i,exp((i)));
+        this->model->get_plot_data()->add_point_cdf(i,distribution->cdf(i));
+    }
+    this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
+    this->ui->cdf->rescaleAxes();
+    //this->ui->cdf->xAxis->setRange(-1.0,100.0);
+    this->ui->cdf->replot();
+    this->ui->cdf->update();
+}
+void MainWindow::initialize_plot_ccdf(std::shared_ptr<Distribution> distribution)
+{
+
+    this->ui->ccdf->setInteraction(QCP::iRangeDrag, true);
+    this->ui->ccdf->setInteraction(QCP::iRangeZoom, true);
+    for(double i=0;i<=100.0;i+=0.25)
+    {
+        //this->model->get_plot_data()->add_point_ccdf(i,exp((i)));
+        this->model->get_plot_data()->add_point_ccdf(i,1-distribution->cdf(i));
+    }
+    this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
+    this->ui->ccdf->rescaleAxes();
+    //this->ui->ccdf->xAxis->setRange(-1.0,100.0);
+    this->ui->ccdf->replot();
+    this->ui->ccdf->update();
+}
 
 
+//function to call when user change the range of view of the plot
+void MainWindow::extend_plot_pdf(const QCPRange &newRange)
+{
+    if(this->model->get_evt_approach()->get_combo_box_index()==1)
+    {
+        //this->model->get_plot_data()->add_point_pdf(newRange.upper, exp(newRange.upper));
+        this->model->get_plot_data()->add_point_pdf(newRange.upper, this->model->get_distribution()->get_gev_distribution()->pdf(newRange.upper));
+    }
+    if(this->model->get_evt_approach()->get_combo_box_index()==2)
+    {
+        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
+
+        this->model->get_plot_data()->add_point_pdf(newRange.upper, this->model->get_distribution()->get_gpd_distribution()->pdf(newRange.upper));
+    }
+    this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
+    this->ui->pdf->replot();
+    this->ui->pdf->update();
+}
+void MainWindow::extend_plot_cdf(const QCPRange &newRange)
+{
+    if(this->model->get_evt_approach()->get_combo_box_index()==1)
+    {
+        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
+        this->model->get_plot_data()->add_point_cdf(newRange.upper, this->model->get_distribution()->get_gev_distribution()->cdf(newRange.upper));
+    }
+    if(this->model->get_evt_approach()->get_combo_box_index()==2)
+    {
+        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
+        this->model->get_plot_data()->add_point_cdf(newRange.upper, this->model->get_distribution()->get_gpd_distribution()->cdf(newRange.upper));
+    }
+    this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
+    this->ui->cdf->replot();
+    this->ui->cdf->update();
+}
+void MainWindow::extend_plot_ccdf(const QCPRange &newRange)
+{
+    if(this->model->get_evt_approach()->get_combo_box_index()==1)
+    {
+        //this->model->get_plot_data()->add_point_ccdf(newRange.upper, exp(newRange.upper));
+        this->model->get_plot_data()->add_point_ccdf(newRange.upper, 1-this->model->get_distribution()->get_gev_distribution()->cdf(newRange.upper));
+    }
+    if(this->model->get_evt_approach()->get_combo_box_index()==2)
+    {
+        //this->model->get_plot_data()->add_point_ccdf(newRange.upper, exp(newRange.upper));
+        this->model->get_plot_data()->add_point_ccdf(newRange.upper, 1-this->model->get_distribution()->get_gpd_distribution()->cdf(newRange.upper));
+    }
+    this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
+    this->ui->ccdf->replot();
+    this->ui->ccdf->update();
+}
 
 //when pressing logarithm radio button
 void MainWindow::on_log_rb_clicked()
 {
-
+    this->ui->pdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
+    //this->ui->pdf->rescaleAxes();
+    this->ui->pdf->replot();
+    this->ui->pdf->update();
 }
 void MainWindow::on_log_rb_2_clicked()
 {
-
+    this->ui->cdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
+    //this->ui->cdf->rescaleAxes();
+    this->ui->cdf->replot();
+    this->ui->cdf->update();
 }
 void MainWindow::on_log_rb_3_clicked()
 {
-
+    this->ui->ccdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
+    //this->ui->ccdf->rescaleAxes();
+    this->ui->ccdf->replot();
+    this->ui->ccdf->update();
 }
+
 
 //when pressing linear radio button
 void MainWindow::on_linear_rb_clicked()
 {
-
+    this->ui->pdf->yAxis->setScaleType(QCPAxis::stLinear);
+    //this->ui->pdf->xAxis->setRange(-1.0,100.0);
+    //this->ui->pdf->rescaleAxes();
+    this->ui->pdf->replot();
+    this->ui->pdf->update();
 }
 void MainWindow::on_linear_rb_2_clicked()
 {
-
+    this->ui->cdf->yAxis->setScaleType(QCPAxis::stLinear);
+    //this->ui->cdf->rescaleAxes();
+    this->ui->cdf->replot();
+    this->ui->cdf->update();
 }
 void MainWindow::on_linear_rb_3_clicked()
 {
-
+    this->ui->ccdf->yAxis->setScaleType(QCPAxis::stLinear);
+    //this->ui->ccdf->rescaleAxes();
+    this->ui->ccdf->replot();
+    this->ui->ccdf->update();
 }
 
 
@@ -495,8 +627,20 @@ void MainWindow::on_compute_button_clicked()
     this->ui->lbl_res_pwcet_104->setText(QString::number(this->model->get_pwcet_109()));
 
 
+    //initialize the plot for the distribution
+    if(this->model->get_evt_approach()->get_combo_box_index()==1)
+    {
+        this->initialize_plot_pdf(this->model->get_distribution()->get_gev_distribution());
+        this->initialize_plot_cdf(this->model->get_distribution()->get_gev_distribution());
+        this->initialize_plot_ccdf(this->model->get_distribution()->get_gev_distribution());
+    }
+    if(this->model->get_evt_approach()->get_combo_box_index()==2)
+    {
+        this->initialize_plot_pdf(this->model->get_distribution()->get_gpd_distribution());
+        this->initialize_plot_cdf(this->model->get_distribution()->get_gpd_distribution());
+        this->initialize_plot_ccdf(this->model->get_distribution()->get_gpd_distribution());
 
-
+    }
 
 }
 

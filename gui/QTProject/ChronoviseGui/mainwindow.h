@@ -47,16 +47,6 @@ private slots:
 
 
 
-
-
-
-
-    void on_log_rb_clicked();
-
-    void on_linear_rb_clicked();
-
-
-
     void on_comboBox_currentIndexChanged(int index);
 
     void on_comboBox_2_currentIndexChanged(int index);
@@ -66,8 +56,9 @@ private slots:
     void on_sig_lev_cb_4_currentIndexChanged(int index);
 
 
+    void on_log_rb_clicked();
 
-
+    void on_linear_rb_clicked();
 
     void on_linear_rb_2_clicked();
 
@@ -79,6 +70,14 @@ private slots:
 
 
 
+    void extend_plot_pdf(const QCPRange &newRange);
+    void extend_plot_cdf(const QCPRange &newRange);
+    void extend_plot_ccdf(const QCPRange &newRange);
+
+
+
+
+
 private:
     Ui::MainWindow *ui;
     Model* model;
@@ -86,5 +85,6 @@ private:
     void initialize_plot_cdf(std::shared_ptr<Distribution> distribution);
     void initialize_plot_ccdf(std::shared_ptr<Distribution> distribution);
     void setup_plot();
+
 };
 #endif // MAINWINDOW_H
