@@ -18,12 +18,24 @@
   </property>
   <widget class="QWidget" name="widget_central">
    <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>6</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
     <item>
      <widget class="QGroupBox" name="groupBox">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>20</height>
+        <height>100</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -262,13 +274,21 @@
         </widget>
        </item>
        <item>
-        <widget class="QFrame" name="qwtPlot">
+        <widget class="QGroupBox" name="groupBox_2">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="title">
+          <string>Plot</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QChartView" name="graphicsView"/>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -276,6 +296,12 @@
     </item>
     <item>
      <widget class="QFrame" name="frame_2">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>350</height>
+       </size>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -285,6 +311,12 @@
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
         <widget class="QGroupBox" name="gb_results">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>Results</string>
          </property>
@@ -630,7 +662,7 @@
        <item>
         <widget class="QGroupBox" name="gb_plot_config">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -638,162 +670,95 @@
          <property name="title">
           <string>Plot configuration</string>
          </property>
-         <widget class="QLabel" name="lbl_function_to_plot">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>40</y>
-            <width>121</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Function to plot:</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="rb_pdf">
-          <property name="geometry">
-           <rect>
-            <x>170</x>
-            <y>40</y>
-            <width>109</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>PDF</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="rb_cdf">
-          <property name="geometry">
-           <rect>
-            <x>280</x>
-            <y>40</y>
-            <width>109</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>CDF</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="rb_ccdf">
-          <property name="geometry">
-           <rect>
-            <x>390</x>
-            <y>40</y>
-            <width>109</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>CCDF</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lvl_y_scale">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>80</y>
-            <width>121</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>y-axis scale:</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="rb_linear">
-          <property name="geometry">
-           <rect>
-            <x>170</x>
-            <y>80</y>
-            <width>161</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Linear</string>
-          </property>
-         </widget>
-         <widget class="QRadioButton" name="rb_log">
-          <property name="geometry">
-           <rect>
-            <x>340</x>
-            <y>80</y>
-            <width>161</width>
-            <height>25</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Logarithmic</string>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lbl_x_axis">
-          <property name="geometry">
-           <rect>
-            <x>20</x>
-            <y>120</y>
-            <width>121</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>x-axis:</string>
-          </property>
-         </widget>
-         <widget class="QSlider" name="slider_x_scale">
-          <property name="geometry">
-           <rect>
-            <x>220</x>
-            <y>150</y>
-            <width>271</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lbl_x_scale">
-          <property name="geometry">
-           <rect>
-            <x>130</x>
-            <y>150</y>
-            <width>81</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>scale:</string>
-          </property>
-         </widget>
-         <widget class="QSlider" name="slider_x_pos">
-          <property name="geometry">
-           <rect>
-            <x>220</x>
-            <y>190</y>
-            <width>271</width>
-            <height>16</height>
-           </rect>
-          </property>
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-         </widget>
-         <widget class="QLabel" name="lbl_x_pos">
-          <property name="geometry">
-           <rect>
-            <x>130</x>
-            <y>190</y>
-            <width>81</width>
-            <height>19</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>position:</string>
-          </property>
-         </widget>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lbl_function_to_plot">
+            <property name="text">
+             <string>Function to plot:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="2">
+           <widget class="QRadioButton" name="rb_pdf">
+            <property name="text">
+             <string>PDF</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3" colspan="2" alignment="Qt::AlignHCenter">
+           <widget class="QRadioButton" name="rb_cdf">
+            <property name="text">
+             <string>CDF</string>
+            </property>
+            <property name="shortcut">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QRadioButton" name="rb_ccdf">
+            <property name="text">
+             <string>CCDF</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lvl_y_scale">
+            <property name="text">
+             <string>y-axis scale:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="3">
+           <widget class="QRadioButton" name="rb_linear">
+            <property name="text">
+             <string>Linear</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="4" colspan="2">
+           <widget class="QRadioButton" name="rb_log">
+            <property name="text">
+             <string>Logarithmic</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lbl_x_axis">
+            <property name="text">
+             <string>x-axis:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLabel" name="lbl_x_scale">
+            <property name="text">
+             <string>scale:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QSlider" name="slider_x_scale">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QLabel" name="lbl_x_pos">
+            <property name="text">
+             <string>position:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QSlider" name="slider_x_pos">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -802,6 +767,13 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QChartView</class>
+   <extends>QGraphicsView</extends>
+   <header>QtCharts</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="res/images.qrc"/>
  </resources>
