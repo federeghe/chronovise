@@ -52,6 +52,15 @@ else()
     endif()
 endif()
 
+if(CERES_SOLVER)
+    set(PPI_SOURCES ${PPI_SOURCES} mainwindow.cpp)
+    target_link_libraries(ui PUBLIC chronovise)
+
+    if(COVERAGE)
+            target_link_libraries(ui PUBLIC gcov)
+    endif(COVERAGE)
+endif(CERES_SOLVER)
+
 target_link_libraries(ui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts)
 
 set_target_properties(ui PROPERTIES
