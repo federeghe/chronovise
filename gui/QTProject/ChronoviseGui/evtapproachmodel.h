@@ -17,12 +17,14 @@ public:
     void set_pot_approach(double threshold);
     void set_block_size(size_t block_size);
     void set_threshold(double threshold);
+    void set_samples_test_reserve(float reserve);
 
     int get_combo_box_index();
     EVTApproach_BM<unsigned int, double>* get_bm_approach();
     EVTApproach_PoT<unsigned int, double>* get_pot_approach();
     size_t get_block_size();
     double get_threshold();
+    float get_samples_test_reserve();
 
 private:
     int combo_box_index;
@@ -30,6 +32,7 @@ private:
     EVTApproach_PoT<unsigned int, double>* pot_approach;
     size_t block_size;
     double threshold;
+    float samples_test_reserve;
 
 
 };
