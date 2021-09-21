@@ -7,25 +7,40 @@
 #include <model.h>
 #include <QLayout>
 #include <math.h>
+#include <QScreen>
 
 
-MainWindow::MainWindow(QWidget *parent, Model* model)
+MainWindow::MainWindow(QWidget* parent, Model *model)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     this->model = model;
+    this->center_window();
     this->setup_plot();
+    this->setup_message_reset();
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete this->model;
+    //delete this->model;
 
 }
 
+void MainWindow::setup_message_reset()
+{
+    this->msgBox.setText("Are you sure you want to go for another run ?");
+    this->msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+}
+void MainWindow::center_window()
+{
+    QRect screenGeometry = QApplication::desktop()->screenGeometry();
+    int x = (screenGeometry.width()-this->width()) / 2;
+    int y = (screenGeometry.height()-this->height()) / 2;
+    this->move(x, y);
+}
 
 //initialize graph and the event signal couples
 void MainWindow::setup_plot()
@@ -47,12 +62,10 @@ void MainWindow::initialize_plot_pdf(std::shared_ptr<Distribution> distribution)
     this->ui->pdf->setInteraction(QCP::iRangeZoom, true);
     for(double i=0.0;i<=100.0;i+=0.25)
     {
-        //this->model->get_plot_data()->add_point_pdf(i,exp((i)));
         this->model->get_plot_data()->add_point_pdf(i,distribution->pdf(i));
     }
     this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
     this->ui->pdf->rescaleAxes();
-    //this->ui->pdf->xAxis->setRange(-1.0,100.0);
     this->ui->pdf->replot();
     this->ui->pdf->update();
 }
@@ -63,12 +76,10 @@ void MainWindow::initialize_plot_cdf(std::shared_ptr<Distribution> distribution)
     this->ui->cdf->setInteraction(QCP::iRangeZoom, true);
     for(double i=0.0;i<=100.0;i+=0.25)
     {
-        //this->model->get_plot_data()->add_point_cdf(i,exp((i)));
         this->model->get_plot_data()->add_point_cdf(i,distribution->cdf(i));
     }
     this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
     this->ui->cdf->rescaleAxes();
-    //this->ui->cdf->xAxis->setRange(-1.0,100.0);
     this->ui->cdf->replot();
     this->ui->cdf->update();
 }
@@ -79,14 +90,11 @@ void MainWindow::initialize_plot_ccdf(std::shared_ptr<Distribution> distribution
     this->ui->ccdf->setInteraction(QCP::iRangeZoom, true);
     for(double i=0;i<=100.0;i+=0.25)
     {
-        //this->model->get_plot_data()->add_point_ccdf(i,exp((i)));
         this->model->get_plot_data()->add_point_ccdf(i,1-distribution->cdf(i));
     }
     this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
     this->ui->ccdf->rescaleAxes();
-    //this->ui->ccdf->xAxis->setRange(-1.0,100.0);
     this->ui->ccdf->replot();
-    this->ui->ccdf->update();
 }
 
 
@@ -95,73 +103,57 @@ void MainWindow::extend_plot_pdf(const QCPRange &newRange)
 {
     if(this->model->get_evt_approach()->get_combo_box_index()==1)
     {
-        //this->model->get_plot_data()->add_point_pdf(newRange.upper, exp(newRange.upper));
         this->model->get_plot_data()->add_point_pdf(newRange.upper, this->model->get_distribution()->get_gev_distribution()->pdf(newRange.upper));
     }
     if(this->model->get_evt_approach()->get_combo_box_index()==2)
     {
-        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
-
         this->model->get_plot_data()->add_point_pdf(newRange.upper, this->model->get_distribution()->get_gpd_distribution()->pdf(newRange.upper));
     }
     this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
     this->ui->pdf->replot();
-    this->ui->pdf->update();
 }
 void MainWindow::extend_plot_cdf(const QCPRange &newRange)
 {
     if(this->model->get_evt_approach()->get_combo_box_index()==1)
     {
-        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
         this->model->get_plot_data()->add_point_cdf(newRange.upper, this->model->get_distribution()->get_gev_distribution()->cdf(newRange.upper));
     }
     if(this->model->get_evt_approach()->get_combo_box_index()==2)
     {
-        //this->model->get_plot_data()->add_point_cdf(newRange.upper, exp(newRange.upper));
         this->model->get_plot_data()->add_point_cdf(newRange.upper, this->model->get_distribution()->get_gpd_distribution()->cdf(newRange.upper));
     }
     this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
     this->ui->cdf->replot();
-    this->ui->cdf->update();
 }
 void MainWindow::extend_plot_ccdf(const QCPRange &newRange)
 {
     if(this->model->get_evt_approach()->get_combo_box_index()==1)
     {
-        //this->model->get_plot_data()->add_point_ccdf(newRange.upper, exp(newRange.upper));
         this->model->get_plot_data()->add_point_ccdf(newRange.upper, 1-this->model->get_distribution()->get_gev_distribution()->cdf(newRange.upper));
     }
     if(this->model->get_evt_approach()->get_combo_box_index()==2)
     {
-        //this->model->get_plot_data()->add_point_ccdf(newRange.upper, exp(newRange.upper));
         this->model->get_plot_data()->add_point_ccdf(newRange.upper, 1-this->model->get_distribution()->get_gpd_distribution()->cdf(newRange.upper));
     }
     this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
     this->ui->ccdf->replot();
-    this->ui->ccdf->update();
 }
 
 //when pressing logarithm radio button
 void MainWindow::on_log_rb_clicked()
 {
     this->ui->pdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
-    //this->ui->pdf->rescaleAxes();
     this->ui->pdf->replot();
-    this->ui->pdf->update();
 }
 void MainWindow::on_log_rb_2_clicked()
 {
     this->ui->cdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
-    //this->ui->cdf->rescaleAxes();
     this->ui->cdf->replot();
-    this->ui->cdf->update();
 }
 void MainWindow::on_log_rb_3_clicked()
 {
     this->ui->ccdf->yAxis->setScaleType(QCPAxis::stLogarithmic);
-    //this->ui->ccdf->rescaleAxes();
     this->ui->ccdf->replot();
-    this->ui->ccdf->update();
 }
 
 
@@ -169,24 +161,20 @@ void MainWindow::on_log_rb_3_clicked()
 void MainWindow::on_linear_rb_clicked()
 {
     this->ui->pdf->yAxis->setScaleType(QCPAxis::stLinear);
-    //this->ui->pdf->xAxis->setRange(-1.0,100.0);
-    //this->ui->pdf->rescaleAxes();
+    this->ui->pdf->rescaleAxes();
     this->ui->pdf->replot();
-    this->ui->pdf->update();
 }
 void MainWindow::on_linear_rb_2_clicked()
 {
     this->ui->cdf->yAxis->setScaleType(QCPAxis::stLinear);
-    //this->ui->cdf->rescaleAxes();
+    this->ui->cdf->rescaleAxes();
     this->ui->cdf->replot();
-    this->ui->cdf->update();
 }
 void MainWindow::on_linear_rb_3_clicked()
 {
     this->ui->ccdf->yAxis->setScaleType(QCPAxis::stLinear);
-    //this->ui->ccdf->rescaleAxes();
+    this->ui->ccdf->rescaleAxes();
     this->ui->ccdf->replot();
-    this->ui->ccdf->update();
 }
 
 
@@ -458,6 +446,9 @@ void MainWindow::on_comboBox_3_currentIndexChanged(int index)
 void MainWindow::on_evt_approach_cb_currentIndexChanged(int index)
 {
     this->model->get_evt_approach()->set_combo_box_index(index);
+    if(index!=0)
+        this->model->get_evt_approach()->set_samples_test_reserve((QInputDialog::getDouble(this,"Samples Test Reserve","enter a value for the reserve between 0 and 1", 0.1, 0.0, 1.0)));
+
     if(index==1)
         this->model->get_evt_approach()->set_block_size((QInputDialog::getInt(this,"Block Size","enter a value for the size of the block")));
 
@@ -526,6 +517,11 @@ void MainWindow::on_sig_lev_cb_4_currentIndexChanged(int index)
 //what happens when pressing compute button
 void MainWindow::on_compute_button_clicked()
 {
+    Model* model=new Model();
+    model->copy(this->model);
+    delete this->model;
+    this->model=model;
+
     //check if no input file is missing
     if(this->model->get_input_file()->get_input_file_name()=="")
     {
@@ -533,7 +529,7 @@ void MainWindow::on_compute_button_clicked()
         return;
     }
     //check if either evt approach or estimator is missing
-    if(this->model->get_evt_approach()->get_combo_box_index()==0 || this->model->get_evt_estimator()->get_combo_box_index()==0)
+    /*if(this->model->get_evt_approach()->get_combo_box_index()==0 || this->model->get_evt_estimator()->get_combo_box_index()==0)
     {
         QMessageBox::information(this,"Warning","either evt approach or evt estimator is missing");
         return;
@@ -549,7 +545,7 @@ void MainWindow::on_compute_button_clicked()
     {
        QMessageBox::information(this,"Warning","must choose a trend option for the kpss test");
        return;
-    }
+    }*/
 
     //let chronovise execute its loop
     this->model->custom_run();
@@ -645,15 +641,73 @@ void MainWindow::on_compute_button_clicked()
 }
 
 
+//when pressing reset button
+void MainWindow::on_reset_button_clicked()
+{
+    //é l'istruzione .exec che fa eseguire il messaggio premendo reset
+    int res = this->msgBox.exec();
+    switch (res)
+    {
+      case QMessageBox::Yes:
+      {
+        this->model->get_input_file()->set_input_file_name("");
 
+        this->ui->test1_cb->setCurrentIndex(0);
+        this->ui->test2_cb->setCurrentIndex(0);
+        this->ui->test3_cb->setCurrentIndex(0);
+        this->ui->gof_test_cb->setCurrentIndex(0);
+        this->ui->evt_approach_cb->setCurrentIndex(0);
+        this->ui->evt_estimator_cb->setCurrentIndex(0);
+        this->ui->sig_lev_cb_1->setCurrentIndex(0);
+        this->ui->sig_lev_cb_2->setCurrentIndex(0);
+        this->ui->sig_lev_cb_3->setCurrentIndex(0);
+        this->ui->sig_lev_cb_4->setCurrentIndex(0);
+        this->ui->comboBox->setCurrentIndex(0);
+        this->ui->comboBox_2->setCurrentIndex(0);
+        this->ui->comboBox_3->setCurrentIndex(0);
 
+        this->ui->test1_st_lbl->setText("");
+        this->ui->test2_st_lbl->setText("");
+        this->ui->test3_st_lbl->setText("");
+        this->ui->test1_c_v_lbl->setText("");
+        this->ui->test2_c_v_lbl->setText("");
+        this->ui->test3_c_v_lbl->setText("");
+        this->ui->test1_output_lbl->setText("");
+        this->ui->test2_output_lbl->setText("");
+        this->ui->test3_output_lbl->setText("");
+        this->ui->gof_ouput_lbl->setText("");
+        this->ui->wtime_lbl->setText("");
+        this->ui->lbl_res_pwcet_103->setText("");
+        this->ui->lbl_res_pwcet_104->setText("");
 
+        this->ui->plot_tab->setCurrentIndex(0);
 
+        //clear pdf plot
+        this->model->get_plot_data()->clear_plot_pdf();
+        this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
+        this->ui->pdf->xAxis->setRange(0,5);
+        this->ui->pdf->yAxis->setRange(0,5);
+        this->ui->pdf->replot();
+        //clear cdf plot
+        this->model->get_plot_data()->clear_plot_cdf();
+        this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
+        this->ui->cdf->xAxis->setRange(0,5);
+        this->ui->cdf->yAxis->setRange(0,5);
+        this->ui->cdf->replot();
+        //clear ccdf plot
+        this->model->get_plot_data()->clear_plot_ccdf();
+        this->ui->ccdf->xAxis->setRange(0,5);
+        this->ui->ccdf->yAxis->setRange(0,5);
+        this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
+        this->ui->ccdf->replot();
+      }
+      break;
+      case QMessageBox::No:
+        return;
+      break;
+      default:
+          // should never be reached
+          break;
+    }
 
-
-
-
-
-
-
-
+}

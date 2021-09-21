@@ -16,8 +16,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent, Model* model);
+    MainWindow(QWidget* parent, Model* model);
     ~MainWindow();
+    static int const EXIT_CODE_REBOOT = -123456789;
+
 
 private slots:
     void on_input_file_button_clicked();
@@ -68,7 +70,7 @@ private slots:
 
     void on_log_rb_3_clicked();
 
-
+    void on_reset_button_clicked();
 
     void extend_plot_pdf(const QCPRange &newRange);
     void extend_plot_cdf(const QCPRange &newRange);
@@ -77,14 +79,16 @@ private slots:
 
 
 
-
 private:
     Ui::MainWindow *ui;
     Model* model;
+    QMessageBox msgBox;
     void initialize_plot_pdf(std::shared_ptr<Distribution> distribution);
     void initialize_plot_cdf(std::shared_ptr<Distribution> distribution);
     void initialize_plot_ccdf(std::shared_ptr<Distribution> distribution);
     void setup_plot();
+    void center_window();
+    void setup_message_reset();
 
 };
 #endif // MAINWINDOW_H
