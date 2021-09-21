@@ -11,6 +11,7 @@ using namespace std;
 #include <evtestimatormodel.h>
 #include <distributionmodel.h>
 #include "plotmodel.h"
+#include <string>
 
 using namespace chronovise;
 
@@ -60,6 +61,7 @@ public:
 
     void custom_run();
 
+    void copy(Model* m);
 
 
 private:
@@ -80,6 +82,7 @@ private:
 
     double pwcet99999;
     double pwcet_109;
+
 
 
 

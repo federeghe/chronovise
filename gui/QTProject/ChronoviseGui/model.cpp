@@ -12,6 +12,12 @@
 using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 
+
+Model::Model(const Model& other)
+{
+    this->pwcet99999=other.pwcet99999;
+}
+
 Model::Model() noexcept
 {
     this->input_file = new FileImportModel();
@@ -37,6 +43,36 @@ Model::~Model()
     delete this->evt_estimator;
     delete this->distribution;
     delete this->plot_data;
+}
+
+void Model::copy(Model* model)
+{
+    this->get_input_file()->set_input_file_name(model->get_input_file()->get_input_file_name());
+
+    this->get_first_pre_test()->set_combo_box_index(model->get_first_pre_test()->get_combo_box_index());
+    this->get_first_pre_test()->set_significance_level(model->get_first_pre_test()->get_significance_level());
+    this->get_first_pre_test()->set_n_lags(model->get_first_pre_test()->get_n_lags());
+    this->get_first_pre_test()->set_trend_class(model->get_first_pre_test()->get_trend_class());
+
+    this->get_second_pre_test()->set_combo_box_index(model->get_second_pre_test()->get_combo_box_index());
+    this->get_second_pre_test()->set_significance_level(model->get_second_pre_test()->get_significance_level());
+    this->get_second_pre_test()->set_n_lags(model->get_second_pre_test()->get_n_lags());
+    this->get_second_pre_test()->set_trend_class(model->get_second_pre_test()->get_trend_class());
+
+    this->get_third_pre_test()->set_combo_box_index(model->get_third_pre_test()->get_combo_box_index());
+    this->get_third_pre_test()->set_significance_level(model->get_third_pre_test()->get_significance_level());
+    this->get_third_pre_test()->set_n_lags(model->get_third_pre_test()->get_n_lags());
+    this->get_third_pre_test()->set_trend_class(model->get_third_pre_test()->get_trend_class());
+
+    this->get_post_test()->set_combo_box_index(model->get_post_test()->get_combo_box_index());
+    this->get_post_test()->set_significance_level(model->get_post_test()->get_significance_level());
+
+    this->get_evt_approach()->set_combo_box_index(model->get_evt_approach()->get_combo_box_index());
+    this->get_evt_approach()->set_block_size(model->get_evt_approach()->get_block_size());
+    this->get_evt_approach()->set_threshold(model->get_evt_approach()->get_threshold());
+    this->get_evt_approach()->set_samples_test_reserve(model->get_evt_approach()->get_samples_test_reserve());
+
+    this->get_evt_estimator()->set_combo_box_index(model->get_evt_estimator()->get_combo_box_index());
 }
 
 void Model::set_pwcet99999(double value)
@@ -236,13 +272,13 @@ exit_code_t Model::onSetup() noexcept
     {
         this->get_evt_approach()->set_bm_approach(this->get_evt_approach()->get_block_size());
         std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(this->get_evt_approach()->get_bm_approach());
-        this->set_evt_approach(std::move(evt_app), 0.1);
+        this->set_evt_approach(std::move(evt_app), this->get_evt_approach()->get_samples_test_reserve());
     }
     if(this->get_evt_approach()->get_combo_box_index()==2)
     {
         this->get_evt_approach()->set_pot_approach(this->get_evt_approach()->get_threshold());
         std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(this->get_evt_approach()->get_pot_approach());
-        this->set_evt_approach(std::move(evt_app), 0.1);
+        this->set_evt_approach(std::move(evt_app), this->get_evt_approach()->get_samples_test_reserve());
     }
 
 
@@ -534,14 +570,10 @@ void Model::custom_run()
         {
             std::shared_ptr<Distribution> dist = this->evt_estimator->get_pwm_estimator()->get_result();
             if(this->get_evt_approach()->get_combo_box_index()==1)
-            {
                 this->get_distribution()->set_gev_distribution(dist);
-            }
-            if(this->get_evt_approach()->get_combo_box_index()==2)
-            {
-                this->get_distribution()->set_gpd_distribution(dist);
-            }
 
+            if(this->get_evt_approach()->get_combo_box_index()==2)
+                this->get_distribution()->set_gpd_distribution(dist);
         }break;
 
         case 2:             //MLE
