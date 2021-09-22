@@ -28,12 +28,12 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Charts)
 
-add_library(chronovise SHARED IMPORTED GLOBAL)
+#add_library(chronovise SHARED IMPORTED GLOBAL)
 #set_target_properties( chronovise PROPERTIES
 #             IMPORTED_LOCATION ../../build/libchronovise.a)
 
 
-#find_library(chronovise chronovise)
+find_library(chronovise chronovise)
 
 set(PROJECT_SOURCES
         main.cpp
