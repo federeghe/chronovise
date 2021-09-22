@@ -8,7 +8,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # QtCreator supports the following variables for Android, which are identical to qmake Android variables.
@@ -28,12 +28,22 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Charts)
 
+add_library(chronovise SHARED IMPORTED GLOBAL)
+#set_target_properties( chronovise PROPERTIES
+#             IMPORTED_LOCATION ../../build/libchronovise.a)
+
+
+#find_library(chronovise chronovise)
+
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
 )
+
+
+
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ui
@@ -52,16 +62,8 @@ else()
     endif()
 endif()
 
-if(CERES_SOLVER)
-    set(PPI_SOURCES ${PPI_SOURCES} mainwindow.cpp)
-    target_link_libraries(ui PUBLIC chronovise)
-
-    if(COVERAGE)
-            target_link_libraries(ui PUBLIC gcov)
-    endif(COVERAGE)
-endif(CERES_SOLVER)
-
-target_link_libraries(ui PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts)
+target_link_libraries(ui PRIVATE chronovise)
+target_link_libraries(ui PUBLIC Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts)
 
 set_target_properties(ui PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
