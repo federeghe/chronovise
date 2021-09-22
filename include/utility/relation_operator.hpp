@@ -23,7 +23,7 @@
 #ifndef UTILITY_RELATION_OPERATOR_HPP_
 #define UTILITY_RELATION_OPERATOR_HPP_
 
-#include "utility/relation_node.hpp"
+#include "relation_node.hpp"
 
 namespace chronovise {
 

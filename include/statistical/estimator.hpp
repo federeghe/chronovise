@@ -24,8 +24,8 @@
 #ifndef STATISTICAL_ESTIMATOR_HPP_
 #define STATISTICAL_ESTIMATOR_HPP_
 
-#include "statistical/distribution.hpp"
-#include "measures_pool.hpp"
+#include "distribution.hpp"
+#include "../measures_pool.hpp"
 
 #include <memory>
 #include <typeinfo>
