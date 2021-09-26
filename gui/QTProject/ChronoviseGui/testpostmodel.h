@@ -16,20 +16,19 @@ class TestPostModel
 {
 public:
     TestPostModel();
-    ~TestPostModel();
+    ~TestPostModel()=default;
     void set_significance_level(double value);
     void set_combo_box_index(int index);
-    void set_ks_test(double significance_level,int distribution_type);
-    void set_ad_test(double significance_level, int distribution_type, bool mad);
-    void set_cvm_test(double significance_level,int distribution_type);
+    void set_test(int type, int distribution_type);
     void set_reject(bool value);
-
+    void set_statistic(double value);
+    void set_critical_value(double value);
 
     double get_significance_level();
     int get_combo_box_index();
-    TestKS<unsigned int, double>* get_ks_test();
-    TestAD<unsigned int, double>* get_ad_test();
-    TestCvM<unsigned int, double>* get_cvm_test();
+    double get_critical_value();
+    double get_statistic();
+    shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> get_test();
     bool get_reject();
 
 private:
@@ -37,9 +36,10 @@ private:
     double significance_level;
     int combo_box_index;
     bool reject;
-    TestKS<unsigned int, double>* ks_test;
-    TestAD<unsigned int, double>* ad_test;
-    TestCvM<unsigned int, double>* cvm_test;
+    double statistic;
+    double critical_value;
+
+    shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> test;
 
 };
 

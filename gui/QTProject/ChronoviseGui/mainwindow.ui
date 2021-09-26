@@ -15,10 +15,71 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color:#EEF;
+selection-color: rgb(255, 255, 255);
 selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="7" column="0">
+     <widget class="QGroupBox" name="plot_config_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Plot Configuration CDF</string>
+      </property>
+      <widget class="QLabel" name="y_scale_lbl_2">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>55</y>
+         <width>84</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y-Axis Scale:</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="linear_rb_2">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>55</y>
+         <width>68</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Linear</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="log_rb_2">
+       <property name="geometry">
+        <rect>
+         <x>190</x>
+         <y>55</y>
+         <width>112</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Logarithmic </string>
+       </property>
+      </widget>
+     </widget>
+    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="logo_lbl">
       <property name="minimumSize">
@@ -62,90 +123,6 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
       </property>
      </widget>
     </item>
-    <item row="6" column="0">
-     <widget class="QGroupBox" name="plot_config_gb">
-      <property name="minimumSize">
-       <size>
-        <width>310</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>100</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="title">
-       <string>Plot Configuration PDF</string>
-      </property>
-      <widget class="QRadioButton" name="linear_rb">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>55</y>
-         <width>68</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Linear</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="log_rb">
-       <property name="geometry">
-        <rect>
-         <x>193</x>
-         <y>55</y>
-         <width>106</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Logarithmic </string>
-       </property>
-      </widget>
-      <widget class="QLabel" name="y_scale_lbl">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>55</y>
-         <width>84</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Y-Axis Scale:</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="QPushButton" name="reset_button">
-      <property name="maximumSize">
-       <size>
-        <width>120</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Reset</string>
-      </property>
-     </widget>
-    </item>
     <item row="6" column="1" rowspan="4" colspan="3">
      <widget class="QTabWidget" name="plot_tab">
       <property name="focusPolicy">
@@ -183,26 +160,8 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
       </property>
      </widget>
     </item>
-    <item row="3" column="0">
-     <widget class="QPushButton" name="compute_button">
-      <property name="maximumSize">
-       <size>
-        <width>120</width>
-        <height>16777215</height>
-       </size>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>13</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Compute</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QGroupBox" name="plot_config_2">
+    <item row="8" column="0">
+     <widget class="QGroupBox" name="plot_config_3">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -215,9 +174,9 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        </font>
       </property>
       <property name="title">
-       <string>Plot Configuration CDF</string>
+       <string>Plot Configuration CCDF</string>
       </property>
-      <widget class="QLabel" name="y_scale_lbl_2">
+      <widget class="QLabel" name="y_scale_lbl_3">
        <property name="geometry">
         <rect>
          <x>12</x>
@@ -230,7 +189,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <string>Y-Axis Scale:</string>
        </property>
       </widget>
-      <widget class="QRadioButton" name="linear_rb_2">
+      <widget class="QRadioButton" name="linear_rb_3">
        <property name="geometry">
         <rect>
          <x>110</x>
@@ -242,8 +201,11 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <property name="text">
         <string>Linear</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
-      <widget class="QRadioButton" name="log_rb_2">
+      <widget class="QRadioButton" name="log_rb_3">
        <property name="geometry">
         <rect>
          <x>190</x>
@@ -254,6 +216,96 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        </property>
        <property name="text">
         <string>Logarithmic </string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="reset_button">
+      <property name="maximumSize">
+       <size>
+        <width>120</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Reset</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QGroupBox" name="plot_config_gb">
+      <property name="minimumSize">
+       <size>
+        <width>310</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>100</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>13</pointsize>
+       </font>
+      </property>
+      <property name="title">
+       <string>Plot Configuration PDF</string>
+      </property>
+      <widget class="QRadioButton" name="linear_rb">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>55</y>
+         <width>68</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Linear</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="log_rb">
+       <property name="geometry">
+        <rect>
+         <x>193</x>
+         <y>55</y>
+         <width>106</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Logarithmic </string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="y_scale_lbl">
+       <property name="geometry">
+        <rect>
+         <x>12</x>
+         <y>55</y>
+         <width>84</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Y-Axis Scale:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </widget>
@@ -270,6 +322,9 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <font>
         <pointsize>13</pointsize>
        </font>
+      </property>
+      <property name="locale">
+       <locale language="Italian" country="Italy"/>
       </property>
       <property name="title">
        <string>Configuration</string>
@@ -322,7 +377,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <string>EVT i.i.d. test:</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox">
+      <widget class="QComboBox" name="trend_class_cb_1">
        <property name="geometry">
         <rect>
          <x>593</x>
@@ -339,11 +394,6 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <item>
         <property name="text">
          <string>Level</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Trend</string>
         </property>
        </item>
       </widget>
@@ -538,7 +588,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <string>EVT Estimator:</string>
        </property>
       </widget>
-      <widget class="QComboBox" name="comboBox_3">
+      <widget class="QComboBox" name="trend_class_cb_3">
        <property name="geometry">
         <rect>
          <x>593</x>
@@ -555,11 +605,6 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <item>
         <property name="text">
          <string>Level</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Trend</string>
         </property>
        </item>
       </widget>
@@ -715,7 +760,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         </property>
        </item>
       </widget>
-      <widget class="QComboBox" name="comboBox_2">
+      <widget class="QComboBox" name="trend_class_cb_2">
        <property name="geometry">
         <rect>
          <x>593</x>
@@ -732,11 +777,6 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <item>
         <property name="text">
          <string>Level</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Trend</string>
         </property>
        </item>
       </widget>
@@ -772,12 +812,12 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
       </widget>
      </widget>
     </item>
-    <item row="8" column="0">
-     <widget class="QGroupBox" name="plot_config_3">
+    <item row="3" column="0">
+     <widget class="QPushButton" name="compute_button">
       <property name="maximumSize">
        <size>
-        <width>16777215</width>
-        <height>100</height>
+        <width>120</width>
+        <height>16777215</height>
        </size>
       </property>
       <property name="font">
@@ -785,48 +825,9 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <pointsize>13</pointsize>
        </font>
       </property>
-      <property name="title">
-       <string>Plot Configuration CCDF</string>
+      <property name="text">
+       <string>Compute</string>
       </property>
-      <widget class="QLabel" name="y_scale_lbl_3">
-       <property name="geometry">
-        <rect>
-         <x>12</x>
-         <y>55</y>
-         <width>84</width>
-         <height>17</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Y-Axis Scale:</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="linear_rb_3">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>55</y>
-         <width>68</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Linear</string>
-       </property>
-      </widget>
-      <widget class="QRadioButton" name="log_rb_3">
-       <property name="geometry">
-        <rect>
-         <x>190</x>
-         <y>55</y>
-         <width>112</width>
-         <height>23</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Logarithmic </string>
-       </property>
-      </widget>
      </widget>
     </item>
     <item row="1" column="3" rowspan="3">
@@ -834,7 +835,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
       <property name="minimumSize">
        <size>
         <width>500</width>
-        <height>350</height>
+        <height>380</height>
        </size>
       </property>
       <property name="maximumSize">
@@ -1102,7 +1103,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <rect>
          <x>10</x>
          <y>250</y>
-         <width>150</width>
+         <width>158</width>
          <height>17</height>
         </rect>
        </property>
@@ -1110,15 +1111,15 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <string>Worst Observed Case:</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
       <widget class="QLabel" name="lbl_res_pwcet_103_lbl">
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>280</y>
-         <width>156</width>
+         <y>285</y>
+         <width>158</width>
          <height>17</height>
         </rect>
        </property>
@@ -1149,7 +1150,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>270</y>
+         <y>277</y>
          <width>90</width>
          <height>35</height>
         </rect>
@@ -1165,10 +1166,13 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>310</y>
+         <y>312</y>
          <width>90</width>
          <height>35</height>
         </rect>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
        </property>
        <property name="text">
         <string/>
@@ -1181,7 +1185,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>240</y>
+         <y>242</y>
          <width>90</width>
          <height>35</height>
         </rect>
@@ -1207,7 +1211,7 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
        <property name="geometry">
         <rect>
          <x>369</x>
-         <y>200</y>
+         <y>210</y>
          <width>90</width>
          <height>36</height>
         </rect>
@@ -1216,7 +1220,68 @@ selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, 
         <string/>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignHCenter|Qt::AlignTop</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="distribution_type_lbl">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>350</y>
+         <width>201</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>The Stimated Distribution is:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="type_lbl">
+       <property name="geometry">
+        <rect>
+         <x>210</x>
+         <y>352</y>
+         <width>101</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="scaledContents">
+        <bool>false</bool>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test4_c_v_lbl">
+       <property name="geometry">
+        <rect>
+         <x>272</x>
+         <y>210</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+       </property>
+      </widget>
+      <widget class="QLabel" name="test4_st_lbl">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>210</y>
+         <width>90</width>
+         <height>36</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
      </widget>

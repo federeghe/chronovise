@@ -5,8 +5,10 @@ TestPreModel::TestPreModel()
     this->combo_box_index=0;
     this->significance_level=0.0;
     this->trend_class="";
-}
+    this->n_lags=10;
 
+    this->test=NULL;
+}
 
 void TestPreModel::set_combo_box_index(int value)
 {
@@ -28,29 +30,35 @@ void TestPreModel::set_n_lags(unsigned int n_lags)
     this->n_lags=n_lags;
 }
 
-void TestPreModel::set_ljungBox_test(double significance_level, int n_lags)
+void TestPreModel::set_test(int type)
 {
-    this->ljungBox_test=new TestLjungBox<unsigned int, double>(significance_level, n_lags);
+    switch(type)
+    {
+        case 1:
+        {
+            if(this->trend_class=="level")
+                this->test=make_shared<TestKPSS<unsigned int, double>>(this->significance_level,this->n_lags,test_kpss_trend_t::LEVEL);
+            if(this->trend_class=="trend")
+                this->test=make_shared<TestKPSS<unsigned int, double>>(significance_level,this->n_lags,test_kpss_trend_t::TREND);
+        }break;
+        case 2:
+        {
+            this->test=make_shared<TestBDS<unsigned int, double>>(this->significance_level);
+        }break;
+        case 3:
+        {
+            this->test=make_shared<TestLjungBox<unsigned int, double>>(this->significance_level, this->n_lags);
+        }break;
+        case 4:
+        {
+            this->test=make_shared<TestRS<unsigned int, double>>(this->significance_level);
+        }break;
+
+        default:
+            ;
+    }
 }
-void TestPreModel::set_rs_test(double significance_level)
-{
-    this->rs_test=new TestRS<unsigned int, double>(significance_level);
-}
-void TestPreModel::set_bds_test(double significance_level)
-{
-    this->bds_test=new TestBDS<unsigned int, double>(significance_level);
-}
-void TestPreModel::set_kpss_test(double significance_level, int lags, string trend)
-{
-   if(trend=="level")
-   {
-       this->kpss_test=new TestKPSS<unsigned int, double>(significance_level,lags,test_kpss_trend_t::LEVEL);
-   }
-   if(trend=="trend")
-   {
-       this->kpss_test=new TestKPSS<unsigned int, double>(significance_level,lags,test_kpss_trend_t::TREND);
-   }
-}
+
 
 void TestPreModel::set_critical_value(double value)
 {
@@ -83,22 +91,11 @@ unsigned int TestPreModel::get_n_lags()
     return this->n_lags;
 }
 
-TestLjungBox<unsigned int, double>* TestPreModel::get_ljungBox_test()
+shared_ptr<StatisticalTest<unsigned int, double>> TestPreModel::get_test()
 {
-    return this->ljungBox_test;
+    return this->test;
 }
-TestRS<unsigned int, double>* TestPreModel::get_rs_test()
-{
-    return this->rs_test;
-}
-TestBDS<unsigned int, double>* TestPreModel::get_bds_test()
-{
-    return this->bds_test;
-}
-TestKPSS<unsigned int, double>* TestPreModel::get_kpss_test()
-{
-    return this->kpss_test;
-}
+
 
 double TestPreModel::get_critical_value()
 {
@@ -111,14 +108,6 @@ double TestPreModel::get_statistic()
 bool TestPreModel::get_reject()
 {
     return this->reject;
-}
-
-TestPreModel::~TestPreModel()
-{
-    delete this->ljungBox_test;
-    delete this->rs_test;
-    delete this->bds_test;
-    delete this->kpss_test;
 }
 
 

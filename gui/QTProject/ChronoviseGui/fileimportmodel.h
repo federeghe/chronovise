@@ -8,6 +8,7 @@ class FileImportModel
 {
 public:
     FileImportModel();
+    ~FileImportModel() = default;
     void set_input_file_name(string str);
     string get_input_file_name();
     int count_num_line(string file_name);

@@ -12,12 +12,6 @@
 using exit_code_t = AbstractExecutionContext<unsigned int, double>::exit_code_t;
 
 
-
-Model::Model(const Model& other)
-{
-    this->pwcet99999=other.pwcet99999;
-}
-
 Model::Model() noexcept
 {
     this->input_file = new FileImportModel();
@@ -47,32 +41,32 @@ Model::~Model()
 
 void Model::copy(Model* model)
 {
-    this->get_input_file()->set_input_file_name(model->get_input_file()->get_input_file_name());
+    this->input_file->set_input_file_name(model->get_input_file()->get_input_file_name());
 
-    this->get_first_pre_test()->set_combo_box_index(model->get_first_pre_test()->get_combo_box_index());
-    this->get_first_pre_test()->set_significance_level(model->get_first_pre_test()->get_significance_level());
-    this->get_first_pre_test()->set_n_lags(model->get_first_pre_test()->get_n_lags());
-    this->get_first_pre_test()->set_trend_class(model->get_first_pre_test()->get_trend_class());
+    this->first_pre_test->set_combo_box_index(model->first_pre_test->get_combo_box_index());
+    this->first_pre_test->set_significance_level(model->first_pre_test->get_significance_level());
+    this->first_pre_test->set_n_lags(model->first_pre_test->get_n_lags());
+    this->first_pre_test->set_trend_class(model->first_pre_test->get_trend_class());
 
-    this->get_second_pre_test()->set_combo_box_index(model->get_second_pre_test()->get_combo_box_index());
-    this->get_second_pre_test()->set_significance_level(model->get_second_pre_test()->get_significance_level());
-    this->get_second_pre_test()->set_n_lags(model->get_second_pre_test()->get_n_lags());
-    this->get_second_pre_test()->set_trend_class(model->get_second_pre_test()->get_trend_class());
+    this->second_pre_test->set_combo_box_index(model->second_pre_test->get_combo_box_index());
+    this->second_pre_test->set_significance_level(model->second_pre_test->get_significance_level());
+    this->second_pre_test->set_n_lags(model->second_pre_test->get_n_lags());
+    this->second_pre_test->set_trend_class(model->second_pre_test->get_trend_class());
 
-    this->get_third_pre_test()->set_combo_box_index(model->get_third_pre_test()->get_combo_box_index());
-    this->get_third_pre_test()->set_significance_level(model->get_third_pre_test()->get_significance_level());
-    this->get_third_pre_test()->set_n_lags(model->get_third_pre_test()->get_n_lags());
-    this->get_third_pre_test()->set_trend_class(model->get_third_pre_test()->get_trend_class());
+    this->third_pre_test->set_combo_box_index(model->third_pre_test->get_combo_box_index());
+    this->third_pre_test->set_significance_level(model->third_pre_test->get_significance_level());
+    this->third_pre_test->set_n_lags(model->third_pre_test->get_n_lags());
+    this->third_pre_test->set_trend_class(model->third_pre_test->get_trend_class());
 
-    this->get_post_test()->set_combo_box_index(model->get_post_test()->get_combo_box_index());
-    this->get_post_test()->set_significance_level(model->get_post_test()->get_significance_level());
+    this->post_test->set_combo_box_index(model->post_test->get_combo_box_index());
+    this->post_test->set_significance_level(model->post_test->get_significance_level());
 
-    this->get_evt_approach()->set_combo_box_index(model->get_evt_approach()->get_combo_box_index());
-    this->get_evt_approach()->set_block_size(model->get_evt_approach()->get_block_size());
-    this->get_evt_approach()->set_threshold(model->get_evt_approach()->get_threshold());
-    this->get_evt_approach()->set_samples_test_reserve(model->get_evt_approach()->get_samples_test_reserve());
+    this->evt_approach->set_combo_box_index(model->evt_approach->get_combo_box_index());
+    this->evt_approach->set_block_size(model->evt_approach->get_block_size());
+    this->evt_approach->set_threshold(model->evt_approach->get_threshold());
+    this->evt_approach->set_samples_test_reserve(model->evt_approach->get_samples_test_reserve());
 
-    this->get_evt_estimator()->set_combo_box_index(model->get_evt_estimator()->get_combo_box_index());
+    this->evt_estimator->set_combo_box_index(model->evt_estimator->get_combo_box_index());
 }
 
 void Model::set_pwcet99999(double value)
@@ -149,111 +143,20 @@ exit_code_t Model::onSetup() noexcept
     std::unique_ptr<chronovise::NullInputGenerator> null_input_gen(new chronovise::NullInputGenerator());
     this->set_input_source(std::move(null_input_gen));
 
-    /* ********** POST-RUN SECTION ********** */
-
-    switch(this->first_pre_test->get_combo_box_index())
-    {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->first_pre_test->set_kpss_test(this->first_pre_test->get_significance_level(), this->first_pre_test->get_n_lags(), this->first_pre_test->get_trend_class());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_1(this->first_pre_test->get_kpss_test());
-            this->add_sample_test(stat_test_1);
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->first_pre_test->set_bds_test(this->first_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_1(this->first_pre_test->get_bds_test());
-            this->add_sample_test(stat_test_1);
-        }break;
-
-        case 3:              //"LjungBox"
-        {
-            this->first_pre_test->set_ljungBox_test(this->first_pre_test->get_significance_level(), this->first_pre_test->get_n_lags());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_1(this->first_pre_test->get_ljungBox_test());
-            this->add_sample_test(stat_test_1);
-        }break;
-
-        case 4:             //"R/S"
-        {
-            this->first_pre_test->set_rs_test(this->first_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_1(this->first_pre_test->get_rs_test());
-            this->add_sample_test(stat_test_1);
-        }break;
-
-        default:
-            ;
-    }
-
-    switch(this->second_pre_test->get_combo_box_index())
-    {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->second_pre_test->set_kpss_test(this->second_pre_test->get_significance_level(), this->second_pre_test->get_n_lags(), this->first_pre_test->get_trend_class());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_2(this->second_pre_test->get_kpss_test());
-            this->add_sample_test(stat_test_2);
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->second_pre_test->set_bds_test(this->second_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_2(this->second_pre_test->get_bds_test());
-            this->add_sample_test(stat_test_2);
-        }break;
-
-        case 3:              //"LjungBox"
-        {
-            this->second_pre_test->set_ljungBox_test(this->second_pre_test->get_significance_level(), this->second_pre_test->get_n_lags());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_2(this->second_pre_test->get_ljungBox_test());
-            this->add_sample_test(stat_test_2);
-        }break;
 
 
-        case 4:             //"R/S"
-        {
-            this->second_pre_test->set_rs_test(this->second_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_2(this->second_pre_test->get_rs_test());
-            this->add_sample_test(stat_test_2);
-        }break;
+    //pre-run test
+    this->first_pre_test->set_test(this->first_pre_test->get_combo_box_index());
+    if(this->get_first_pre_test()->get_combo_box_index()!=0)
+        this->add_sample_test(this->first_pre_test->get_test());
 
-        default:
-            ;
-    }
+    this->second_pre_test->set_test(this->second_pre_test->get_combo_box_index());
+    if(this->get_second_pre_test()->get_combo_box_index()!=0)
+        this->add_sample_test(this->second_pre_test->get_test());
 
-    switch(this->third_pre_test->get_combo_box_index())
-    {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->third_pre_test->set_kpss_test(this->third_pre_test->get_significance_level(), this->third_pre_test->get_n_lags(), this->first_pre_test->get_trend_class());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_3(this->third_pre_test->get_kpss_test());
-            this->add_sample_test(stat_test_3);
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->third_pre_test->set_bds_test(this->third_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_3(this->third_pre_test->get_bds_test());
-            this->add_sample_test(stat_test_3);
-        }break;
-
-        case 3:              //"LjungBox"
-        {
-            this->third_pre_test->set_ljungBox_test(this->third_pre_test->get_significance_level(), this->third_pre_test->get_n_lags());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_3(this->third_pre_test->get_ljungBox_test());
-            this->add_sample_test(stat_test_3);
-        }break;
-
-
-        case 4:             //"R/S"
-        {
-            this->third_pre_test->set_rs_test(this->third_pre_test->get_significance_level());
-            std::shared_ptr<StatisticalTest<unsigned int, double>> stat_test_3(this->third_pre_test->get_rs_test());
-            this->add_sample_test(stat_test_3);
-        }break;
-
-        default:
-            ;
-    }
+    this->third_pre_test->set_test(this->third_pre_test->get_combo_box_index());
+    if(this->get_third_pre_test()->get_combo_box_index()!=0)
+        this->add_sample_test(this->third_pre_test->get_test());
 
 
 
@@ -268,90 +171,20 @@ exit_code_t Model::onSetup() noexcept
     // - Block Maxima -> It will generate a GEV
     // - PoT          -> It will generate a GPD
 
-    if(this->get_evt_approach()->get_combo_box_index()==1)
-    {
-        this->get_evt_approach()->set_bm_approach(this->get_evt_approach()->get_block_size());
-        std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(this->get_evt_approach()->get_bm_approach());
-        this->set_evt_approach(std::move(evt_app), this->get_evt_approach()->get_samples_test_reserve());
-    }
-    if(this->get_evt_approach()->get_combo_box_index()==2)
-    {
-        this->get_evt_approach()->set_pot_approach(this->get_evt_approach()->get_threshold());
-        std::unique_ptr<EVTApproach<unsigned int, double>> evt_app(this->get_evt_approach()->get_pot_approach());
-        this->set_evt_approach(std::move(evt_app), this->get_evt_approach()->get_samples_test_reserve());
-    }
-
-
+    this->get_evt_approach()->set_approach(this->get_evt_approach()->get_combo_box_index());
+    this->set_evt_approach(std::move(this->get_evt_approach()->get_approach()), this->get_evt_approach()->get_samples_test_reserve());
 
     // Select the estimator.
-    switch(this->evt_estimator->get_combo_box_index())
-    {
-        case 1:             //PWM
-        {
-            this->evt_estimator->set_pwm_estimator();
-            std::unique_ptr<Estimator<unsigned int, double>> evt_est(this->get_evt_estimator()->get_pwm_estimator());
-            this->set_evt_estimator(std::move(evt_est));
-        } break;
+    this->get_evt_estimator()->set_estimator(this->get_evt_estimator()->get_combo_box_index());
+    this->set_evt_estimator(std::move(this->get_evt_estimator()->get_estimator()));
 
-        case 2:             //MLE
-        {
-            this->evt_estimator->set_mle_estimator();
-            std::unique_ptr<Estimator<unsigned int, double>> evt_est(this->get_evt_estimator()->get_mle_estimator());
-            this->set_evt_estimator(std::move(evt_est));
-        }break;
 
-        case 3:             //GMLE
-        {
-            this->evt_estimator->set_gmle_estimator();
-            std::unique_ptr<Estimator<unsigned int, double>> evt_est(this->get_evt_estimator()->get_gmle_estimator());
-            this->set_evt_estimator(std::move(evt_est));
-        }break;
-
-        default:
-            ;
-    }
-
+    /* ********** POST-RUN SECTION ********** */
 
     //set the gof post-test
-    switch(this->get_post_test()->get_combo_box_index())
-    {
-        case 1:             //Kolmogorov-Smirnov
-        {
-            this->post_test->set_ks_test(this->post_test->get_significance_level(),this->get_evt_approach()->get_combo_box_index());
-            std::shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> aft_test(this->post_test->get_ks_test());
-            this->add_post_evt_test(aft_test);
-        }break;
-
-        case 2:             //Cramér–von Mises criterion
-        {
-            this->post_test->set_cvm_test(this->post_test->get_significance_level(),this->get_evt_approach()->get_combo_box_index());
-            std::shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> aft_test(this->post_test->get_cvm_test());
-            this->add_post_evt_test(aft_test);
-        }break;
-
-        case 3:              //Anderson-Darling
-        {
-            this->post_test->set_ad_test(this->post_test->get_significance_level(),this->get_evt_approach()->get_combo_box_index(),false);
-            std::shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> aft_test(this->post_test->get_ad_test());
-            this->add_post_evt_test(aft_test);
-        }break;
-
-
-        case 4:             //Modified Anderson-Darling
-        {
-            this->post_test->set_ad_test(this->post_test->get_significance_level(),this->get_evt_approach()->get_combo_box_index(),true);
-            std::shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> aft_test(this->post_test->get_ad_test());
-            this->add_post_evt_test(aft_test);
-        }break;
-
-        default:
-            ;
-    }
-
-
-
-
-
+    this->post_test->set_test(this->post_test->get_combo_box_index(),this->evt_approach->get_combo_box_index());
+    if(this->get_post_test()->get_combo_box_index()!=0)
+        this->add_post_evt_test(this->post_test->get_test());
 
 
     // Let's print some debug information
@@ -430,179 +263,43 @@ exit_code_t Model::onRelease() noexcept
 void Model::custom_run()
 {
     this->run();
+
     //retrieve results from pre tests
-    switch(this->first_pre_test->get_combo_box_index())
+    if(this->get_first_pre_test()->get_combo_box_index()!=0)
     {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->first_pre_test->set_critical_value(this->first_pre_test->get_kpss_test()->get_critical_value());
-            this->first_pre_test->set_statistic(this->first_pre_test->get_kpss_test()->get_statistic());
-            this->first_pre_test->set_reject(this->first_pre_test->get_kpss_test()->is_reject());
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->first_pre_test->set_critical_value(this->first_pre_test->get_bds_test()->get_critical_value());
-            this->first_pre_test->set_statistic(this->first_pre_test->get_bds_test()->get_statistic());
-            this->first_pre_test->set_reject(this->first_pre_test->get_bds_test()->is_reject());
-        }break;
-
-
-        case 3:              //"LjungBox"
-        {
-            this->first_pre_test->set_critical_value(this->first_pre_test->get_ljungBox_test()->get_critical_value());
-            this->first_pre_test->set_statistic(this->first_pre_test->get_ljungBox_test()->get_statistic());
-            this->first_pre_test->set_reject(this->first_pre_test->get_ljungBox_test()->is_reject());
-        }break;
-
-        case 4:             //"R/S"
-        {
-            this->first_pre_test->set_critical_value(this->first_pre_test->get_rs_test()->get_critical_value());
-            this->first_pre_test->set_statistic(this->first_pre_test->get_rs_test()->get_statistic());
-            this->first_pre_test->set_reject(this->first_pre_test->get_rs_test()->is_reject());
-        }break;
-
-        default:
-            ;
+        this->first_pre_test->set_critical_value(this->first_pre_test->get_test()->get_critical_value());
+        this->first_pre_test->set_statistic(this->first_pre_test->get_test()->get_statistic());
+        this->first_pre_test->set_reject(this->first_pre_test->get_test()->is_reject());
     }
 
-    switch(this->second_pre_test->get_combo_box_index())
+    if(this->get_second_pre_test()->get_combo_box_index()!=0)
     {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->second_pre_test->set_critical_value(this->second_pre_test->get_kpss_test()->get_critical_value());
-            this->second_pre_test->set_statistic(this->second_pre_test->get_kpss_test()->get_statistic());
-            this->second_pre_test->set_reject(this->second_pre_test->get_kpss_test()->is_reject());
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->second_pre_test->set_critical_value(this->second_pre_test->get_bds_test()->get_critical_value());
-            this->second_pre_test->set_statistic(this->second_pre_test->get_bds_test()->get_statistic());
-            this->second_pre_test->set_reject(this->second_pre_test->get_bds_test()->is_reject());
-        }break;
-
-
-        case 3:              //"LjungBox"
-        {
-            this->second_pre_test->set_critical_value(this->second_pre_test->get_ljungBox_test()->get_critical_value());
-            this->second_pre_test->set_statistic(this->second_pre_test->get_ljungBox_test()->get_statistic());
-            this->second_pre_test->set_reject(this->second_pre_test->get_ljungBox_test()->is_reject());
-        }break;
-
-        case 4:             //"R/S"
-        {
-            this->second_pre_test->set_critical_value(this->second_pre_test->get_rs_test()->get_critical_value());
-            this->second_pre_test->set_statistic(this->second_pre_test->get_rs_test()->get_statistic());
-            this->second_pre_test->set_reject(this->second_pre_test->get_rs_test()->is_reject());
-        }break;
-
-        default:
-            ;
+        this->second_pre_test->set_critical_value(this->second_pre_test->get_test()->get_critical_value());
+        this->second_pre_test->set_statistic(this->second_pre_test->get_test()->get_statistic());
+        this->second_pre_test->set_reject(this->second_pre_test->get_test()->is_reject());
     }
 
-    switch(this->third_pre_test->get_combo_box_index())
+    if(this->get_third_pre_test()->get_combo_box_index()!=0)
     {
-        case 1:             //Kwiatkowski–Phillips–Schmidt–Shin
-        {
-            this->third_pre_test->set_critical_value(this->third_pre_test->get_kpss_test()->get_critical_value());
-            this->third_pre_test->set_statistic(this->third_pre_test->get_kpss_test()->get_statistic());
-            this->third_pre_test->set_reject(this->third_pre_test->get_kpss_test()->is_reject());
-        }break;
-
-        case 2:             //"Brock–Dechert–Scheinkman"
-        {
-            this->third_pre_test->set_critical_value(this->third_pre_test->get_bds_test()->get_critical_value());
-            this->third_pre_test->set_statistic(this->third_pre_test->get_bds_test()->get_statistic());
-            this->third_pre_test->set_reject(this->third_pre_test->get_bds_test()->is_reject());
-        }break;
-
-
-        case 3:              //"LjungBox"
-        {
-            this->third_pre_test->set_critical_value(this->third_pre_test->get_ljungBox_test()->get_critical_value());
-            this->third_pre_test->set_statistic(this->third_pre_test->get_ljungBox_test()->get_statistic());
-            this->third_pre_test->set_reject(this->third_pre_test->get_ljungBox_test()->is_reject());
-        }break;
-
-        case 4:             //"R/S"
-        {
-            this->third_pre_test->set_critical_value(this->third_pre_test->get_rs_test()->get_critical_value());
-            this->third_pre_test->set_statistic(this->third_pre_test->get_rs_test()->get_statistic());
-            this->third_pre_test->set_reject(this->third_pre_test->get_rs_test()->is_reject());
-        }break;
-
-        default:
-            ;
+        this->third_pre_test->set_critical_value(this->third_pre_test->get_test()->get_critical_value());
+        this->third_pre_test->set_statistic(this->third_pre_test->get_test()->get_statistic());
+        this->third_pre_test->set_reject(this->third_pre_test->get_test()->is_reject());
     }
 
-    switch(this->post_test->get_combo_box_index())
+
+
+    //retrieve results from post tests
+    if(this->get_post_test()->get_combo_box_index()!=0)
     {
-        case 1:
-        {
-            this->post_test->set_reject(this->post_test->get_ks_test()->is_reject());
-        }break;
-
-        case 2:
-        {
-            this->post_test->set_reject(this->post_test->get_cvm_test()->is_reject());
-        }break;
-
-
-        case 3:
-        {
-            this->post_test->set_reject(this->post_test->get_ad_test()->is_reject());
-        }break;
-
-        case 4:
-        {
-            this->post_test->set_reject(this->post_test->get_ad_test()->is_reject());
-        }break;
-
-        default:
-            ;
+        this->post_test->set_reject(this->post_test->get_test()->is_reject());
+        this->post_test->set_critical_value(this->post_test->get_test()->get_critical_value());
+        this->post_test->set_statistic(this->post_test->get_test()->get_statistic());
     }
+
+
 
     //retrieve information about the distribution from the estimator
-    switch(this->evt_estimator->get_combo_box_index())
-    {
-        case 1:             //PWM
-        {
-            std::shared_ptr<Distribution> dist = this->evt_estimator->get_pwm_estimator()->get_result();
-            if(this->get_evt_approach()->get_combo_box_index()==1)
-                this->get_distribution()->set_gev_distribution(dist);
+    this->get_distribution()->set_dist(this->get_evt_approach()->get_combo_box_index(),this->get_estimated_distributions());
 
-            if(this->get_evt_approach()->get_combo_box_index()==2)
-                this->get_distribution()->set_gpd_distribution(dist);
-        }break;
 
-        case 2:             //MLE
-        {
-            std::shared_ptr<Distribution> dist = this->evt_estimator->get_mle_estimator()->get_result();
-            if(this->get_evt_approach()->get_combo_box_index()==1)
-            {
-                this->get_distribution()->set_gev_distribution(dist);
-            }
-            if(this->get_evt_approach()->get_combo_box_index()==2)
-            {
-                this->get_distribution()->set_gpd_distribution(dist);
-            }
-        }break;
-
-        case 3:             //GMLE
-        {
-            std::shared_ptr<Distribution> dist = this->evt_estimator->get_gmle_estimator()->get_result();
-            if(this->get_evt_approach()->get_combo_box_index()==1)
-            {
-                this->get_distribution()->set_gev_distribution(dist);
-            }
-            if(this->get_evt_approach()->get_combo_box_index()==2)
-            {
-                this->get_distribution()->set_gpd_distribution(dist);
-            }
-        }break;
-
-    default:
-        ;
-    }
 }

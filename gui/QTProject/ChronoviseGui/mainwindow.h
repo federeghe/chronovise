@@ -49,11 +49,11 @@ private slots:
 
 
 
-    void on_comboBox_currentIndexChanged(int index);
+    void on_trend_class_cb_1_currentIndexChanged(int index);
 
-    void on_comboBox_2_currentIndexChanged(int index);
+    void on_trend_class_cb_2_currentIndexChanged(int index);
 
-    void on_comboBox_3_currentIndexChanged(int index);
+    void on_trend_class_cb_3_currentIndexChanged(int index);
 
     void on_sig_lev_cb_4_currentIndexChanged(int index);
 
@@ -82,13 +82,12 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Model* model;
-    QMessageBox msgBox;
-    void initialize_plot_pdf(std::shared_ptr<Distribution> distribution);
-    void initialize_plot_cdf(std::shared_ptr<Distribution> distribution);
-    void initialize_plot_ccdf(std::shared_ptr<Distribution> distribution);
+    void initialize_plot_pdf();
+    void initialize_plot_cdf();
+    void initialize_plot_ccdf();
     void setup_plot();
     void center_window();
-    void setup_message_reset();
+    void clear_lables_and_plots();
 
 };
 #endif // MAINWINDOW_H

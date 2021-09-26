@@ -1149,6 +1149,7 @@ CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QFlags
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QList
+CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QLocale
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QMargins
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QMetaType
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QMultiMap
@@ -1377,6 +1378,7 @@ CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QPainter
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QPainterPath
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QPixmap
+CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QScreen
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QSurfaceFormat
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QTransform
 CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtGui/QVector3D

@@ -1150,6 +1150,7 @@ CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QEvent
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QFlags
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QList
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QLocale
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QMargins
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QMetaType
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QMultiMap
@@ -1378,6 +1379,7 @@ CMakeFiles/ChronoviseGui.dir/mainwindow.cpp.o
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QPainter
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QPainterPath
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QPixmap
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/QScreen
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QSurfaceFormat
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QTransform
  /usr/include/x86_64-linux-gnu/qt5/QtGui/QVector3D

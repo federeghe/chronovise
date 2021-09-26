@@ -9,6 +9,7 @@
 #ifndef UI_MAINWINDOW_H
 #define UI_MAINWINDOW_H
 
+#include <QtCore/QLocale>
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
@@ -30,27 +31,30 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
+    QGroupBox *plot_config_2;
+    QLabel *y_scale_lbl_2;
+    QRadioButton *linear_rb_2;
+    QRadioButton *log_rb_2;
     QLabel *logo_lbl;
     QLabel *title_lbl;
-    QGroupBox *plot_config_gb;
-    QRadioButton *linear_rb;
-    QRadioButton *log_rb;
-    QLabel *y_scale_lbl;
-    QPushButton *reset_button;
     QTabWidget *plot_tab;
     QCustomPlot *pdf;
     QCustomPlot *cdf;
     QCustomPlot *ccdf;
     QPushButton *input_file_button;
-    QPushButton *compute_button;
-    QGroupBox *plot_config_2;
-    QLabel *y_scale_lbl_2;
-    QRadioButton *linear_rb_2;
-    QRadioButton *log_rb_2;
+    QGroupBox *plot_config_3;
+    QLabel *y_scale_lbl_3;
+    QRadioButton *linear_rb_3;
+    QRadioButton *log_rb_3;
+    QPushButton *reset_button;
+    QGroupBox *plot_config_gb;
+    QRadioButton *linear_rb;
+    QRadioButton *log_rb;
+    QLabel *y_scale_lbl;
     QGroupBox *config_gb;
     QComboBox *test3_cb;
     QLabel *iid_test_lbl;
-    QComboBox *comboBox;
+    QComboBox *trend_class_cb_1;
     QComboBox *sig_lev_cb_2;
     QLabel *evt_approach_lbl;
     QComboBox *test1_cb;
@@ -60,7 +64,7 @@ public:
     QLabel *sig_lev_lbl;
     QComboBox *sig_lev_cb_4;
     QLabel *evt_estimator_lbl;
-    QComboBox *comboBox_3;
+    QComboBox *trend_class_cb_3;
     QComboBox *test2_cb;
     QLabel *test3_lbl;
     QComboBox *sig_lev_cb_3;
@@ -68,12 +72,9 @@ public:
     QLabel *trend_kpss_lbl;
     QComboBox *evt_approach_cb;
     QComboBox *sig_lev_cb_1;
-    QComboBox *comboBox_2;
+    QComboBox *trend_class_cb_2;
     QComboBox *evt_estimator_cb;
-    QGroupBox *plot_config_3;
-    QLabel *y_scale_lbl_3;
-    QRadioButton *linear_rb_3;
-    QRadioButton *log_rb_3;
+    QPushButton *compute_button;
     QGroupBox *result_gb;
     QLabel *test1_res_lbl;
     QLabel *test2_res_lbl;
@@ -98,6 +99,10 @@ public:
     QLabel *wtime_lbl;
     QLabel *gof_test_result_lbl;
     QLabel *gof_ouput_lbl;
+    QLabel *distribution_type_lbl;
+    QLabel *type_lbl;
+    QLabel *test4_c_v_lbl;
+    QLabel *test4_st_lbl;
     QStatusBar *statusBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -106,11 +111,31 @@ public:
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(1449, 1161);
         MainWindow->setStyleSheet(QString::fromUtf8("background-color:#EEF;\n"
+"selection-color: rgb(255, 255, 255);\n"
 "selection-background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(255, 255, 255, 255));"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        plot_config_2 = new QGroupBox(centralwidget);
+        plot_config_2->setObjectName(QString::fromUtf8("plot_config_2"));
+        plot_config_2->setMaximumSize(QSize(16777215, 100));
+        QFont font;
+        font.setPointSize(13);
+        plot_config_2->setFont(font);
+        y_scale_lbl_2 = new QLabel(plot_config_2);
+        y_scale_lbl_2->setObjectName(QString::fromUtf8("y_scale_lbl_2"));
+        y_scale_lbl_2->setGeometry(QRect(12, 55, 84, 17));
+        linear_rb_2 = new QRadioButton(plot_config_2);
+        linear_rb_2->setObjectName(QString::fromUtf8("linear_rb_2"));
+        linear_rb_2->setGeometry(QRect(110, 55, 68, 23));
+        linear_rb_2->setChecked(true);
+        log_rb_2 = new QRadioButton(plot_config_2);
+        log_rb_2->setObjectName(QString::fromUtf8("log_rb_2"));
+        log_rb_2->setGeometry(QRect(190, 55, 112, 23));
+
+        gridLayout->addWidget(plot_config_2, 7, 0, 1, 1);
+
         logo_lbl = new QLabel(centralwidget);
         logo_lbl->setObjectName(QString::fromUtf8("logo_lbl"));
         logo_lbl->setMinimumSize(QSize(20, 20));
@@ -122,42 +147,15 @@ public:
 
         title_lbl = new QLabel(centralwidget);
         title_lbl->setObjectName(QString::fromUtf8("title_lbl"));
-        QFont font;
-        font.setFamily(QString::fromUtf8("Ubuntu Condensed"));
-        font.setPointSize(50);
-        font.setBold(true);
-        font.setWeight(75);
-        title_lbl->setFont(font);
+        QFont font1;
+        font1.setFamily(QString::fromUtf8("Ubuntu Condensed"));
+        font1.setPointSize(50);
+        font1.setBold(true);
+        font1.setWeight(75);
+        title_lbl->setFont(font1);
         title_lbl->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(title_lbl, 0, 1, 1, 2);
-
-        plot_config_gb = new QGroupBox(centralwidget);
-        plot_config_gb->setObjectName(QString::fromUtf8("plot_config_gb"));
-        plot_config_gb->setMinimumSize(QSize(310, 0));
-        plot_config_gb->setMaximumSize(QSize(16777215, 100));
-        QFont font1;
-        font1.setPointSize(13);
-        plot_config_gb->setFont(font1);
-        linear_rb = new QRadioButton(plot_config_gb);
-        linear_rb->setObjectName(QString::fromUtf8("linear_rb"));
-        linear_rb->setGeometry(QRect(110, 55, 68, 23));
-        log_rb = new QRadioButton(plot_config_gb);
-        log_rb->setObjectName(QString::fromUtf8("log_rb"));
-        log_rb->setGeometry(QRect(193, 55, 106, 23));
-        y_scale_lbl = new QLabel(plot_config_gb);
-        y_scale_lbl->setObjectName(QString::fromUtf8("y_scale_lbl"));
-        y_scale_lbl->setGeometry(QRect(12, 55, 84, 17));
-        y_scale_lbl->setAlignment(Qt::AlignCenter);
-
-        gridLayout->addWidget(plot_config_gb, 6, 0, 1, 1);
-
-        reset_button = new QPushButton(centralwidget);
-        reset_button->setObjectName(QString::fromUtf8("reset_button"));
-        reset_button->setMaximumSize(QSize(120, 16777215));
-        reset_button->setFont(font1);
-
-        gridLayout->addWidget(reset_button, 3, 1, 1, 1);
 
         plot_tab = new QTabWidget(centralwidget);
         plot_tab->setObjectName(QString::fromUtf8("plot_tab"));
@@ -176,37 +174,59 @@ public:
 
         input_file_button = new QPushButton(centralwidget);
         input_file_button->setObjectName(QString::fromUtf8("input_file_button"));
-        input_file_button->setFont(font1);
+        input_file_button->setFont(font);
 
         gridLayout->addWidget(input_file_button, 1, 0, 1, 1);
 
-        compute_button = new QPushButton(centralwidget);
-        compute_button->setObjectName(QString::fromUtf8("compute_button"));
-        compute_button->setMaximumSize(QSize(120, 16777215));
-        compute_button->setFont(font1);
+        plot_config_3 = new QGroupBox(centralwidget);
+        plot_config_3->setObjectName(QString::fromUtf8("plot_config_3"));
+        plot_config_3->setMaximumSize(QSize(16777215, 100));
+        plot_config_3->setFont(font);
+        y_scale_lbl_3 = new QLabel(plot_config_3);
+        y_scale_lbl_3->setObjectName(QString::fromUtf8("y_scale_lbl_3"));
+        y_scale_lbl_3->setGeometry(QRect(12, 55, 84, 17));
+        linear_rb_3 = new QRadioButton(plot_config_3);
+        linear_rb_3->setObjectName(QString::fromUtf8("linear_rb_3"));
+        linear_rb_3->setGeometry(QRect(110, 55, 68, 23));
+        linear_rb_3->setChecked(true);
+        log_rb_3 = new QRadioButton(plot_config_3);
+        log_rb_3->setObjectName(QString::fromUtf8("log_rb_3"));
+        log_rb_3->setGeometry(QRect(190, 55, 112, 23));
 
-        gridLayout->addWidget(compute_button, 3, 0, 1, 1);
+        gridLayout->addWidget(plot_config_3, 8, 0, 1, 1);
 
-        plot_config_2 = new QGroupBox(centralwidget);
-        plot_config_2->setObjectName(QString::fromUtf8("plot_config_2"));
-        plot_config_2->setMaximumSize(QSize(16777215, 100));
-        plot_config_2->setFont(font1);
-        y_scale_lbl_2 = new QLabel(plot_config_2);
-        y_scale_lbl_2->setObjectName(QString::fromUtf8("y_scale_lbl_2"));
-        y_scale_lbl_2->setGeometry(QRect(12, 55, 84, 17));
-        linear_rb_2 = new QRadioButton(plot_config_2);
-        linear_rb_2->setObjectName(QString::fromUtf8("linear_rb_2"));
-        linear_rb_2->setGeometry(QRect(110, 55, 68, 23));
-        log_rb_2 = new QRadioButton(plot_config_2);
-        log_rb_2->setObjectName(QString::fromUtf8("log_rb_2"));
-        log_rb_2->setGeometry(QRect(190, 55, 112, 23));
+        reset_button = new QPushButton(centralwidget);
+        reset_button->setObjectName(QString::fromUtf8("reset_button"));
+        reset_button->setMaximumSize(QSize(120, 16777215));
+        reset_button->setFont(font);
 
-        gridLayout->addWidget(plot_config_2, 7, 0, 1, 1);
+        gridLayout->addWidget(reset_button, 3, 1, 1, 1);
+
+        plot_config_gb = new QGroupBox(centralwidget);
+        plot_config_gb->setObjectName(QString::fromUtf8("plot_config_gb"));
+        plot_config_gb->setMinimumSize(QSize(310, 0));
+        plot_config_gb->setMaximumSize(QSize(16777215, 100));
+        plot_config_gb->setFont(font);
+        linear_rb = new QRadioButton(plot_config_gb);
+        linear_rb->setObjectName(QString::fromUtf8("linear_rb"));
+        linear_rb->setGeometry(QRect(110, 55, 68, 23));
+        linear_rb->setCheckable(true);
+        linear_rb->setChecked(true);
+        log_rb = new QRadioButton(plot_config_gb);
+        log_rb->setObjectName(QString::fromUtf8("log_rb"));
+        log_rb->setGeometry(QRect(193, 55, 106, 23));
+        y_scale_lbl = new QLabel(plot_config_gb);
+        y_scale_lbl->setObjectName(QString::fromUtf8("y_scale_lbl"));
+        y_scale_lbl->setGeometry(QRect(12, 55, 84, 17));
+        y_scale_lbl->setAlignment(Qt::AlignCenter);
+
+        gridLayout->addWidget(plot_config_gb, 6, 0, 1, 1);
 
         config_gb = new QGroupBox(centralwidget);
         config_gb->setObjectName(QString::fromUtf8("config_gb"));
         config_gb->setMaximumSize(QSize(730, 270));
-        config_gb->setFont(font1);
+        config_gb->setFont(font);
+        config_gb->setLocale(QLocale(QLocale::Italian, QLocale::Italy));
         test3_cb = new QComboBox(config_gb);
         test3_cb->addItem(QString());
         test3_cb->addItem(QString());
@@ -218,12 +238,11 @@ public:
         iid_test_lbl = new QLabel(config_gb);
         iid_test_lbl->setObjectName(QString::fromUtf8("iid_test_lbl"));
         iid_test_lbl->setGeometry(QRect(12, 35, 93, 17));
-        comboBox = new QComboBox(config_gb);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
-        comboBox->setGeometry(QRect(593, 58, 69, 25));
+        trend_class_cb_1 = new QComboBox(config_gb);
+        trend_class_cb_1->addItem(QString());
+        trend_class_cb_1->addItem(QString());
+        trend_class_cb_1->setObjectName(QString::fromUtf8("trend_class_cb_1"));
+        trend_class_cb_1->setGeometry(QRect(593, 58, 69, 25));
         sig_lev_cb_2 = new QComboBox(config_gb);
         sig_lev_cb_2->addItem(QString());
         sig_lev_cb_2->addItem(QString());
@@ -269,12 +288,11 @@ public:
         evt_estimator_lbl = new QLabel(config_gb);
         evt_estimator_lbl->setObjectName(QString::fromUtf8("evt_estimator_lbl"));
         evt_estimator_lbl->setGeometry(QRect(12, 213, 101, 17));
-        comboBox_3 = new QComboBox(config_gb);
-        comboBox_3->addItem(QString());
-        comboBox_3->addItem(QString());
-        comboBox_3->addItem(QString());
-        comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
-        comboBox_3->setGeometry(QRect(593, 120, 69, 25));
+        trend_class_cb_3 = new QComboBox(config_gb);
+        trend_class_cb_3->addItem(QString());
+        trend_class_cb_3->addItem(QString());
+        trend_class_cb_3->setObjectName(QString::fromUtf8("trend_class_cb_3"));
+        trend_class_cb_3->setGeometry(QRect(593, 120, 69, 25));
         test2_cb = new QComboBox(config_gb);
         test2_cb->addItem(QString());
         test2_cb->addItem(QString());
@@ -311,12 +329,11 @@ public:
         sig_lev_cb_1->addItem(QString());
         sig_lev_cb_1->setObjectName(QString::fromUtf8("sig_lev_cb_1"));
         sig_lev_cb_1->setGeometry(QRect(480, 58, 58, 25));
-        comboBox_2 = new QComboBox(config_gb);
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->addItem(QString());
-        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
-        comboBox_2->setGeometry(QRect(593, 89, 69, 25));
+        trend_class_cb_2 = new QComboBox(config_gb);
+        trend_class_cb_2->addItem(QString());
+        trend_class_cb_2->addItem(QString());
+        trend_class_cb_2->setObjectName(QString::fromUtf8("trend_class_cb_2"));
+        trend_class_cb_2->setGeometry(QRect(593, 89, 69, 25));
         evt_estimator_cb = new QComboBox(config_gb);
         evt_estimator_cb->addItem(QString());
         evt_estimator_cb->addItem(QString());
@@ -327,27 +344,18 @@ public:
 
         gridLayout->addWidget(config_gb, 2, 0, 1, 3);
 
-        plot_config_3 = new QGroupBox(centralwidget);
-        plot_config_3->setObjectName(QString::fromUtf8("plot_config_3"));
-        plot_config_3->setMaximumSize(QSize(16777215, 100));
-        plot_config_3->setFont(font1);
-        y_scale_lbl_3 = new QLabel(plot_config_3);
-        y_scale_lbl_3->setObjectName(QString::fromUtf8("y_scale_lbl_3"));
-        y_scale_lbl_3->setGeometry(QRect(12, 55, 84, 17));
-        linear_rb_3 = new QRadioButton(plot_config_3);
-        linear_rb_3->setObjectName(QString::fromUtf8("linear_rb_3"));
-        linear_rb_3->setGeometry(QRect(110, 55, 68, 23));
-        log_rb_3 = new QRadioButton(plot_config_3);
-        log_rb_3->setObjectName(QString::fromUtf8("log_rb_3"));
-        log_rb_3->setGeometry(QRect(190, 55, 112, 23));
+        compute_button = new QPushButton(centralwidget);
+        compute_button->setObjectName(QString::fromUtf8("compute_button"));
+        compute_button->setMaximumSize(QSize(120, 16777215));
+        compute_button->setFont(font);
 
-        gridLayout->addWidget(plot_config_3, 8, 0, 1, 1);
+        gridLayout->addWidget(compute_button, 3, 0, 1, 1);
 
         result_gb = new QGroupBox(centralwidget);
         result_gb->setObjectName(QString::fromUtf8("result_gb"));
-        result_gb->setMinimumSize(QSize(500, 350));
+        result_gb->setMinimumSize(QSize(500, 380));
         result_gb->setMaximumSize(QSize(400, 16777215));
-        result_gb->setFont(font1);
+        result_gb->setFont(font);
         result_gb->setCursor(QCursor(Qt::ArrowCursor));
         result_gb->setMouseTracking(false);
         test1_res_lbl = new QLabel(result_gb);
@@ -412,11 +420,11 @@ public:
         test3_st_lbl->setAlignment(Qt::AlignCenter);
         w_case_lbl = new QLabel(result_gb);
         w_case_lbl->setObjectName(QString::fromUtf8("w_case_lbl"));
-        w_case_lbl->setGeometry(QRect(10, 250, 150, 17));
-        w_case_lbl->setAlignment(Qt::AlignCenter);
+        w_case_lbl->setGeometry(QRect(10, 250, 158, 17));
+        w_case_lbl->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         lbl_res_pwcet_103_lbl = new QLabel(result_gb);
         lbl_res_pwcet_103_lbl->setObjectName(QString::fromUtf8("lbl_res_pwcet_103_lbl"));
-        lbl_res_pwcet_103_lbl->setGeometry(QRect(10, 280, 156, 17));
+        lbl_res_pwcet_103_lbl->setGeometry(QRect(10, 285, 158, 17));
         lbl_res_pwcet_103_lbl->setAlignment(Qt::AlignCenter);
         lbl_res_pwcet_109_lbl = new QLabel(result_gb);
         lbl_res_pwcet_109_lbl->setObjectName(QString::fromUtf8("lbl_res_pwcet_109_lbl"));
@@ -424,22 +432,38 @@ public:
         lbl_res_pwcet_109_lbl->setAlignment(Qt::AlignCenter);
         lbl_res_pwcet_103 = new QLabel(result_gb);
         lbl_res_pwcet_103->setObjectName(QString::fromUtf8("lbl_res_pwcet_103"));
-        lbl_res_pwcet_103->setGeometry(QRect(180, 270, 90, 35));
+        lbl_res_pwcet_103->setGeometry(QRect(180, 277, 90, 35));
         lbl_res_pwcet_103->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         lbl_res_pwcet_104 = new QLabel(result_gb);
         lbl_res_pwcet_104->setObjectName(QString::fromUtf8("lbl_res_pwcet_104"));
-        lbl_res_pwcet_104->setGeometry(QRect(180, 310, 90, 35));
+        lbl_res_pwcet_104->setGeometry(QRect(180, 312, 90, 35));
+        lbl_res_pwcet_104->setAutoFillBackground(false);
         lbl_res_pwcet_104->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
         wtime_lbl = new QLabel(result_gb);
         wtime_lbl->setObjectName(QString::fromUtf8("wtime_lbl"));
-        wtime_lbl->setGeometry(QRect(180, 240, 90, 35));
+        wtime_lbl->setGeometry(QRect(180, 242, 90, 35));
         gof_test_result_lbl = new QLabel(result_gb);
         gof_test_result_lbl->setObjectName(QString::fromUtf8("gof_test_result_lbl"));
         gof_test_result_lbl->setGeometry(QRect(12, 210, 67, 17));
         gof_ouput_lbl = new QLabel(result_gb);
         gof_ouput_lbl->setObjectName(QString::fromUtf8("gof_ouput_lbl"));
-        gof_ouput_lbl->setGeometry(QRect(369, 200, 90, 36));
-        gof_ouput_lbl->setAlignment(Qt::AlignCenter);
+        gof_ouput_lbl->setGeometry(QRect(369, 210, 90, 36));
+        gof_ouput_lbl->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        distribution_type_lbl = new QLabel(result_gb);
+        distribution_type_lbl->setObjectName(QString::fromUtf8("distribution_type_lbl"));
+        distribution_type_lbl->setGeometry(QRect(10, 350, 201, 21));
+        type_lbl = new QLabel(result_gb);
+        type_lbl->setObjectName(QString::fromUtf8("type_lbl"));
+        type_lbl->setGeometry(QRect(210, 352, 101, 17));
+        type_lbl->setScaledContents(false);
+        test4_c_v_lbl = new QLabel(result_gb);
+        test4_c_v_lbl->setObjectName(QString::fromUtf8("test4_c_v_lbl"));
+        test4_c_v_lbl->setGeometry(QRect(272, 210, 90, 36));
+        test4_c_v_lbl->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
+        test4_st_lbl = new QLabel(result_gb);
+        test4_st_lbl->setObjectName(QString::fromUtf8("test4_st_lbl"));
+        test4_st_lbl->setGeometry(QRect(176, 210, 90, 36));
+        test4_st_lbl->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop);
 
         gridLayout->addWidget(result_gb, 1, 3, 3, 1);
 
@@ -459,22 +483,25 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
-        logo_lbl->setText(QString());
-        title_lbl->setText(QApplication::translate("MainWindow", "Chronovise", nullptr));
-        plot_config_gb->setTitle(QApplication::translate("MainWindow", "Plot Configuration PDF", nullptr));
-        linear_rb->setText(QApplication::translate("MainWindow", "Linear", nullptr));
-        log_rb->setText(QApplication::translate("MainWindow", "Logarithmic ", nullptr));
-        y_scale_lbl->setText(QApplication::translate("MainWindow", "Y-Axis Scale:", nullptr));
-        reset_button->setText(QApplication::translate("MainWindow", "Reset", nullptr));
-        plot_tab->setTabText(plot_tab->indexOf(pdf), QApplication::translate("MainWindow", "PDF", nullptr));
-        plot_tab->setTabText(plot_tab->indexOf(cdf), QApplication::translate("MainWindow", "CDF", nullptr));
-        plot_tab->setTabText(plot_tab->indexOf(ccdf), QApplication::translate("MainWindow", "CCDF", nullptr));
-        input_file_button->setText(QApplication::translate("MainWindow", "Open Input File", nullptr));
-        compute_button->setText(QApplication::translate("MainWindow", "Compute", nullptr));
         plot_config_2->setTitle(QApplication::translate("MainWindow", "Plot Configuration CDF", nullptr));
         y_scale_lbl_2->setText(QApplication::translate("MainWindow", "Y-Axis Scale:", nullptr));
         linear_rb_2->setText(QApplication::translate("MainWindow", "Linear", nullptr));
         log_rb_2->setText(QApplication::translate("MainWindow", "Logarithmic ", nullptr));
+        logo_lbl->setText(QString());
+        title_lbl->setText(QApplication::translate("MainWindow", "Chronovise", nullptr));
+        plot_tab->setTabText(plot_tab->indexOf(pdf), QApplication::translate("MainWindow", "PDF", nullptr));
+        plot_tab->setTabText(plot_tab->indexOf(cdf), QApplication::translate("MainWindow", "CDF", nullptr));
+        plot_tab->setTabText(plot_tab->indexOf(ccdf), QApplication::translate("MainWindow", "CCDF", nullptr));
+        input_file_button->setText(QApplication::translate("MainWindow", "Open Input File", nullptr));
+        plot_config_3->setTitle(QApplication::translate("MainWindow", "Plot Configuration CCDF", nullptr));
+        y_scale_lbl_3->setText(QApplication::translate("MainWindow", "Y-Axis Scale:", nullptr));
+        linear_rb_3->setText(QApplication::translate("MainWindow", "Linear", nullptr));
+        log_rb_3->setText(QApplication::translate("MainWindow", "Logarithmic ", nullptr));
+        reset_button->setText(QApplication::translate("MainWindow", "Reset", nullptr));
+        plot_config_gb->setTitle(QApplication::translate("MainWindow", "Plot Configuration PDF", nullptr));
+        linear_rb->setText(QApplication::translate("MainWindow", "Linear", nullptr));
+        log_rb->setText(QApplication::translate("MainWindow", "Logarithmic ", nullptr));
+        y_scale_lbl->setText(QApplication::translate("MainWindow", "Y-Axis Scale:", nullptr));
         config_gb->setTitle(QApplication::translate("MainWindow", "Configuration", nullptr));
         test3_cb->setItemText(0, QString());
         test3_cb->setItemText(1, QApplication::translate("MainWindow", "Kwiatkowski\342\200\223Phillips\342\200\223Schmidt\342\200\223Shin", nullptr));
@@ -483,9 +510,8 @@ public:
         test3_cb->setItemText(4, QApplication::translate("MainWindow", "R/S", nullptr));
 
         iid_test_lbl->setText(QApplication::translate("MainWindow", "EVT i.i.d. test:", nullptr));
-        comboBox->setItemText(0, QString());
-        comboBox->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
-        comboBox->setItemText(2, QApplication::translate("MainWindow", "Trend", nullptr));
+        trend_class_cb_1->setItemText(0, QString());
+        trend_class_cb_1->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
 
         sig_lev_cb_2->setItemText(0, QString());
         sig_lev_cb_2->setItemText(1, QApplication::translate("MainWindow", "0.01", nullptr));
@@ -512,9 +538,8 @@ public:
         sig_lev_cb_4->setItemText(2, QApplication::translate("MainWindow", "0.05", nullptr));
 
         evt_estimator_lbl->setText(QApplication::translate("MainWindow", "EVT Estimator:", nullptr));
-        comboBox_3->setItemText(0, QString());
-        comboBox_3->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
-        comboBox_3->setItemText(2, QApplication::translate("MainWindow", "Trend", nullptr));
+        trend_class_cb_3->setItemText(0, QString());
+        trend_class_cb_3->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
 
         test2_cb->setItemText(0, QString());
         test2_cb->setItemText(1, QApplication::translate("MainWindow", "Kwiatkowski\342\200\223Phillips\342\200\223Schmidt\342\200\223Shin", nullptr));
@@ -537,19 +562,15 @@ public:
         sig_lev_cb_1->setItemText(1, QApplication::translate("MainWindow", "0.01", nullptr));
         sig_lev_cb_1->setItemText(2, QApplication::translate("MainWindow", "0.05", nullptr));
 
-        comboBox_2->setItemText(0, QString());
-        comboBox_2->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
-        comboBox_2->setItemText(2, QApplication::translate("MainWindow", "Trend", nullptr));
+        trend_class_cb_2->setItemText(0, QString());
+        trend_class_cb_2->setItemText(1, QApplication::translate("MainWindow", "Level", nullptr));
 
         evt_estimator_cb->setItemText(0, QString());
         evt_estimator_cb->setItemText(1, QApplication::translate("MainWindow", "Probability Weighted Moments", nullptr));
         evt_estimator_cb->setItemText(2, QApplication::translate("MainWindow", "Maximum Likelihood Estimation", nullptr));
         evt_estimator_cb->setItemText(3, QApplication::translate("MainWindow", "Generalized Maximum Likelihood Estimation", nullptr));
 
-        plot_config_3->setTitle(QApplication::translate("MainWindow", "Plot Configuration CCDF", nullptr));
-        y_scale_lbl_3->setText(QApplication::translate("MainWindow", "Y-Axis Scale:", nullptr));
-        linear_rb_3->setText(QApplication::translate("MainWindow", "Linear", nullptr));
-        log_rb_3->setText(QApplication::translate("MainWindow", "Logarithmic ", nullptr));
+        compute_button->setText(QApplication::translate("MainWindow", "Compute", nullptr));
         result_gb->setTitle(QApplication::translate("MainWindow", "Results", nullptr));
         test1_res_lbl->setText(QApplication::translate("MainWindow", "Test 1:", nullptr));
         test2_res_lbl->setText(QApplication::translate("MainWindow", "Test 2: ", nullptr));
@@ -574,6 +595,10 @@ public:
         wtime_lbl->setText(QString());
         gof_test_result_lbl->setText(QApplication::translate("MainWindow", "GoF Test:", nullptr));
         gof_ouput_lbl->setText(QString());
+        distribution_type_lbl->setText(QApplication::translate("MainWindow", "The Stimated Distribution is:", nullptr));
+        type_lbl->setText(QString());
+        test4_c_v_lbl->setText(QString());
+        test4_st_lbl->setText(QString());
     } // retranslateUi
 
 };

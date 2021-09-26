@@ -4,6 +4,7 @@ TestPostModel::TestPostModel()
 {
     this->combo_box_index=0;
     this->significance_level=0.0;
+    this->test=NULL;
 }
 
 void TestPostModel::set_significance_level(double value)
@@ -16,48 +17,58 @@ void TestPostModel::set_combo_box_index(int index)
     this->combo_box_index=index;
 }
 
-void TestPostModel::set_ks_test(double significance_level,int distribution_type)
+void TestPostModel::set_test(int type,int distribution_type)
 {
-    if(distribution_type==1)
+    switch(type)
     {
-        this->ks_test=new TestKS<unsigned int, double>(significance_level,distribution_t::EVT_GEV);
-    }
-    if(distribution_type==2)
-    {
-        this->ks_test=new TestKS<unsigned int, double>(significance_level,distribution_t::EVT_GPD);
+        case 1:
+        {
+            if(distribution_type==1)
+                this->test=make_shared<TestKS<unsigned int, double>>(this->significance_level,distribution_t::EVT_GEV);
+            if(distribution_type==2)
+                this->test=make_shared<TestKS<unsigned int, double>>(this->significance_level,distribution_t::EVT_GPD);
+        }break;
+        case 2:
+        {
+            if(distribution_type==1)
+                this->test=make_shared<TestCvM<unsigned int, double>>(this->significance_level,distribution_t::EVT_GEV);
+            if(distribution_type==2)
+                this->test=make_shared<TestCvM<unsigned int, double>>(this->significance_level,distribution_t::EVT_GPD);
+        }break;
+        case 3:
+        {
+            if(distribution_type==1)
+                this->test=make_shared<TestAD<unsigned int, double>>(this->significance_level,distribution_t::EVT_GEV, false, 0);
+            if(distribution_type==2)
+                this->test=make_shared<TestAD<unsigned int, double>>(this->significance_level,distribution_t::EVT_GPD, false, 0);
+        }break;
+        case 4:
+        {
+            if(distribution_type==1)
+                this->test=make_shared<TestAD<unsigned int, double>>(this->significance_level,distribution_t::EVT_GEV, true, 0);
+            if(distribution_type==2)
+                this->test=make_shared<TestAD<unsigned int, double>>(this->significance_level,distribution_t::EVT_GPD, true, 0);
+        }break;
+
+        default:
+            ;
     }
 }
 
-void TestPostModel::set_ad_test(double significance_level, int distribution_type, bool mad)
-{
-    if(distribution_type==1)
-    {
-        this->ad_test=new TestAD<unsigned int, double>(significance_level, distribution_t::EVT_GEV, mad,0);
-    }
-    if(distribution_type==2)
-    {
-        this->ad_test=new TestAD<unsigned int, double>(significance_level, distribution_t::EVT_GPD, mad, 0);
-    }
-}
 
-void TestPostModel::set_cvm_test(double significance_level,int distribution_type)
-{
-    if(distribution_type==1)
-    {
-        this->cvm_test=new TestCvM<unsigned int, double>(significance_level,distribution_t::EVT_GEV);
-    }
-    if(distribution_type==2)
-    {
-        this->cvm_test=new TestCvM<unsigned int, double>(significance_level,distribution_t::EVT_GPD);
-    }
-}
 
 void TestPostModel::set_reject(bool value)
 {
     this->reject=value;
 }
-
-
+void TestPostModel::set_critical_value(double value)
+{
+    this->critical_value=value;
+}
+void TestPostModel::set_statistic(double value)
+{
+    this->statistic=value;
+}
 double TestPostModel::get_significance_level()
 {
     return this->significance_level;
@@ -68,30 +79,22 @@ int TestPostModel::get_combo_box_index()
     return this->combo_box_index;
 }
 
-TestKS<unsigned int, double>* TestPostModel::get_ks_test()
+shared_ptr<StatisticalTest_AfterEVT<unsigned int, double>> TestPostModel::get_test()
 {
-    return this->ks_test;
-}
-
-TestAD<unsigned int, double>* TestPostModel::get_ad_test()
-{
-    return this->ad_test;
-}
-
-TestCvM<unsigned int, double>* TestPostModel::get_cvm_test()
-{
-    return this->cvm_test;
+    return this->test;
 }
 
 bool TestPostModel::get_reject()
 {
     return this->reject;
 }
-
-
-TestPostModel::~TestPostModel()
+double TestPostModel::get_statistic()
 {
-    delete this->ks_test;
-    delete this->ad_test;
-    delete this->cvm_test;
+    return this->statistic;
 }
+double TestPostModel::get_critical_value()
+{
+    return this->critical_value;
+}
+
+

@@ -13,14 +13,20 @@ evt/gpd_distribution.hpp
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evt/gpd_distribution.hpp
 memory
 -
+list
+-
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtapproachmodel.h
 evt/evtapproach_bm.hpp
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evt/evtapproach_bm.hpp
 evt/evtapproach_pot.hpp
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evt/evtapproach_pot.hpp
+memory
+-
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/evtestimatormodel.h
+memory
+-
 statistical/estimator_pwm.hpp
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/statistical/estimator_pwm.hpp
 statistical/estimator_mle.hpp
@@ -28,14 +34,6 @@ statistical/estimator_mle.hpp
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/fileimportmodel.h
 string
--
-
-/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/main.cpp
-mainwindow.h
-/home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.h
-QApplication
--
-model.h
 -
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.cpp
@@ -56,6 +54,8 @@ model.h
 QLayout
 -
 math.h
+-
+QScreen
 -
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/mainwindow.h
@@ -87,6 +87,8 @@ distributionmodel.h
 -
 plotmodel.h
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.h
+string
+-
 
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/plotmodel.h
 QVector
@@ -194,34 +196,6 @@ statistical/test_kpss.hpp
 statistical/test_bds.hpp
 /home/davide/Scrivania/chronovise/gui/QTProject/ChronoviseGui/statistical/test_bds.hpp
 
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/moc_mainwindow.cpp
-mainwindow.h
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/mainwindow.h
-QtCore/qbytearray.h
--
-QtCore/qmetatype.h
--
-
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/moc_qcustomplot.cpp
-qcustomplot.h
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/qcustomplot.h
-QtCore/qbytearray.h
--
-QtCore/qmetatype.h
--
-QtCore/QSharedPointer
--
-QtCore/QList
--
-QtCore/QVector
--
-
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/mocs_compilation.cpp
-EWIEGA46WW/moc_mainwindow.cpp
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/moc_mainwindow.cpp
-EWIEGA46WW/moc_qcustomplot.cpp
-/home/davide/Scrivania/chronovise/gui/QTProject/build-ChronoviseGui-Desktop-Debug/ChronoviseGui_autogen/EWIEGA46WW/moc_qcustomplot.cpp
-
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QCache
 qcache.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qcache.h
@@ -253,6 +227,10 @@ qflags.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QList
 qlist.h
 /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtCore/QLocale
+qlocale.h
+/usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtCore/QMargins
 qmargins.h
@@ -2263,6 +2241,10 @@ qpainterpath.h
 /usr/include/x86_64-linux-gnu/qt5/QtGui/QPixmap
 qpixmap.h
 /usr/include/x86_64-linux-gnu/qt5/QtGui/qpixmap.h
+
+/usr/include/x86_64-linux-gnu/qt5/QtGui/QScreen
+qscreen.h
+/usr/include/x86_64-linux-gnu/qt5/QtGui/qscreen.h
 
 /usr/include/x86_64-linux-gnu/qt5/QtGui/QSurfaceFormat
 qsurfaceformat.h
@@ -5643,6 +5625,8 @@ utility/relation_node.hpp
 /usr/local/include/chronovise/utility/utility_hmi.hpp
 
 ChronoviseGui_autogen/include/ui_mainwindow.h
+QtCore/QLocale
+-
 QtCore/QVariant
 -
 QtWidgets/QApplication

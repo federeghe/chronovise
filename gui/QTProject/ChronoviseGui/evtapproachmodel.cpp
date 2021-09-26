@@ -5,16 +5,8 @@ EVTApproachModel::EVTApproachModel()
     this->block_size=0;
     this->combo_box_index=0;
     this->samples_test_reserve=0.1;
-    this->bm_approach=NULL;
-    this->pot_approach=NULL;
+    this->approach=NULL;
 }
-EVTApproachModel::~EVTApproachModel()
-{
-    //delete this->bm_approach;
-    //delete this->pot_approach;
-}
-
-
 
 void EVTApproachModel::set_block_size(size_t block_size)
 {
@@ -32,14 +24,14 @@ void EVTApproachModel::set_combo_box_index(int index)
 {
     this->combo_box_index=index;
 }
-void EVTApproachModel::set_bm_approach(size_t block_size)
+void EVTApproachModel::set_approach(int type)
 {
-    this->bm_approach=new EVTApproach_BM<unsigned int, double>(block_size);
+    if(type==1)
+        this->approach=make_unique<EVTApproach_BM<unsigned int, double>>(this->block_size);
+    if(type==2)
+        this->approach=make_unique<EVTApproach_PoT<unsigned int, double>>(this->threshold);
 }
-void EVTApproachModel::set_pot_approach(double threshold)
-{
-    this->pot_approach=new EVTApproach_PoT<unsigned int, double>(threshold);
-}
+
 
 int EVTApproachModel::get_combo_box_index()
 {
@@ -57,12 +49,8 @@ float EVTApproachModel::get_samples_test_reserve()
 {
     return this->samples_test_reserve;
 }
-EVTApproach_BM<unsigned int, double>* EVTApproachModel::get_bm_approach()
+unique_ptr<EVTApproach<unsigned int, double>> EVTApproachModel::get_approach()
 {
-    return this->bm_approach;
-}
-EVTApproach_PoT<unsigned int, double>* EVTApproachModel::get_pot_approach()
-{
-    return this->pot_approach;
+    return std::move(this->approach);
 }
 

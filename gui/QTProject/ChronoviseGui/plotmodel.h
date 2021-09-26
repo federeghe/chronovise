@@ -7,6 +7,7 @@ class PlotModel
 {
 public:
     PlotModel();
+    ~PlotModel()=default;
     void add_point_pdf(double x,double y);
     void add_point_cdf(double x,double y);
     void add_point_ccdf(double x,double y);

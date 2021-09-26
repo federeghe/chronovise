@@ -6,8 +6,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    Model* m = new Model();
-    MainWindow *w = new MainWindow(nullptr, m);
-    w->show();
+    Model* model=new Model();
+    MainWindow controller(nullptr, model);
+    controller.show();
     return a.exec();
 }
