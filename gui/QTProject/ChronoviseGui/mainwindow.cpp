@@ -230,10 +230,11 @@ void MainWindow::on_linear_rb_3_clicked()
 
 void MainWindow::on_input_file_button_clicked()
 {
-    QString filter = "All File (*.*) ;; Text File (*.txt)";
-    QString file_name = QFileDialog::getOpenFileName(this,"Open a file",QDir::homePath(),filter);
-    QMessageBox::information(this,"",file_name);
-    this->model->get_input_file()->set_input_file_name(file_name.toStdString());
+    QString filter = "Text File (*.txt)";
+    QString path_file_name = QFileDialog::getOpenFileName(this,"Open a file",QDir::homePath(),filter);
+    QFileInfo file_name(path_file_name);
+    QMessageBox::information(this,"",file_name.completeBaseName() + " has been selected");
+    this->model->get_input_file()->set_input_file_name(path_file_name.toStdString());
 }
 
 
@@ -242,26 +243,43 @@ void MainWindow::on_test1_cb_currentIndexChanged(int index)
 {
     this->model->get_first_pre_test()->set_combo_box_index(index);
 
-    if(index!=1 && this->model->get_first_pre_test()->get_trend_class()!="")
+    //disable trend class choice if test is not kpss
+    if(index!=1)
     {
         this->ui->trend_class_cb_1->setCurrentIndex(0);
+        this->ui->trend_class_cb_1->setDisabled(true);
     }
-
-    if((index==4 || index==2) && this->model->get_first_pre_test()->get_significance_level()==0.01)
+    else
     {
-        QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-        this->ui->sig_lev_cb_1->setCurrentIndex(2);
+        this->ui->trend_class_cb_1->setEnabled(true);
     }
 
+    //disable 0.01 for significance level if test is not bds o r/s
+    if(index==4 || index==2)
+    {
+        // disable item
+        ui->sig_lev_cb_1->setItemData(1, 0, Qt::UserRole - 1);
+        if(this->ui->sig_lev_cb_1->currentIndex()==1)
+            this->ui->sig_lev_cb_1->setCurrentIndex(2);
+    }
+    else
+    {
+        // enable item
+        ui->sig_lev_cb_1->setItemData(1, 33, Qt::UserRole - 1);
+    }
+
+
+    //if test remains unselected,unselect also parameters
     if(index==0)
     {
         this->ui->sig_lev_cb_1->setCurrentIndex(0);
         this->ui->trend_class_cb_1->setCurrentIndex(0);
     }
 
+    //avoid selecting the same test more than once
     if(index!=0 && (index==this->model->get_second_pre_test()->get_combo_box_index() || index==this->model->get_third_pre_test()->get_combo_box_index()))
     {
-        QMessageBox::information(this,"Warning","invalid input,test already selected");
+        QMessageBox::warning(this,"Warning","invalid input,test already selected");
         this->ui->test1_cb->setCurrentIndex(0);
     }
     else
@@ -270,30 +288,49 @@ void MainWindow::on_test1_cb_currentIndexChanged(int index)
             this->model->get_first_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the number of lags you want to use for the test",10)));
     }
 
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_first_pre_test()->get_combo_box_index())));
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_first_pre_test()->get_n_lags())));
 }
 //choice second pre-test
 void MainWindow::on_test2_cb_currentIndexChanged(int index)
 {
     this->model->get_second_pre_test()->set_combo_box_index(index);
-    if(index!=1 && this->model->get_second_pre_test()->get_trend_class()!="")
+
+    //disable trend class choice if test is not kpss
+    if(index!=1)
     {
         this->ui->trend_class_cb_2->setCurrentIndex(0);
+        this->ui->trend_class_cb_2->setDisabled(true);
     }
-    if((index==4 || index==2) && this->model->get_second_pre_test()->get_significance_level()==0.01)
+    else
     {
-        QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-        this->ui->sig_lev_cb_2->setCurrentIndex(2);
+        this->ui->trend_class_cb_2->setEnabled(true);
     }
+
+
+    //disable 0.01 for significance level if test is not bds o r/s
+    if(index==4 || index==2)
+    {
+        // disable item
+        ui->sig_lev_cb_2->setItemData(1, 0, Qt::UserRole - 1);
+        if(this->ui->sig_lev_cb_2->currentIndex()==1)
+            this->ui->sig_lev_cb_2->setCurrentIndex(2);
+    }
+    else
+    {
+        // enable item
+        ui->sig_lev_cb_2->setItemData(1, 33, Qt::UserRole - 1);
+    }
+
+     //if test remains unselected,unselect also parameters
     if(index==0)
     {
         this->ui->sig_lev_cb_2->setCurrentIndex(0);
         this->ui->trend_class_cb_2->setCurrentIndex(0);
     }
+
+    //avoid selecting the same test more than once
     if(index!=0 && (index==this->model->get_first_pre_test()->get_combo_box_index() || index==this->model->get_third_pre_test()->get_combo_box_index()))
     {
-        QMessageBox::information(this,"Warning","invalid input,test already selected");
+        QMessageBox::warning(this,"Warning","invalid input,test already selected");
         this->ui->test2_cb->setCurrentIndex(0);
     }
     else
@@ -303,31 +340,48 @@ void MainWindow::on_test2_cb_currentIndexChanged(int index)
 
     }
 
-
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_second_pre_test()->get_combo_box_index())));
 }
 //choice third pre-test
 void MainWindow::on_test3_cb_currentIndexChanged(int index)
 {
     this->model->get_third_pre_test()->set_combo_box_index(index);
-    if(index!=1 && this->model->get_third_pre_test()->get_trend_class()!="")
+
+    //disable trend class choice if test is not kpss
+    if(index!=1)
     {
         this->ui->trend_class_cb_3->setCurrentIndex(0);
+        this->ui->trend_class_cb_3->setDisabled(true);
     }
-    if((index==4 || index==2) && this->model->get_third_pre_test()->get_significance_level()==0.01)
+    else
     {
-        QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-        this->ui->sig_lev_cb_3->setCurrentIndex(2);
+        this->ui->trend_class_cb_3->setEnabled(true);
     }
+
+    //disable 0.01 for significance level if test is not bds o r/s
+    if(index==4 || index==2)
+    {
+        // disable item
+        ui->sig_lev_cb_3->setItemData(1, 0, Qt::UserRole - 1);
+        if(this->ui->sig_lev_cb_3->currentIndex()==1)
+            this->ui->sig_lev_cb_3->setCurrentIndex(2);
+    }
+    else
+    {
+        // enable item
+        ui->sig_lev_cb_3->setItemData(1, 33, Qt::UserRole - 1);
+    }
+
+    //if test remains unselected,unselect also parameters
     if(index==0)
     {
         this->ui->sig_lev_cb_3->setCurrentIndex(0);
         this->ui->trend_class_cb_3->setCurrentIndex(0);
     }
 
+    //avoid selecting the same test more than once
     if(index!=0 && (index==this->model->get_first_pre_test()->get_combo_box_index() || index==this->model->get_second_pre_test()->get_combo_box_index()))
     {
-        QMessageBox::information(this,"Warning","invalid input,test already selected");
+        QMessageBox::warning(this,"Warning","invalid input,test already selected");
         this->ui->test3_cb->setCurrentIndex(0);
     }
     else
@@ -336,12 +390,12 @@ void MainWindow::on_test3_cb_currentIndexChanged(int index)
             this->model->get_third_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the number of lags you want to use for the test",10)));
     }
 
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_third_pre_test()->get_combo_box_index())));
 }
 
 //significance level for the test
 void MainWindow::on_sig_lev_cb_1_currentIndexChanged(int index)
 {
+    //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_first_pre_test()->get_combo_box_index()==0)
     {
         QMessageBox::information(this,"Warning","test 1 not selected");
@@ -354,16 +408,7 @@ void MainWindow::on_sig_lev_cb_1_currentIndexChanged(int index)
     }
     if(index==1)
     {
-        if(this->model->get_first_pre_test()->get_combo_box_index()==2 || this->model->get_first_pre_test()->get_combo_box_index()==4)
-        {
-            QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-            this->ui->sig_lev_cb_1->setCurrentIndex(2);
-        }
-        else
-        {
-            this->model->get_first_pre_test()->set_significance_level(0.01);
-        }
-
+        this->model->get_first_pre_test()->set_significance_level(0.01);
     }
     if(index==2)
     {
@@ -373,9 +418,10 @@ void MainWindow::on_sig_lev_cb_1_currentIndexChanged(int index)
 
 void MainWindow::on_sig_lev_cb_2_currentIndexChanged(int index)
 {
+     //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_second_pre_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","test 2 not selected");
+        QMessageBox::warning(this,"Warning","test 2 not selected");
         this->ui->sig_lev_cb_2->setCurrentIndex(0);
 
     }
@@ -385,16 +431,7 @@ void MainWindow::on_sig_lev_cb_2_currentIndexChanged(int index)
     }
     if(index==1)
     {
-        if(this->model->get_second_pre_test()->get_combo_box_index()==2 || this->model->get_second_pre_test()->get_combo_box_index()==4)
-        {
-            QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-            this->ui->sig_lev_cb_2->setCurrentIndex(2);
-        }
-        else
-        {
-            this->model->get_second_pre_test()->set_significance_level(0.01);
-        }
-
+        this->model->get_second_pre_test()->set_significance_level(0.01);
     }
     if(index==2)
     {
@@ -405,9 +442,10 @@ void MainWindow::on_sig_lev_cb_2_currentIndexChanged(int index)
 
 void MainWindow::on_sig_lev_cb_3_currentIndexChanged(int index)
 {
+     //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_third_pre_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","test 3 not selected");
+        QMessageBox::warning(this,"Warning","test 3 not selected");
         this->ui->sig_lev_cb_3->setCurrentIndex(0);
 
     }
@@ -417,16 +455,7 @@ void MainWindow::on_sig_lev_cb_3_currentIndexChanged(int index)
     }
     if(index==1)
     {
-        if(this->model->get_third_pre_test()->get_combo_box_index()==2 || this->model->get_third_pre_test()->get_combo_box_index()==4)
-        {
-            QMessageBox::information(this,"Warning","only 0.05 is available for this estimator");
-            this->ui->sig_lev_cb_3->setCurrentIndex(2);
-        }
-        else
-        {
-            this->model->get_third_pre_test()->set_significance_level(0.01);
-        }
-
+       this->model->get_third_pre_test()->set_significance_level(0.01);
     }
     if(index==2)
     {
@@ -450,21 +479,13 @@ void MainWindow::on_trend_class_cb_1_currentIndexChanged(int index)
         this->model->get_first_pre_test()->set_trend_class("");
     }
 
+    //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_first_pre_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","test 1 not selected");
+        QMessageBox::warning(this,"Warning","test 1 not selected");
         this->ui->trend_class_cb_1->setCurrentIndex(0);
     }
-    else
-    {
-        if(index!=0 && this->model->get_first_pre_test()->get_combo_box_index()!=1)
-        {
-            QMessageBox::information(this,"Warning","trend paramter available only for kpss test");
-            this->ui->trend_class_cb_1->setCurrentIndex(0);
-        }
-    }
 
-    //this->ui->statusBar->showMessage(QString::fromStdString(this->model->get_first_pre_test()->get_trend_class()));
 }
 //trend  choice for second pretest
 void MainWindow::on_trend_class_cb_2_currentIndexChanged(int index)
@@ -482,20 +503,12 @@ void MainWindow::on_trend_class_cb_2_currentIndexChanged(int index)
         this->model->get_second_pre_test()->set_trend_class("");
     }
 
+    //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_second_pre_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","test 2 not selected");
+        QMessageBox::warning(this,"Warning","test 2 not selected");
         this->ui->trend_class_cb_2->setCurrentIndex(0);
     }
-    else
-    {
-        if(index!=0 && this->model->get_second_pre_test()->get_combo_box_index()!=1)
-        {
-            QMessageBox::information(this,"Warning","trend paramter available only for kpss test");
-            this->ui->trend_class_cb_2->setCurrentIndex(0);
-        }
-    }
-    //this->ui->statusBar->showMessage(QString::fromStdString(this->model->get_second_pre_test()->get_trend_class()));
 }
 
 //trend  choice for third pretest
@@ -510,22 +523,12 @@ void MainWindow::on_trend_class_cb_3_currentIndexChanged(int index)
     if(index==0)
         this->model->get_third_pre_test()->set_trend_class("");
 
+    //avoid selecting parameter befor choosing the test
     if(index!=0 && this->model->get_third_pre_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","test 3 not selected");
+        QMessageBox::warning(this,"Warning","test 3 not selected");
         this->ui->trend_class_cb_3->setCurrentIndex(0);
     }
-    else
-    {
-        if(index!=0 && this->model->get_third_pre_test()->get_combo_box_index()!=1)
-        {
-            QMessageBox::information(this,"Warning","trend paramter available only for kpss test");
-            this->ui->trend_class_cb_3->setCurrentIndex(0);
-        }
-    }
-
-    //this->ui->statusBar->showMessage(QString::fromStdString(this->model->get_third_pre_test()->get_trend_class()));
-
 }
 
 
@@ -555,14 +558,14 @@ void MainWindow::on_evt_estimator_cb_currentIndexChanged(int index)
     this->model->get_evt_estimator()->set_combo_box_index(index);
     if(index!=0 && this->model->get_evt_approach()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","please, choose an evt approach first");
+        QMessageBox::warning(this,"Warning","please, choose an evt approach first");
         this->ui->evt_estimator_cb->setCurrentIndex(0);
     }
     else
     {
         if((index==2 || index==3) && this->model->get_evt_approach()->get_combo_box_index()==2)
         {
-            QMessageBox::information(this,"Warning","this estimator is only available for Block-Maxima");
+            QMessageBox::warning(this,"Warning","this estimator is only available for Block-Maxima");
             this->ui->evt_estimator_cb->setCurrentIndex(0);
         }
     }
@@ -580,7 +583,7 @@ void MainWindow::on_gof_test_cb_currentIndexChanged(int index)
     }
     if(index!=0 && this->model->get_evt_approach()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","evt approach not selected");
+        QMessageBox::warning(this,"Warning","evt approach not selected");
         this->ui->gof_test_cb->setCurrentIndex(0);
     }
     //this->ui->statusBar->showMessage(QString::number((this->model->get_post_test()->get_combo_box_index())));
@@ -590,7 +593,7 @@ void MainWindow::on_sig_lev_cb_4_currentIndexChanged(int index)
 {
     if(index!=0 && this->model->get_post_test()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","gof test not selected");
+        QMessageBox::warning(this,"Warning","gof test not selected");
         this->ui->sig_lev_cb_4->setCurrentIndex(0);
     }
     if(index==0)
@@ -618,31 +621,31 @@ void MainWindow::on_compute_button_clicked()
     //check if no input file is missing
     if(this->model->get_input_file()->get_input_file_name()=="")
     {
-        QMessageBox::information(this,"Warning","file not selected");
+        QMessageBox::warning(this,"Warning","file not selected");
         return;
     }
     //check if either evt approach or estimator is missing
     if(this->model->get_evt_approach()->get_combo_box_index()==0 || this->model->get_evt_estimator()->get_combo_box_index()==0)
     {
-        QMessageBox::information(this,"Warning","either evt approach or evt estimator is missing");
+        QMessageBox::warning(this,"Warning","either evt approach or evt estimator is missing");
         return;
     }
     //check if estimator is compatible with apporach
     if((this->model->get_evt_estimator()->get_combo_box_index()==2 || this->model->get_evt_estimator()->get_combo_box_index()==3) && this->model->get_evt_approach()->get_combo_box_index()==2)
     {
-        QMessageBox::information(this,"Warning","this estimator is only available for Block-Maxima");
+        QMessageBox::warning(this,"Warning","this estimator is only available for Block-Maxima");
         return;
     }
     //check if significance level is missing for any of the test selected either pre test or gof test
     if((this->model->get_first_pre_test()->get_significance_level()==0.0 && this->model->get_first_pre_test()->get_combo_box_index()!=0) || (this->model->get_second_pre_test()->get_significance_level()==0.0 && this->model->get_second_pre_test()->get_combo_box_index()!=0) || (this->model->get_third_pre_test()->get_significance_level()==0.0 && this->model->get_third_pre_test()->get_combo_box_index()!=0) || (this->model->get_post_test()->get_significance_level()==0.0 && this->model->get_post_test()->get_combo_box_index()!=0))
     {
-       QMessageBox::information(this,"Warning","must choose a singificance level for the test");
+       QMessageBox::warning(this,"Warning","must choose a singificance level for the test");
        return;
     }
     //check if trend level is missing for kpss test
     if((this->model->get_first_pre_test()->get_trend_class()=="" && this->model->get_first_pre_test()->get_combo_box_index()==1) || (this->model->get_second_pre_test()->get_trend_class()=="" && this->model->get_second_pre_test()->get_combo_box_index()==1) || (this->model->get_third_pre_test()->get_trend_class()=="" && this->model->get_third_pre_test()->get_combo_box_index()==1))
     {
-       QMessageBox::information(this,"Warning","must choose a trend option for the kpss test");
+       QMessageBox::warning(this,"Warning","must choose a trend option for the kpss test");
        return;
     }
 
@@ -727,9 +730,10 @@ void MainWindow::on_compute_button_clicked()
     //initialize the plot for the distribution + print type of distribution
     if(this->model->get_estimated_distributions().size()==0)
     {
-        QMessageBox alert;
+        QMessageBox::critical(this,"Error","The EVT distribution has been rejected by gof(goodnes-of-fit) tests");
+        /*QMessageBox alert;
         alert.setText("The EVT distribution has been rejected by gof(goodnes-of-fit) tests");
-        alert.exec();
+        alert.exec();*/
     }
 
     if(this->model->get_estimated_distributions().size()!=0)
