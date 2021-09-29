@@ -251,7 +251,7 @@ public:
         sig_lev_cb_2->setGeometry(QRect(480, 89, 58, 25));
         evt_approach_lbl = new QLabel(config_gb);
         evt_approach_lbl->setObjectName(QString::fromUtf8("evt_approach_lbl"));
-        evt_approach_lbl->setGeometry(QRect(12, 182, 100, 17));
+        evt_approach_lbl->setGeometry(QRect(12, 151, 100, 17));
         test1_cb = new QComboBox(config_gb);
         test1_cb->addItem(QString());
         test1_cb->addItem(QString());
@@ -269,7 +269,7 @@ public:
         gof_test_cb->addItem(QString());
         gof_test_cb->addItem(QString());
         gof_test_cb->setObjectName(QString::fromUtf8("gof_test_cb"));
-        gof_test_cb->setGeometry(QRect(119, 151, 215, 25));
+        gof_test_cb->setGeometry(QRect(119, 213, 215, 25));
         test2_lbl = new QLabel(config_gb);
         test2_lbl->setObjectName(QString::fromUtf8("test2_lbl"));
         test2_lbl->setGeometry(QRect(20, 90, 57, 18));
@@ -284,10 +284,10 @@ public:
         sig_lev_cb_4->addItem(QString());
         sig_lev_cb_4->addItem(QString());
         sig_lev_cb_4->setObjectName(QString::fromUtf8("sig_lev_cb_4"));
-        sig_lev_cb_4->setGeometry(QRect(480, 151, 58, 25));
+        sig_lev_cb_4->setGeometry(QRect(480, 213, 58, 25));
         evt_estimator_lbl = new QLabel(config_gb);
         evt_estimator_lbl->setObjectName(QString::fromUtf8("evt_estimator_lbl"));
-        evt_estimator_lbl->setGeometry(QRect(12, 213, 101, 17));
+        evt_estimator_lbl->setGeometry(QRect(12, 182, 101, 17));
         trend_class_cb_3 = new QComboBox(config_gb);
         trend_class_cb_3->addItem(QString());
         trend_class_cb_3->addItem(QString());
@@ -312,7 +312,7 @@ public:
         sig_lev_cb_3->setGeometry(QRect(480, 120, 58, 25));
         gof_test_lbl = new QLabel(config_gb);
         gof_test_lbl->setObjectName(QString::fromUtf8("gof_test_lbl"));
-        gof_test_lbl->setGeometry(QRect(12, 151, 63, 17));
+        gof_test_lbl->setGeometry(QRect(12, 213, 63, 17));
         trend_kpss_lbl = new QLabel(config_gb);
         trend_kpss_lbl->setObjectName(QString::fromUtf8("trend_kpss_lbl"));
         trend_kpss_lbl->setGeometry(QRect(593, 35, 82, 17));
@@ -322,7 +322,7 @@ public:
         evt_approach_cb->addItem(QString());
         evt_approach_cb->addItem(QString());
         evt_approach_cb->setObjectName(QString::fromUtf8("evt_approach_cb"));
-        evt_approach_cb->setGeometry(QRect(119, 182, 169, 25));
+        evt_approach_cb->setGeometry(QRect(119, 151, 169, 25));
         sig_lev_cb_1 = new QComboBox(config_gb);
         sig_lev_cb_1->addItem(QString());
         sig_lev_cb_1->addItem(QString());
@@ -340,7 +340,7 @@ public:
         evt_estimator_cb->addItem(QString());
         evt_estimator_cb->addItem(QString());
         evt_estimator_cb->setObjectName(QString::fromUtf8("evt_estimator_cb"));
-        evt_estimator_cb->setGeometry(QRect(119, 213, 334, 25));
+        evt_estimator_cb->setGeometry(QRect(119, 182, 334, 25));
 
         gridLayout->addWidget(config_gb, 2, 0, 1, 3);
 

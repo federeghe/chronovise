@@ -537,18 +537,30 @@ void MainWindow::on_trend_class_cb_3_currentIndexChanged(int index)
 void MainWindow::on_evt_approach_cb_currentIndexChanged(int index)
 {
     this->model->get_evt_approach()->set_combo_box_index(index);
+
     if(index!=0)
         this->model->get_evt_approach()->set_samples_test_reserve((QInputDialog::getDouble(this,"Samples Test Reserve","enter a value for the reserve between 0 and 1", 0.1, 0.0, 1.0)));
 
     if(index==1)
         this->model->get_evt_approach()->set_block_size((QInputDialog::getInt(this,"Block Size","enter a value for the size of the block")));
 
+    //make sure that if PoT is the approach,the only available estimator is PWM
     if(index==2)
+    {
+        // disable item
+        ui->evt_estimator_cb->setItemData(2, 0, Qt::UserRole - 1);
+        ui->evt_estimator_cb->setItemData(3, 0, Qt::UserRole - 1);
+        if(this->ui->evt_estimator_cb->currentIndex()==2 || this->ui->evt_estimator_cb->currentIndex()==3)
+            this->ui->evt_estimator_cb->setCurrentIndex(1);
         this->model->get_evt_approach()->set_threshold((QInputDialog::getDouble(this,"Threshold","enter a value for the threshold")));
+    }
 
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_evt_approach()->get_block_size())));
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_evt_approach()->get_threshold())));
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_evt_approach()->get_combo_box_index())));
+    else
+    {
+        // enable item
+        ui->evt_estimator_cb->setItemData(2, 33, Qt::UserRole - 1);
+        ui->evt_estimator_cb->setItemData(3, 33, Qt::UserRole - 1);
+    }
 
 }
 
@@ -561,15 +573,7 @@ void MainWindow::on_evt_estimator_cb_currentIndexChanged(int index)
         QMessageBox::warning(this,"Warning","please, choose an evt approach first");
         this->ui->evt_estimator_cb->setCurrentIndex(0);
     }
-    else
-    {
-        if((index==2 || index==3) && this->model->get_evt_approach()->get_combo_box_index()==2)
-        {
-            QMessageBox::warning(this,"Warning","this estimator is only available for Block-Maxima");
-            this->ui->evt_estimator_cb->setCurrentIndex(0);
-        }
-    }
-    //this->ui->statusBar->showMessage(QString::number((this->model->get_evt_estimator()->get_combo_box_index())));
+
 }
 
 
@@ -630,12 +634,7 @@ void MainWindow::on_compute_button_clicked()
         QMessageBox::warning(this,"Warning","either evt approach or evt estimator is missing");
         return;
     }
-    //check if estimator is compatible with apporach
-    if((this->model->get_evt_estimator()->get_combo_box_index()==2 || this->model->get_evt_estimator()->get_combo_box_index()==3) && this->model->get_evt_approach()->get_combo_box_index()==2)
-    {
-        QMessageBox::warning(this,"Warning","this estimator is only available for Block-Maxima");
-        return;
-    }
+
     //check if significance level is missing for any of the test selected either pre test or gof test
     if((this->model->get_first_pre_test()->get_significance_level()==0.0 && this->model->get_first_pre_test()->get_combo_box_index()!=0) || (this->model->get_second_pre_test()->get_significance_level()==0.0 && this->model->get_second_pre_test()->get_combo_box_index()!=0) || (this->model->get_third_pre_test()->get_significance_level()==0.0 && this->model->get_third_pre_test()->get_combo_box_index()!=0) || (this->model->get_post_test()->get_significance_level()==0.0 && this->model->get_post_test()->get_combo_box_index()!=0))
     {
