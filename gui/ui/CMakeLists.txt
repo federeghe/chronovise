@@ -28,18 +28,26 @@ find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Charts)
 
+
+
 #add_library(chronovise SHARED IMPORTED GLOBAL)
 #set_target_properties( chronovise PROPERTIES
 #             IMPORTED_LOCATION ../../build/libchronovise.a)
 
 
+find_package(Ceres REQUIRED)
+
+
 find_library(chronovise chronovise)
+
+
 
 set(PROJECT_SOURCES
         main.cpp
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        utility.h
 )
 
 
@@ -63,6 +71,9 @@ else()
 endif()
 
 target_link_libraries(ui PRIVATE chronovise)
+include_directories(${CERES_INCLUDE_DIRS})
+target_link_libraries (ui PRIVATE ${CERES_LIBRARIES})
+
 target_link_libraries(ui PUBLIC Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts)
 
 set_target_properties(ui PROPERTIES
