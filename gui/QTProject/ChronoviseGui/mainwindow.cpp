@@ -50,19 +50,13 @@ void MainWindow::clear_lables_and_plots()
     //clear pdf plot
     this->model->get_plot_data()->clear_plot_pdf();
     this->ui->pdf->graph(0)->setData(this->model->get_plot_data()->get_xpdf(),this->model->get_plot_data()->get_ypdf());
-    this->ui->pdf->xAxis->setRange(0,5);
-    this->ui->pdf->yAxis->setRange(0,5);
     this->ui->pdf->replot();
     //clear cdf plot
     this->model->get_plot_data()->clear_plot_cdf();
     this->ui->cdf->graph(0)->setData(this->model->get_plot_data()->get_xcdf(),this->model->get_plot_data()->get_ycdf());
-    this->ui->cdf->xAxis->setRange(0,5);
-    this->ui->cdf->yAxis->setRange(0,5);
     this->ui->cdf->replot();
     //clear ccdf plot
     this->model->get_plot_data()->clear_plot_ccdf();
-    this->ui->ccdf->xAxis->setRange(0,5);
-    this->ui->ccdf->yAxis->setRange(0,5);
     this->ui->ccdf->graph(0)->setData(this->model->get_plot_data()->get_xccdf(),this->model->get_plot_data()->get_yccdf());
     this->ui->ccdf->replot();
 
@@ -285,7 +279,7 @@ void MainWindow::on_test1_cb_currentIndexChanged(int index)
     else
     {
         if(index==1 || index==3)
-            this->model->get_first_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the number of lags you want to use for the test",10)));
+            this->model->get_first_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the maximum number of future samples used for the autocorrelation during the test",10)));
     }
 
 }
@@ -336,7 +330,7 @@ void MainWindow::on_test2_cb_currentIndexChanged(int index)
     else
     {
         if(index==1 || index==3)
-            this->model->get_second_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the number of lags you want to use for the test",10)));
+            this->model->get_second_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the maximum number of future samples used for the autocorrelation during the test",10)));
 
     }
 
@@ -387,7 +381,7 @@ void MainWindow::on_test3_cb_currentIndexChanged(int index)
     else
     {
         if(index==1 || index==3)
-            this->model->get_third_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the number of lags you want to use for the test",10)));
+            this->model->get_third_pre_test()->set_n_lags((QInputDialog::getInt(this,"Number of Lags","enter the maximum number of future samples used for the autocorrelation during the test",10)));
     }
 
 }
@@ -539,7 +533,7 @@ void MainWindow::on_evt_approach_cb_currentIndexChanged(int index)
     this->model->get_evt_approach()->set_combo_box_index(index);
 
     if(index!=0)
-        this->model->get_evt_approach()->set_samples_test_reserve((QInputDialog::getDouble(this,"Samples Test Reserve","enter a value for the reserve between 0 and 1", 0.1, 0.0, 1.0)));
+        this->model->get_evt_approach()->set_samples_test_reserve((QInputDialog::getDouble(this,"Samples Test Reserve","enter the percentage of the samples reserved for testing with respect to the total sample set. It's a number between 0 and 1", 0.1, 0.0, 1.0)));
 
     if(index==1)
         this->model->get_evt_approach()->set_block_size((QInputDialog::getInt(this,"Block Size","enter a value for the size of the block")));
