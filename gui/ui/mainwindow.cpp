@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-
+#include "chronovise_helper.h"
 #include "utility.h"
 
 #include <fstream>
@@ -144,6 +144,282 @@ void MainWindow::on_pb_reset_clicked()
     ui->pbar_compute->setVisible(false);
 
 }
+
+
+void MainWindow::on_pb_compute_clicked()
+{
+
+    try{
+        if (input_s == nullptr){
+
+            QMessageBox messageBox;
+            messageBox.information(0, "Info", "No file uploaded!");
+
+        }else{
+
+            ui->pbar_compute->setVisible(true);
+            ui->pbar_compute->setRange(0,100);
+            ui->pbar_compute->setValue(0);
+
+
+            QLineSeries* points = new QLineSeries();
+
+            std::thread test1;
+            std::thread test2;
+            std::thread test3;
+
+            std::thread pwcet;
+
+            // check if custom test or ppi
+            switch(ui->cb_iid_test->currentIndex()){
+
+                case 0: //PPI
+                        params.iid_t = PPI;
+                        break;
+
+                case 1: //Custom Test
+                        params.iid_t = Custom;
+
+                        params.tests[0] = static_cast<t_custom_test>(ui->cb_custom_test_1->currentIndex());
+                        params.tests[1] = static_cast<t_custom_test>(ui->cb_custom_test_2->currentIndex());
+                        params.tests[2] = static_cast<t_custom_test>(ui->cb_custom_test_3->currentIndex());
+
+                        break;
+            }
+            // parse EVT approach
+            switch (ui->cb_EVT_approach->currentIndex()) {
+                case 0: // Block-Maxima
+                        params.evt_approach = BM;
+                        break;
+                case 1: // Peak over Threshold
+                        params.evt_approach = PoT;
+                        break;
+                case 2: // MBPTA-CV
+                        params.evt_approach = CV;
+                        break;
+            }
+            //parse EVT estimator
+            switch (ui->cb_EVT_estimator->currentIndex()) {
+
+                case 0: //MLE
+                        params.evt_estimator = MLE;
+                        break;
+                case 1: //PWM
+                        params.evt_estimator = PWM;
+                        break;
+            }
+            //parse GoF test
+            switch (ui->cb_GoF_test->currentIndex()) {
+                case 0: //kolmorov-smirnov
+                        params.gof = KS;
+                        break;
+                case 1: //Anderson-Darling
+                        params.gof = AD;
+                        break;
+                case 2: // Anderson-Darling modified
+                        params.gof = mod_AD;
+                        break;
+
+            }
+
+            // check if input data are integer or double
+            // and prepare MeasurePool
+            if(ui->rb_integer->isChecked()){
+
+                chronovise::MeasuresPool<int,unsigned long> mp;
+
+                fillMeasurePool<unsigned long>(mp);
+
+                ui->pbar_compute->setValue(5);
+
+                unsigned long max;
+                unsigned long min;
+
+                if (ui->in_x_scale_max->text()== "" && ui->in_x_scale_min->text()== ""){
+
+                    max = mp.max()+5000;
+                    min = mp.min();
+
+
+                    ui->in_x_scale_max->setText(QString::fromStdString(std::to_string(max)));
+                    ui->in_x_scale_min->setText(QString::fromStdString(std::to_string(min)));
+
+                }else{
+
+                    min = ui->in_x_scale_min->text().toULong();
+                    max = ui->in_x_scale_max->text().toULong();
+
+                }
+
+
+                //execute tests
+
+                if(params.iid_t == Custom){
+
+
+                    test1 = std::thread(custom_test<unsigned long>,std::ref(mp), std::ref(params.tests[0]), 0.05, std::ref(results<unsigned long>.test_1));
+
+
+                    test2 = std::thread(custom_test<unsigned long>,std::ref(mp), std::ref(params.tests[1]), 0.05, std::ref(results<unsigned long>.test_2));
+
+
+                    test3 = std::thread(custom_test<unsigned long>,std::ref(mp), std::ref(params.tests[2]), 0.05, std::ref(results<unsigned long>.test_3));
+
+
+
+
+
+                }else{
+                    // exec ppi
+                    test1 = std::thread(execute_iid_tests<unsigned long>, std::ref(mp), std::ref(results<unsigned long>));
+
+                }
+
+                // computation PWCET
+                pwcet = std::thread(execute_pwcet_estimation<unsigned long>, std::ref(mp), std::ref(params) , std::ref(results<unsigned long>));
+                pwcet.join();
+                ui->pbar_compute->setValue(50);
+
+                if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                        generate_pdf<unsigned long>(*points,min,max,results<unsigned long>);
+                }else{
+
+                    if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                        generate_cdf<unsigned long>(*points,min,max,results<unsigned long>);
+
+                    }else{
+
+                        generate_ccdf<unsigned long>(*points,min,max,results<unsigned long>);
+                    }
+
+                }
+                ui->pbar_compute->setValue(60);
+
+                if (test1.joinable())
+                    test1.join();
+                 ui->pbar_compute->setValue(70);
+
+                if (test2.joinable())
+                    test2.join();
+                 ui->pbar_compute->setValue(80);
+                if (test3.joinable())
+                    test3.join();
+                 ui->pbar_compute->setValue(90);
+
+                if (results<unsigned long>.type_dist == chronovise::distribution_t::EVT_GEV)
+                    print_results<chronovise::GEV_Distribution,unsigned long>(ui);
+                else
+                    print_results<chronovise::GPD_Distribution,unsigned long>(ui);
+
+
+
+            }else{
+
+                chronovise::MeasuresPool<int,double> mp;
+                fillMeasurePool<double>(mp);
+
+                double max;
+                double min;
+
+                if (ui->in_x_scale_max->text()== "" && ui->in_x_scale_min->text()== ""){
+
+                    // set local to be sure that
+                    // double to string conversion
+                    // doesn't contain comma
+                    const char* locale = "C";
+                    std::locale::global(std::locale(locale));
+
+                    max = mp.max()+5000;
+                    min = mp.min();
+
+
+                    ui->in_x_scale_max->setText(QString::fromStdString(std::to_string(max)));
+                    ui->in_x_scale_min->setText(QString::fromStdString(std::to_string(min)));
+                }else{
+                    min = ui->in_x_scale_min->text().toDouble();
+                    max = ui->in_x_scale_max->text().toDouble();
+                }
+
+                //execute tests
+
+                if(params.iid_t == Custom){
+
+
+                    test1 = std::thread(custom_test<double>,std::ref(mp), std::ref(params.tests[0]), 0.05, std::ref(results<double>.test_1));
+
+                    test2 = std::thread(custom_test<double>,std::ref(mp), std::ref(params.tests[1]), 0.05, std::ref(results<double>.test_2));
+
+
+                    test3 = std::thread(custom_test<double>,std::ref(mp), std::ref(params.tests[2]), 0.05, std::ref(results<double>.test_3));
+
+
+                }else{
+                    // exec ppi
+                    test1 = std::thread(execute_iid_tests<double>,std::ref(mp), std::ref(results<double>));
+                    ui->pbar_compute->setValue(50);
+                }
+
+                // computation PWCET
+                pwcet = std::thread(execute_pwcet_estimation<double>,std::ref(mp), std::ref(params) ,std::ref(results<double>));
+
+
+                // needs to wait since we have to generate distribution points
+                pwcet.join();
+
+
+                if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                        generate_pdf<double>(*points,min,max,results<double>);
+                }else{
+
+                    if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                        generate_cdf<double>(*points,min,max,results<double>);
+
+                    }else{
+
+                        generate_ccdf<double>(*points,min,max,results<double>);
+                    }
+
+                }
+                if (results<double>.type_dist == chronovise::distribution_t::EVT_GEV)
+                    print_results<chronovise::GEV_Distribution,double>(ui);
+                else
+                    print_results<chronovise::GPD_Distribution,double>(ui);
+                ui->pbar_compute->setValue(60);
+
+                if (test1.joinable())
+                    test1.join();
+                 ui->pbar_compute->setValue(70);
+
+                if (test2.joinable())
+                    test2.join();
+                 ui->pbar_compute->setValue(80);
+                if (test3.joinable())
+                    test3.join();
+                 ui->pbar_compute->setValue(90);
+
+            }
+
+            if(ui->bg_yaxis_plot->checkedButton()->text().operator==("Linear"))
+                print_plot(*points,false);
+            else
+                print_plot(*points,true);
+
+
+            ui->pbar_compute->setValue(100);
+    }
+
+
+    }catch(std::exception &e){
+        QMessageBox messageBox;
+        messageBox.critical(0, "Error", e.what());
+    }
+
+}
+
 
 template<typename T>
 void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
