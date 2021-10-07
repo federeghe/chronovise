@@ -172,4 +172,231 @@ void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
 
 
 }
+oid reset_results(Ui::MainWindow *ui){
+
+    ui->lbl_stat_test_ppi->setText("-");
+    ui->lbl_cv_test_ppi->setText("-");
+    ui->lbl_out_test_ppi->setText( "-" );
+
+    ui->lbl_res_test_1->setText("Test 1:");
+    ui->lbl_stat_test_1->setText("-");
+    ui->lbl_cv_test_1->setText("-");
+    ui->lbl_out_test_1->setText( "-" );
+
+    ui->lbl_res_test_2->setText("Test 2:");
+    ui->lbl_stat_test_2->setText("-");
+    ui->lbl_cv_test_2->setText("-");
+    ui->lbl_out_test_2->setText( "-" );
+
+
+    ui->lbl_res_test_3->setText("Test 3:");
+    ui->lbl_stat_test_3->setText("-");
+    ui->lbl_cv_test_3->setText("-");
+    ui->lbl_out_test_3->setText( "-" );
+
+    ui->lbl_stat_gof->setText("-");
+    ui->lbl_cv_gof->setText("-");
+    ui->lbl_out_gof->setText( "-" );
+
+    ui->lbl_res_dist->setText("-");
+    ui->lbl_res_location->setText("-");
+    ui->lbl_res_scale->setText( "-" );
+    ui->lbl_res_shape->setText("-");
+    ui->lbl_res_pwcet_103->setText("-");
+    ui->lbl_res_pwcet_109->setText( "-" );
+}
+
+
+
+
+template<typename D, typename T>
+void print_results(Ui::MainWindow *ui){
+
+
+    reset_results(ui);
+
+    // Create an output string stream
+    std::ostringstream streamObj;
+
+
+    switch(params.iid_t){
+        case PPI:{
+
+            //ppi
+            streamObj << results<T>.ppi.first;
+            ui->lbl_stat_test_ppi->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            streamObj << results<T>.ppi.second;
+            ui->lbl_cv_test_ppi->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            if (results<T>.ppi.first > results<T>.ppi.second){
+                ui->lbl_out_test_ppi->setText( "FAIL" );
+                ui->lbl_out_test_ppi->setStyleSheet("color:red");
+            }else{
+                ui->lbl_out_test_ppi->setText( "PASS" );
+                ui->lbl_out_test_ppi->setStyleSheet("color:green");
+
+            }
+
+            //kpss
+            ui->lbl_res_test_1->setText("KPSS: ");
+            streamObj << results<T>.test_1.first;
+            ui->lbl_stat_test_1->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            streamObj << results<T>.test_1.second;
+            ui->lbl_cv_test_1->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            if (results<T>.test_1.first > results<T>.test_1.second){
+                ui->lbl_out_test_1->setText( "FAIL" );
+                ui->lbl_out_test_1->setStyleSheet("color:red");
+            }else{
+                ui->lbl_out_test_1->setText( "PASS" );
+                ui->lbl_out_test_1->setStyleSheet("color:green");
+
+            }
+
+
+            // bds
+            ui->lbl_res_test_2->setText("BDS:");
+            streamObj << results<T>.test_2.first;
+            ui->lbl_stat_test_2->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            streamObj << results<T>.test_2.second;
+            ui->lbl_cv_test_2->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            if (results<T>.test_2.first > results<T>.test_2.second){
+                ui->lbl_out_test_2->setText( "FAIL" );
+                ui->lbl_out_test_2->setStyleSheet("color:red");
+            }else{
+                ui->lbl_out_test_2->setText( "PASS" );
+                ui->lbl_out_test_2->setStyleSheet("color:green");
+
+            }
+
+            //rs
+            ui->lbl_res_test_3->setText("RS:");
+            streamObj << results<T>.test_3.first;
+            ui->lbl_stat_test_3->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            streamObj << results<T>.test_3.second;
+            ui->lbl_cv_test_3->setText(QString::fromStdString(streamObj.str()));
+            streamObj.str("");
+
+            if (results<T>.test_3.first > results<T>.test_3.second){
+                ui->lbl_out_test_3->setText( "FAIL" );
+                ui->lbl_out_test_3->setStyleSheet("color:red");
+            }else{
+                ui->lbl_out_test_3->setText( "PASS" );
+                ui->lbl_out_test_3->setStyleSheet("color:green");
+
+            }
+
+            }
+            break;
+        case Custom:{
+            if(params.tests[0] != end){
+                streamObj << results<T>.test_1.first;
+                ui->lbl_stat_test_1->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                streamObj << results<T>.test_1.second;
+                ui->lbl_cv_test_1->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                if (results<T>.test_1.first > results<T>.test_1.second){
+                    ui->lbl_out_test_1->setText( "FAIL" );
+                    ui->lbl_out_test_1->setStyleSheet("color:red");
+                }else{
+                    ui->lbl_out_test_1->setText( "PASS" );
+                    ui->lbl_out_test_1->setStyleSheet("color:green");
+
+                }
+
+            }
+
+            if(params.tests[1] != end){
+                streamObj << results<T>.test_2.first;
+                ui->lbl_stat_test_2->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                streamObj << results<T>.test_2.second;
+                ui->lbl_cv_test_2->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                if (results<T>.test_2.first > results<T>.test_2.second){
+                    ui->lbl_out_test_2->setText( "FAIL" );
+                    ui->lbl_out_test_2->setStyleSheet("color:red");
+                }else{
+                    ui->lbl_out_test_2->setText( "PASS" );
+                    ui->lbl_out_test_2->setStyleSheet("color:green");
+
+                }
+
+            }
+            if(params.tests[2] != end){
+                streamObj << results<T>.test_3.first;
+                ui->lbl_stat_test_3->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                streamObj << results<T>.test_3.second;
+                ui->lbl_cv_test_3->setText(QString::fromStdString(streamObj.str()));
+                streamObj.str("");
+
+                if (results<T>.test_3.first > results<T>.test_3.second){
+                    ui->lbl_out_test_3->setText( "FAIL" );
+                    ui->lbl_out_test_3->setStyleSheet("color:red");
+                }else{
+                    ui->lbl_out_test_3->setText( "PASS" );
+                    ui->lbl_out_test_3->setStyleSheet("color:green");
+
+                }
+
+            }
+
+            }
+            break;
+
+
+    }
+
+    streamObj << results<T>.gof.first;
+    ui->lbl_stat_gof->setText(QString::fromStdString(streamObj.str()));
+    streamObj.str("");
+
+    streamObj << results<T>.gof.second;
+    ui->lbl_cv_gof->setText(QString::fromStdString(streamObj.str()));
+    streamObj.str("");
+
+    if (results<T>.gof.first > results<T>.gof.second){
+        ui->lbl_out_gof->setText( "FAIL" );
+        ui->lbl_out_gof->setStyleSheet("color:red");
+    }else{
+        ui->lbl_out_gof->setText( "PASS" );
+        ui->lbl_out_gof->setStyleSheet("color:green");
+    }
+    std::string dist =  (results<T>.type_dist == chronovise::distribution_t::EVT_GEV) ? "GEV": "GPD";
+    ui->lbl_res_dist->setText(QString::fromStdString(dist));
+
+    streamObj << results<T>.dist->get_location();
+    ui->lbl_res_location->setText(QString::fromStdString(streamObj.str()));
+    streamObj.str("");
+    streamObj << results<T>.dist->get_scale();
+    ui->lbl_res_scale->setText(QString::fromStdString(streamObj.str()));
+    streamObj.str("");
+    streamObj << results<T>.dist->get_shape();
+    ui->lbl_res_shape->setText(QString::fromStdString(streamObj.str()));
+    streamObj.str("");
+
+    ui->lbl_res_pwcet_103->setText(QString::fromStdString(std::to_string(results<T>.pwcet->get_wcet(1-1e-3))));
+    ui->lbl_res_pwcet_109->setText(QString::fromStdString(std::to_string(results<T>.pwcet->get_wcet(1-1e-9))));
+
+
+}
 
