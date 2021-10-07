@@ -69,6 +69,36 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pb_save_plot->setIconSize( QSize(25,25));
 
 
+       // initialize an empty chart
+    QChart *chart = new QChart();
+
+    QLineSeries *serie = new QLineSeries();
+    chart->createDefaultAxes();
+    chart->legend()->hide();
+
+
+    QAbstractAxis *axisY;
+
+    QValueAxis *axisX = new QValueAxis();
+    axisX->setTitleText("WCET");
+
+
+    chart->addAxis(axisX, Qt::AlignBottom);
+
+    axisY = new  QValueAxis();
+
+    axisY->setTitleText("p");
+    chart->addAxis(axisY, Qt::AlignLeft);
+
+    chart->addSeries(serie);
+    serie->attachAxis(axisY);
+    serie->attachAxis(axisX);
+
+    ui->chart_view->setChart(chart);
+    ui->chart_view->setRenderHint(QPainter::Antialiasing);
+    ui->chart_view->setRubberBand(QChartView::HorizontalRubberBand);
+
+
 
 
 
