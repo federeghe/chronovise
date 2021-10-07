@@ -172,7 +172,7 @@ void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
 
 
 }
-oid reset_results(Ui::MainWindow *ui){
+void reset_results(Ui::MainWindow *ui){
 
     ui->lbl_stat_test_ppi->setText("-");
     ui->lbl_cv_test_ppi->setText("-");
