@@ -43,7 +43,10 @@ find_library(chronovise chronovise)
 
 
 set(PROJECT_SOURCES
+
         main.cpp
+        chronovise_helper.cpp
+        chronovise_helper.h
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
