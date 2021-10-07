@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "chronovise_helper.h"
+
 #include "utility.h"
 
 #include <fstream>
@@ -12,7 +12,7 @@
 #include <qpixmap.h>
 #include <qpixmap.h>
 #include <chronovise/evt/gpd_distribution.hpp>
-
+#include <chronovise/measures_pool.hpp>
 
 
 
@@ -142,6 +142,34 @@ void MainWindow::on_pb_reset_clicked()
     // reset progress bar
     ui->pbar_compute->setValue(0);
     ui->pbar_compute->setVisible(false);
+
+}
+
+template<typename T>
+void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
+
+    T value;
+
+
+
+    while (*input_s >> value)
+    {
+        mp.push(0, value);
+    }
+
+    if (mp.size() < 20) {
+        input_file.close();
+        input_s = nullptr;
+
+        throw  std::runtime_error("The sample size is too low.\n Please, upload a new file.");
+
+    }
+
+    input_file.clear();
+    input_file.seekg(0);
+    input_s = &input_file;
+
+
 
 }
 
