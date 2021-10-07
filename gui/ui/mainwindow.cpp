@@ -614,6 +614,115 @@ void MainWindow::on_bg_yaxis_plot_buttonClicked(QAbstractButton *button){
 
 }
 
+/*
+* slot that get the min value and generate a new plot  
+*  when focus is lost or enter is pressed 
+*/
+void MainWindow::on_in_x_scale_min_editingFinished()
+{
+    double min = ui->in_x_scale_min->text().toDouble();
+    double max = ui->in_x_scale_max->text().toDouble();
+    QLineSeries *points = new QLineSeries();
+
+    if(ui->rb_integer->isChecked()){
+        if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                generate_pdf<unsigned long>(*points,min,max,results<unsigned long>);
+        }else{
+
+            if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                generate_cdf<unsigned long>(*points,min,max,results<unsigned long>);
+
+            }else{
+
+                generate_ccdf<unsigned long>(*points,min,max,results<unsigned long>);
+            }
+
+        }
+
+    }else{
+        if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                generate_pdf<double>(*points,min,max,results<double>);
+        }else{
+
+            if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                generate_cdf<double>(*points,min,max,results<double>);
+
+            }else{
+
+                generate_ccdf<double>(*points,min,max,results<double>);
+            }
+
+        }
+    }
+
+
+    if(ui->bg_yaxis_plot->checkedButton()->text().operator==("Linear"))
+        print_plot(*points,false);
+    else
+        print_plot(*points,true);
+
+}
+
+/*
+* slot that get the max value and generate a new plot
+*  when focus is lost or enter is pressed 
+*/
+
+void MainWindow::on_in_x_scale_max_editingFinished()
+{
+    double min = ui->in_x_scale_min->text().toDouble();
+    double max = ui->in_x_scale_max->text().toDouble();
+    QLineSeries *points = new QLineSeries();
+
+    if(ui->rb_integer->isChecked()){
+        if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                generate_pdf<unsigned long>(*points,min,max,results<unsigned long>);
+        }else{
+
+            if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                generate_cdf<unsigned long>(*points,min,max,results<unsigned long>);
+
+            }else{
+
+                generate_ccdf<unsigned long>(*points,min,max,results<unsigned long>);
+            }
+
+        }
+
+    }else{
+        if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
+
+                generate_pdf<double>(*points,min,max,results<double>);
+        }else{
+
+            if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                generate_cdf<double>(*points,min,max,results<double>);
+
+            }else{
+
+                generate_ccdf<double>(*points,min,max,results<double>);
+            }
+
+        }
+    }
+
+
+    if(ui->bg_yaxis_plot->checkedButton()->text().operator==("Linear"))
+        print_plot(*points,false);
+    else
+        print_plot(*points,true);
+
+}
+
+
+
 
 template<typename T>
 void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
