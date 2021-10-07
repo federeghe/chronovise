@@ -420,6 +420,85 @@ void MainWindow::on_pb_compute_clicked()
 
 }
 
+void MainWindow::print_plot(QLineSeries &points, bool log_scale){
+
+
+    QChart *chart = ui->chart_view->chart();
+    chart->removeAllSeries();
+    chart->removeAxis(chart->axes().constFirst());
+    chart->removeAxis(chart->axes().constFirst());
+    chart->createDefaultAxes();
+    chart->legend()->hide();
+
+
+    QAbstractAxis *axisY;
+
+    QValueAxis *axisX = new QValueAxis();
+    axisX->setTitleText("WCET");
+    chart->addAxis(axisX, Qt::AlignBottom);
+
+
+    if (log_scale){
+
+
+        axisY = new QLogValueAxis();
+        ((QLogValueAxis)axisY).setBase(10);
+        ((QLogValueAxis)axisY).setLabelFormat("%g");
+        ((QLogValueAxis)axisY).setMinorTickCount(-1);
+
+
+    }else{
+        axisY = new  QValueAxis();
+    }
+
+
+    axisY->setTitleText("p");
+    chart->addAxis(axisY, Qt::AlignLeft);
+
+    chart->addSeries(&points);
+
+    points.attachAxis(axisX);
+    points.attachAxis(axisY);
+
+    ui->chart_view->setChart(chart);
+
+    ui->chart_view->setRenderHint(QPainter::Antialiasing);
+
+
+}
+
+/*
+ * Event: currentIndexChanged on iid_test combobox
+ * Fills the tests combo when "Custom Test" is chosen
+*/
+
+void MainWindow::on_cb_iid_test_currentIndexChanged(int index)
+{
+    // check if custom test is selected
+    if (index == 1){
+        // check if custom test box are filled
+        if (ui->cb_custom_test_1->count() == 0 &&
+               ui->cb_custom_test_2->count() == 0 &&
+               ui->cb_custom_test_3->count() == 0){
+
+
+            //iterate over t_custom_test
+            for (int i =0;  i < end; i++ ){
+
+                ui->cb_custom_test_1->addItem(custom_test_str[i]);
+                ui->cb_custom_test_2->addItem(custom_test_str[i]);
+                ui->cb_custom_test_3->addItem(custom_test_str[i]);
+            }
+            ui->cb_custom_test_1->addItem(" ");
+            ui->cb_custom_test_2->addItem(" ");
+            ui->cb_custom_test_3->addItem(" ");
+
+
+        }
+
+    }
+}
+
 
 template<typename T>
 void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
@@ -448,6 +527,67 @@ void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
 
 
 }
+
+
+template<typename T>
+void generate_pdf(QLineSeries &points, double min, double max, t_computation_results<T> &results){
+
+    double y;
+    QPointF p;
+    for (double i = min; i < max; i+=1) {
+        y = results.dist->pdf(i);
+
+        if (y > 0){ // avoid 0 and negative points for log view
+            p = QPointF(i,y);
+            points.append(p);
+        }
+    }
+
+
+
+}
+
+template<typename T>
+void generate_cdf(QLineSeries &points, double min, double max, t_computation_results<T> &results){
+
+
+    QPointF p;
+    double y;
+    for (double i = min; i < max; i+=1) {
+
+        y = results.dist->cdf(i);
+
+        if (y > 0){ // avoid 0 and negative points for log view
+            p = QPointF(i,y);
+            points.append(p);
+        }
+    }
+
+
+
+}
+
+
+
+template<typename T>
+void generate_ccdf(QLineSeries &points, double min, double max, t_computation_results<T> &results){
+
+    double y;
+    QPointF p;
+    for (double i = min; i < max; i+=1) {
+        y = 1 - results.dist->cdf(i);
+
+        if (y > 0){ // avoid 0 and negative points for log view
+            p = QPointF(i,y);
+            points.append(p);
+        }
+    }
+
+
+
+}
+
+
 void reset_results(Ui::MainWindow *ui){
 
     ui->lbl_stat_test_ppi->setText("-");
