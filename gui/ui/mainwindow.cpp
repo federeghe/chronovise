@@ -145,6 +145,10 @@ void MainWindow::on_pb_reset_clicked()
     ui->pbar_compute->setValue(0);
     ui->pbar_compute->setVisible(false);
 
+    // reset min and max textbox
+    ui->in_x_scale_min->setText("");
+    ui->in_x_scale_max->setText("");
+
 }
 
 
