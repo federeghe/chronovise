@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-
+#include <QLineSeries>
 #include <QMainWindow>
 #include <iostream>
 #include <qradiobutton.h>
@@ -29,6 +29,9 @@ public:
 
 private slots:
     void on_pb_open_input_clicked();
+
+    void on_pb_reset_clicked();
+
 
 private:
     Ui::MainWindow *ui;
