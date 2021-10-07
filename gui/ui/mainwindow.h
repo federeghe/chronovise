@@ -35,6 +35,8 @@ private slots:
 
     void on_pb_compute_clicked();
 
+    void on_bg_funct_plot_buttonClicked(QAbstractButton *button);
+    void on_bg_yaxis_plot_buttonClicked(QAbstractButton *button);
     void on_cb_iid_test_currentIndexChanged(int index);
 
 

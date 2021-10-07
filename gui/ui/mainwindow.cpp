@@ -500,6 +500,121 @@ void MainWindow::on_cb_iid_test_currentIndexChanged(int index)
 }
 
 
+/*
+* slot of  distribution funtions radioboxes 
+*/
+
+void MainWindow::on_bg_funct_plot_buttonClicked(QAbstractButton *button){
+
+
+
+    // check if chart is displayed
+    if( ui->chart_view->chart()->series().size() > 0 ){
+
+        ui->chart_view->chart()->removeAllSeries();
+
+
+        QLineSeries* points = new QLineSeries();
+
+        if(ui->rb_integer->isChecked()){
+
+            unsigned long min = ui->in_x_scale_min->text().toLong();
+            unsigned long max = ui->in_x_scale_max->text().toLong();
+
+
+            if(button->text() == "PDF"){
+
+                    generate_pdf<unsigned long>(*points,min,max,results<unsigned long>);
+            }else{
+
+                if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                    generate_cdf<unsigned long>(*points,min,max,results<unsigned long>);
+
+                }else{
+
+                    generate_ccdf<unsigned long>(*points,min,max,results<unsigned long>);
+                }
+
+
+            }
+        }else{
+
+            double min = ui->in_x_scale_min->text().toDouble();
+            double max = ui->in_x_scale_max->text().toDouble();
+
+
+            if(button->text() == "PDF"){
+
+                    generate_pdf<double>(*points,min,max,results<double>);
+            }else{
+
+                if(ui->bg_funct_plot->checkedButton()->text() == "CDF"){
+
+                    generate_cdf<double>(*points,min,max,results<double>);
+
+                }else{
+
+                    generate_ccdf<double>(*points,min,max,results<double>);
+                }
+
+            }
+
+
+        }
+        if(ui->bg_yaxis_plot->checkedButton()->text().operator==("Linear"))
+            print_plot(*points,false);
+        else
+            print_plot(*points,true);
+
+    }
+
+}
+
+
+/*
+* slot of  y-axis radioboxes 
+*/
+void MainWindow::on_bg_yaxis_plot_buttonClicked(QAbstractButton *button){
+
+
+    QChart *chart = ui->chart_view->chart();
+
+    // check if chart is displayed
+    if( chart->series().size() > 0 ){
+        if (button->text() == "Logarithmic"){
+
+
+            QAbstractAxis *old_axis = chart->axes(Qt::Vertical).constFirst();
+            chart->removeAxis(old_axis);
+            QLogValueAxis *axisY = new QLogValueAxis();
+            axisY->setBase(10);
+            axisY->setLabelFormat("%g");
+            axisY->setMinorTickCount(-1);
+            axisY->setTitleText("p");
+
+            chart->addAxis(axisY,Qt::AlignLeft);
+            chart->series().constFirst()->attachAxis(axisY);
+            ui->chart_view->setRenderHint(QPainter::Antialiasing);
+        }
+        if (button->text() == "Linear"){
+
+            QAbstractAxis *old_axis = chart->axes(Qt::Vertical).constFirst();
+            chart->removeAxis(old_axis);
+            QValueAxis *axisY = new QValueAxis();
+            axisY->setTitleText("p");
+
+            chart->addAxis(axisY,Qt::AlignLeft);
+            chart->series().constFirst()->attachAxis(axisY);
+            ui->chart_view->setRenderHint(QPainter::Antialiasing);
+        }
+
+
+    }
+
+}
+
+
 template<typename T>
 void  fillMeasurePool(chronovise::MeasuresPool<int, T> &mp){
 
