@@ -39,6 +39,13 @@ private slots:
     void on_bg_yaxis_plot_buttonClicked(QAbstractButton *button);
     void on_cb_iid_test_currentIndexChanged(int index);
 
+    void on_in_x_scale_min_editingFinished();
+
+    void on_in_x_scale_max_editingFinished();
+
+    void on_pc_about_clicked();
+
+    void on_pb_save_plot_clicked();
 
 private:
     Ui::MainWindow *ui;

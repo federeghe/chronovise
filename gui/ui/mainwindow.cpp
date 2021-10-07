@@ -138,6 +138,8 @@ void MainWindow::on_pb_reset_clicked()
     // clean plot
     ui->chart_view->chart()->removeAllSeries();
 
+    // clean result labels
+    reset_results(ui);
 
     // reset progress bar
     ui->pbar_compute->setValue(0);
@@ -719,6 +721,46 @@ void MainWindow::on_in_x_scale_max_editingFinished()
     else
         print_plot(*points,true);
 
+}
+
+void MainWindow::on_pc_about_clicked()
+{
+
+
+    QMessageBox about;
+
+    about.setText("<h1>chronovise</h1>");
+    about.setInformativeText("<a href='https://github.com/federeghe/chronovise'>Source Code</a><br><ul>Authors:<li> Federico Reghenzani,</li><li> Giuseppe Massari,</li><li> Stefano Irno Consalvo</li></ul>");
+    about.setStandardButtons(QMessageBox::Ok);
+    QPixmap img;
+
+    img.load("../ui/res/logo.svg");
+    img = img.scaled(70,70);
+    about.setIconPixmap(img);
+    about.setDefaultButton(QMessageBox::Ok);
+    about.show();
+    about.exec();
+
+}
+
+
+void MainWindow::on_pb_save_plot_clicked()
+{
+
+    QPixmap p = ui->chart_view->grab();
+    QOpenGLWidget *glWidget  = ui->chart_view->findChild<QOpenGLWidget*>();
+    if(glWidget){
+        QPainter painter(&p);
+        QPoint d = glWidget->mapToGlobal(QPoint()) - ui->chart_view->mapToGlobal(QPoint());
+        painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+        painter.drawImage(d, glWidget->grabFramebuffer());
+        painter.end();
+    }
+
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Plot"), "",
+        tr("PNG (*.png);;"));
+    p.save(fileName+".png", "PNG");
 }
 
 
