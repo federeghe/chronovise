@@ -62,6 +62,26 @@ execute_process(
 )
 add_library(chronovise ${SOURCES})
 
+
+
+target_include_directories(chronovise PUBLIC include)
+
+
+#if(CERES_SOLVER)
+	find_package(Ceres REQUIRED)
+	include_directories(${CERES_INCLUDE_DIRS})
+	target_link_libraries (chronovise PUBLIC ${CERES_LIBRARIES})
+       
+#endif(CERES_SOLVER)
+
+target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
+
+if(COVERAGE)
+        target_compile_options(chronovise PUBLIC --coverage)
+endif(COVERAGE)
+
+
+
 #export library as chronovise into /usr/local/lib
 install(TARGETS chronovise
         EXPORT chronovise
@@ -77,23 +97,6 @@ install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/"
 )
 
 
-
-if(CERES_SOLVER)
-	find_package(Ceres REQUIRED)
-	include_directories(${CERES_INCLUDE_DIRS})
-        message(ERROR " ceres ${CERES_LIBRARIES}" )
-	target_link_libraries (chronovise ${CERES_LIBRARIES})
-endif(CERES_SOLVER)
-
-target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
-
-if(COVERAGE)
-        target_compile_options(chronovise PUBLIC --coverage)
-endif(COVERAGE)
-
-
-
-target_include_directories(chronovise PUBLIC include)
 
 add_subdirectory(apps)
 add_subdirectory(docs)
