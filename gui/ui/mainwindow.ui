@@ -252,6 +252,9 @@
           </item>
           <item row="1" column="1">
            <widget class="QComboBox" name="cb_iid_test">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black</string>
+            </property>
             <item>
              <property name="text">
               <string>PPI</string>
@@ -284,7 +287,11 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QComboBox" name="cb_custom_test_1"/>
+           <widget class="QComboBox" name="cb_custom_test_1">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="lbl_custom_test_2">
@@ -294,7 +301,11 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QComboBox" name="cb_custom_test_2"/>
+           <widget class="QComboBox" name="cb_custom_test_2">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
+           </widget>
           </item>
           <item row="4" column="0">
            <widget class="QLabel" name="lbl_custom_test_3">
@@ -304,7 +315,11 @@
            </widget>
           </item>
           <item row="4" column="1">
-           <widget class="QComboBox" name="cb_custom_test_3"/>
+           <widget class="QComboBox" name="cb_custom_test_3">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
+           </widget>
           </item>
           <item row="5" column="0">
            <widget class="QLabel" name="lbl_EVT_approach">
@@ -315,6 +330,9 @@
           </item>
           <item row="5" column="1">
            <widget class="QComboBox" name="cb_EVT_approach">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
             <item>
              <property name="text">
               <string>Block-Maxima</string>
@@ -341,6 +359,9 @@
           </item>
           <item row="6" column="1">
            <widget class="QComboBox" name="cb_EVT_estimator">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
             <item>
              <property name="text">
               <string>MLE</string>
@@ -362,6 +383,9 @@
           </item>
           <item row="7" column="1">
            <widget class="QComboBox" name="cb_GoF_test">
+            <property name="styleSheet">
+             <string notr="true">selection-color: black;</string>
+            </property>
             <item>
              <property name="text">
               <string>Kolmogorov-Smirnov</string>
@@ -950,7 +974,7 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="bg_funct_plot"/>
   <buttongroup name="bg_yaxis_plot"/>
+  <buttongroup name="bg_funct_plot"/>
  </buttongroups>
 </ui>
