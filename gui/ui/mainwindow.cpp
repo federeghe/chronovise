@@ -23,7 +23,7 @@ std::istream *input_s = nullptr;
 t_computation_param params;
 template<typename D>
 t_computation_results<D> results;
-
+static std::exception_ptr teptr = nullptr;
 
 //def
 template<typename T>
@@ -228,6 +228,11 @@ void MainWindow::on_pb_compute_clicked()
 
             }
 
+            if(params.evt_estimator == MLE && params.evt_approach == PoT ){
+               throw std::runtime_error("MLE estimator is not able to estimate this distribution.");
+            }
+
+
             // check if input data are integer or double
             // and prepare MeasurePool
             if(ui->rb_integer->isChecked()){
@@ -284,6 +289,16 @@ void MainWindow::on_pb_compute_clicked()
                 // computation PWCET
                 pwcet = std::thread(execute_pwcet_estimation<unsigned long>, std::ref(mp), std::ref(params) , std::ref(results<unsigned long>));
                 pwcet.join();
+
+                if (teptr) {
+                    try{
+                        std::rethrow_exception(teptr);
+                    }catch(std::exception &ex)
+                    {
+                        std::cerr << "Thread exited with exception: " << ex.what() << "\n";
+                    }
+                }
+
                 ui->pbar_compute->setValue(50);
 
                 if(ui->bg_funct_plot->checkedButton()->text() == "PDF"){
