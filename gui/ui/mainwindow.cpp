@@ -495,16 +495,32 @@ void MainWindow::print_plot(QLineSeries &points, bool log_scale){
 
 void MainWindow::on_cb_iid_test_currentIndexChanged(int index)
 {
+
+    // check if PPI is selected
+    if (index == 0){
+
+        //remove content of combobox
+        //iterate over t_custom_test
+        for (int i = t_custom_test::end;  i >= 0 ; i-- ){
+
+            ui->cb_custom_test_1->removeItem(i);
+            ui->cb_custom_test_2->removeItem(i);
+            ui->cb_custom_test_3->removeItem(i);
+
+        }
+
+    }
+
     // check if custom test is selected
     if (index == 1){
         // check if custom test box are filled
-        if (ui->cb_custom_test_1->count() == 0 &&
-               ui->cb_custom_test_2->count() == 0 &&
-               ui->cb_custom_test_3->count() == 0){
+        if (ui->cb_custom_test_1->currentIndex() == -1 &&
+               ui->cb_custom_test_2->currentIndex() == -1 &&
+               ui->cb_custom_test_3->currentIndex() == -1){
 
 
             //iterate over t_custom_test
-            for (int i =0;  i < end; i++ ){
+            for (int i =0;  i < t_custom_test::end; i++ ){
 
                 ui->cb_custom_test_1->addItem(custom_test_str[i]);
                 ui->cb_custom_test_2->addItem(custom_test_str[i]);
@@ -514,6 +530,21 @@ void MainWindow::on_cb_iid_test_currentIndexChanged(int index)
             ui->cb_custom_test_2->addItem(" ");
             ui->cb_custom_test_3->addItem(" ");
 
+            //first selection is the empty one
+
+            // block emitting signals
+            ui->cb_custom_test_1->blockSignals(true);
+            ui->cb_custom_test_2->blockSignals(true);
+            ui->cb_custom_test_3->blockSignals(true);
+
+            ui->cb_custom_test_1->setCurrentIndex(-1);
+            ui->cb_custom_test_2->setCurrentIndex(-1);
+            ui->cb_custom_test_3->setCurrentIndex(-1);
+
+            // reactive signals
+            ui->cb_custom_test_1->blockSignals(false);
+            ui->cb_custom_test_2->blockSignals(false);
+            ui->cb_custom_test_3->blockSignals(false);
 
         }
 
