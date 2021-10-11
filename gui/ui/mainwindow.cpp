@@ -11,6 +11,9 @@
 #include <sstream>
 #include <qpixmap.h>
 #include <qpixmap.h>
+#include <QSvgGenerator>
+
+
 #include <chronovise/evt/gpd_distribution.hpp>
 #include <chronovise/measures_pool.hpp>
 
@@ -797,20 +800,27 @@ void MainWindow::on_pc_about_clicked()
 void MainWindow::on_pb_save_plot_clicked()
 {
 
-    QPixmap p = ui->chart_view->grab();
-    QOpenGLWidget *glWidget  = ui->chart_view->findChild<QOpenGLWidget*>();
-    if(glWidget){
-        QPainter painter(&p);
-        QPoint d = glWidget->mapToGlobal(QPoint()) - ui->chart_view->mapToGlobal(QPoint());
-        painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
-        painter.drawImage(d, glWidget->grabFramebuffer());
-        painter.end();
-    }
-
     QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Plot"), "",
-        tr("PNG (*.png);;"));
-    p.save(fileName+".png", "PNG");
+        tr("SVG (*.svg);;"));
+    if(fileName.isEmpty())
+        return;
+
+
+    QSvgGenerator *generator = new QSvgGenerator();
+
+    generator->setFileName(fileName+".svg");
+
+
+    generator->setSize(ui->chart_view->size());
+    generator->setViewBox(ui->chart_view->rect());
+    generator->setTitle(tr("Plot"));
+    generator->setDescription(tr("Plot generate from chronovise tool"));
+    QPainter painter;
+    painter.begin(generator);
+    ui->chart_view->render(&painter);
+    painter.end();
+
 }
 
 

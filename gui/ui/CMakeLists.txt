@@ -27,6 +27,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 find_package(Qt5Charts)
+find_package(Qt5Svg)
+
 
 
 
@@ -77,7 +79,7 @@ target_link_libraries(ui PRIVATE chronovise)
 include_directories(${CERES_INCLUDE_DIRS})
 target_link_libraries (ui PRIVATE ${CERES_LIBRARIES})
 
-target_link_libraries(ui PUBLIC Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts)
+target_link_libraries(ui PUBLIC Qt${QT_VERSION_MAJOR}::Widgets Qt5::Charts Qt5::Svg)
 
 set_target_properties(ui PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
