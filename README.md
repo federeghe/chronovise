@@ -104,6 +104,8 @@ and
 
 ```./samples/simple_hello_world```
 
+If you do not plan to use it as a library, you may also want to check some ready-to-use applications in the directory `apps`.
+
 Please read the documentation for further details.
 
 Documentation
