@@ -20,6 +20,7 @@ bool describe_csv = false;
 bool csv_output = false;
 bool use_double = false;
 bool use_pot = false;
+bool skip_bds = false;
 std::ifstream input_file;
 std::istream *input_s = nullptr;
 
@@ -42,6 +43,8 @@ bool parse_parameters(int argc, const char *argv[]) {
             use_double = true;
         } else if (curr_arg == "--use-pot") {
             use_pot = true;
+        } else if (curr_arg == "--skip-bds") {
+            skip_bds = true;
         } else if (input_s == &std::cin) {
             input_file.open(argv[i]);
             input_s = &input_file;
@@ -110,15 +113,17 @@ void execute_iid_tests(const chronovise::MeasuresPool<int, T> &mp) {
     
     if (! csv_output) { std:: cout << "Running KPSS..." << std::endl; }
     test_kpss.run(mp);
-    if (! csv_output) { std:: cout << "Running BDS..." << std::endl; }
-    test_bds.run(mp);
+    if (! skip_bds) {
+        if (! csv_output) { std:: cout << "Running BDS..." << std::endl; }
+        test_bds.run(mp);
+    }
     if (! csv_output) { std:: cout << "Running R/S..." << std::endl; }
     test_rs.run(mp);
     
     auto kpss_stats = test_kpss.get_statistic();
     auto kpss_cv    = test_kpss.get_critical_value();
-    auto bds_stats  = test_bds.get_statistic();
-    auto bds_cv     = test_bds.get_critical_value();
+    auto bds_stats  = skip_bds ? 0   : test_bds.get_statistic();
+    auto bds_cv     = skip_bds ? 1   : test_bds.get_critical_value();
     auto rs_stats   = test_rs.get_statistic();
     auto rs_cv      = test_rs.get_critical_value();
     
@@ -138,7 +143,9 @@ void execute_iid_tests(const chronovise::MeasuresPool<int, T> &mp) {
     } else {
         std::cout << "Number of samples:\t" << mp.size() << std::endl;
         std::cout << "KPSS test result:\t"  << kpss_stats << " > " << kpss_cv << "? " << ( kpss_stats > kpss_cv ? "\tREJECT" : "\tPASS" ) << std::endl;
-        std::cout << "BDS  test result:\t"  << bds_stats << " > "  << bds_cv << "? " <<  ( bds_stats  > bds_cv ? "\tREJECT" : "\tPASS" ) << std::endl;
+        if (!skip_bds) {
+            std::cout << "BDS  test result:\t"  << bds_stats << " > "  << bds_cv << "? " <<  ( bds_stats  > bds_cv ? "\tREJECT" : "\tPASS" ) << std::endl;
+        }
         std::cout << "R/S  test result:\t"  << rs_stats << " > "   << rs_cv << "? " <<   ( rs_stats   > rs_cv ? "\tREJECT" : "\tPASS" ) << std::endl;
 
         std::cout << "PPI  test result:\t"  << pair_output.first << " < "   << pair_output.second << "? " <<   ( pair_output.first   < pair_output.second ? "REJECT" : "PASS" ) << std::endl;
@@ -232,7 +239,7 @@ void analyze_integer() {
 int main(int argc, const char *argv[]) {
 
     if (parse_parameters(argc, argv)) {
-        std::cerr << "Usage: chronovise-app [--csv-output] [--use-double] [--use-pot] input_file" << std::endl;
+        std::cerr << "Usage: chronovise-app [--csv-output] [--use-double] [--use-pot] [--skip-bds] input_file" << std::endl;
         std::cerr << "       chronovise-app --describe-csv" << std::endl;
         std::cerr << std::endl;
         std::cerr << "If input_file is not specified, it reads from stdin." << std::endl;
@@ -241,6 +248,7 @@ int main(int argc, const char *argv[]) {
         std::cerr << " --use-double:    input is in double floating point precision and not in integer" << std::endl;
         std::cerr << " --use-pot:       Use the Peak-over-Threshold method instead of Block-Maxima" << std::endl;
         std::cerr << " --describe-csv:  Print the header of the CSV output describing each column" << std::endl;
+        std::cerr << " --skip-bds:      Skip BDS test" << std::endl;
         std::cerr << std::endl;
         return -1;
     }
