@@ -23,8 +23,8 @@
 #ifndef STATISTICAL_ESTIMATOR_MLE_HPP_
 #define STATISTICAL_ESTIMATOR_MLE_HPP_
 
-#include "statistical/estimator.hpp"
-#include "statistical/distribution.hpp"
+#include "estimator.hpp"
+#include "distribution.hpp"
 
 #include <memory>
 #include <stdexcept>

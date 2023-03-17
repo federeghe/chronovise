@@ -24,9 +24,9 @@
 #define STATISTICAL_TEST_HPP_
 
 
-#include "measures_pool.hpp"
-#include "statistical/distribution.hpp"
-#include "utility/relation_node.hpp"
+#include "../measures_pool.hpp"
+#include "distribution.hpp"
+#include "../utility/relation_node.hpp"
 
 #include <memory>
 

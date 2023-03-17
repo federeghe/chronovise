@@ -23,8 +23,8 @@
 #ifndef STATISTICAL_TEST_AD_HPP_
 #define STATISTICAL_TEST_AD_HPP_
 
-#include "statistical/test.hpp"
-#include "statistical/distribution.hpp"
+#include "test.hpp"
+#include "distribution.hpp"
 
 #include <cmath>
 #include <list>

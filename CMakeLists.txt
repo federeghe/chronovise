@@ -58,26 +58,21 @@ execute_process(
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
   OUTPUT_VARIABLE GIT_COMMIT_HASH
   OUTPUT_STRIP_TRAILING_WHITESPACE
-)
 
+)
 add_library(chronovise ${SOURCES})
 
-install(TARGETS chronovise
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
-)
-
-install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/"
-        DESTINATION include/chronovise
-        FILES_MATCHING PATTERN "*.hpp"
-)
 
 
-if(CERES_SOLVER)
+target_include_directories(chronovise PUBLIC include)
+
+
+#if(CERES_SOLVER)
 	find_package(Ceres REQUIRED)
 	include_directories(${CERES_INCLUDE_DIRS})
-	target_link_libraries (chronovise ${CERES_LIBRARIES})
-endif(CERES_SOLVER)
+	target_link_libraries (chronovise PUBLIC ${CERES_LIBRARIES})
+       
+#endif(CERES_SOLVER)
 
 target_compile_options(chronovise PUBLIC -Wall -Wextra -pedantic -DGIT_VERSION=\"${GIT_COMMIT_HASH}\")
 
@@ -85,10 +80,27 @@ if(COVERAGE)
         target_compile_options(chronovise PUBLIC --coverage)
 endif(COVERAGE)
 
-target_include_directories(chronovise PUBLIC include)
+
+
+#export library as chronovise into /usr/local/lib
+install(TARGETS chronovise
+        EXPORT chronovise
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+)
+
+
+#install headers file into /usr/local/include/chronovise
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/"
+        DESTINATION include/chronovise
+        FILES_MATCHING PATTERN "*.hpp"
+)
+
+
 
 add_subdirectory(apps)
 add_subdirectory(docs)
 add_subdirectory(samples)
 add_subdirectory(tests)
+
 
