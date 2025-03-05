@@ -73,7 +73,37 @@ public:
      * @return x : p=F(x)
      */
     virtual double quantile(double p) const = 0;
+    /**
+     * Getter for the location parameter
+     * @return The location parameter
+     */
+    double get_location() const noexcept {
+        return this->param_location;
+    }
 
+    /**
+     * Getter for the scale parameter
+     * @return The scale parameter
+     */
+    double get_scale() const noexcept {
+        return this->param_scale;
+    }
+
+    /**
+     * Getter for the shape parameter
+     * @return The shape parameter
+     * @warning Pay attention to convention on the sign of shape parameter.
+     *          Read the class description.
+     */
+    double get_shape() const noexcept {
+        return this->param_shape;
+    }
+
+
+private:
+    double param_location;
+    double param_scale;
+    double param_shape;
 
 };
 

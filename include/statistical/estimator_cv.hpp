@@ -24,8 +24,8 @@
 #ifndef STATISTICAL_ESTIMATOR_CV_HPP_
 #define STATISTICAL_ESTIMATOR_CV_HPP_
 
-#include "statistical/estimator.hpp"
-#include "statistical/distribution.hpp"
+#include "estimator.hpp"
+#include "distribution.hpp"
 
 #include <memory>
 #include <stdexcept>

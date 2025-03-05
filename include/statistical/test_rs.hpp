@@ -23,9 +23,9 @@
 #ifndef STATISTICAL_TEST_RS_HPP_
 #define STATISTICAL_TEST_RS_HPP_
 
-#include "statistical/test.hpp"
-#include "statistical/distribution.hpp"
-#include "global.hpp"
+#include "test.hpp"
+#include "distribution.hpp"
+#include "../global.hpp"
 
 #include <cmath>
 #include <list>

@@ -23,7 +23,7 @@
 #ifndef EVT_PWCET_HPP_
 #define EVT_PWCET_HPP_
 
-#include "evt/gev_distribution.hpp"
+#include "gev_distribution.hpp"
 
 #include <list>
 #include <memory>

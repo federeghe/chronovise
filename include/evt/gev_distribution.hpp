@@ -23,7 +23,7 @@
 #ifndef EVT_GEV_DISTRIBUTION_HPP_
 #define EVT_GEV_DISTRIBUTION_HPP_
 
-#include "statistical/distribution.hpp"
+#include "../statistical/distribution.hpp"
 
 namespace chronovise {
 

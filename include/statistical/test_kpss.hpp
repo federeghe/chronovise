@@ -23,10 +23,10 @@
 #ifndef STATISTICAL_TEST_KPSS_HPP_
 #define STATISTICAL_TEST_KPSS_HPP_
 
-#include "statistical/test.hpp"
-#include "statistical/distribution.hpp"
-#include "evt/gev_distribution.hpp"
-#include "global.hpp"
+#include "test.hpp"
+#include "distribution.hpp"
+#include "../evt/gev_distribution.hpp"
+#include "../global.hpp"
 
 #include <cmath>
 #include <list>

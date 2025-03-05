@@ -20,7 +20,7 @@
  * @brief File containing the NullInputGenerator class.
  */
 
-#include "input/generator.hpp"
+#include "generator.hpp"
 
 #include <random>
 
