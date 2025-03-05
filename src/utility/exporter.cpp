@@ -51,7 +51,7 @@ namespace chronovise {
         *file << "TYPE,LOCATION,SCALE,SHAPE" << std::endl;
 
         const auto &distributions = aec.get_estimated_distributions();
-        for (const auto d : distributions) {
+        for (const auto &d : distributions) {
 
             switch (d->get_type()) {
                 case distribution_t::EVT_GEV:

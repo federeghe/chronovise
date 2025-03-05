@@ -1,7 +1,7 @@
 if(CERES_SOLVER)
 	set(PPI_SOURCES ${PPI_SOURCES} chronoapp.cpp)
 	add_executable(chronovise-app ${PPI_SOURCES})
-	target_link_libraries(chronovise-app PUBLIC chronovise)
+	target_link_libraries(chronovise-app PUBLIC chronovise ${CERES_LIBRARIES})
 
 	if(COVERAGE)
 	        target_link_libraries(chronovise-app PUBLIC gcov)

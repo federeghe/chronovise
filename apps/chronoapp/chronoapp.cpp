@@ -21,6 +21,8 @@ bool csv_output = false;
 bool use_double = false;
 bool use_pot = false;
 bool skip_bds = false;
+double scale = 1.;
+int nr_skip = 0;
 std::ifstream input_file;
 std::istream *input_s = nullptr;
 
@@ -45,6 +47,12 @@ bool parse_parameters(int argc, const char *argv[]) {
             use_pot = true;
         } else if (curr_arg == "--skip-bds") {
             skip_bds = true;
+        } else if (curr_arg == "--skip") {
+            i++;
+            nr_skip = std::atoi(argv[i]);
+        } else if (curr_arg == "--scale") {
+            i++;
+            scale = std::atof(argv[i]);
         } else if (input_s == &std::cin) {
             input_file.open(argv[i]);
             input_s = &input_file;
@@ -219,11 +227,15 @@ template<typename T>
 void analyze_integer() {
     chronovise::MeasuresPool<int, T> mp;    // Input values not used here, we randomly put int.
 
-    T value;
+    float value;
 
     while (*input_s >> value)
     {
-        mp.push(0, value);
+    	if (nr_skip>0) {
+    		nr_skip--;
+    	} else {
+	        mp.push(0, value * scale);
+	    }
     }
     
     if (mp.size() < 20) {
@@ -231,7 +243,7 @@ void analyze_integer() {
         return;
     }
     
-    execute_iid_tests(mp);
+//    execute_iid_tests(mp);
     execute_pwcet_estimation(mp);
 
 }

@@ -30,6 +30,7 @@
 
 #include <cassert>
 #include <ceres/ceres.h>
+#include <ceres/gradient_problem_solver.h>
 #include <cmath>
 #include <iostream>
 
