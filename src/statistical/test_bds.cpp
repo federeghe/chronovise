@@ -79,6 +79,9 @@ double TestBDS<T_INPUT, T_TIME>::embedding_dimension_1(unsigned long m, double e
 
     double sum = 0;
 
+#if defined(_OPENMP)
+    #pragma omp parallel for reduction(+:sum) firstprivate(measures_save, epsilon)
+#endif
     for (unsigned long s = 1; s <= size; s++) {
         T_TIME value_b = std::next(measures_save->cbegin(), s - 1)->second;
         for (unsigned long t = s+1; t <= size; t++) {
